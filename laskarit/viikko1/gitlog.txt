@@ -1,0 +1,87 @@
+commit df9bf2d72c25081a657c9b5555e62bc1ec475c44
+Author: Sampo Suomalainen <sampo.suomalainen@helsinki.fi>
+Date:   Fri Nov 1 16:10:37 2019 +0200
+
+    "file1 poistettu ja file2 nimetty"
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 769c4b277ed63e8148ca61973e7552e66e469e43
+Author: Sampo Suomalainen <sampo.suomalainen@helsinki.fi>
+Date:   Fri Nov 1 16:07:35 2019 +0200
+
+    tiedostoja luotu
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit a8f4cb7030c9acd6b8c4722c097e729c97658b52
+Author: Sampo Suomalainen <sampo.suomalainen@helsinki.fi>
+Date:   Fri Nov 1 15:57:33 2019 +0200
+
+    muutetut eka ja kolmas
+
+ eka.txt    | 2 +-
+ kolmas.txt | 4 +++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+commit 48adabe696b19320b90f117cad938fa21e7e5cff
+Author: Sampo Suomalainen <sampo.suomalainen@helsinki.fi>
+Date:   Fri Nov 1 15:53:53 2019 +0200
+
+    "poisto ja nimenmuutos"
+
+ tiedosto.txt => eka.txt | 0
+ toinen.txt              | 1 -
+ 2 files changed, 1 deletion(-)
+
+commit 3ebf1e3d16c553b45ed028420f041071a6c3e46c
+Author: Sampo Suomalainen <sampo.suomalainen@helsinki.fi>
+Date:   Fri Nov 1 15:34:20 2019 +0200
+
+    stuff luotu
+
+ stuff/stuffit.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 72051398e71320774637f0e35af8edf4cab412ad
+Author: Sampo Suomalainen <sampo.suomalainen@helsinki.fi>
+Date:   Fri Nov 1 15:32:34 2019 +0200
+
+    toisen ja kolmannen muutokset
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 4b39ea125fc0f1037ddf01303cf91ad59003d9be
+Author: Sampo Suomalainen <sampo.suomalainen@helsinki.fi>
+Date:   Fri Nov 1 15:30:46 2019 +0200
+
+    kolmas.txt luotu
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 4419e23f42ebd2b0b4acf77ce098fe1e58823c74
+Author: Sampo Suomalainen <sampo.suomalainen@helsinki.fi>
+Date:   Fri Nov 1 15:28:00 2019 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit 4075952b079ac9b9a0234d739371c3288fadacfb
+Author: Sampo Suomalainen <sampo.suomalainen@helsinki.fi>
+Date:   Fri Nov 1 15:21:28 2019 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
