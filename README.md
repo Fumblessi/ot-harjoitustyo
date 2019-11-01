@@ -5,3 +5,5 @@ Ihan hauska oli opetella käyttämään *git:tiä* tässä ekan viikon aikana. *
 [komentorivi.txt](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
 
 [gitlog.txt](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
+
+vielä vikat muutokset **tähän** kohtaan.
