@@ -9,3 +9,5 @@ Ihan hauska oli opetella käyttämään *git:tiä* tässä ekan viikon aikana. *
 vielä vikat muutokset **tähän** kohtaan.
 
 [Alustava määrittelydokumentti](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/maarittelydokumentti.md)
+
+[Tuntikirjanpito](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
