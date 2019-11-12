@@ -1,4 +1,12 @@
-# OTSIKKO
+# Hahmogeneraattori
+
+[Alustava määrittelydokumentti](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/maarittelydokumentti.md)
+
+[Tuntikirjanpito](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
+
+## Laskaritehtäviä
+
+### Viikko 1
 
 Ihan hauska oli opetella käyttämään *git:tiä* tässä ekan viikon aikana. *Onneksi ei tarvitse vääntää kättä miten se lausutaan, kuten **gifin** tapauksessa.*
 
@@ -8,6 +16,6 @@ Ihan hauska oli opetella käyttämään *git:tiä* tässä ekan viikon aikana. *
 
 vielä vikat muutokset **tähän** kohtaan.
 
-[Alustava määrittelydokumentti](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/maarittelydokumentti.md)
+### Viikko 2
 
-[Tuntikirjanpito](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
+[Kassapaate-testikattavuus](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/laskarit/viikko2/kassapaate_testikattavuus.png)
