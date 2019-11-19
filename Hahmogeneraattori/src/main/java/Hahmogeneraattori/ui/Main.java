@@ -7,10 +7,14 @@ package Hahmogeneraattori.ui;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.Scene;
-import java.util.*;
+import java.util.Properties;
 import java.io.FileInputStream;
 import Hahmogeneraattori.dao.FileSettingsDao;
 import Hahmogeneraattori.domain.Settings;
