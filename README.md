@@ -16,7 +16,7 @@ Testattuani etätyöpöydällä laitoksen cubbli linuxilla, täällä olevalla k
 
 Suoritus:
 
-"mvn ćompile exec:java -Dexec.mainClass=Hahmogeneraattori.ui.Main"
+"mvn compile exec:java -Dexec.mainClass=Hahmogeneraattori.ui.Main"
 
 Testit:
 
