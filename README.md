@@ -15,8 +15,13 @@ Testattuani etätyöpöydällä laitoksen cubbli linuxilla, täällä olevalla k
 # Komentorivi
 
 Suoritus:
+
 "mvn ćompile exec:java -Dexec.mainClass=Hahmogeneraattori.ui.Main"
+
 Testit:
+
 "mvn test"
+
 Testauskattavuus:
+
 "mvn test jacoco:report"
