@@ -5,10 +5,16 @@
  */
 package Hahmogeneraattori.domain;
 
+import Hahmogeneraattori.dao.SQLRaceDao;
+import Hahmogeneraattori.dao.SQLClassDao;
+import Hahmogeneraattori.dao.SQLBgDao;
 /**
  *
  * @author sampo
  */
 public class Generator {
     
+    private SQLRaceDao raceDao;
+    private SQLClassDao classDao;
+    private SQLBgDao backgroundDao;
 }

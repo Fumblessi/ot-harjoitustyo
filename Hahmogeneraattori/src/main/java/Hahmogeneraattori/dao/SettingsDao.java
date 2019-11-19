@@ -9,6 +9,11 @@ package Hahmogeneraattori.dao;
  *
  * @author sampo
  */
-public class SettingsDao {
-    
+public interface SettingsDao {
+    void setValue(String setting, int value);
+    //asetetaan asetukselle uusi arvo
+    int getValue(String setting);
+    //haetaan tietyn asetuksen arvo
+    void update() throws Exception;
+    //päivitetään muutokset tiedostoon
 }

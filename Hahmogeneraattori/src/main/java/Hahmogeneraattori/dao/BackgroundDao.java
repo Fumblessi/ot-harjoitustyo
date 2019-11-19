@@ -9,6 +9,6 @@ package Hahmogeneraattori.dao;
  *
  * @author sampo
  */
-public class BackgroundDao {
+public interface BackgroundDao {
     
 }

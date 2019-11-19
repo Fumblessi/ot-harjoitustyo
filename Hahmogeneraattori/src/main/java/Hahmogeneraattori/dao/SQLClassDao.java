@@ -9,6 +9,6 @@ package Hahmogeneraattori.dao;
  *
  * @author sampo
  */
-public interface ClassDao {
+public class SQLClassDao {
     
 }
