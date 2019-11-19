@@ -11,6 +11,10 @@ rajat ovat mahdottomat.
 Asetukset tallentuvat käyttökertojen välillä, mutta Asetukset-välilehdeltä voi palauttaa myös oletusasetukset (kokonaissumma on 70,
 minimiarvo 8 ja maksimiarvo 18).
 
+### HUOM!
+
+Tällä hetkellä ohjelma ei tarkista, syötetäänkö asetuksiin numeroita, vaan ei vaan pysty enää generoimaan, jos käyttäjä ei itse aseta kokonaislukuarvoisia parametreja asetuksiin. Korjautuu piakkoin.
+
 ## Generointi
 
 Tällä hetkellä Generoi-painikkeella generaattori luo satunnaiset hahmon piirteet noudattaen Asetuksissa määriteltyjä rajoja.
