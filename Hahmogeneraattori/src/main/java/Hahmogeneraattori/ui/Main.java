@@ -14,6 +14,8 @@ import java.util.*;
 import java.io.FileInputStream;
 import Hahmogeneraattori.dao.FileSettingsDao;
 import Hahmogeneraattori.domain.Settings;
+import Hahmogeneraattori.domain.Generator;
+import Hahmogeneraattori.domain.RPGCharacter;
 //import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
 
@@ -25,8 +27,12 @@ import javafx.scene.paint.Color;
 public class Main extends Application {
 
     private Settings settings;
-    private Scene generationScene;
+    private Generator generator;
+    private RPGCharacter character;
+    private Scene startScene;
     private Scene settingsScene;
+    private Scene instructionScene;
+    private Scene generationScene;
 
     @Override
     public void init() throws Exception {
@@ -37,24 +43,26 @@ public class Main extends Application {
         String settingsFile = properties.getProperty("settingsFile");
         FileSettingsDao settingsDao = new FileSettingsDao(settingsFile);
         this.settings = new Settings(settingsDao);
+        this.generator = new Generator(this.settings);
     }
 
     @Override
     public void start(Stage window) throws Exception {
         BorderPane layout = new BorderPane();
-        layout.setPrefSize(600, 500);
-        this.generationScene = new Scene(layout);
+        layout.setPrefSize(300, 200);
+        this.startScene = new Scene(layout);
         //luodaan alkunäkymä
 
         VBox settingsLayout = new VBox();
-        settingsLayout.setPrefSize(600, 500);
+        settingsLayout.setPrefSize(500, 400);
         this.settingsScene = new Scene(settingsLayout);
         //luodaan asetusnäkymä
 
-        Button back = new Button("Tallenna");
+        Button back = new Button("Tallenna ja palaa");
         Button setDefault = new Button("Palauta alkuperäiset");
+        Button instructions = new Button("Ohje");
         HBox settingsButtons = new HBox();
-        settingsButtons.getChildren().addAll(back, setDefault);
+        settingsButtons.getChildren().addAll(back, setDefault, instructions);
         //luodaan asetusnäkymästä paluupainike
 
         HBox statPool = new HBox();
@@ -86,10 +94,6 @@ public class Main extends Application {
         layout.setTop(buttons);
         //luodaan alkunäkymän painikkeet
 
-        generate.setOnAction((event) -> {
-        });
-        //generointinapin toiminnallisuus
-
         settingsButton.setOnAction((event) -> {
             window.setScene(this.settingsScene);
         });
@@ -109,9 +113,10 @@ public class Main extends Application {
                 this.settings.setStatPool(newStatPool);
                 this.settings.setStatMin(newStatMin);
                 this.settings.setStatMax(newStatMax);
+                this.generator.getNewSettings(this.settings);
                 statPoolError.setText("");
                 statLimitError.setText("");
-                window.setScene(this.generationScene);
+                window.setScene(this.startScene);
             }
         });
         //asetukset-ikkunasta paluu
@@ -121,9 +126,37 @@ public class Main extends Application {
             statMinAmount.setText("8");
             statMaxAmount.setText("18");
         });
+        
+        BorderPane instructionLayout = new BorderPane();
+        Label instructionText = new Label(" - Valitse StatPoolin* arvo väliltä 0-100."
+                + "\n - Valitse generoitavan hahmon stateille sopiva** minimi ja maksimi."
+                + "\n\n *StatPool on generoitavan hahmojen stattien (Strength,"
+                + "Dexterity, Constitution,\n   Intelligence, Wisdom ja Charisma) summa."
+                + "\n **StatMin täytyy valita niin, että StatPoolista riittää pisteitä"
+                + " vähintään arvon\n    StatMin verran jokaiseen stattiin, ja "
+                + "vastaavasti StatMax niin, ettei\n    StatPooliin jää ylimääräisiä "
+                + "pisteitä stattien arpomisen jälkeen.");
+        instructionLayout.setCenter(instructionText);
+        Stage instructionWindow = new Stage();
+        this.instructionScene = new Scene(instructionLayout);
+        instructionWindow.setTitle("Ohje");
+        instructionWindow.setScene(instructionScene);      
+        
+        instructions.setOnAction((event) -> {
+            instructionWindow.show();    
+        });
+        
+        Label stats = new Label("");
+        layout.setCenter(stats);
+        
+        generate.setOnAction((event) -> {
+            this.generator.generate();
+            this.character = this.generator.getCharacter();
+            stats.setText(this.generator.generateStatList());
+        });
 
         window.setTitle("Hahmogeneraattori");
-        window.setScene(this.generationScene);
+        window.setScene(this.startScene);
         window.show();
         //alkunäkymä
     }

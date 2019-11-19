@@ -10,17 +10,17 @@ import java.util.*;
  *
  * @author sampo
  */
-public class Character {
+public class RPGCharacter {
     
     private String race;
     private String charClass;
     private String background;
     private HashMap<String, Integer> stats;
     
-    public Character(String race, String charClass, String background) {
-        this.race = race;
-        this.charClass = charClass;
-        this.background = background;
+    public RPGCharacter() {
+        this.race = "";
+        this.charClass = "";
+        this.background = "";
         this.stats = new HashMap<>();
     }
     
@@ -40,6 +40,10 @@ public class Character {
         return this.stats.get(stat);
     }
     
+    public HashMap getStats() {
+        return this.stats;
+    }
+    
     public void setRace(String race) {
         this.race = race;
     }
@@ -54,5 +58,14 @@ public class Character {
     
     public void setStat(String stat, int value) {
         this.stats.put(stat, value);
+    }
+    
+    public void setStats(int[] stats) {       
+        setStat("STR", stats[0]);
+        setStat("DEX", stats[1]);
+        setStat("CON", stats[2]);
+        setStat("INT", stats[3]);
+        setStat("WIS", stats[4]);
+        setStat("CHA", stats[5]);
     }
 }

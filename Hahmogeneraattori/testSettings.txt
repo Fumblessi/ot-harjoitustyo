@@ -1,0 +1,3 @@
+StatPool 75
+StatMax 20
+StatMin 10
