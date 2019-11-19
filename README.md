@@ -8,6 +8,8 @@ Testattuani etätyöpöydällä laitoksen cubbli linuxilla, täällä olevalla k
 
 # Dokumentaatio
 
+[Käyttöohje](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/kaytto-ohje.md)
+
 [Alustava määrittelydokumentti](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/maarittelydokumentti.md)
 
 [Tuntikirjanpito](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
