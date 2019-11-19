@@ -13,7 +13,7 @@ minimiarvo 8 ja maksimiarvo 18).
 
 ### HUOM!
 
-Tällä hetkellä ohjelma ei tarkista, syötetäänkö asetuksiin numeroita, vaan ei vaan pysty enää generoimaan, jos käyttäjä ei itse aseta kokonaislukuarvoisia parametreja asetuksiin. Korjautuu piakkoin.
+Tällä hetkellä ohjelma ei tarkista, syötetäänkö asetuksiin numeroita, vaan ei vaan pysty enää generoimaan, jos käyttäjä itse asettaa jotain muuta kuin kokonaislukuarvoisia parametreja asetuksiin. Korjautuu piakkoin.
 
 ## Generointi
 
