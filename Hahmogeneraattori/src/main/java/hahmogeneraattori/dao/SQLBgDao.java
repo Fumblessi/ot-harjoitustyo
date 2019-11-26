@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Hahmogeneraattori.dao;
+package hahmogeneraattori.dao;
 
 import java.sql.*;
-import Hahmogeneraattori.domain.Background;
+import hahmogeneraattori.domain.Background;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;

@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Hahmogeneraattori.domain;
+package hahmogeneraattori.domain;
 
-import Hahmogeneraattori.dao.SQLRaceDao;
-import Hahmogeneraattori.dao.SQLClassDao;
-import Hahmogeneraattori.dao.SQLBgDao;
+import hahmogeneraattori.dao.SQLRaceDao;
+import hahmogeneraattori.dao.SQLClassDao;
+import hahmogeneraattori.dao.SQLBgDao;
 import java.util.Random;
 import java.lang.*;
 import java.util.*;

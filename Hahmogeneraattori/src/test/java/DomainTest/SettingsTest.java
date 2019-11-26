@@ -11,8 +11,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import Hahmogeneraattori.domain.Settings;
-import Hahmogeneraattori.dao.FileSettingsDao;
+import hahmogeneraattori.domain.Settings;
+import hahmogeneraattori.dao.FileSettingsDao;
 
 /**
  *

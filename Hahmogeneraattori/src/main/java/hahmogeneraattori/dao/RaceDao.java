@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Hahmogeneraattori.dao;
+package hahmogeneraattori.dao;
 
 /**
  *
  * @author sampo
  */
-public interface ClassDao {
+public interface RaceDao {
     
 }

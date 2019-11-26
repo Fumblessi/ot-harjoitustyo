@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Hahmogeneraattori.ui;
+package hahmogeneraattori.ui;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -17,10 +17,10 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.Scene;
 import java.util.Properties;
 import java.io.FileInputStream;
-import Hahmogeneraattori.dao.FileSettingsDao;
-import Hahmogeneraattori.domain.Settings;
-import Hahmogeneraattori.domain.Generator;
-import Hahmogeneraattori.domain.RPGCharacter;
+import hahmogeneraattori.dao.FileSettingsDao;
+import hahmogeneraattori.domain.Settings;
+import hahmogeneraattori.domain.Generator;
+import hahmogeneraattori.domain.RPGCharacter;
 //import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
 
