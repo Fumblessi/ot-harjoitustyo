@@ -5,6 +5,8 @@
  */
 package Hahmogeneraattori.domain;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author sampo
@@ -12,5 +14,17 @@ package Hahmogeneraattori.domain;
 public class Background {
     
     private String name;
+    private String feature;
+    private ArrayList<String> skills;
+    private ArrayList<String> tools;
+    private ArrayList<String> languages;
+    
+    public Background() {
+        this.name = "";
+        this.feature= "";
+        this.skills = new ArrayList<>();
+        this.tools = new ArrayList<>();
+        this.languages = new ArrayList<>();
+    }
     
 }

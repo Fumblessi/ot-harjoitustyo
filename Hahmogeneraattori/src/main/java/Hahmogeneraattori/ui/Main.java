@@ -167,7 +167,10 @@ public class Main extends Application {
         });
         
         Label stats = new Label("");
-        layout.setCenter(stats);
+        Label proficiencies = new Label("");
+        HBox characterAttributes = new HBox();
+        characterAttributes.getChildren().addAll(stats, proficiencies);
+        layout.setCenter(characterAttributes);
         
         generate.setOnAction((event) -> {
             this.generator.generate();
