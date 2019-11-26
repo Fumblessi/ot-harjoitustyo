@@ -42,7 +42,10 @@ public class GeneratorTest {
         for (int i = 0; i < stats.length; i++) {
             sum += stats[i];
         }
-        assertEquals(sum, this.settings.getStatPool());
+        int min = this.settings.getStatPool() - this.settings.getStatVar();
+        int max = this.settings.getStatPool() + this.settings.getStatVar();
+        
+        assertTrue(sum >= min + 3 && sum <= max + 3);
     }
     
     @Test
@@ -61,9 +64,10 @@ public class GeneratorTest {
     public void statRandomizationMaxLimitWorks() {
         int[] stats = this.generator.createRandomStats();
         boolean allStatsAreBelowMax = true;
+        boolean oneStatIs = false;
         for (int i = 0; i < stats.length; i++) {
-            if (stats[i] > this.settings.getStatMax()) {
-                allStatsAreBelowMax = false;
+            if (stats[i] > this.settings.getStatMax() + 3) {
+                allStatsAreBelowMax = false;             
             }
         }
         assertTrue(allStatsAreBelowMax);

@@ -1,3 +1,5 @@
 StatPool 75
 StatMax 20
+StatVar 5
 StatMin 10
+RacialBonus 1

@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.CheckBox;
 import javafx.scene.Scene;
 import java.util.Properties;
 import java.io.FileInputStream;
@@ -58,7 +59,7 @@ public class Main extends Application {
         //luodaan alkunäkymä
 
         VBox settingsLayout = new VBox();
-        settingsLayout.setPrefSize(500, 400);
+        settingsLayout.setPrefSize(600, 400);
         this.settingsScene = new Scene(settingsLayout);
         //luodaan asetusnäkymä
 
@@ -70,10 +71,10 @@ public class Main extends Application {
         //luodaan asetusnäkymästä paluupainike
 
         HBox statPool = new HBox();
-        Label statPoolLabel = new Label("StatPool:");
+        Label statPoolLabel = new Label("Piirteiden summa:");
         String initialStatPool = String.valueOf(this.settings.getStatPool());
         TextField statPoolAmount = new TextField(initialStatPool);
-        Label statPoolVariance = new Label("Variance: +-");
+        Label statPoolVariance = new Label("Varianssi: +-");
         String initialStatVar = String.valueOf(this.settings.getStatVar());
         TextField statPoolVarAmount = new TextField(initialStatVar);
         Label statPoolError = new Label("");
@@ -82,19 +83,22 @@ public class Main extends Application {
                 statPoolVariance, statPoolVarAmount);
 
         HBox statLimits = new HBox();
-        Label statMinLabel = new Label("StatMin:");
+        Label statMinLabel = new Label("Piirreminimi:");
         String initialStatMin = String.valueOf(this.settings.getStatMin());
         TextField statMinAmount = new TextField(initialStatMin);
-        Label statMaxLabel = new Label("StatMax:");
+        Label statMaxLabel = new Label("Piirremaksimi:");
         String initialStatMax = String.valueOf(this.settings.getStatMax());
         TextField statMaxAmount = new TextField(initialStatMax);
         Label statLimitError = new Label("");
         statLimitError.setTextFill(Color.RED);
         statLimits.getChildren().addAll(statMinLabel, statMinAmount,
                 statMaxLabel, statMaxAmount);
+        
+        CheckBox racialBonus = new CheckBox("Lisää rotubonukset");
+        racialBonus.setSelected(this.settings.getRacialBonus());
 
         settingsLayout.getChildren().addAll(settingsButtons, statPool, statPoolError, 
-                statLimits, statLimitError);
+                statLimits, statLimitError, racialBonus);
 
         HBox buttons = new HBox();
         Button generate = new Button("Generoi");
@@ -113,6 +117,7 @@ public class Main extends Application {
             int newStatVar = Integer.parseInt(statPoolVarAmount.getText());
             int newStatMin = Integer.parseInt(statMinAmount.getText());
             int newStatMax = Integer.parseInt(statMaxAmount.getText());
+            boolean newRacialBonus = racialBonus.isSelected();
             
             if (newStatPool < 0 || newStatPool > 100) {
                 statPoolError.setText("Valitse arvo väliltä 0-100!");
@@ -125,6 +130,7 @@ public class Main extends Application {
                 this.settings.setStatVar(newStatVar);
                 this.settings.setStatMin(newStatMin);
                 this.settings.setStatMax(newStatMax);
+                this.settings.setRacialBonus(newRacialBonus);
                 this.generator.getNewSettings(this.settings);
                 statPoolError.setText("");
                 statLimitError.setText("");
@@ -138,6 +144,7 @@ public class Main extends Application {
             statPoolVarAmount.setText("5");
             statMinAmount.setText("8");
             statMaxAmount.setText("18");
+            racialBonus.setSelected(true);
         });
         
         BorderPane instructionLayout = new BorderPane();

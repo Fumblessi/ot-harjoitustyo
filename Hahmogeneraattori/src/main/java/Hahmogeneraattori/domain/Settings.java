@@ -34,6 +34,14 @@ public class Settings {
         this.settingsDao.setValue("StatVar", var);
     }
     
+    public void setRacialBonus(boolean value) {
+        if (value) {
+            this.settingsDao.setValue("RacialBonus", 1);
+        } else {
+            this.settingsDao.setValue("RacialBonus", 0);
+        }
+    }
+    
     public int getStatPool() {
         return this.settingsDao.getValue("StatPool");
     }
@@ -48,6 +56,15 @@ public class Settings {
     
     public int getStatVar() {
         return this.settingsDao.getValue("StatVar");
+    }
+    
+    public boolean getRacialBonus() {
+        int value = this.settingsDao.getValue("RacialBonus");
+        
+        if (value > 0) {
+            return true;
+        }
+        return false;
     }
     
     public void update() throws Exception {

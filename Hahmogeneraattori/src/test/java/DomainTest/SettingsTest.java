@@ -40,6 +40,12 @@ public class SettingsTest {
     }
     
     @Test
+    public void statVarCanBeModified() {
+        this.settings.setStatVar(7);
+        assertEquals(7, this.settings.getStatVar());
+    }
+    
+    @Test
     public void statMinCanBeModified() {
         this.settings.setStatMin(2);
         assertEquals(2, this.settings.getStatMin());
