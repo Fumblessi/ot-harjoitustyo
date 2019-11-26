@@ -30,6 +30,10 @@ public class Settings {
         this.settingsDao.setValue("StatMax", max);
     }
     
+    public void setStatVar(int var) {
+        this.settingsDao.setValue("StatVar", var);
+    }
+    
     public int getStatPool() {
         return this.settingsDao.getValue("StatPool");
     }
@@ -40,6 +44,10 @@ public class Settings {
     
     public int getStatMax() {
         return this.settingsDao.getValue("StatMax");
+    }
+    
+    public int getStatVar() {
+        return this.settingsDao.getValue("StatVar");
     }
     
     public void update() throws Exception {

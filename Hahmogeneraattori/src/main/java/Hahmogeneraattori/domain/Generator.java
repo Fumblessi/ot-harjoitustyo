@@ -38,7 +38,10 @@ public class Generator {
     }
     
     public int[] createRandomStats() {
-        int statPool = this.settings.getStatPool();
+        int statVar = this.settings.getStatVar();
+        int statPool = this.settings.getStatPool() - statVar;
+        Random random = new Random(System.currentTimeMillis());
+        statPool += random.nextInt(2*statVar + 1);
         int statMin = this.settings.getStatMin();
         int statMax = this.settings.getStatMax();
         int range = statMax - statMin;
@@ -48,7 +51,7 @@ public class Generator {
         }        
         statPool -= 6*statMin;
         
-        Random random = new Random(System.currentTimeMillis());
+        
         for (int i=0; i < 6; i++) {
             int statBonus = random.nextInt(Math.min(statPool, range) + 1);
             stats[i] += statBonus;

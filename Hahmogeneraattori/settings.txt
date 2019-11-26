@@ -1,3 +1,4 @@
 StatPool 70
-StatMax 18
-StatMin 8
+StatMax 22
+StatVar 30
+StatMin 4

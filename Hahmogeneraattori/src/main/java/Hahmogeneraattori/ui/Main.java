@@ -73,9 +73,13 @@ public class Main extends Application {
         Label statPoolLabel = new Label("StatPool:");
         String initialStatPool = String.valueOf(this.settings.getStatPool());
         TextField statPoolAmount = new TextField(initialStatPool);
+        Label statPoolVariance = new Label("Variance: +-");
+        String initialStatVar = String.valueOf(this.settings.getStatVar());
+        TextField statPoolVarAmount = new TextField(initialStatVar);
         Label statPoolError = new Label("");
         statPoolError.setTextFill(Color.RED);
-        statPool.getChildren().addAll(statPoolLabel, statPoolAmount, statPoolError);
+        statPool.getChildren().addAll(statPoolLabel, statPoolAmount, 
+                statPoolVariance, statPoolVarAmount);
 
         HBox statLimits = new HBox();
         Label statMinLabel = new Label("StatMin:");
@@ -87,9 +91,10 @@ public class Main extends Application {
         Label statLimitError = new Label("");
         statLimitError.setTextFill(Color.RED);
         statLimits.getChildren().addAll(statMinLabel, statMinAmount,
-                statMaxLabel, statMaxAmount, statLimitError);
+                statMaxLabel, statMaxAmount);
 
-        settingsLayout.getChildren().addAll(settingsButtons, statPool, statLimits);
+        settingsLayout.getChildren().addAll(settingsButtons, statPool, statPoolError, 
+                statLimits, statLimitError);
 
         HBox buttons = new HBox();
         Button generate = new Button("Generoi");
@@ -105,16 +110,19 @@ public class Main extends Application {
 
         back.setOnAction((event) -> {
             int newStatPool = Integer.parseInt(statPoolAmount.getText());
+            int newStatVar = Integer.parseInt(statPoolVarAmount.getText());
             int newStatMin = Integer.parseInt(statMinAmount.getText());
             int newStatMax = Integer.parseInt(statMaxAmount.getText());
             
             if (newStatPool < 0 || newStatPool > 100) {
                 statPoolError.setText("Valitse arvo väliltä 0-100!");
             } else if (newStatMin < 0 || newStatMin > newStatMax || 
-                    6 * newStatMin > newStatPool || 6*newStatMax < newStatPool) {
+                    6 * newStatMin > (newStatPool - newStatVar) || 
+                    6*newStatMax < (newStatPool + newStatVar)) {
                 statLimitError.setText("Mahdottomat rajat!");
             } else {
                 this.settings.setStatPool(newStatPool);
+                this.settings.setStatVar(newStatVar);
                 this.settings.setStatMin(newStatMin);
                 this.settings.setStatMax(newStatMax);
                 this.generator.getNewSettings(this.settings);
@@ -127,6 +135,7 @@ public class Main extends Application {
 
         setDefault.setOnAction((event) -> {
             statPoolAmount.setText("70");
+            statPoolVarAmount.setText("5");
             statMinAmount.setText("8");
             statMaxAmount.setText("18");
         });
