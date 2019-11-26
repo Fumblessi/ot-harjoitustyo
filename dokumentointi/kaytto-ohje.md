@@ -8,8 +8,10 @@ minimiarvo ei ole maksimiarvoa suurempi, ja että piirteiden kokonaissumma voida
 (Strength, Dexterity, Constitution, Intelligence, Wisdom ja Charisma), ja ettei sitä jää yli. Ohjelma valittaa, mikäli asetetut
 rajat ovat mahdottomat.
 
+Halutessaan voi valita, että arvotaan samantien myös rodun pohjalta tulevat lisäpiirteet +2 ja +1 satunnaisiin piirteisiin.
+
 Asetukset tallentuvat käyttökertojen välillä, mutta Asetukset-välilehdeltä voi palauttaa myös oletusasetukset (kokonaissumma on 70,
-minimiarvo 8 ja maksimiarvo 18).
+minimiarvo 8, maksimiarvo 18 ja rodun pohjalta tulevat piirrebonukset päällä).
 
 ### HUOM!
 
