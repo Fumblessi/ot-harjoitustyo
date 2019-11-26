@@ -19,12 +19,16 @@ public class ProficiencyList {
     private List<String> saves;
     private List<String> armors;
     private List<String> weapons;
+    private List<String> tools;
+    private List<String> languages;
 
     public ProficiencyList() {
         this.skills = new ArrayList<>();
         this.saves = new ArrayList<>();
         this.armors = new ArrayList<>();
         this.weapons = new ArrayList<>();
+        this.tools = new ArrayList<>();
+        this.languages = new ArrayList<>();
     }
 
     public boolean addProf(String profType, String skill) {
@@ -37,6 +41,10 @@ public class ProficiencyList {
                 return addIfAbsent(this.armors, skill);
             case "weapon":
                 return addIfAbsent(this.weapons, skill);
+            case "tool":
+                return addIfAbsent(this.tools, skill);
+            case "language":
+                return addIfAbsent(this.languages, skill);
         }
         return true;
     }

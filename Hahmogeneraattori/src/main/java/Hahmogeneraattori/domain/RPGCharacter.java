@@ -16,12 +16,14 @@ public class RPGCharacter {
     private String charClass;
     private String background;
     private HashMap<String, Integer> stats;
+    private ProficiencyList profs;
     
     public RPGCharacter() {
         this.race = "";
         this.charClass = "";
         this.background = "";
         this.stats = new HashMap<>();
+        this.profs = new ProficiencyList();
     }
     
     public String getRace() {
