@@ -12,6 +12,8 @@ Testattuani etätyöpöydällä laitoksen cubbli linuxilla, täällä olevalla k
 
 [Alustava määrittelydokumentti](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/maarittelydokumentti.md)
 
+[Tämänhetkinen pakkauskaavio](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
+
 [Tuntikirjanpito](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
 
 # Komentorivi
