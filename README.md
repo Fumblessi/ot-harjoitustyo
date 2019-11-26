@@ -18,7 +18,7 @@ Testattuani etätyöpöydällä laitoksen cubbli linuxilla, täällä olevalla k
 
 Suoritus:
 
-"mvn compile exec:java -Dexec.mainClass=Hahmogeneraattori.ui.Main"
+"mvn compile exec:java -Dexec.mainClass=hahmogeneraattori.ui.Main"
 
 Testit:
 
@@ -27,3 +27,7 @@ Testit:
 Testauskattavuus:
 
 "mvn test jacoco:report"
+
+Checkstyle:
+
+"mvn jxr:jxr checkstyle:checkstyle"
