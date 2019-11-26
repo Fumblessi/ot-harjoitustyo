@@ -21,9 +21,11 @@ näkymään, josta generoinnin parametreja voi muokata.
 
 ### Toiminnallisuus
 * Sovellus arpoo hahmoluokan, rodun ja taustan vastaavista tietokantatauluista, joihin eri vaihtoehdot on listattu
-* Edelleen näiden pohjalta sovellus arpoo hahmolle piirteet (Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma) sekä
+* Edelleen näiden pohjalta sovellus arpoo hahmolle piirteet (Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma) sekä **TEHTY**
 sen omaamat taidot
-* Asetukset -välilehdeltä generointia pystyy rajoittamaan: Voi esimerkiksi valita arvontaan vain tietyt rodut ja/tai luokat
+* Asetukset -välilehdeltä generointia pystyy rajoittamaan:
+- Voi valita arvontaan vain tietyt luokat
+- Voi rajata piirteiden määrää arvonnassa, ja lisäksi valita ottavansa mukaan satunnaiset +2 ja +1 piirteet hahmon rodusta **TEHTY**
 * Asetukset -välilehdeltä voi lisäksi muokata tietokantojen sisältöä, voi esimerkiksi poistaa tai lisätä hahmoluokkia, rotuja tai
 taustoja, joiden joukosta generointi tehdään
 
