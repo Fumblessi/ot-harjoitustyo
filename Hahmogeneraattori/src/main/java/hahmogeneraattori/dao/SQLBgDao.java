@@ -19,11 +19,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class SQLBgDao implements BackgroundDao {
     
-    @Override
-    public void connect() throws SQLException {
-        
-    }
-    
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+     
     @Override
     public void create(Background bg) throws SQLException {
         

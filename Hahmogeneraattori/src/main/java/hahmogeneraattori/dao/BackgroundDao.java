@@ -13,7 +13,6 @@ import java.util.List;
  * @author sampo
  */
 public interface BackgroundDao {
-    void connect() throws SQLException;
     void create(Background bg) throws SQLException;
     Background read(Integer key) throws SQLException;
     Background update(Background bg) throws SQLException;

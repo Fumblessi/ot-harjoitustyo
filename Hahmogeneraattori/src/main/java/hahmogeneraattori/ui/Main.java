@@ -16,13 +16,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
 import javafx.scene.Scene;
 import java.util.Properties;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import java.io.FileInputStream;
 import hahmogeneraattori.dao.FileSettingsDao;
 import hahmogeneraattori.domain.Settings;
 import hahmogeneraattori.domain.Generator;
 import hahmogeneraattori.domain.RPGCharacter;
-//import javafx.geometry.Insets;
+import java.sql.*;
 import javafx.scene.paint.Color;
+import sun.util.logging.PlatformLogger;
 
 /**
  *
@@ -191,5 +194,29 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception {
         this.settings.update();
+    }
+    
+    private static void initializeDatabase() {
+        //mikäli tietokanta on poistettu tai se halutaan alustaa
+        //kokonaan uudestaan, voi ajaa tämän metodin, jolla
+        //tietokanta luodaan uudestaan
+        
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb","sa","")) {
+            //poistetaan vanhat taulut
+            conn.prepareStatement("DROP TABLE Racial IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE Background IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE Class IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE BackgroundSkills IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE RacialSkills IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE ClassSkills IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE Skills IF EXISTS").executeUpdate();
+            
+            //luodaan uudet taulut
+            
+            //luodaan indeksit
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
