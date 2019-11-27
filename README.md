@@ -18,6 +18,7 @@ Testattuani etätyöpöydällä laitoksen cubbli linuxilla, täällä olevalla k
 
 # Työn alla tällä hetkellä:
 
+* Varmistaminen, että ohjelman pystyy ajamaan laitoksen koneella komentoriviltä käsin
 * Asetukset-välilehden tekstikentät hyväksyvät vain kokonaisluku-muotoisia syötteitä
 * Pakkauskaavion laajentaminen koko ohjelman suunnitelmaa vastaavaksi
 * Tietokantojen alustaminen ja taulujen rakentaminen, sekä tietokantakyselyiden kirjoittaminen
