@@ -4,7 +4,7 @@ Hahmogeneraattorin tarkoitus on arpoa satunnainen roolipelihahmo, sekä sille pi
 
 # Javafx
 
-Testattuani etätyöpöydällä laitoksen cubbli linuxilla, täällä olevalla konfiguraatiolla pitäisi pystyä ajamaan ohjelma laitoksen koneelta. Käyttöliittymän ulkoasu oli jostain syystä hieman eri näköinen kuin omalla koneella ajettaessa (vaikka tässäkin on linux sekä Java 8).
+Testattuani etätyöpöydällä laitoksen cubbli linuxilla, täällä olevalla konfiguraatiolla pitäisi pystyä ajamaan ohjelma laitoksen koneelta. Käyttöliittymän ulkoasu oli jostain syystä hieman eri näköinen kuin omalla koneella ajettaessa (vaikka tässäkin on linux sekä Java 8). Ongelmia voi aiheuttaa lisäämäni spring-sovelluskehyksen dependencyt, mitä en kerinnyt vielä laitoksen koneella testata.
 
 # Dokumentaatio
 
@@ -15,6 +15,12 @@ Testattuani etätyöpöydällä laitoksen cubbli linuxilla, täällä olevalla k
 [Tämänhetkinen pakkauskaavio](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
 
 [Tuntikirjanpito](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
+
+# Työn alla tällä hetkellä:
+
+* Asetukset-välilehden tekstikentät hyväksyvät vain kokonaisluku-muotoisia syötteitä
+* Pakkauskaavion laajentaminen koko ohjelman suunnitelmaa vastaavaksi
+* Tietokantojen alustaminen ja taulujen rakentaminen, sekä tietokantakyselyiden kirjoittaminen
 
 # Komentorivi
 
