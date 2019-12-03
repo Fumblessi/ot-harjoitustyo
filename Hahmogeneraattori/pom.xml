@@ -63,7 +63,7 @@
             <version>0.8.3</version>
     	    <configuration>
         	<excludes>
-            	    <exclude>Hahmogeneraattori/ui/*</exclude>
+            	    <exclude>hahmogeneraattori/ui/*</exclude>
         	</excludes>
     	    </configuration>  
             <executions>
