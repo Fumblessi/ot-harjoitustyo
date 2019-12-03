@@ -2,6 +2,10 @@
 
 Hahmogeneraattorin tarkoitus on arpoa satunnainen roolipelihahmo, sekä sille piirteet Strength, Dexterity, Constitution, Intelligence, Wisdon ja Charisma, sen rotu ja hahmoluokka, sekä näiden pohjalta sen osaamat taidot. Generaattorin asetuksista voi rajata arvontaa, sekä luoda uusia luokkia tai rotuja arvonnan pohjana olevaan tietokantaan.
 
+# Releaset
+
+[Viikko5](https://github.com/Fumblessi/ot-harjoitustyo/releases/tag/viikko5)
+
 # Dokumentaatio
 
 [Käyttöohje](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/kaytto-ohje.md)
@@ -11,6 +15,7 @@ Hahmogeneraattorin tarkoitus on arpoa satunnainen roolipelihahmo, sekä sille pi
 [Arkkitehtuuri](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
 
 [Tuntikirjanpito](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
+
 
 # Työn alla tällä hetkellä:
 
