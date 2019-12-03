@@ -18,6 +18,7 @@ Hahmogeneraattorin tarkoitus on arpoa satunnainen roolipelihahmo, sekä sille pi
 * Asetukset-välilehden tekstikentät hyväksyvät vain kokonaisluku-muotoisia syötteitä
 * Pakkauskaavion laajentaminen koko ohjelman suunnitelmaa vastaavaksi
 * Tietokantatoiminnallisuuden ja -kyselyiden edelleen kirjoittaminen
+* Alustava pohja tietokanta olisi hyvä luoda, niin käyttäjä voi halutessaan palata jonkinlaiseen "default"-tilaan, mikäli on tietokannan sisältöön koskenut
 
 # Komentorivi
 
