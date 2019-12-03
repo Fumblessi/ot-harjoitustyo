@@ -13,3 +13,9 @@ ohjelman tietokannan toteutuksesta. Feat- ja FeatSkill-tietokantataulut samoin k
 vasta kurssin jälkeen.
 
 <img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/tietokantakaavio.png" width="600">
+
+# Sekvenssikaavio(t):
+
+1. Sekvenssikaavio, kun käyttöliittymän kautta lisätään uusi taito taitoja sisältävään "Skill"-tietokantaan. Roolipelitermistöön liittyvistä syistä käytän ohjelmassani kuitenkin termiä Proficiency (muokkaan tietokannankin nimen jossain vaiheessa).
+
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/ProficiencynLisaaminenSekvenssi.png" width="600">

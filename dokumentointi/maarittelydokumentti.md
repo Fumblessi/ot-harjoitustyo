@@ -26,7 +26,7 @@ näkymään, josta generoinnin parametreja voi muokata.
   * Voi valita arvontaan vain tietyt luokat
   * Voi rajata piirteiden määrää arvonnassa, ja lisäksi valita ottavansa mukaan satunnaiset +2 ja +1 piirteet hahmon rodusta **TEHTY**
 * Asetukset -välilehdeltä voi lisäksi muokata tietokantojen sisältöä, voi esimerkiksi poistaa tai lisätä hahmoluokkia, rotuja tai
-taustoja, joiden joukosta generointi tehdään
+taustoja, joiden joukosta generointi tehdään **TEHTY Taitojen lisäämisen osalta**
 
 ### Jatkokehitysideoita
 Luultavasti yllälistatussa toiminnallisuudessa on jo tarpeeksi tekemistä tämän kurssin puitteisiin, mutta jos aikaa jää, koitetaan
