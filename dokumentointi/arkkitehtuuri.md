@@ -1,8 +1,6 @@
-# Alustava pakkauskaavio:*
+# Pakkauskaavio
 
-*Pakkauskaaviossa tässä vaiheessa vasta niitä pakkauksia ja luokkia, joita olen hieman ehtinyt tähän mennessä tekemään. Meni tämä
-viikko vääntäessä springiä jollain tavalla toimivaan javafx:n ja mavenin kanssa, ja hieman mitää miettiä vielä joitakin 
-rakenteeseen liittyviä seikkoja, ennen kuin kaavio täydentyy.
+Päivitetty pakkauskaavio näyttää, mihin muotoon haluaisin ohjelmani refaktoroida. Ainoa asetustiedostoa käyttävä luokka olisi Settings, ja ainoa tietokantaa (kaavio alla) käyttävä luokka olisi Generator, jonka kautta generoitaisiin sattumanvaraisesti tarvittavia muita olioita käyttäen kaaviossa näkyviä olioluokkia. Vanhan pakkauskaavion näkee [täältä](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/pakkauskaavio_vanha.png).
 
 <img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/pakkauskaavio.png" width="600">
 
