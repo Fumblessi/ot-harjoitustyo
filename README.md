@@ -2,10 +2,6 @@
 
 Hahmogeneraattorin tarkoitus on arpoa satunnainen roolipelihahmo, sekä sille piirteet Strength, Dexterity, Constitution, Intelligence, Wisdon ja Charisma, sen rotu ja hahmoluokka, sekä näiden pohjalta sen osaamat taidot. Generaattorin asetuksista voi rajata arvontaa, sekä luoda uusia luokkia tai rotuja arvonnan pohjana olevaan tietokantaan.
 
-# Javafx
-
-Testattuani etätyöpöydällä laitoksen cubbli linuxilla, täällä olevalla konfiguraatiolla pitäisi pystyä ajamaan ohjelma laitoksen koneelta. Käyttöliittymän ulkoasu oli jostain syystä hieman eri näköinen kuin omalla koneella ajettaessa (vaikka tässäkin on linux sekä Java 8). Ongelmia voi aiheuttaa lisäämäni spring-sovelluskehyksen dependencyt, mitä en kerinnyt vielä laitoksen koneella testata.
-
 # Dokumentaatio
 
 [Käyttöohje](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/kaytto-ohje.md)
@@ -21,7 +17,7 @@ Testattuani etätyöpöydällä laitoksen cubbli linuxilla, täällä olevalla k
 * Varmistaminen, että ohjelman pystyy ajamaan laitoksen koneella komentoriviltä käsin
 * Asetukset-välilehden tekstikentät hyväksyvät vain kokonaisluku-muotoisia syötteitä
 * Pakkauskaavion laajentaminen koko ohjelman suunnitelmaa vastaavaksi
-* Tietokantojen alustaminen ja taulujen rakentaminen, sekä tietokantakyselyiden kirjoittaminen
+* Tietokantatoiminnallisuuden ja -kyselyiden edelleen kirjoittaminen
 
 # Komentorivi
 
