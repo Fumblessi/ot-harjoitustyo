@@ -14,18 +14,23 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.Scene;
 import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.io.FileInputStream;
 import hahmogeneraattori.dao.FileSettingsDao;
+import hahmogeneraattori.dao.SQLSkillDao;
 import hahmogeneraattori.domain.Settings;
 import hahmogeneraattori.domain.Generator;
 import hahmogeneraattori.domain.RPGCharacter;
+import hahmogeneraattori.domain.Proficiency;
 import java.sql.*;
 import javafx.scene.paint.Color;
-import sun.util.logging.PlatformLogger;
+import java.util.List;
+//import sun.util.logging.PlatformLogger;
 
 /**
  *
@@ -35,12 +40,13 @@ import sun.util.logging.PlatformLogger;
 public class Main extends Application {
 
     private Settings settings;
+    private SQLSkillDao skillDao;
     private Generator generator;
     private RPGCharacter character;
     private Scene startScene;
     private Scene settingsScene;
-    private Scene instructionScene;
-    private Scene generationScene;
+    private Scene addingScene;
+    private Scene profAddScene;
 
     @Override
     public void init() throws Exception {
@@ -50,12 +56,19 @@ public class Main extends Application {
 
         String settingsFile = properties.getProperty("settingsFile");
         FileSettingsDao settingsDao = new FileSettingsDao(settingsFile);
-        this.settings = new Settings(settingsDao);
+        this.skillDao = new SQLSkillDao();
+        this.settings = new Settings(settingsDao, skillDao);
         this.generator = new Generator(this.settings);
     }
 
     @Override
     public void start(Stage window) throws Exception {
+        //initializeDatabase();
+        //alusta tarvittaessa tietokanta
+        List<Proficiency> list = this.settings.listAllProfs();
+        for (Proficiency prof : this.settings.listAllProfs()) {
+            System.out.println(prof);
+        }
         BorderPane layout = new BorderPane();
         layout.setPrefSize(300, 200);
         this.startScene = new Scene(layout);
@@ -68,9 +81,9 @@ public class Main extends Application {
 
         Button back = new Button("Tallenna ja palaa");
         Button setDefault = new Button("Palauta alkuperäiset");
-        Button instructions = new Button("Ohje");
+        Button add = new Button("Lisää");
         HBox settingsButtons = new HBox();
-        settingsButtons.getChildren().addAll(back, setDefault, instructions);
+        settingsButtons.getChildren().addAll(back, setDefault, add);
         //luodaan asetusnäkymästä paluupainike
 
         HBox statPool = new HBox();
@@ -150,23 +163,83 @@ public class Main extends Application {
             racialBonus.setSelected(true);
         });
         
-        BorderPane instructionLayout = new BorderPane();
-        Label instructionText = new Label(" - Valitse StatPoolin* arvo väliltä 0-100."
-                + "\n - Valitse generoitavan hahmon stateille sopiva** minimi ja maksimi."
-                + "\n\n *StatPool on generoitavan hahmojen stattien (Strength,"
-                + "Dexterity, Constitution,\n   Intelligence, Wisdom ja Charisma) summa."
-                + "\n **StatMin täytyy valita niin, että StatPoolista riittää pisteitä"
-                + " vähintään arvon\n    StatMin verran jokaiseen stattiin, ja "
-                + "vastaavasti StatMax niin, ettei\n    StatPooliin jää ylimääräisiä "
-                + "pisteitä stattien arpomisen jälkeen.");
-        instructionLayout.setCenter(instructionText);
-        Stage instructionWindow = new Stage();
-        this.instructionScene = new Scene(instructionLayout);
-        instructionWindow.setTitle("Ohje");
-        instructionWindow.setScene(instructionScene);      
+        VBox addingLayout = new VBox();
+        addingLayout.setPrefSize(170, 170);
         
-        instructions.setOnAction((event) -> {
-            instructionWindow.show();    
+        Button addProf = new Button("Proficiency");
+        Button addRacial = new Button("Racial");
+        Button addClass = new Button("Class");
+        Button addBg = new Button("Background");
+        Button addFeat = new Button("Feat");
+        addingLayout.getChildren().addAll(addProf, addRacial, addClass, addBg, addFeat);
+        
+        Stage addingWindow = new Stage();
+        this.addingScene = new Scene(addingLayout);
+        addingWindow.setTitle("Lisää...");
+        addingWindow.setScene(this.addingScene);      
+        
+        add.setOnAction((event) -> {
+            addingWindow.show();    
+        });
+        
+        VBox profAddLayout = new VBox();
+        
+        HBox profNameLayout = new HBox();
+        Label profNameLabel = new Label("Nimi: ");
+        TextField profNameText = new TextField();
+        profNameLayout.getChildren().addAll(profNameLabel, profNameText);
+        
+        HBox profTypeLayout = new HBox();
+        ToggleGroup profGroup = new ToggleGroup();
+        RadioButton typeSkill = new RadioButton("Skill");
+        typeSkill.setToggleGroup(profGroup);
+        typeSkill.setSelected(true);
+        RadioButton typeArmor = new RadioButton("Armor");
+        typeArmor.setToggleGroup(profGroup);
+        RadioButton typeWeapon = new RadioButton("Weapon");
+        typeWeapon.setToggleGroup(profGroup);
+        RadioButton typeTool = new RadioButton("Tool");
+        typeTool.setToggleGroup(profGroup);
+        RadioButton typeLanguage = new RadioButton("Language");
+        typeLanguage.setToggleGroup(profGroup);
+        profTypeLayout.getChildren().addAll(typeSkill, typeArmor, typeWeapon,
+                typeTool, typeLanguage);
+        
+        Button addNewProf = new Button("Lisää");
+        
+        profAddLayout.getChildren().addAll(profNameLayout, profTypeLayout, addNewProf);
+        
+        Stage profAddWindow = new Stage();
+        this.profAddScene = new Scene(profAddLayout);
+        profAddWindow.setTitle("Lisää Proficiency");
+        profAddWindow.setScene(this.profAddScene);
+        
+        addProf.setOnAction((event) -> {
+            profAddWindow.show();
+            addingWindow.close();
+        });
+        
+        addNewProf.setOnAction((event) -> {
+            profAddWindow.close();
+            String profName = profNameText.getText();
+            profNameText.setText("");
+            String profType = "";
+            if (typeLanguage.isSelected()) {
+                profType = "Language";
+            } else if (typeArmor.isSelected()) {
+                profType = "Armor";
+            } else if (typeWeapon.isSelected()) {
+                profType = "Weapon";
+            } else if (typeTool.isSelected()) {
+                profType = "Tool";
+            } else {
+                profType = "Skill";
+            }
+            try {
+                this.settings.addNewProfToDB(new Proficiency(profName, profType));
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         });
         
         Label stats = new Label("");
@@ -203,18 +276,42 @@ public class Main extends Application {
         
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb","sa","")) {
             //poistetaan vanhat taulut
+            conn.prepareStatement("DROP TABLE Skill IF EXISTS").executeUpdate();
             conn.prepareStatement("DROP TABLE Racial IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE RacialSkill IF EXISTS").executeUpdate();
             conn.prepareStatement("DROP TABLE Background IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE BackgroundSkill IF EXISTS").executeUpdate();
             conn.prepareStatement("DROP TABLE Class IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE BackgroundSkills IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE RacialSkills IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE ClassSkills IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE Skills IF EXISTS").executeUpdate();
-            
+            conn.prepareStatement("DROP TABLE SubClass IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE ClassSkill IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE Feat IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE FeatSkill IF EXISTS").executeUpdate();
             //luodaan uudet taulut
-            
-            //luodaan indeksit
-            
+            conn.prepareStatement("CREATE TABLE Skill(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
+                    + "type VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
+            conn.prepareStatement("CREATE TABLE Racial(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
+                    + "PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
+            conn.prepareStatement("CREATE TABLE RacialSkill(racial_id INTEGER, skill_id INTEGER, "
+                    + "FOREIGN KEY (racial_id) REFERENCES Racial(id), FOREIGN KEY (skill_id) "
+                    + "REFERENCES Skill(id));").executeUpdate();
+            conn.prepareStatement("CREATE TABLE Background(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
+                    + "PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
+            conn.prepareStatement("CREATE TABLE BackgroundSkill(bg_id INTEGER, skill_id INTEGER, "
+                    + "FOREIGN KEY (bg_id) REFERENCES Background(id), FOREIGN KEY (skill_id) "
+                    + "REFERENCES Skill(id));").executeUpdate();
+            conn.prepareStatement("CREATE TABLE Class(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
+                    + "PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
+            conn.prepareStatement("CREATE TABLE SubClass(id INTEGER AUTO_INCREMENT, class_id INTEGER, "
+                    + "name VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id), FOREIGN KEY "
+                    + "(class_id) REFERENCES Class(id));").executeUpdate();
+            conn.prepareStatement("CREATE TABLE ClassSkill(class_id INTEGER, skill_id INTEGER, "
+                    + "FOREIGN KEY (class_id) REFERENCES Class(id), FOREIGN KEY (skill_id) "
+                    + "REFERENCES Skill(id));").executeUpdate();
+            conn.prepareStatement("CREATE TABLE Feat(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
+                    + "stats VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
+            conn.prepareStatement("CREATE TABLE FeatSkill(feat_id INTEGER, skill_id INTEGER, "
+                    + "FOREIGN KEY (feat_id) REFERENCES Feat(id), FOREIGN KEY (skill_id) "
+                    + "REFERENCES Skill(id));").executeUpdate();           
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

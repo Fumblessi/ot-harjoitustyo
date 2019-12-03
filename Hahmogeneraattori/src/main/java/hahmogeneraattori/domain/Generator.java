@@ -8,6 +8,7 @@ package hahmogeneraattori.domain;
 //import hahmogeneraattori.dao.SQLRaceDao;
 //import hahmogeneraattori.dao.SQLClassDao;
 //import hahmogeneraattori.dao.SQLBgDao;
+//import hahmogeneraattori.dao.SQLSkillDao;
 import java.util.Random;
 import java.lang.*;
 import java.util.*;
@@ -21,6 +22,7 @@ public class Generator {
     //private SQLRaceDao raceDao;
     //private SQLClassDao classDao;
     //private SQLBgDao backgroundDao;
+    //private SQLSkillDao skillDao;
     private Settings settings;
     private RPGCharacter character;
 

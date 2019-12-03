@@ -31,7 +31,9 @@ public class ProficiencyList {
         this.languages = new ArrayList<>();
     }
 
-    public boolean addProf(String profType, String skill) {
+    public boolean addProf(Proficiency prof) {
+        String profType = prof.getType();
+        String skill = prof.getName();
         switch (profType) {
             case "skill":
                 return addIfAbsent(this.skills, skill);

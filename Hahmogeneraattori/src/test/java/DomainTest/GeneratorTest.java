@@ -31,7 +31,7 @@ public class GeneratorTest {
     @Before
     public void setUp() throws Exception {
         this.settingsDao = new FileSettingsDao("testSettings.txt");
-        this.settings = new Settings(this.settingsDao);
+        this.settings = new Settings(this.settingsDao, null);
         this.generator = new Generator(this.settings);
     }
 
