@@ -7,13 +7,13 @@ Päivitetty pakkauskaavio näyttää, mihin muotoon haluaisin ohjelmani refaktor
 # Tietokantakaavio:
 
 Siinä missä pakkauskaavio vielä tässä vaiheessa vastaa tämänhetkistä tilannetta, tietokantakaavio vastaa suunnitelmaani koko
-ohjelman tietokannan toteutuksesta. Feat- ja FeatSkill-tietokantataulut samoin kuin Featin arpomistoiminnallisuus tosin toteutunee
+ohjelman tietokannan toteutuksesta. Feat- ja FeatProficiency-tietokantataulut samoin kuin Featin arpomistoiminnallisuus tosin toteutunee
 vasta kurssin jälkeen.
 
 <img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/tietokantakaavio.png" width="600">
 
 # Sekvenssikaavio(t):
 
-1. Sekvenssikaavio, kun käyttöliittymän kautta lisätään uusi taito taitoja sisältävään "Skill"-tietokantaan. Roolipelitermistöön liittyvistä syistä käytän ohjelmassani kuitenkin termiä Proficiency (muokkaan tietokannankin nimen jossain vaiheessa).
+1. Sekvenssikaavio, kun käyttöliittymän kautta lisätään uusi taito taitoja sisältävään "Skill"-tietokantaan. Roolipelitermistöön liittyvistä syistä käytän ohjelmassani kuitenkin termiä Proficiency (tietokantataulun nimi on sekvenssikaavion luonnin jälkeen muutettukin).
 
 <img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/ProficiencynLisaaminenSekvenssi.png" width="600">
