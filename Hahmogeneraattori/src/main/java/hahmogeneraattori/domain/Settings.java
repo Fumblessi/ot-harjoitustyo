@@ -5,8 +5,8 @@
  */
 package hahmogeneraattori.domain;
 
-import hahmogeneraattori.dao.FileSettingsDao;
-import hahmogeneraattori.dao.SQLSkillDao;
+import hahmogeneraattori.dao.SettingsDao;
+import hahmogeneraattori.dao.GeneratorDatabaseDao;
 import java.sql.SQLException;
 import java.util.List;
 /**
@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class Settings {
     
-    private FileSettingsDao settingsDao;
-    private SQLSkillDao skillDao;
+    private SettingsDao settingsDao;
+    private GeneratorDatabaseDao skillDao;
     
-    public Settings(FileSettingsDao settingsDao, SQLSkillDao skillDao) {
+    public Settings(SettingsDao settingsDao, GeneratorDatabaseDao skillDao) {
         this.settingsDao = settingsDao;
         this.skillDao = skillDao;
     }

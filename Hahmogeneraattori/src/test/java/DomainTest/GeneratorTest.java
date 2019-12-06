@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
 import hahmogeneraattori.domain.Generator;
 import hahmogeneraattori.domain.Settings;
 import hahmogeneraattori.dao.FileSettingsDao;
+import hahmogeneraattori.domain.Stats;
 
 /**
  *
@@ -24,6 +25,7 @@ public class GeneratorTest {
     private FileSettingsDao settingsDao;
     private Settings settings;
     private Generator generator;
+    private Stats stats;
     
     public GeneratorTest() {
     }
@@ -33,15 +35,13 @@ public class GeneratorTest {
         this.settingsDao = new FileSettingsDao("testSettings.txt");
         this.settings = new Settings(this.settingsDao, null);
         this.generator = new Generator(this.settings);
+        this.stats = this.generator.getStats();
     }
 
     @Test
     public void statRandomizationSumIsCorrect() {
-        int[] stats = this.generator.createRandomStats();
-        int sum = 0;
-        for (int i = 0; i < stats.length; i++) {
-            sum += stats[i];
-        }
+        this.generator.createRandomStats();
+        int sum = this.stats.getSum();
         int min = this.settings.getStatPool() - this.settings.getStatVar();
         int max = this.settings.getStatPool() + this.settings.getStatVar();
         
@@ -50,26 +50,13 @@ public class GeneratorTest {
     
     @Test
     public void statRandomizationMinLimitWorks() {
-        int[] stats = this.generator.createRandomStats();
-        boolean allStatsAreAboveMin = true;
-        for (int i = 0; i < stats.length; i++) {
-            if (stats[i] < this.settings.getStatMin()) {
-                allStatsAreAboveMin = false;
-            }
-        }
-        assertTrue(allStatsAreAboveMin);
+        this.generator.createRandomStats();
+        assertTrue(this.stats.getMin() >= this.settings.getStatMin());
     }
     
     @Test
     public void statRandomizationMaxLimitWorks() {
-        int[] stats = this.generator.createRandomStats();
-        boolean allStatsAreBelowMax = true;
-        boolean oneStatIs = false;
-        for (int i = 0; i < stats.length; i++) {
-            if (stats[i] > this.settings.getStatMax() + 3) {
-                allStatsAreBelowMax = false;             
-            }
-        }
-        assertTrue(allStatsAreBelowMax);
+        this.generator.createRandomStats();
+        assertTrue(this.stats.getMax() <= this.settings.getStatMax() + 2);
     }
 }

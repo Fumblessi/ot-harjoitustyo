@@ -21,11 +21,12 @@ import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.io.FileInputStream;
+import hahmogeneraattori.dao.SettingsDao;
 import hahmogeneraattori.dao.FileSettingsDao;
-import hahmogeneraattori.dao.SQLSkillDao;
+import hahmogeneraattori.dao.GeneratorDatabaseDao;
+import hahmogeneraattori.dao.SQLGeneratorDatabaseDao;
 import hahmogeneraattori.domain.Settings;
 import hahmogeneraattori.domain.Generator;
-import hahmogeneraattori.domain.RPGCharacter;
 import hahmogeneraattori.domain.Proficiency;
 import java.sql.*;
 import javafx.scene.paint.Color;
@@ -40,9 +41,8 @@ import java.util.List;
 public class Interface extends Application {
 
     private Settings settings;
-    private SQLSkillDao skillDao;
+    private GeneratorDatabaseDao skillDao;
     private Generator generator;
-    private RPGCharacter character;
     private Scene startScene;
     private Scene settingsScene;
     private Scene addingScene;
@@ -56,8 +56,8 @@ public class Interface extends Application {
 
         String settingsFile = properties.getProperty("settingsFile");
         FileSettingsDao settingsDao = new FileSettingsDao(settingsFile);
-        this.skillDao = new SQLSkillDao();
-        this.settings = new Settings(settingsDao, skillDao);
+        this.skillDao = new SQLGeneratorDatabaseDao();
+        this.settings = new Settings(settingsDao, this.skillDao);
         this.generator = new Generator(this.settings);
     }
 
@@ -246,7 +246,6 @@ public class Interface extends Application {
         
         generate.setOnAction((event) -> {
             this.generator.generate();
-            this.character = this.generator.getCharacter();
             stats.setText(this.generator.generateStatList());
         });
 

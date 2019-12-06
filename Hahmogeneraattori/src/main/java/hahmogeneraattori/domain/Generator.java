@@ -19,28 +19,23 @@ import java.util.*;
  */
 public class Generator {
 
-    //private SQLRaceDao raceDao;
-    //private SQLClassDao classDao;
-    //private SQLBgDao backgroundDao;
-    //private SQLSkillDao skillDao;
     private Settings settings;
-    private RPGCharacter character;
+    private Stats stats;
 
     public Generator(Settings settings) {
         this.settings = settings;
-        this.character = null;
+        this.stats = new Stats();
     }
 
-    public RPGCharacter getCharacter() {
-        return this.character;
+    public Stats getStats() {
+        return this.stats;
     }
 
     public void generate() {
-        this.character = new RPGCharacter();
-        this.character.setStats(createRandomStats());
+        createRandomStats();
     }
 
-    public int[] createRandomStats() {
+    public void createRandomStats() {
         int statVar = this.settings.getStatVar();
         int statPool = this.settings.getStatPool() - statVar;
         Random random = new Random(System.currentTimeMillis());
@@ -48,23 +43,23 @@ public class Generator {
         int statMin = this.settings.getStatMin();
         int statMax = this.settings.getStatMax();
         int range = statMax - statMin;
-        int[] stats = new int[6];
+        int[] newStats = new int[6];
         for (int i = 0; i < 6; i++) {
-            stats[i] = statMin;
+            newStats[i] = statMin;
         }
         statPool -= 6 * statMin;
 
         for (int i = 0; i < 6; i++) {
             int statBonus = random.nextInt(Math.min(statPool, range) + 1);
-            stats[i] += statBonus;
+            newStats[i] += statBonus;
             statPool -= statBonus;
 
             while (statPool > (5 - i) * range) {
-                stats[i]++;
+                newStats[i]++;
                 statPool--;
             }
         }
-        shuffle(stats);
+        shuffle(newStats);
 
         if (this.settings.getRacialBonus()) {
             int bonusStat1 = random.nextInt(6);
@@ -74,20 +69,14 @@ public class Generator {
                 bonusStat2++;
             }
 
-            stats[bonusStat1] += 2;
-            stats[bonusStat2]++;
+            newStats[bonusStat1] += 2;
+            newStats[bonusStat2]++;
         }
-        
-        return stats;
+        this.stats.setStats(newStats);
     }
 
     public String generateStatList() {
-        HashMap<String, Integer> stats = character.getStats();
-        String statListing = "Stats:\n\nSTR: " + stats.get("STR") + "\nDEX: "
-                + stats.get("DEX") + "\nCON: " + stats.get("CON") + "\nINT: "
-                + stats.get("INT") + "\nWIS: " + stats.get("WIS") + "\nCHA: "
-                + stats.get("CHA");
-        return statListing;
+        return this.stats.toString();
     }
 
     public static void shuffle(int[] array) {

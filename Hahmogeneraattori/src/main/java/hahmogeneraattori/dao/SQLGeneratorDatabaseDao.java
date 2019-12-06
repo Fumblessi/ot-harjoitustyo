@@ -14,11 +14,11 @@ import java.sql.*;
  *
  * @author sampo
  */
-public class SQLSkillDao implements SkillDao {
+public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
 
     private List<Proficiency> profs;
 
-    public SQLSkillDao() throws SQLException {
+    public SQLGeneratorDatabaseDao() throws SQLException {
         this.profs = new ArrayList<>();
 
         Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb", "sa", "");

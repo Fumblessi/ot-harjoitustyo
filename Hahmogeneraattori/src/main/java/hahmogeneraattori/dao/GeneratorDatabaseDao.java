@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author sampo
  */
-public interface SkillDao {
+public interface GeneratorDatabaseDao {
     void create(Proficiency prof) throws SQLException;
     Proficiency read(Integer key) throws SQLException;
     Proficiency update(Proficiency prof) throws SQLException;
