@@ -16,11 +16,11 @@ import java.util.List;
 public class Settings {
     
     private SettingsDao settingsDao;
-    private GeneratorDatabaseDao skillDao;
+    private GeneratorDatabaseDao generatorDatabaseDao;
     
-    public Settings(SettingsDao settingsDao, GeneratorDatabaseDao skillDao) {
+    public Settings(SettingsDao settingsDao, GeneratorDatabaseDao gdbDao) {
         this.settingsDao = settingsDao;
-        this.skillDao = skillDao;
+        this.generatorDatabaseDao = gdbDao;
     }
     
     public void setStatPool(int pool) {
@@ -73,11 +73,11 @@ public class Settings {
     }
     
     public void addNewProfToDB(Proficiency prof) throws SQLException {
-        this.skillDao.create(prof);
+        this.generatorDatabaseDao.create(prof);
     }
     
     public List<Proficiency> listAllProfs() {
-        return this.skillDao.list();
+        return this.generatorDatabaseDao.list();
     }
     
     public void update() throws Exception {

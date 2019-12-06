@@ -21,7 +21,6 @@ import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.io.FileInputStream;
-import hahmogeneraattori.dao.SettingsDao;
 import hahmogeneraattori.dao.FileSettingsDao;
 import hahmogeneraattori.dao.GeneratorDatabaseDao;
 import hahmogeneraattori.dao.SQLGeneratorDatabaseDao;
@@ -30,8 +29,6 @@ import hahmogeneraattori.domain.Generator;
 import hahmogeneraattori.domain.Proficiency;
 import java.sql.*;
 import javafx.scene.paint.Color;
-import java.util.List;
-//import sun.util.logging.PlatformLogger;
 
 /**
  *
@@ -41,7 +38,7 @@ import java.util.List;
 public class Interface extends Application {
 
     private Settings settings;
-    private GeneratorDatabaseDao skillDao;
+    private GeneratorDatabaseDao generatorDatabaseDao;
     private Generator generator;
     private Scene startScene;
     private Scene settingsScene;
@@ -56,8 +53,8 @@ public class Interface extends Application {
 
         String settingsFile = properties.getProperty("settingsFile");
         FileSettingsDao settingsDao = new FileSettingsDao(settingsFile);
-        this.skillDao = new SQLGeneratorDatabaseDao();
-        this.settings = new Settings(settingsDao, this.skillDao);
+        this.generatorDatabaseDao = new SQLGeneratorDatabaseDao();
+        this.settings = new Settings(settingsDao, this.generatorDatabaseDao);
         this.generator = new Generator(this.settings);
     }
 
@@ -271,42 +268,42 @@ public class Interface extends Application {
         
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb","sa","")) {
             //poistetaan vanhat taulut
-            conn.prepareStatement("DROP TABLE Skill IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE Proficiency IF EXISTS").executeUpdate();
             conn.prepareStatement("DROP TABLE Racial IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE RacialSkill IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE RacialProficiency IF EXISTS").executeUpdate();
             conn.prepareStatement("DROP TABLE Background IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE BackgroundSkill IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE BackgroundProficiency IF EXISTS").executeUpdate();
             conn.prepareStatement("DROP TABLE Class IF EXISTS").executeUpdate();
             conn.prepareStatement("DROP TABLE SubClass IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE ClassSkill IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE ClassProficiency IF EXISTS").executeUpdate();
             conn.prepareStatement("DROP TABLE Feat IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE FeatSkill IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE FeatProficiency IF EXISTS").executeUpdate();
             //luodaan uudet taulut
-            conn.prepareStatement("CREATE TABLE Skill(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
+            conn.prepareStatement("CREATE TABLE Proficiency(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
                     + "type VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
             conn.prepareStatement("CREATE TABLE Racial(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
                     + "PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
-            conn.prepareStatement("CREATE TABLE RacialSkill(racial_id INTEGER, skill_id INTEGER, "
-                    + "FOREIGN KEY (racial_id) REFERENCES Racial(id), FOREIGN KEY (skill_id) "
-                    + "REFERENCES Skill(id));").executeUpdate();
+            conn.prepareStatement("CREATE TABLE RacialProficiency(racial_id INTEGER, prof_id INTEGER, "
+                    + "FOREIGN KEY (racial_id) REFERENCES Racial(id), FOREIGN KEY (prof_id) "
+                    + "REFERENCES Proficiency(id));").executeUpdate();
             conn.prepareStatement("CREATE TABLE Background(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
                     + "PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
-            conn.prepareStatement("CREATE TABLE BackgroundSkill(bg_id INTEGER, skill_id INTEGER, "
-                    + "FOREIGN KEY (bg_id) REFERENCES Background(id), FOREIGN KEY (skill_id) "
-                    + "REFERENCES Skill(id));").executeUpdate();
+            conn.prepareStatement("CREATE TABLE BackgroundProficiency(bg_id INTEGER, prof_id INTEGER, "
+                    + "FOREIGN KEY (bg_id) REFERENCES Background(id), FOREIGN KEY (prof_id) "
+                    + "REFERENCES Proficiency(id));").executeUpdate();
             conn.prepareStatement("CREATE TABLE Class(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
                     + "PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
             conn.prepareStatement("CREATE TABLE SubClass(id INTEGER AUTO_INCREMENT, class_id INTEGER, "
                     + "name VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id), FOREIGN KEY "
                     + "(class_id) REFERENCES Class(id));").executeUpdate();
-            conn.prepareStatement("CREATE TABLE ClassSkill(class_id INTEGER, skill_id INTEGER, "
-                    + "FOREIGN KEY (class_id) REFERENCES Class(id), FOREIGN KEY (skill_id) "
-                    + "REFERENCES Skill(id));").executeUpdate();
+            conn.prepareStatement("CREATE TABLE ClassProficiency(class_id INTEGER, prof_id INTEGER, "
+                    + "FOREIGN KEY (class_id) REFERENCES Class(id), FOREIGN KEY (prof_id) "
+                    + "REFERENCES Proficiency(id));").executeUpdate();
             conn.prepareStatement("CREATE TABLE Feat(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
                     + "stats VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
-            conn.prepareStatement("CREATE TABLE FeatSkill(feat_id INTEGER, skill_id INTEGER, "
-                    + "FOREIGN KEY (feat_id) REFERENCES Feat(id), FOREIGN KEY (skill_id) "
-                    + "REFERENCES Skill(id));").executeUpdate();           
+            conn.prepareStatement("CREATE TABLE FeatProficiency(feat_id INTEGER, prof_id INTEGER, "
+                    + "FOREIGN KEY (feat_id) REFERENCES Feat(id), FOREIGN KEY (prof_id) "
+                    + "REFERENCES Proficiency(id));").executeUpdate();           
         } catch (SQLException ex) {
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -23,7 +23,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
 
         Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb", "sa", "");
 
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Skill");
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Proficiency");
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
@@ -38,8 +38,8 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
         if (!this.profs.contains(prof)) {
             Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb", "sa", "");
 
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Skill (name, type) "
-                    + "VALUES (?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Proficiency "
+                    + "(name, type) VALUES (?, ?)");
             stmt.setString(1, prof.getName());
             stmt.setString(2, prof.getType());
 
