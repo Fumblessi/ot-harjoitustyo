@@ -34,7 +34,6 @@ import javafx.scene.paint.Color;
  *
  * @author sampo
  */
-
 public class Interface extends Application {
 
     private Settings settings;
@@ -88,7 +87,7 @@ public class Interface extends Application {
         TextField statPoolVarAmount = new TextField(initialStatVar);
         Label statPoolError = new Label("");
         statPoolError.setTextFill(Color.RED);
-        statPool.getChildren().addAll(statPoolLabel, statPoolAmount, 
+        statPool.getChildren().addAll(statPoolLabel, statPoolAmount,
                 statPoolVariance, statPoolVarAmount);
 
         HBox statLimits = new HBox();
@@ -102,11 +101,11 @@ public class Interface extends Application {
         statLimitError.setTextFill(Color.RED);
         statLimits.getChildren().addAll(statMinLabel, statMinAmount,
                 statMaxLabel, statMaxAmount);
-        
+
         CheckBox racialBonus = new CheckBox("Lisää rotubonukset");
         racialBonus.setSelected(this.settings.getRacialBonus());
 
-        settingsLayout.getChildren().addAll(settingsButtons, statPool, statPoolError, 
+        settingsLayout.getChildren().addAll(settingsButtons, statPool, statPoolError,
                 statLimits, statLimitError, racialBonus);
 
         HBox buttons = new HBox();
@@ -122,28 +121,51 @@ public class Interface extends Application {
         //asetukset -ikkunaan siirtyminen
 
         back.setOnAction((event) -> {
-            int newStatPool = Integer.parseInt(statPoolAmount.getText());
-            int newStatVar = Integer.parseInt(statPoolVarAmount.getText());
-            int newStatMin = Integer.parseInt(statMinAmount.getText());
-            int newStatMax = Integer.parseInt(statMaxAmount.getText());
-            boolean newRacialBonus = racialBonus.isSelected();
+            statPoolError.setText("");
+            statLimitError.setText("");
             
-            if (newStatPool < 0 || newStatPool > 100) {
-                statPoolError.setText("Valitse arvo väliltä 0-100!");
-            } else if (newStatMin < 0 || newStatMin > newStatMax || 
-                    6 * newStatMin > (newStatPool - newStatVar) || 
-                    6*newStatMax < (newStatPool + newStatVar)) {
-                statLimitError.setText("Mahdottomat rajat!");
+            if (!isInteger(statPoolAmount.getText())
+                    || !isInteger(statPoolVarAmount.getText())
+                    || !isInteger(statMinAmount.getText())
+                    || !isInteger(statMaxAmount.getText())) {
+                if (!isInteger(statPoolAmount.getText())
+                        || !isInteger(statPoolVarAmount.getText())) {
+                    statPoolError.setText("Kirjoita syöte kokonaislukuna!");
+                }
+                if (!isInteger(statMinAmount.getText())
+                        || !isInteger(statMaxAmount.getText())) {
+                    statLimitError.setText("Kirjoita syötä kokonaislukuna!");
+                }
             } else {
-                this.settings.setStatPool(newStatPool);
-                this.settings.setStatVar(newStatVar);
-                this.settings.setStatMin(newStatMin);
-                this.settings.setStatMax(newStatMax);
-                this.settings.setRacialBonus(newRacialBonus);
-                this.generator.getNewSettings(this.settings);
-                statPoolError.setText("");
-                statLimitError.setText("");
-                window.setScene(this.startScene);
+                int newStatPool = Integer.parseInt(statPoolAmount.getText());
+                int newStatVar = Integer.parseInt(statPoolVarAmount.getText());
+                int newStatMin = Integer.parseInt(statMinAmount.getText());
+                int newStatMax = Integer.parseInt(statMaxAmount.getText());
+                boolean newRacialBonus = racialBonus.isSelected();
+
+                if (newStatPool < 0 || newStatPool > 100 || newStatMin < 0
+                        || newStatMin > newStatMax || 6 * newStatMin
+                        > (newStatPool - newStatVar) || 6 * newStatMax
+                        < (newStatPool + newStatVar)) {
+                    if (newStatPool < 0 || newStatPool > 100) {
+                        statPoolError.setText("Valitse arvo väliltä 0-100!");
+                    }
+                    if (newStatMin < 0 || newStatMax < 0) {
+                        statLimitError.setText("Valitse epänegatiiviset arvot!");
+                    } else if (newStatMin > newStatMax
+                            || 6 * newStatMin > (newStatPool - newStatVar)
+                            || 6 * newStatMax < (newStatPool + newStatVar)) {
+                        statLimitError.setText("Mahdottomat rajat!");
+                    }
+                } else {
+                    this.settings.setStatPool(newStatPool);
+                    this.settings.setStatVar(newStatVar);
+                    this.settings.setStatMin(newStatMin);
+                    this.settings.setStatMax(newStatMax);
+                    this.settings.setRacialBonus(newRacialBonus);
+                    this.generator.getNewSettings(this.settings);
+                    window.setScene(this.startScene);
+                }
             }
         });
         //asetukset-ikkunasta paluu
@@ -155,33 +177,33 @@ public class Interface extends Application {
             statMaxAmount.setText("18");
             racialBonus.setSelected(true);
         });
-        
+
         VBox addingLayout = new VBox();
         addingLayout.setPrefSize(170, 170);
-        
+
         Button addProf = new Button("Proficiency");
         Button addRacial = new Button("Racial");
         Button addClass = new Button("Class");
         Button addBg = new Button("Background");
         Button addFeat = new Button("Feat");
         addingLayout.getChildren().addAll(addProf, addRacial, addClass, addBg, addFeat);
-        
+
         Stage addingWindow = new Stage();
         this.addingScene = new Scene(addingLayout);
         addingWindow.setTitle("Lisää...");
-        addingWindow.setScene(this.addingScene);      
-        
+        addingWindow.setScene(this.addingScene);
+
         add.setOnAction((event) -> {
-            addingWindow.show();    
+            addingWindow.show();
         });
-        
+
         VBox profAddLayout = new VBox();
-        
+
         HBox profNameLayout = new HBox();
         Label profNameLabel = new Label("Nimi: ");
         TextField profNameText = new TextField();
         profNameLayout.getChildren().addAll(profNameLabel, profNameText);
-        
+
         HBox profTypeLayout = new HBox();
         ToggleGroup profGroup = new ToggleGroup();
         RadioButton typeSkill = new RadioButton("Skill");
@@ -197,21 +219,21 @@ public class Interface extends Application {
         typeLanguage.setToggleGroup(profGroup);
         profTypeLayout.getChildren().addAll(typeSkill, typeArmor, typeWeapon,
                 typeTool, typeLanguage);
-        
+
         Button addNewProf = new Button("Lisää");
-        
+
         profAddLayout.getChildren().addAll(profNameLayout, profTypeLayout, addNewProf);
-        
+
         Stage profAddWindow = new Stage();
         this.profAddScene = new Scene(profAddLayout);
         profAddWindow.setTitle("Lisää Proficiency");
         profAddWindow.setScene(this.profAddScene);
-        
+
         addProf.setOnAction((event) -> {
             profAddWindow.show();
             addingWindow.close();
         });
-        
+
         addNewProf.setOnAction((event) -> {
             profAddWindow.close();
             String profName = profNameText.getText();
@@ -234,13 +256,13 @@ public class Interface extends Application {
                 ex.printStackTrace();
             }
         });
-        
+
         Label stats = new Label("");
         Label proficiencies = new Label("");
         HBox characterAttributes = new HBox();
         characterAttributes.getChildren().addAll(stats, proficiencies);
         layout.setCenter(characterAttributes);
-        
+
         generate.setOnAction((event) -> {
             this.generator.generate();
             stats.setText(this.generator.generateStatList());
@@ -260,13 +282,22 @@ public class Interface extends Application {
     public void stop() throws Exception {
         this.settings.update();
     }
-    
+
+    public boolean isInteger(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     private static void initializeDatabase() {
         //mikäli tietokanta on poistettu tai se halutaan alustaa
         //kokonaan uudestaan, voi ajaa tämän metodin, jolla
         //tietokanta luodaan uudestaan
-        
-        try (Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb","sa","")) {
+
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb", "sa", "")) {
             //poistetaan vanhat taulut
             conn.prepareStatement("DROP TABLE Proficiency IF EXISTS").executeUpdate();
             conn.prepareStatement("DROP TABLE Racial IF EXISTS").executeUpdate();
@@ -303,7 +334,7 @@ public class Interface extends Application {
                     + "stats VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
             conn.prepareStatement("CREATE TABLE FeatProficiency(feat_id INTEGER, prof_id INTEGER, "
                     + "FOREIGN KEY (feat_id) REFERENCES Feat(id), FOREIGN KEY (prof_id) "
-                    + "REFERENCES Proficiency(id));").executeUpdate();           
+                    + "REFERENCES Proficiency(id));").executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
