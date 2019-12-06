@@ -8,4 +8,5 @@ Päivä | Aika | Mitä tein
 3.12  | 6    | Tietokannan alustaminen ja ensimmäisen tietokantatoiminnallisuuden luominen (erääseen tietokantatauluun voi lisätä tietoa)
 3.12  | 1,5  | Uuden pakkauskaavion suunnittelu
 6.12  | 3    | Ohjelman refaktorointia, varmistuksen luonti, että Asetukset-näkymässä piirre-rajoihin voi syöttää vain kokonaislukuja
+6.12  | 1    | Tietokannan rakentamista
 Yht.  | 31   |  tuntia
