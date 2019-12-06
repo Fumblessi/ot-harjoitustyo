@@ -24,6 +24,8 @@ Hahmogeneraattorin tarkoitus on arpoa satunnainen roolipelihahmo, sekä sille pi
 * Tietokantatoiminnallisuuden ja -kyselyiden edelleen kirjoittaminen
 * Alustava pohja tietokanta olisi hyvä luoda, niin käyttäjä voi halutessaan palata jonkinlaiseen "default"-tilaan, mikäli on tietokannan sisältöön koskenut
 * Korjaa käyttöliittymän SQLExceptionin käsittely
+* Käyttöliittymän ulkoasu kivemmaksi
+* Projektin refaktorointi
 
 # Komentorivi
 
