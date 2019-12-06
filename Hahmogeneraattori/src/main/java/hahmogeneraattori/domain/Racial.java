@@ -13,5 +13,12 @@ package hahmogeneraattori.domain;
 public class Racial {
     
     private String name;
-                  
+    
+    public Racial(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
 }

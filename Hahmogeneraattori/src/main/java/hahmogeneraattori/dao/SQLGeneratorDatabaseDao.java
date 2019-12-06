@@ -27,13 +27,49 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
 
         Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb", "sa", "");
 
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Proficiency");
-        ResultSet rs = stmt.executeQuery();
+        PreparedStatement stmtProf = conn.prepareStatement("SELECT * FROM Proficiency");
+        PreparedStatement stmtRacial = conn.prepareStatement("SELECT * FROM Racial");
+        PreparedStatement stmtClass = conn.prepareStatement("SELECT * FROM Class");
+        PreparedStatement stmtBg = conn.prepareStatement("SELECT * FROM Background");
+        PreparedStatement stmtFeat = conn.prepareStatement("SELECT * FROM Feat");
+        ResultSet rsProf = stmtProf.executeQuery();
+        ResultSet rsRacial = stmtRacial.executeQuery();
+        ResultSet rsClass = stmtClass.executeQuery();
+        ResultSet rsBg = stmtBg.executeQuery();
+        ResultSet rsFeat = stmtFeat.executeQuery();
 
-        while (rs.next()) {
-            this.profs.add(new Proficiency(rs.getString(2), rs.getString(3)));
+        while (rsProf.next()) {
+            this.profs.add(new Proficiency(rsProf.getString(2), rsProf.getString(3)));
         }
-        stmt.close();
+        while (rsRacial.next()) {
+            this.racials.add(new Racial(rsRacial.getString(2)));
+        }
+        while (rsClass.next()) {
+            PreparedStatement stmtSubclass = conn.prepareStatement("SELECT * FROM"
+                    + " SubClass WHERE class_id = ?");
+            stmtSubclass.setInt(1, rsClass.getInt(1));
+            ResultSet rsSubclass = stmtSubclass.executeQuery();
+            RpgClass rpgClass = new RpgClass(rsClass.getString(2));
+            ArrayList<String> subclasses = new ArrayList<>();
+            while (rsSubclass.next()) {
+                subclasses.add(rsSubclass.getString(3));
+            }
+            rpgClass.setSubclasses(subclasses);
+            this.classes.add(rpgClass);
+        }
+        while (rsBg.next()) {
+            this.backgrounds.add(new Background(rsBg.getString(2)));
+        }
+        while (rsFeat.next()) {
+            Feat feat = new Feat(rsFeat.getString(2));
+            feat.setStatsFromString(rsFeat.getString(3));
+            this.feats.add(feat);
+        }
+        stmtProf.close();
+        stmtRacial.close();
+        stmtClass.close();
+        stmtBg.close();
+        stmtFeat.close();
         conn.close();
     }
 

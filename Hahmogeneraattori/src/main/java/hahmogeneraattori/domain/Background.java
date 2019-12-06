@@ -14,17 +14,12 @@ import java.util.ArrayList;
 public class Background {
     
     private String name;
-    private String feature;
-    private ArrayList<String> skills;
-    private ArrayList<String> tools;
-    private ArrayList<String> languages;
     
-    public Background() {
-        this.name = "";
-        this.feature= "";
-        this.skills = new ArrayList<>();
-        this.tools = new ArrayList<>();
-        this.languages = new ArrayList<>();
+    public Background(String name) {
+        this.name = name;
     }
     
+    public String getName() {
+        return this.name;
+    }
 }
