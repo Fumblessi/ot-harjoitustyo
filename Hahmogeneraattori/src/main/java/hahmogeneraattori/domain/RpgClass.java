@@ -9,6 +9,6 @@ package hahmogeneraattori.domain;
  *
  * @author sampo
  */
-public class Class {
+public class RpgClass {
     
 }

@@ -5,7 +5,7 @@
  */
 package hahmogeneraattori.dao;
 
-import hahmogeneraattori.domain.Proficiency;
+import hahmogeneraattori.domain.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.sql.*;
@@ -17,6 +17,10 @@ import java.sql.*;
 public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
 
     private List<Proficiency> profs;
+    private List<Racial> racials;
+    private List<RpgClass> classes;
+    private List<Background> backgrounds;
+    private List<Feat> feats;
 
     public SQLGeneratorDatabaseDao() throws SQLException {
         this.profs = new ArrayList<>();

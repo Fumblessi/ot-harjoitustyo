@@ -168,7 +168,7 @@ public class Interface extends Application {
                 }
             }
         });
-        //asetukset-ikkunasta paluu
+        //asetukset-ikkunasta paluu, uusien asetusten tarkistaminen ja tallennus
 
         setDefault.setOnAction((event) -> {
             statPoolAmount.setText("70");
