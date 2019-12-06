@@ -19,6 +19,8 @@ Käyttöliittymästä ei ole hahmoteltua luonnosta, mutta käyttöliittymä tule
 on painikkeet "Generoi" sekä "Asetukset", joista ensimmäinen arpoo näkymään generoidun hahmon tiedot, ja joista toinen vie Asetukset-
 näkymään, josta generoinnin parametreja voi muokata.
 
+Tämän lisäksi Asetukset -näkymästä voidaan avata kolmas näkymä, josta voi muokata tietokannan sisältöä.
+
 ### Toiminnallisuus
 * Sovellus arpoo hahmoluokan, rodun ja taustan vastaavista tietokantatauluista, joihin eri vaihtoehdot on listattu
 * Edelleen näiden pohjalta sovellus arpoo hahmolle piirteet (Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma) **TEHTY** sekä sen omaamat taidot
