@@ -79,8 +79,12 @@ public class Generator {
         return this.stats.toString();
     }
     
-    public void addNewProfToDB(String profName, String profType) throws SQLException {
-        this.generatorDatabaseDao.create(new Proficiency(profName, profType));
+    public void addNewProfToDb(Proficiency prof) throws SQLException {
+        this.generatorDatabaseDao.create(prof);
+    }
+    
+    public void deleteProfFromDb(Proficiency prof) throws SQLException {
+        this.generatorDatabaseDao.deleteProf(prof);
     }
     
     public List<Proficiency> listAllProfs() {

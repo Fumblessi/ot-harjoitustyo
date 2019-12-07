@@ -86,9 +86,9 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
             stmt.executeUpdate();
             stmt.close();
             conn.close();
-            
+
             this.profs.add(prof);
-        } 
+        }
     }
 
     @Override
@@ -102,8 +102,19 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     }
 
     @Override
-    public void delete(Integer key) throws SQLException {
+    public void deleteProf(Proficiency prof) throws SQLException {
+        Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb", "sa", "");
 
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Proficiency "
+                + "WHERE name = ? AND type = ?");
+        stmt.setString(1, prof.getName());
+        stmt.setString(2, prof.getType());
+
+        stmt.executeUpdate();
+        stmt.close();
+        conn.close();
+
+        this.profs.remove(prof);
     }
 
     @Override
