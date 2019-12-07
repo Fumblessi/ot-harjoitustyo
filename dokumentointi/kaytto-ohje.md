@@ -13,10 +13,9 @@ Halutessaan voi valita, että arvotaan samantien myös rodun pohjalta tulevat li
 Asetukset tallentuvat käyttökertojen välillä, mutta Asetukset-välilehdeltä voi palauttaa myös oletusasetukset (kokonaissumma on 70,
 minimiarvo 8, maksimiarvo 18 ja rodun pohjalta tulevat piirrebonukset päällä).
 
-### Uuden taidon lisääminen tietokantaan
+### Proficiency-tietokantataulun muokkaus
 
-Asetuksissa on nyt painike "Lisää tietokantaan", josta painamalla käyttäjä pääsee ikkunaan, jossa voi valita, mitä haluaa lisätä tietokantaan.
-Tällä hetkellä ainoastaan painike "Proficiency" (taito) toimii, jota painamalla pääsee edelleen ikkunaan, jossa ohjelma pyytää kyseisen uuden taidon nimeä sekä tyyppiä (tyyppi on valittavissa muutamasta vaihtoehdosta). Painamalla tietojen täyttämisen jälkeen painiketta "Lisää", lisätään kyseinen uusi taito tietokantatauluun "Proficiency" (josta myöhemmin generaattori tuli arpomaan hahmolle taitoja).
+Asetuksissa on nyt yläpalkissa menu "Tietokanta", josta painamalla näkee vaihtoehtoiset eri tietokantataulut. Tällä hetkellä ainoastaan Proficiency on painettavissa, josta aukeaa tietokannan sisältö uuteen ikkunaan, mistä voi lisätä/muokata/poistaa tietokannan sisältöä.
 
 ## Generointi
 
