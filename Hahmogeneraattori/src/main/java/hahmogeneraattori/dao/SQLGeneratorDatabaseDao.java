@@ -79,7 +79,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
             Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb", "sa", "");
 
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Proficiency "
-                    + "(name, type) VALUES (?, ?)");
+                    + "(name, type) VALUES (?, ?);");
             stmt.setString(1, prof.getName());
             stmt.setString(2, prof.getType());
 
@@ -92,13 +92,28 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     }
 
     @Override
-    public Proficiency read(Integer key) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public Proficiency update(Proficiency prof) throws SQLException {
-        return null;
+    public void updateProf(Proficiency oldProf, Proficiency newProf) throws SQLException {
+        if (this.profs.contains(oldProf)) {
+            this.profs.remove(oldProf);
+        }
+        Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb", "sa", "");
+        
+        if (!this.profs.contains(newProf)) {
+            PreparedStatement stmt = conn.prepareStatement("UPDATE Proficiency "
+                    + "SET name = ?, type = ? WHERE name = ? AND type = ?;");
+            stmt.setString(1, newProf.getName());
+            stmt.setString(2, newProf.getType());
+            stmt.setString(3, oldProf.getName());
+            stmt.setString(4, oldProf.getType());
+            
+            stmt.executeUpdate();
+            stmt.close();
+            conn.close();
+            
+            this.profs.add(newProf);
+        } else {
+            deleteProf(oldProf);
+        }
     }
 
     @Override
@@ -106,7 +121,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
         Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb", "sa", "");
 
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Proficiency "
-                + "WHERE name = ? AND type = ?");
+                + "WHERE name = ? AND type = ?;");
         stmt.setString(1, prof.getName());
         stmt.setString(2, prof.getType());
 

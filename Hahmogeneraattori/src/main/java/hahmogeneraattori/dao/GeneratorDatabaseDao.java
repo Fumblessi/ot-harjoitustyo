@@ -15,8 +15,7 @@ import java.util.List;
  */
 public interface GeneratorDatabaseDao {
     void create(Proficiency prof) throws SQLException;
-    Proficiency read(Integer key) throws SQLException;
-    Proficiency update(Proficiency prof) throws SQLException;
+    void updateProf(Proficiency oldProf, Proficiency newProf) throws SQLException;
     void deleteProf(Proficiency prof) throws SQLException;
     List<Proficiency> listProfs();    
 }

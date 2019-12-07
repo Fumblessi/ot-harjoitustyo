@@ -83,6 +83,10 @@ public class Generator {
         this.generatorDatabaseDao.create(prof);
     }
     
+    public void updateProfToDb(Proficiency oldProf, Proficiency newProf) throws SQLException {
+        this.generatorDatabaseDao.updateProf(oldProf, newProf);
+    }
+    
     public void deleteProfFromDb(Proficiency prof) throws SQLException {
         this.generatorDatabaseDao.deleteProf(prof);
     }
