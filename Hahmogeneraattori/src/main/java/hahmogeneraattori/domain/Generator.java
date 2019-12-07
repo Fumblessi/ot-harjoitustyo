@@ -5,12 +5,10 @@
  */
 package hahmogeneraattori.domain;
 
-//import hahmogeneraattori.dao.SQLRaceDao;
-//import hahmogeneraattori.dao.SQLClassDao;
-//import hahmogeneraattori.dao.SQLBgDao;
-//import hahmogeneraattori.dao.SQLSkillDao;
+import hahmogeneraattori.dao.GeneratorDatabaseDao;
 import java.util.Random;
 import java.lang.*;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -21,9 +19,11 @@ public class Generator {
 
     private Settings settings;
     private Stats stats;
+    private GeneratorDatabaseDao generatorDatabaseDao;
 
-    public Generator(Settings settings) {
+    public Generator(Settings settings, GeneratorDatabaseDao gbDao) {
         this.settings = settings;
+        this.generatorDatabaseDao = gbDao;
         this.stats = new Stats();
     }
 
@@ -77,6 +77,14 @@ public class Generator {
 
     public String generateStatList() {
         return this.stats.toString();
+    }
+    
+    public void addNewProfToDB(String profName, String profType) throws SQLException {
+        this.generatorDatabaseDao.create(new Proficiency(profName, profType));
+    }
+    
+    public List<Proficiency> listAllProfs() {
+        return this.generatorDatabaseDao.listProfs();
     }
 
     public static void shuffle(int[] array) {

@@ -18,5 +18,5 @@ public interface GeneratorDatabaseDao {
     Proficiency read(Integer key) throws SQLException;
     Proficiency update(Proficiency prof) throws SQLException;
     void delete(Integer key) throws SQLException;
-    List<Proficiency> list();    
+    List<Proficiency> listProfs();    
 }

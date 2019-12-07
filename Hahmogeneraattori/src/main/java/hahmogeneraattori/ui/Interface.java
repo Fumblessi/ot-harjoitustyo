@@ -16,8 +16,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.Scene;
 import java.util.Properties;
+import java.util.List;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.io.FileInputStream;
@@ -41,7 +45,8 @@ public class Interface extends Application {
     private Generator generator;
     private Scene startScene;
     private Scene settingsScene;
-    private Scene addingScene;
+    private Scene databaseScene;
+    private Scene profDatabaseScene;
     private Scene profAddScene;
 
     @Override
@@ -53,8 +58,8 @@ public class Interface extends Application {
         String settingsFile = properties.getProperty("settingsFile");
         FileSettingsDao settingsDao = new FileSettingsDao(settingsFile);
         this.generatorDatabaseDao = new SQLGeneratorDatabaseDao();
-        this.settings = new Settings(settingsDao, this.generatorDatabaseDao);
-        this.generator = new Generator(this.settings);
+        this.settings = new Settings(settingsDao);
+        this.generator = new Generator(this.settings, this.generatorDatabaseDao);
     }
 
     @Override
@@ -73,9 +78,9 @@ public class Interface extends Application {
 
         Button back = new Button("Tallenna ja palaa");
         Button setDefault = new Button("Palauta alkuperäiset");
-        Button add = new Button("Lisää tietokantaan");
+        Button database = new Button("Tietokanta");
         HBox settingsButtons = new HBox();
-        settingsButtons.getChildren().addAll(back, setDefault, add);
+        settingsButtons.getChildren().addAll(back, setDefault, database);
         //luodaan asetusnäkymästä paluupainike
 
         HBox statPool = new HBox();
@@ -123,7 +128,7 @@ public class Interface extends Application {
         back.setOnAction((event) -> {
             statPoolError.setText("");
             statLimitError.setText("");
-            
+
             if (!isInteger(statPoolAmount.getText())
                     || !isInteger(statPoolVarAmount.getText())
                     || !isInteger(statMinAmount.getText())
@@ -178,23 +183,46 @@ public class Interface extends Application {
             racialBonus.setSelected(true);
         });
 
-        VBox addingLayout = new VBox();
-        addingLayout.setPrefSize(170, 170);
+        VBox databaseLayout = new VBox();
+        HBox databaseCenterLayout = new HBox();
+        databaseCenterLayout.setSpacing(10);
+        databaseCenterLayout.setPrefSize(170, 180);
+        
+        Label prof = new Label("Proficiency");
+        Label racial = new Label("Racial");
+        Label rpgClass = new Label("Class");
+        Label bg = new Label("Background");
+        Label feat = new Label("Feat");
+        
+        VBox dbLabels = new VBox();
+        dbLabels.setSpacing(11.3);
+        dbLabels.getChildren().addAll(prof, racial, rpgClass, bg, feat);
+        
+        Button modifyProf = new Button("Muokkaa");
+        Button modifyRacial = new Button("Muokkaa");
+        Button modifyClass = new Button("Muokkaa");
+        Button modifyBg = new Button("Muokkaa");
+        Button modifyFeat = new Button("Muokkaa");
+        Button backFromDb = new Button ("Takaisin");
+        
+        VBox dbButtons = new VBox();
+        dbButtons.getChildren().addAll(modifyProf, modifyRacial, modifyClass,
+                modifyBg, modifyFeat);
+        
+        databaseCenterLayout.getChildren().addAll(dbLabels, dbButtons);
+        databaseLayout.getChildren().addAll(databaseCenterLayout, backFromDb);
 
-        Button addProf = new Button("Proficiency");
-        Button addRacial = new Button("Racial");
-        Button addClass = new Button("Class");
-        Button addBg = new Button("Background");
-        Button addFeat = new Button("Feat");
-        addingLayout.getChildren().addAll(addProf, addRacial, addClass, addBg, addFeat);
+        Stage databaseWindow = new Stage();
+        this.databaseScene = new Scene(databaseLayout);
+        databaseWindow.setTitle("Tietokanta");
+        databaseWindow.setScene(this.databaseScene);
 
-        Stage addingWindow = new Stage();
-        this.addingScene = new Scene(addingLayout);
-        addingWindow.setTitle("Lisää...");
-        addingWindow.setScene(this.addingScene);
-
-        add.setOnAction((event) -> {
-            addingWindow.show();
+        database.setOnAction((event) -> {
+            databaseWindow.show();
+        });
+        
+        backFromDb.setOnAction((event) -> {
+            databaseWindow.close();
         });
 
         VBox profAddLayout = new VBox();
@@ -202,6 +230,8 @@ public class Interface extends Application {
         HBox profNameLayout = new HBox();
         Label profNameLabel = new Label("Nimi: ");
         TextField profNameText = new TextField();
+        Label profNameError = new Label("");
+        profNameError.setTextFill(Color.RED);
         profNameLayout.getChildren().addAll(profNameLabel, profNameText);
 
         HBox profTypeLayout = new HBox();
@@ -219,10 +249,44 @@ public class Interface extends Application {
         typeLanguage.setToggleGroup(profGroup);
         profTypeLayout.getChildren().addAll(typeSkill, typeArmor, typeWeapon,
                 typeTool, typeLanguage);
-
+        
+        VBox profDatabaseLayout = new VBox();       
+        TableView profs = new TableView();
+        
+        TableColumn<String, Proficiency> profNameColumn = new TableColumn<>("Nimi");
+        profNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        
+        TableColumn<String, Proficiency> profTypeColumn = new TableColumn<>("Tyyppi");
+        profTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        
+        profs.getColumns().add(profNameColumn);
+        profs.getColumns().add(profTypeColumn);
+        
+        Button addProf = new Button("Lisää uusi");
+        Button modifyExistingProf = new Button ("Muokkaa");
+        Button deleteProf = new Button("Poista");
+        Button backFromProf = new Button("Takaisin");
+        HBox profDbButtons = new HBox();
+        profDbButtons.getChildren().addAll(addProf, modifyExistingProf, deleteProf,
+                backFromProf);
+        
+        profDatabaseLayout.getChildren().addAll(profs, profDbButtons);
+        this.profDatabaseScene = new Scene(profDatabaseLayout);
+        
         Button addNewProf = new Button("Lisää");
 
-        profAddLayout.getChildren().addAll(profNameLayout, profTypeLayout, addNewProf);
+        profAddLayout.getChildren().addAll(profNameLayout, profNameError, 
+                profTypeLayout, addNewProf);
+        
+        modifyProf.setOnAction((event) -> {
+            profs.getItems().clear();
+            profs.getItems().addAll(this.generator.listAllProfs());
+            databaseWindow.setScene(this.profDatabaseScene);
+        });
+        
+        backFromProf.setOnAction((event) -> {
+            databaseWindow.setScene(this.databaseScene);
+        });
 
         Stage profAddWindow = new Stage();
         this.profAddScene = new Scene(profAddLayout);
@@ -231,11 +295,10 @@ public class Interface extends Application {
 
         addProf.setOnAction((event) -> {
             profAddWindow.show();
-            addingWindow.close();
+            databaseWindow.close();
         });
 
         addNewProf.setOnAction((event) -> {
-            profAddWindow.close();
             String profName = profNameText.getText();
             profNameText.setText("");
             String profType = "";
@@ -250,10 +313,20 @@ public class Interface extends Application {
             } else {
                 profType = "Skill";
             }
-            try {
-                this.settings.addNewProfToDB(new Proficiency(profName, profType));
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+            if (!profName.isEmpty()) {
+                try {
+                    this.generator.addNewProfToDB(profName, profType);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                profNameError.setText("");
+                typeSkill.setSelected(true);
+                profAddWindow.close();
+                profs.getItems().clear();
+                profs.getItems().addAll(this.generator.listAllProfs());
+                databaseWindow.show();
+            } else {
+                profNameError.setText("Syöte ei voi olla tyhjä!");
             }
         });
 

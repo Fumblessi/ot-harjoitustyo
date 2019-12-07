@@ -107,7 +107,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     }
 
     @Override
-    public List<Proficiency> list() {
+    public List<Proficiency> listProfs() {
         return this.profs;
     }
 }

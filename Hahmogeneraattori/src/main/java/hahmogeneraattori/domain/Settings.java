@@ -6,8 +6,6 @@
 package hahmogeneraattori.domain;
 
 import hahmogeneraattori.dao.SettingsDao;
-import hahmogeneraattori.dao.GeneratorDatabaseDao;
-import java.sql.SQLException;
 import java.util.List;
 /**
  *
@@ -16,11 +14,9 @@ import java.util.List;
 public class Settings {
     
     private SettingsDao settingsDao;
-    private GeneratorDatabaseDao generatorDatabaseDao;
     
-    public Settings(SettingsDao settingsDao, GeneratorDatabaseDao gdbDao) {
+    public Settings(SettingsDao settingsDao) {
         this.settingsDao = settingsDao;
-        this.generatorDatabaseDao = gdbDao;
     }
     
     public void setStatPool(int pool) {
@@ -70,14 +66,6 @@ public class Settings {
             return true;
         }
         return false;
-    }
-    
-    public void addNewProfToDB(Proficiency prof) throws SQLException {
-        this.generatorDatabaseDao.create(prof);
-    }
-    
-    public List<Proficiency> listAllProfs() {
-        return this.generatorDatabaseDao.list();
     }
     
     public void update() throws Exception {

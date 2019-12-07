@@ -30,7 +30,7 @@ public class SettingsTest {
     @Before
     public void setUp() throws Exception {
         this.settingsDao = new FileSettingsDao("testSettings.txt");
-        this.settings = new Settings(this.settingsDao, null);
+        this.settings = new Settings(this.settingsDao);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class SettingsTest {
         this.settings.setStatPool(62);
         this.settings.update();
         FileSettingsDao newSettingsDao = new FileSettingsDao("testSettings.txt");
-        Settings newSettings = new Settings(newSettingsDao, null);
+        Settings newSettings = new Settings(newSettingsDao);
         assertEquals(62, newSettings.getStatPool());
         this.settings.setStatPool(75);
         this.settings.update();
