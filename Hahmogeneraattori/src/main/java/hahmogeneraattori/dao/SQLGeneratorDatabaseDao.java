@@ -27,7 +27,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
      * luokan sisältämiin listoihin
      * 
      * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#openConnection()
-     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#initializeLists();
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#initializeLists(Connection)
      * 
      * @throws SQLException 
      */
@@ -458,7 +458,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
      * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#listBackgrounds()
      * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#listFeats()
      * 
-     * @return 
+     * @return lista tietyn tietokantataulun sisällöstä
      */
     @Override
     public List list(Class c) {
