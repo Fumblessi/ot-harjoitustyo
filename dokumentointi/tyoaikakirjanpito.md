@@ -9,4 +9,4 @@ Päivä | Aika | Mitä tein
 6.12  | 4    | Ohjelman refaktorointia, varmistuksen luonti, että Asetukset-näkymässä piirre-rajoihin voi syöttää vain kokonaislukuja, tietokannan rakentamista
 7.12  | 7    | Refaktorointia, käyttöliittymän ulkoasun rakentamista, tietokantatoiminnallisuuden rakentamista (Proficiency-taulu tällä hetkellä kaikilta osin toimii, niin sovelluslogiikan kuin käyttöliittymänkin puolesta
 8.12  | 3    | Tietokantatoiminnallisuuden refaktorointia, luokat muistamaan oma tietokanta-id:nsä
-Yht.  | 39   |  tuntia
+Yht.  | 42   |  tuntia
