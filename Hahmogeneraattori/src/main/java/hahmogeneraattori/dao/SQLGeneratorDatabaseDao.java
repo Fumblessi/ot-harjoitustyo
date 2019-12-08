@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.sql.*;
 
 /**
- *
+ * Luokkaan sisältyy kaikki generaattorin käyttämä tietokantatoiminnallisuus
  * @author sampo
  */
 public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
@@ -22,20 +22,44 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     private List<Background> backgrounds;
     private List<Feat> feats;
 
+    /**
+     * Luokan konstruktorissa tuodaan tietokannan sisältö
+     * luokan sisältämiin listoihin
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#openConnection()
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#initializeLists();
+     * 
+     * @throws SQLException 
+     */
     public SQLGeneratorDatabaseDao() throws SQLException {
         this.profs = new ArrayList<>();
+        this.racials = new ArrayList<>();
+        this.classes = new ArrayList<>();
+        this.backgrounds = new ArrayList<>();
+        this.feats = new ArrayList<>();
 
         Connection conn = openConnection();
 
-        initializeProfs(conn);
-        initializeRacials(conn);
-        initializeClasses(conn);
-        initializeBackgrounds(conn);
-        initializeFeats(conn);
+        initializeLists(conn);
 
         conn.close();
     }
 
+    /**
+     * Metodi lisää tietokantaan halutun objektin, jos se on
+     * tietokantataulujen sisältämien tietojen muotoinen
+     * 
+     * @param obj käyttäjän syöttämä tietokantaan lisättävä objekti
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#openConnection()
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createProf(Proficiency, Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createRacial(Racial, Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createClass(RpgClass, Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createBackground(Background, Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createFeat(Feat, Connection)
+     * 
+     * @throws SQLException 
+     */
     @Override
     public void create(Object obj) throws SQLException {
         Connection conn = openConnection();
@@ -45,20 +69,31 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
             createProf(prof, conn);
         } else if (obj.getClass() == Racial.class) {
             Racial racial = (Racial) obj;
-            //createRacial(racial, conn);
+            createRacial(racial, conn);
         } else if (obj.getClass() == RpgClass.class) {
             RpgClass rpgclass = (RpgClass) obj;
-            //createClass(rpgclass, conn);
+            createClass(rpgclass, conn);
         } else if (obj.getClass() == Background.class) {
             Background bg = (Background) obj;
-            //createBackground(bg, conn);
+            createBackground(bg, conn);
         } else if (obj.getClass() == Feat.class) {
             Feat feat = (Feat) obj;
-            //createFeat(feat, conn);
+            createFeat(feat, conn);
         }
         conn.close();
     }
 
+    /**
+     * Metodi lisää tietokantatauluun 'Proficiency' uuden
+     * proficiencyn (taidon, joka generoidulla hahmolla voi olla).
+     * Jos tietokanta jo sisältää kyseisen proficiencyn, ei kuitenkaan luoda
+     * uutta.
+     * 
+     * @param prof käyttäjän tietokantatauluun lisäämä Proficiency-olio
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public void createProf(Proficiency prof, Connection conn) throws SQLException {
         if (!this.profs.contains(prof)) {
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Proficiency "
@@ -81,7 +116,82 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
             this.profs.add(prof);
         }
     }
+    
+    /**
+     * Metodi lisää tietokantatauluun 'Racial' uuden
+     * racialin (ominaisuuden, joka generoidulla hahmolla voi olla).
+     * Jos tietokanta jo sisältää kyseisen racialin, ei kuitenkaan luoda
+     * uutta.
+     * 
+     * @param racial käyttäjän tietokantatauluun lisäämä Racial-olio
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void createRacial(Racial racial, Connection conn) throws SQLException {
+        
+    }
+    
+    /**
+     * Metodi lisää tietokantatauluun 'Class' uuden
+     * classin (hahmoluokan, joka generoidulla hahmolla voi olla).
+     * Jos tietokanta jo sisältää kyseisen classin, ei kuitenkaan luoda
+     * uutta.
+     * 
+     * @param rpgclass käyttäjän tietokantatauluun lisäämä Class-olio 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void createClass(RpgClass rpgclass, Connection conn) throws SQLException {
+        
+    }
+    
+    /**
+     * Metodi lisää tietokantatauluun 'Background' uuden
+     * backgroundin (taustan, joka generoidulla hahmolla voi olla).
+     * Jos tietokanta jo sisältää kyseisen backgroundin, ei kuitenkaan luoda
+     * uutta.
+     * 
+     * @param bg käyttäjän tietokantatauluun lisäämä Background-olio
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void createBackground(Background bg, Connection conn) throws SQLException {
+        
+    }
+    
+    /**
+     * Metodi lisää tietokantatauluun 'Feat' uuden
+     * featin (erikoistaito, joka generoidulla hahmolla voi olla).
+     * Jos tietokanta jo sisältää kyseisen featin, ei kuitenkaan luoda
+     * uutta.
+     * 
+     * @param feat käyttäjän tietokantatauluun lisäämä Feat-olio
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void createFeat(Feat feat, Connection conn) throws SQLException {
+        
+    }
 
+    /**
+     * Metodi päivittää tietokannassa olevan instanssin käyttäjän
+     * muokkaamasta objektista
+     * 
+     * @param obj käyttäjän syöttämä päivitetty objekti
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#openConnection()
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#updateProf(Proficiency, Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#updateRacial(Racial, Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#updateClass(RpgClass, Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#updateBackground(Background, Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#updateFeat(Feat, Connection)
+     * 
+     * @throws SQLException 
+     */
     @Override
     public void update(Object obj) throws SQLException {
         Connection conn = openConnection();
@@ -91,45 +201,130 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
             updateProf(prof, conn);
         } else if (obj.getClass() == Racial.class) {
             Racial racial = (Racial) obj;
-            //createRacial(racial, conn);
+            updateRacial(racial, conn);
         } else if (obj.getClass() == RpgClass.class) {
             RpgClass rpgclass = (RpgClass) obj;
-            //createClass(rpgclass, conn);
+            updateClass(rpgclass, conn);
         } else if (obj.getClass() == Background.class) {
             Background bg = (Background) obj;
-            //createBackground(bg, conn);
+            updateBackground(bg, conn);
         } else if (obj.getClass() == Feat.class) {
             Feat feat = (Feat) obj;
-            //createFeat(feat, conn);
+            updateFeat(feat, conn);
         }
         conn.close();
     }
 
-    public void updateProf(Proficiency newProf, Connection conn) throws SQLException {
-        if (!this.profs.contains(newProf)) {
-            int profId = newProf.getId();
+    /**
+     * Metodi päivittää tietokantataulussa 'Proficiency' olevan proficiencyn
+     * käyttäjän muuttamaan muotoon. Jos yritetään päivittää proficiency 
+     * samanlaiseksi, kuin joku toinen tietokannassa oleva proficiency, ei 
+     * kuitenkaan luoda toista samanlaista tietokantaan
+     * 
+     * @param prof käyttäjän päivittämä Proficiency-olio
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void updateProf(Proficiency prof, Connection conn) throws SQLException {
+        if (!this.profs.contains(prof)) {
+            int profId = prof.getId();
             List<Proficiency> oldList = this.profs;
-            for (Proficiency prof : oldList) {
-                if (prof.getId() == profId) {
-                    this.profs.remove(prof);
-                    this.profs.add(newProf);
+            for (Proficiency oldProf : oldList) {
+                if (oldProf.getId() == profId) {
+                    this.profs.remove(oldProf);
+                    this.profs.add(prof);
                 }
             }
 
             PreparedStatement stmt = conn.prepareStatement("UPDATE Proficiency "
                     + "SET name = ?, type = ? WHERE id = ?;");
-            stmt.setString(1, newProf.getName());
-            stmt.setString(2, newProf.getType());
-            stmt.setInt(3, newProf.getId());
+            stmt.setString(1, prof.getName());
+            stmt.setString(2, prof.getType());
+            stmt.setInt(3, prof.getId());
 
             stmt.executeUpdate();
             stmt.close();
 
         } else {
-            deleteProf(newProf, conn);
+            deleteProf(prof, conn);
         }
     }
+    
+    /**
+     * Metodi päivittää tietokantataulussa 'Racial' olevan racialin
+     * käyttäjän muuttamaan muotoon. Jos yritetään päivittää racial samanlaiseksi,
+     * kuin joku toinen tietokannassa oleva racial, ei kuitenkaan luoda
+     * toista samanlaista tietokantaan
+     * 
+     * @param racial käyttäjän päivittämä Racial-olio
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void updateRacial(Racial racial, Connection conn) throws SQLException {
+        
+    }
+    
+    /**
+     * Metodi päivittää tietokantataulussa 'Class' olevan classin
+     * käyttäjän muuttamaan muotoon. Jos yritetään päivittää class 
+     * samanlaiseksi, kuin joku toinen tietokannassa oleva class, ei 
+     * kuitenkaan luoda toista samanlaista tietokantaan
+     * 
+     * @param rpgclass käyttäjän päivittämä RpgClass-olio
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void updateClass(RpgClass rpgclass, Connection conn) throws SQLException {
+        
+    }
+    
+    /**
+     * Metodi päivittää tietokantataulussa 'Background' olevan backgroundin
+     * käyttäjän muuttamaan muotoon. Jos yritetään päivittää background 
+     * samanlaiseksi, kuin joku toinen tietokannassa oleva background, ei 
+     * kuitenkaan luoda toista samanlaista tietokantaan
+     * 
+     * @param bg käyttäjän päivittämä Background-olio
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void updateBackground(Background bg, Connection conn) throws SQLException {
+        
+    }
+    
+    /**
+     * Metodi päivittää tietokantataulussa 'Feat' olevan featin
+     * käyttäjän muuttamaan muotoon. Jos yritetään päivittää feat 
+     * samanlaiseksi, kuin joku toinen tietokannassa oleva feat, ei 
+     * kuitenkaan luoda toista samanlaista tietokantaan
+     * 
+     * @param feat käyttäjän päivittämä Feat-olio
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void updateFeat(Feat feat, Connection conn) throws SQLException {
+        
+    }
 
+    /**
+     * Metodi poistaa tietokannasta käyttäjän haluaman objektin
+     * 
+     * @param obj käyttäjän valitsema poistettava objekti
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#openConnection()
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#deleteProf(Proficiency, Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#deleteRacial(Racial, Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#deleteClass(RpgClass, Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#deleteBackground(Background, Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#deleteFeat(Feat, Connection)
+     * 
+     * @throws SQLException 
+     */
     @Override
     public void delete(Object obj) throws SQLException {
         Connection conn = openConnection();
@@ -139,20 +334,29 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
             deleteProf(prof, conn);
         } else if (obj.getClass() == Racial.class) {
             Racial racial = (Racial) obj;
-            //deleteRacial(racial, conn);
+            deleteRacial(racial, conn);
         } else if (obj.getClass() == RpgClass.class) {
             RpgClass rpgclass = (RpgClass) obj;
-            //deleteClass(rpgclass, conn);
+            deleteClass(rpgclass, conn);
         } else if (obj.getClass() == Background.class) {
             Background bg = (Background) obj;
-            //deleteBackground(bg, conn);
+            deleteBackground(bg, conn);
         } else if (obj.getClass() == Feat.class) {
             Feat feat = (Feat) obj;
-            //deleteFeat(feat, conn);
+            deleteFeat(feat, conn);
         }
         conn.close();
     }
 
+    /**
+     * Metodi poistaa 'Proficiency'-tietokantataulusta käyttäjän
+     * valitseman proficiencyn
+     * 
+     * @param prof poistetava Proficiency-olio
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public void deleteProf(Proficiency prof, Connection conn) throws SQLException {
 
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Proficiency "
@@ -164,7 +368,73 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
 
         this.profs.remove(prof);
     }
+    
+    /**
+     * Metodi poistaa 'Racial'-tietokantataulusta käyttäjän
+     * valitseman racialin
+     * 
+     * @param racial poistetava Racial-olio
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void deleteRacial(Racial racial, Connection conn) throws SQLException {
+        
+    }
+    
+    /**
+     * Metodi poistaa 'Class'-tietokantataulusta käyttäjän
+     * valitseman classin
+     * 
+     * @param rpgclass poistetava RpgClass-olio
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void deleteClass(RpgClass rpgclass, Connection conn) throws SQLException {
+        
+    }
+    
+    /**
+     * Metodi poistaa 'Background'-tietokantataulusta käyttäjän
+     * valitseman backgroundin
+     * 
+     * @param bg poistetava Background-olio
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void deleteBackground(Background bg, Connection conn) throws SQLException {
+        
+    }
+    
+    /**
+     * Metodi poistaa 'Feat'-tietokantataulusta käyttäjän
+     * valitseman featin
+     * 
+     * @param feat poistetava Feat-olio
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void deleteFeat(Feat feat, Connection conn) throws SQLException {
+        
+    }
 
+    /**
+     * Metodi palautaa listana tietyn tietokantataulun sisällön, tai null, jos 
+     * pyydetään sellaista luokkaa, mitä vastaavaa tietokantataulua ei ole
+     * 
+     * @param c syötetty luokka, jonka mukainen tietokantataulu halutaan listata
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#listProfs()
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#listRacials()
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#listClasses()
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#listBackgrounds()
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#listFeats()
+     * 
+     * @return 
+     */
     @Override
     public List list(Class c) {
         if (c == Proficiency.class) {
@@ -181,30 +451,91 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
         return null;
     }
 
+    /**
+     * Metodi palauttaa listaan tietokantataulun 'Proficiency' sisällön
+     * 
+     * @return tietokantataulun 'Proficiency' sisältö
+     */
     public List<Proficiency> listProfs() {
         return this.profs;
     }
 
+    /**
+     * Metodi palauttaa listaan tietokantataulun 'Racial' sisällön
+     * 
+     * @return tietokantataulun 'Racial' sisältö
+     */
     public List<Racial> listRacials() {
         return this.racials;
     }
 
+    /**
+     * Metodi palauttaa listaan tietokantataulun 'Class' sisällön
+     * 
+     * @return tietokantataulun 'Class' sisältö
+     */
     public List<RpgClass> listClasses() {
         return this.classes;
     }
 
+    /**
+     * Metodi palauttaa listaan tietokantataulun 'Background' sisällön
+     * 
+     * @return tietokantataulun 'Background' sisältö
+     */
     public List<Background> listBackgrounds() {
         return this.backgrounds;
     }
 
+    /**
+     * Metodi palauttaa listaan tietokantataulun 'Feat' sisällön
+     * 
+     * @return tietokantataulun 'Feat' sisältö
+     */
     public List<Feat> listFeats() {
         return this.feats;
     }
 
+    /**
+     * Metodi avaa tietokantayhteyden tietokantaan generatordb.mv.db
+     * 
+     * @return tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public final Connection openConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:h2:./generatordb", "sa", "");
     }
+    
+    /**
+     * Metodi hakee tietokantataulujen sisällöt luokan käyttämiin listoihin
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#initializeProfs(Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#initializeRacials(Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#initializeClasses(Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#initializeBackgrounds(Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#initializeFeats(Connection)
+     * 
+     * @throws SQLException 
+     */
+    public final void initializeLists(Connection conn) throws SQLException {
+        initializeProfs(conn);
+        initializeRacials(conn);
+        initializeClasses(conn);
+        initializeBackgrounds(conn);
+        initializeFeats(conn);
+    }
 
+    /**
+     * Metodi hakee tietokantataulun 'Proficiency' sisällön listaan profs
+     * Proficiency-muotoisina olioina
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public final void initializeProfs(Connection conn) throws SQLException {
         PreparedStatement stmtProf = conn.prepareStatement("SELECT * FROM Proficiency");
         ResultSet rsProf = stmtProf.executeQuery();
@@ -215,6 +546,14 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
         stmtProf.close();
     }
 
+    /**
+     * Metodi hakee tietokantataulun 'Racial' sisällön listaan racials
+     * Racial-muotoisina olioina
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public final void initializeRacials(Connection conn) throws SQLException {
         PreparedStatement stmtRacial = conn.prepareStatement("SELECT * FROM Racial");
         ResultSet rsRacial = stmtRacial.executeQuery();
@@ -224,6 +563,14 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
         stmtRacial.close();
     }
 
+    /**
+     * Metodi hakee tietokantataulun 'Class' sisällön listaan classes
+     * RpgClass-muotoisina olioina
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public final void initializeClasses(Connection conn) throws SQLException {
         PreparedStatement stmtClass = conn.prepareStatement("SELECT * FROM Class");
         ResultSet rsClass = stmtClass.executeQuery();
@@ -244,6 +591,14 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
         stmtClass.close();
     }
 
+    /**
+     * Metodi hakee tietokantataulun 'Background' sisällön listaan backgrounds
+     * Background-muotoisina olioina
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public final void initializeBackgrounds(Connection conn) throws SQLException {
         PreparedStatement stmtBg = conn.prepareStatement("SELECT * FROM Background");
         ResultSet rsBg = stmtBg.executeQuery();
@@ -253,6 +608,14 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
         stmtBg.close();
     }
 
+    /**
+     * Metodi hakee tietokantataulun 'Feat' sisällön listaan feats
+     * Feat-muotoisina olioina
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public final void initializeFeats(Connection conn) throws SQLException {
         PreparedStatement stmtFeat = conn.prepareStatement("SELECT * FROM Feat");
         ResultSet rsFeat = stmtFeat.executeQuery();
