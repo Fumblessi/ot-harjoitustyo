@@ -72,7 +72,7 @@ public class Interface extends Application {
     }
 
     @Override
-    public void start(Stage window) throws Exception {
+    public void start(Stage window) {
         //initializeDatabase();
         //alusta tarvittaessa tietokanta
         this.primaryWindow = window;
