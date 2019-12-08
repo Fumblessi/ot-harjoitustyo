@@ -22,7 +22,6 @@ Hahmogeneraattorin tarkoitus on arpoa satunnainen roolipelihahmo, sekä sille pi
 * Varmistaminen, että ohjelman pystyy ajamaan laitoksen koneella komentoriviltä käsin
 * Tietokantatoiminnallisuuden ja -kyselyiden edelleen kirjoittaminen
 * Alustava pohja tietokanta olisi hyvä luoda, niin käyttäjä voi halutessaan palata jonkinlaiseen "default"-tilaan, mikäli on tietokannan sisältöön koskenut
-* Korjaa kvielä osa käyttöliittymän virheen käsittelyistä
 * Käyttöliittymän ulkoasu kivemmaksi
 
 # Komentorivi
