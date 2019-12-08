@@ -31,9 +31,7 @@ import java.io.FileInputStream;
 import hahmogeneraattori.dao.FileSettingsDao;
 import hahmogeneraattori.dao.GeneratorDatabaseDao;
 import hahmogeneraattori.dao.SQLGeneratorDatabaseDao;
-import hahmogeneraattori.domain.Settings;
-import hahmogeneraattori.domain.Generator;
-import hahmogeneraattori.domain.Proficiency;
+import hahmogeneraattori.domain.*;
 import java.sql.*;
 import javafx.scene.paint.Color;
 
@@ -53,6 +51,10 @@ public class Interface extends Application {
     private Scene startScene;
     private Scene settingsScene;
     private Scene profDatabaseScene;
+    private Scene racialDatabaseScene;
+    private Scene classDatabaseScene;
+    private Scene bgDatabaseScene;
+    private Scene featDatabaseScene;
     private Scene profAddScene;
     private Scene profModScene;
 
@@ -291,12 +293,12 @@ public class Interface extends Application {
         Button backFromProf = new Button("Takaisin");
         HBox profDbButtons = new HBox();
 
-        Label databaseErrorText = new Label("");
-        databaseErrorText.setTextFill(Color.RED);
+        Label profDatabaseErrorText = new Label("");
+        profDatabaseErrorText.setTextFill(Color.RED);
         profDbButtons.getChildren().addAll(addProf, modifyExistingProf, deleteProf,
                 backFromProf);
 
-        profDatabaseLayout.getChildren().addAll(profs, profDbButtons, databaseErrorText);
+        profDatabaseLayout.getChildren().addAll(profs, profDbButtons, profDatabaseErrorText);
         this.profDatabaseScene = new Scene(profDatabaseLayout);
 
         modifyProf.setOnAction((event) -> {
@@ -306,7 +308,155 @@ public class Interface extends Application {
         });
 
         backFromProf.setOnAction((event) -> {
-            databaseErrorText.setText("");
+            profDatabaseErrorText.setText("");
+            this.databaseWindow.close();
+        });
+
+        VBox racialDatabaseLayout = new VBox();
+
+        TableView<Racial> racials = new TableView();
+
+        TableColumn<Racial, String> racialNameColumn = new TableColumn<>("Nimi");
+        racialNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        racials.getColumns().setAll(racialNameColumn);
+
+        Button addRacial = new Button("Lisää uusi");
+        Button modifyExistingRacial = new Button("Muokkaa");
+        Button deleteRacial = new Button("Poista");
+        Button backFromRacial = new Button("Takaisin");
+        HBox racialDbButtons = new HBox();
+
+        Label racialDatabaseErrorText = new Label("");
+        racialDatabaseErrorText.setTextFill(Color.RED);
+        racialDbButtons.getChildren().addAll(addRacial, modifyExistingRacial,
+                deleteRacial, backFromRacial);
+        
+        racialDatabaseLayout.getChildren().addAll(racials, racialDbButtons, 
+                racialDatabaseErrorText);
+        this.racialDatabaseScene = new Scene(racialDatabaseLayout);
+
+        modifyRacial.setOnAction((event) -> {
+
+            this.databaseWindow.setScene(this.racialDatabaseScene);
+            this.databaseWindow.show();
+        });
+        
+        backFromRacial.setOnAction((event) -> {
+            racialDatabaseErrorText.setText("");
+            this.databaseWindow.close();            
+        });
+        
+        VBox classDatabaseLayout = new VBox();
+
+        HBox classTables = new HBox();
+        TableView<RpgClass> classes = new TableView();
+        TableView<String> subclasses = new TableView();
+
+        TableColumn<RpgClass, String> classNameColumn = new TableColumn<>("Nimi");
+        classNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        
+        TableColumn<String, String> subClassNameColumn = new TableColumn<>("Subclass");
+
+        classes.getColumns().setAll(classNameColumn);
+        subclasses.getColumns().setAll(subClassNameColumn);
+        
+        classTables.getChildren().addAll(classes, subclasses);
+
+        Button addClass = new Button("Lisää uusi");
+        Button modifyExistingClass = new Button("Muokkaa");
+        Button deleteClass = new Button("Poista");
+        Button backFromClass = new Button("Takaisin");
+        HBox classDbButtons = new HBox();
+
+        Label classDatabaseErrorText = new Label("");
+        classDatabaseErrorText.setTextFill(Color.RED);
+        classDbButtons.getChildren().addAll(addClass, modifyExistingClass,
+                deleteClass, backFromClass);
+        
+        classDatabaseLayout.getChildren().addAll(classTables, classDbButtons, 
+                classDatabaseErrorText);
+        this.classDatabaseScene = new Scene(classDatabaseLayout);
+
+        modifyClass.setOnAction((event) -> {
+
+            this.databaseWindow.setScene(this.classDatabaseScene);
+            this.databaseWindow.show();
+        });
+        
+        backFromClass.setOnAction((event) -> {
+            classDatabaseErrorText.setText("");
+            this.databaseWindow.close();            
+        });
+        
+        VBox bgDatabaseLayout = new VBox();
+
+        TableView<Background> bgs = new TableView();
+
+        TableColumn<Background, String> bgNameColumn = new TableColumn<>("Nimi");
+        bgNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        bgs.getColumns().setAll(bgNameColumn);
+
+        Button addBg = new Button("Lisää uusi");
+        Button modifyExistingBg = new Button("Muokkaa");
+        Button deleteBg = new Button("Poista");
+        Button backFromBg = new Button("Takaisin");
+        HBox bgDbButtons = new HBox();
+
+        Label bgDatabaseErrorText = new Label("");
+        bgDatabaseErrorText.setTextFill(Color.RED);
+        bgDbButtons.getChildren().addAll(addBg, modifyExistingBg,
+                deleteBg, backFromBg);
+        
+        bgDatabaseLayout.getChildren().addAll(bgs, bgDbButtons, 
+                bgDatabaseErrorText);
+        this.bgDatabaseScene = new Scene(bgDatabaseLayout);
+
+        modifyBg.setOnAction((event) -> {
+
+            this.databaseWindow.setScene(this.bgDatabaseScene);
+            this.databaseWindow.show();
+        });
+        
+        backFromBg.setOnAction((event) -> {
+            bgDatabaseErrorText.setText("");
+            this.databaseWindow.close();            
+        });
+        
+        VBox featDatabaseLayout = new VBox();
+        TableView<Feat> feats = new TableView();
+
+        TableColumn<Feat, String> featNameColumn = new TableColumn<>("Nimi");
+        featNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<Feat, String> featTypeColumn = new TableColumn<>("Stats");
+        featTypeColumn.setCellValueFactory(new PropertyValueFactory<>("stats"));
+
+        feats.getColumns().setAll(featNameColumn, featTypeColumn);
+
+        Button addFeat = new Button("Lisää uusi");
+        Button modifyExistingFeat = new Button("Muokkaa");
+        Button deleteFeat = new Button("Poista");
+        Button backFromFeat = new Button("Takaisin");
+        HBox featDbButtons = new HBox();
+
+        Label featDatabaseErrorText = new Label("");
+        featDatabaseErrorText.setTextFill(Color.RED);
+        featDbButtons.getChildren().addAll(addFeat, modifyExistingFeat, deleteFeat,
+                backFromFeat);
+
+        featDatabaseLayout.getChildren().addAll(feats, featDbButtons, featDatabaseErrorText);
+        this.featDatabaseScene = new Scene(featDatabaseLayout);
+
+        modifyFeat.setOnAction((event) -> {
+
+            this.databaseWindow.setScene(this.featDatabaseScene);
+            this.databaseWindow.show();
+        });
+
+        backFromFeat.setOnAction((event) -> {
+            featDatabaseErrorText.setText("");
             this.databaseWindow.close();
         });
 
@@ -328,7 +478,7 @@ public class Interface extends Application {
             profModNameText.setText("");
             Proficiency profToBeModified = profs.getSelectionModel().getSelectedItem();
             if (!(profToBeModified == null)) {
-                databaseErrorText.setText("");
+                profDatabaseErrorText.setText("");
                 this.profModWindow.show();
                 profModNameText.setText(profToBeModified.getName());
                 String profType = profToBeModified.getType();
@@ -351,7 +501,7 @@ public class Interface extends Application {
                         break;
                 }
             } else {
-                databaseErrorText.setText("Valitse muokattava proficiency!");
+                profDatabaseErrorText.setText("Valitse muokattava proficiency!");
             }
         });
 
@@ -428,13 +578,13 @@ public class Interface extends Application {
             try {
                 Proficiency profToBeDeleted = profs.getSelectionModel().getSelectedItem();
                 this.generator.deleteProfFromDb(profToBeDeleted);
-                databaseErrorText.setText("");
+                profDatabaseErrorText.setText("");
             } catch (Exception e) {
                 String errorText = "Valitse poistettava proficiency!";
                 if (!(e.getMessage() == null)) {
                     errorText += e.getMessage();
                 }
-                databaseErrorText.setText(errorText);
+                profDatabaseErrorText.setText(errorText);
             }
             refreshProfs(profs);
         });

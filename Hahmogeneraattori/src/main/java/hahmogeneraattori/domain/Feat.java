@@ -26,8 +26,18 @@ public class Feat {
         return this.name;
     }
     
-    public int[] getStats() {
-        return this.stats;
+    public String getStats() {
+        String stats = "";
+        if (this.stats[0] == 1) {stats += "STR/";}
+        if (this.stats[1] == 1) {stats += "DEX/";}
+        if (this.stats[2] == 1) {stats += "CON/";}
+        if (this.stats[3] == 1) {stats += "INT/";}
+        if (this.stats[4] == 1) {stats += "WIS/";}
+        if (this.stats[5] == 1) {stats += "CHA/";}
+        if (!stats.isEmpty()) {
+            stats = stats.substring(0, stats.length() - 1);
+        }
+        return stats;
     }
     
     public void setStatsFromString(String stats) {
