@@ -8,5 +8,5 @@ Päivä | Aika | Mitä tein
 3.12  | 7,5    | Tietokannan alustaminen ja ensimmäisen tietokantatoiminnallisuuden luominen (erääseen tietokantatauluun voi lisätä tietoa), uuden pakkauskaavion suunnittelu
 6.12  | 4    | Ohjelman refaktorointia, varmistuksen luonti, että Asetukset-näkymässä piirre-rajoihin voi syöttää vain kokonaislukuja, tietokannan rakentamista
 7.12  | 7    | Refaktorointia, käyttöliittymän ulkoasun rakentamista, tietokantatoiminnallisuuden rakentamista (Proficiency-taulu tällä hetkellä kaikilta osin toimii, niin sovelluslogiikan kuin käyttöliittymänkin puolesta
-8.12  | 3    | Tietokantatoiminnallisuuden refaktorointia, luokat muistamaan oma tietokanta-id:nsä, kaikilla tietokannoilla nyt oma ponnahdusikkunansa tietokanta-menussa
-Yht.  | 42   |  tuntia
+8.12  | 6    | Tietokantatoiminnallisuuden refaktorointia, luokat muistamaan oma tietokanta-id:nsä, kaikilla tietokannoilla nyt oma ponnahdusikkunansa tietokanta-menussa, SQLGeneratorDatabaseDaon javadoc tehty, Racial-tietokantatoiminnallisuuden ja siihen liittyvän käyttöliittymän rakentamista
+Yht.  | 45   |  tuntia
