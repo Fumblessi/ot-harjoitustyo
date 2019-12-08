@@ -43,10 +43,11 @@ public class Interface extends Application {
     private Settings settings;
     private GeneratorDatabaseDao generatorDatabaseDao;
     private Generator generator;
+    
     private Stage primaryWindow;
     private Stage databaseWindow;
-    private Stage profAddWindow;
-    private Stage profModWindow;
+    private Stage modifyWindow;
+    
     private Scene startScene;
     private Scene settingsScene;
     private Scene profDatabaseScene;
@@ -56,6 +57,8 @@ public class Interface extends Application {
     private Scene featDatabaseScene;
     private Scene profAddScene;
     private Scene profModScene;
+    private Scene racialAddScene;
+    private Scene racialModScene;
 
     @Override
     public void init() throws Exception {
@@ -337,7 +340,7 @@ public class Interface extends Application {
         this.racialDatabaseScene = new Scene(racialDatabaseLayout);
 
         modifyRacial.setOnAction((event) -> {
-
+            refreshRacials(racials);
             this.databaseWindow.setScene(this.racialDatabaseScene);
             this.databaseWindow.show();
         });
@@ -460,18 +463,14 @@ public class Interface extends Application {
             this.databaseWindow.close();
         });
 
-        this.profAddWindow = new Stage();
+        this.modifyWindow = new Stage();
         this.profAddScene = new Scene(profAddLayout);
-        this.profAddWindow.setTitle("Lisää Proficiency");
-        this.profAddWindow.setScene(this.profAddScene);
-
-        this.profModWindow = new Stage();
         this.profModScene = new Scene(profModifyLayout);
-        this.profModWindow.setTitle("Muokkaa Proficiencyä");
-        this.profModWindow.setScene(this.profModScene);
 
         addProf.setOnAction((event) -> {
-            this.profAddWindow.show();
+            this.modifyWindow.setTitle("Lisää Proficiency");
+            this.modifyWindow.setScene(this.profAddScene);
+            this.modifyWindow.show();
         });
 
         modifyExistingProf.setOnAction((event) -> {
@@ -479,7 +478,9 @@ public class Interface extends Application {
             Proficiency profToBeModified = profs.getSelectionModel().getSelectedItem();
             if (!(profToBeModified == null)) {
                 profDatabaseErrorText.setText("");
-                this.profModWindow.show();
+                this.modifyWindow.setTitle("Muokkaa Proficiencyä");
+                this.modifyWindow.setScene(this.profModScene);
+                this.modifyWindow.show();
                 profModNameText.setText(profToBeModified.getName());
                 String profType = profToBeModified.getType();
 
@@ -528,7 +529,7 @@ public class Interface extends Application {
                 }
                 profAddNameError.setText("");
                 addTypeSkill.setSelected(true);
-                this.profAddWindow.close();
+                this.modifyWindow.close();
                 refreshProfs(profs);
             } else {
                 profAddNameError.setText("Syöte ei voi olla tyhjä!");
@@ -536,7 +537,7 @@ public class Interface extends Application {
         });
 
         backFromAddingProf.setOnAction((event) -> {
-            this.profAddWindow.close();
+            this.modifyWindow.close();
         });
 
         modifyThisProf.setOnAction((event) -> {
@@ -563,7 +564,7 @@ public class Interface extends Application {
                     profAddNameError.setText(ex.getMessage());
                 }
                 profModNameError.setText("");
-                this.profModWindow.close();
+                this.modifyWindow.close();
                 refreshProfs(profs);
             } else {
                 profModNameError.setText("Syöte ei voi olla tyhjä!");
@@ -571,7 +572,7 @@ public class Interface extends Application {
         });
 
         backFromModifyingProf.setOnAction((event) -> {
-            this.profModWindow.close();
+            this.modifyWindow.close();
         });
 
         deleteProf.setOnAction((event) -> {
@@ -588,6 +589,78 @@ public class Interface extends Application {
             }
             refreshProfs(profs);
         });
+        
+        //HUOM HUOM RACIALIEN MUOKKAUS JA LISÄYS ALKAA
+        VBox racialAddLayout = new VBox();
+        
+        HBox racialAddNameLayout = new HBox();
+        Label racialAddNameLabel = new Label("Nimi: ");
+        TextField racialAddNameText = new TextField();
+        Label racialAddNameError = new Label("");
+        CheckBox addRacialStats = new CheckBox("Racial antaa statteja");
+        CheckBox addRacialProfs = new CheckBox("Racialiin kuuluu proficiencyjä");
+        CheckBox addRacialFeat = new CheckBox("Racialiin kuuluu featteja");
+        racialAddNameError.setTextFill(Color.RED);
+        racialAddNameLayout.getChildren().addAll(racialAddNameLabel, racialAddNameText);
+        
+        Button addNewRacial = new Button("Lisää");
+        Button backFromAddingRacial = new Button("Takaisin");
+        HBox racialAddingButtons = new HBox();    
+        racialAddingButtons.getChildren().addAll(addNewRacial, backFromAddingRacial);
+        
+        racialAddLayout.getChildren().addAll(racialAddNameLayout, racialAddNameError, 
+                addRacialStats, addRacialProfs, addRacialFeat, racialAddingButtons);
+        
+        VBox racialModifyLayout = new VBox();
+        
+        HBox racialModNameLayout = new HBox();
+        Label racialModNameLabel = new Label("Nimi: ");
+        TextField racialModNameText = new TextField();
+        Label racialModNameError = new Label("");
+        racialModNameError.setTextFill(Color.RED);
+        racialModNameLayout.getChildren().addAll(racialModNameLabel, racialModNameText);
+        
+        Button modifyThisRacial = new Button("Päivitä");
+        Button backFromModifyingRacial = new Button("Takaisin");      
+        HBox racialModifyingButtons = new HBox();     
+        racialModifyingButtons.getChildren().addAll(modifyThisRacial, backFromModifyingRacial);
+        
+        racialModifyLayout.getChildren().addAll(racialModNameLayout, racialModNameError, 
+                racialModifyingButtons);
+        
+        this.racialAddScene = new Scene(racialAddLayout);
+        this.racialModScene = new Scene(racialModifyLayout);
+
+        addRacial.setOnAction((event) -> {
+            this.modifyWindow.setTitle("Lisää Racial");
+            this.modifyWindow.setScene(this.racialAddScene);
+            this.modifyWindow.show();
+        });
+
+        modifyExistingRacial.setOnAction((event) -> {
+            
+        });
+
+        addNewRacial.setOnAction((event) -> {
+            
+        });
+
+        backFromAddingRacial.setOnAction((event) -> {
+            this.modifyWindow.close();
+        });
+
+        modifyThisRacial.setOnAction((event) -> {
+            
+        });
+
+        backFromModifyingRacial.setOnAction((event) -> {
+            this.modifyWindow.close();
+        });
+
+        deleteRacial.setOnAction((event) -> {
+            
+        });
+        //HUOM HUOM RACIALIEN MUOKKAUS JA LISÄYS LOPPUU
 
         Label stats = new Label("");
         Label proficiencies = new Label("");
@@ -626,6 +699,11 @@ public class Interface extends Application {
     public void refreshProfs(TableView profView) {
         profView.getItems().clear();
         profView.getItems().addAll(this.generator.listAllProfs());
+    }
+    
+    public void refreshRacials(TableView racialView) {
+        racialView.getItems().clear();
+        racialView.getItems().addAll(this.generator.listAllRacials());
     }
 
     public boolean isInteger(String input) {

@@ -94,6 +94,10 @@ public class Generator {
     public List<Proficiency> listAllProfs() {
         return this.generatorDatabaseDao.list(Proficiency.class);
     }
+    
+    public List<Racial> listAllRacials() {
+        return this.generatorDatabaseDao.list(Racial.class);
+    }
 
     public static void shuffle(int[] array) {
         Random random = new Random();

@@ -129,7 +129,36 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
      * @throws SQLException 
      */
     public void createRacial(Racial racial, Connection conn) throws SQLException {
-        
+        if (!this.racials.contains(racial)) {
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Racial "
+                    + "(name) VALUES (?);");
+            stmt.setString(1, racial.getName());
+            stmt.executeUpdate();
+            stmt.close();
+            
+            PreparedStatement idStmt = conn.prepareStatement("SELECT id FROM "
+                    + "Racial WHERE name = ?;");
+            idStmt.setString(1, racial.getName());
+            ResultSet id = idStmt.executeQuery();
+            while (id.next()) {
+                racial.setId(id.getInt(1));
+            }
+            idStmt.close();
+            
+            this.racials.add(racial);
+            
+            for (Proficiency prof : racial.getRacialProfs()) {
+                if (!this.profs.contains(prof)) {
+                    createProf(prof, conn);
+                }
+                PreparedStatement connectProf = conn.prepareStatement("INSERT "
+                        + "INTO RacialProficiency (racial_id, prof_id) VALUES "
+                        + "(?, ?);");
+                connectProf.setInt(1, racial.getId());
+                connectProf.setInt(2, prof.getId());
+                connectProf.close();
+            }
+        }
     }
     
     /**
@@ -228,12 +257,11 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
      */
     public void updateProf(Proficiency prof, Connection conn) throws SQLException {
         if (!this.profs.contains(prof)) {
-            int profId = prof.getId();
-            List<Proficiency> oldList = this.profs;
-            for (Proficiency oldProf : oldList) {
-                if (oldProf.getId() == profId) {
-                    this.profs.remove(oldProf);
-                    this.profs.add(prof);
+            for (Proficiency oldProf : this.profs) {
+                if (oldProf.getId() == prof.getId()) {
+                    oldProf.setName(prof.getName());
+                    oldProf.setType(prof.getType());
+                    break;
                 }
             }
 
@@ -245,10 +273,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
 
             stmt.executeUpdate();
             stmt.close();
-
-        } else {
-            deleteProf(prof, conn);
-        }
+        } 
     }
     
     /**
@@ -452,7 +477,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     }
 
     /**
-     * Metodi palauttaa listaan tietokantataulun 'Proficiency' sisällön
+     * Metodi palauttaa listana tietokantataulun 'Proficiency' sisällön
      * 
      * @return tietokantataulun 'Proficiency' sisältö
      */
@@ -461,7 +486,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     }
 
     /**
-     * Metodi palauttaa listaan tietokantataulun 'Racial' sisällön
+     * Metodi palauttaa listana tietokantataulun 'Racial' sisällön
      * 
      * @return tietokantataulun 'Racial' sisältö
      */
@@ -470,7 +495,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     }
 
     /**
-     * Metodi palauttaa listaan tietokantataulun 'Class' sisällön
+     * Metodi palauttaa listana tietokantataulun 'Class' sisällön
      * 
      * @return tietokantataulun 'Class' sisältö
      */
@@ -479,7 +504,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     }
 
     /**
-     * Metodi palauttaa listaan tietokantataulun 'Background' sisällön
+     * Metodi palauttaa listana tietokantataulun 'Background' sisällön
      * 
      * @return tietokantataulun 'Background' sisältö
      */
@@ -488,7 +513,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     }
 
     /**
-     * Metodi palauttaa listaan tietokantataulun 'Feat' sisällön
+     * Metodi palauttaa listana tietokantataulun 'Feat' sisällön
      * 
      * @return tietokantataulun 'Feat' sisältö
      */
@@ -558,7 +583,23 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
         PreparedStatement stmtRacial = conn.prepareStatement("SELECT * FROM Racial");
         ResultSet rsRacial = stmtRacial.executeQuery();
         while (rsRacial.next()) {
-            this.racials.add(new Racial(rsRacial.getInt(1), rsRacial.getString(2)));
+            int id = rsRacial.getInt(1);
+            Racial newRacial = new Racial(id, rsRacial.getString(2));
+            
+            PreparedStatement getProfs = conn.prepareStatement("SELECT * FROM "
+                    + "Proficiency LEFT JOIN RacialProficiency ON "
+                    + "RacialProficiency.prof_id = Proficiency.id WHERE "
+                    + "racial_id = ?;");
+            getProfs.setInt(1, id);
+            ResultSet rsProfs = getProfs.executeQuery();
+            
+            while(rsProfs.next()) {
+                newRacial.addRacialProf(new Proficiency(rsProfs.getInt(1), rsProfs.getString(2), 
+                rsProfs.getString(3)));
+            }
+            getProfs.close();
+            
+            this.racials.add(newRacial);
         }
         stmtRacial.close();
     }
