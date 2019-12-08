@@ -7,7 +7,6 @@ package hahmogeneraattori.ui;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-//import javafx.stage.WindowEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -63,6 +62,9 @@ public class Interface extends Application {
         Properties properties = new Properties();
 
         properties.load(new FileInputStream("config.properties"));
+        
+        //initializeDatabase();
+        //alusta tarvittaessa tietokanta
 
         String settingsFile = properties.getProperty("settingsFile");
         FileSettingsDao settingsDao = new FileSettingsDao(settingsFile);
@@ -73,8 +75,6 @@ public class Interface extends Application {
 
     @Override
     public void start(Stage window) {
-        //initializeDatabase();
-        //alusta tarvittaessa tietokanta
         this.primaryWindow = window;
         BorderPane layout = new BorderPane();
         layout.setPrefSize(300, 200);
@@ -554,11 +554,11 @@ public class Interface extends Application {
             } else {
                 profType = "Skill";
             }
-            Proficiency oldProf = profs.getSelectionModel().getSelectedItem();
-            Proficiency newProf = new Proficiency(profName, profType);
+            int id = profs.getSelectionModel().getSelectedItem().getId();
+            Proficiency newProf = new Proficiency(id, profName, profType);
             if (!profName.isEmpty()) {
                 try {
-                    this.generator.updateProfToDb(oldProf, newProf);
+                    this.generator.updateProfToDb(newProf);
                 } catch (SQLException ex) {
                     profAddNameError.setText(ex.getMessage());
                 }
@@ -644,16 +644,16 @@ public class Interface extends Application {
 
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb", "sa", "")) {
             //poistetaan vanhat taulut
+            conn.prepareStatement("DROP TABLE RacialProficiency IF EXISTS").executeUpdate();            
+            conn.prepareStatement("DROP TABLE BackgroundProficiency IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE ClassProficiency IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE FeatProficiency IF EXISTS").executeUpdate();
             conn.prepareStatement("DROP TABLE Proficiency IF EXISTS").executeUpdate();
             conn.prepareStatement("DROP TABLE Racial IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE RacialProficiency IF EXISTS").executeUpdate();
             conn.prepareStatement("DROP TABLE Background IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE BackgroundProficiency IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE Class IF EXISTS").executeUpdate();
             conn.prepareStatement("DROP TABLE SubClass IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE ClassProficiency IF EXISTS").executeUpdate();
+            conn.prepareStatement("DROP TABLE Class IF EXISTS").executeUpdate();
             conn.prepareStatement("DROP TABLE Feat IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE FeatProficiency IF EXISTS").executeUpdate();
             //luodaan uudet taulut
             conn.prepareStatement("CREATE TABLE Proficiency(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
                     + "type VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();

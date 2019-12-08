@@ -12,13 +12,29 @@ package hahmogeneraattori.domain;
 
 public class Racial {
     
+    private int id;
     private String name;
     
-    public Racial(String name) {
+    public Racial(int id, String name) {
+        this.id = id;
         this.name = name;
     }
+    
+    public Racial(String name) {
+        this(-1, name);
+    }
 
+    public int getId() {
+        return this.id;
+    }
+    
     public String getName() {
         return this.name;
+    }
+    
+    public void setId(int id) {
+        if (this.id == -1) {
+            this.id = id;
+        }
     }
 }

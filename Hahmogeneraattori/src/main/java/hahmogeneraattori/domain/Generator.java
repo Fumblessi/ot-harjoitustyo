@@ -83,16 +83,16 @@ public class Generator {
         this.generatorDatabaseDao.create(prof);
     }
     
-    public void updateProfToDb(Proficiency oldProf, Proficiency newProf) throws SQLException {
-        this.generatorDatabaseDao.updateProf(oldProf, newProf);
+    public void updateProfToDb(Proficiency newProf) throws SQLException {
+        this.generatorDatabaseDao.update(newProf);
     }
     
     public void deleteProfFromDb(Proficiency prof) throws SQLException {
-        this.generatorDatabaseDao.deleteProf(prof);
+        this.generatorDatabaseDao.delete(prof);
     }
     
     public List<Proficiency> listAllProfs() {
-        return this.generatorDatabaseDao.listProfs();
+        return this.generatorDatabaseDao.list(Proficiency.class);
     }
 
     public static void shuffle(int[] array) {

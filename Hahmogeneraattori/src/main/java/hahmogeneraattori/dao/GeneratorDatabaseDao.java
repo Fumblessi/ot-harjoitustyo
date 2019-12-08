@@ -14,8 +14,8 @@ import java.util.List;
  * @author sampo
  */
 public interface GeneratorDatabaseDao {
-    void create(Proficiency prof) throws SQLException;
-    void updateProf(Proficiency oldProf, Proficiency newProf) throws SQLException;
-    void deleteProf(Proficiency prof) throws SQLException;
-    List<Proficiency> listProfs();    
+    void create(Object obj) throws SQLException;
+    void update(Object obj) throws SQLException;
+    void delete(Object obj) throws SQLException;
+    List list(Class c);    
 }

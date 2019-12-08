@@ -37,7 +37,7 @@ public class Stats {
         }
     }
     
-    public void setStats(int[] stats) {
+    public final void setStats(int[] stats) {
         this.str = stats[0];
         this.dex = stats[1];
         this.con = stats[2];

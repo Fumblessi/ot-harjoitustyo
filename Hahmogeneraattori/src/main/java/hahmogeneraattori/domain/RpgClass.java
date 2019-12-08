@@ -13,12 +13,22 @@ import java.util.ArrayList;
  */
 public class RpgClass {
     
+    private int id;
     private String name;
     private List<String> subclasses;
     
-    public RpgClass(String name) {
+    public RpgClass(int id, String name) {
+        this.id = id;
         this.name = name;
         this.subclasses = new ArrayList<>();
+    }
+    
+    public RpgClass(String name) {
+        this(-1, name);
+    }
+    
+    public int getId() {
+        return this.id;
     }
     
     public String getName() {
@@ -27,6 +37,12 @@ public class RpgClass {
     
     public List<String> getSubclasses() {
         return this.subclasses;
+    }
+    
+    public void setId(int id) {
+        if (this.id == -1) {
+            this.id = id;
+        }
     }
     
     public void setSubclasses(List<String> subclasses) {

@@ -11,10 +11,11 @@ package hahmogeneraattori.domain;
  */
 public class Feat {
     
+    private int id;
     private String name;
     private int[] stats;
     
-    public Feat(String name) {
+    public Feat(int id, String name) {
         this.name = name;
         this.stats = new int[6];
         for (int i = 0; i < 6; i++) {
@@ -22,8 +23,16 @@ public class Feat {
         }
     }
     
+    public Feat(String name) {
+        this(-1, name);
+    }
+    
     public String getName() {
         return this.name;
+    }
+    
+    public int getId() {
+        return this.id;
     }
     
     public String getStats() {
@@ -50,6 +59,12 @@ public class Feat {
             stats = stats.substring(0, stats.length() - 1);
         }
         return stats;
+    }
+    
+    public void setId(int id) {
+        if (this.id == -1) {
+            this.id = id;
+        }
     }
     
     public void setStatsFromString(String stats) {

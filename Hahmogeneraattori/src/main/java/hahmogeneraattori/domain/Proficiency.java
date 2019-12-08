@@ -13,21 +13,36 @@ import java.util.Objects;
  */
 public class Proficiency {
     
+    private int id;
     private String name;
     private String type;
     
     
-    public Proficiency(String name, String type) {
+    public Proficiency(int id, String name, String type) {
+        this.id = id;
         this.name = name;
         this.type = type;
     }
     
+    public Proficiency(String name, String type) {
+        this(-1, name, type);
+    }
+    
+    public int getId() {
+        return this.id;
+    }
     public String getName() {
         return this.name;
     }
     
     public String getType() {
         return this.type;
+    }
+    
+    public void setId(int id) {
+        if (this.id == -1) {
+            this.id = id;
+        }
     }
     
     @Override
