@@ -19,7 +19,7 @@ Hahmogeneraattorin tarkoitus on arpoa satunnainen roolipelihahmo, sekä sille pi
 
 # Työn alla tällä hetkellä:
 
-* Testien luominen
+* __SQLDatabaseDaon refaktorointi useampaan luokkaan (tulee muuten aivan liian pitkä)!!__
 * Varmistaminen, että ohjelman pystyy ajamaan laitoksen koneella komentoriviltä käsin
 * Tietokantatoiminnallisuuden ja -kyselyiden edelleen kirjoittaminen
 * Alustava pohja tietokanta olisi hyvä luoda, niin käyttäjä voi halutessaan palata jonkinlaiseen "default"-tilaan, mikäli on tietokannan sisältöön koskenut
