@@ -24,8 +24,6 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.Scene;
 import java.util.Properties;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 import java.io.FileInputStream;
 import hahmogeneraattori.dao.FileSettingsDao;
 import hahmogeneraattori.dao.GeneratorDatabaseDao;
@@ -65,15 +63,15 @@ public class Interface extends Application {
         Properties properties = new Properties();
 
         properties.load(new FileInputStream("config.properties"));
-        
-        //initializeDatabase();
-        //alusta tarvittaessa tietokanta
 
         String settingsFile = properties.getProperty("settingsFile");
         FileSettingsDao settingsDao = new FileSettingsDao(settingsFile);
         this.generatorDatabaseDao = new SQLGeneratorDatabaseDao();
         this.settings = new Settings(settingsDao);
         this.generator = new Generator(this.settings, this.generatorDatabaseDao);
+        
+        //this.generator.initializeDatabase();
+        //alusta tarvittaessa tietokanta
     }
 
     @Override
@@ -712,56 +710,6 @@ public class Interface extends Application {
             return true;
         } catch (Exception e) {
             return false;
-        }
-    }
-
-    private static void initializeDatabase() {
-        //mikäli tietokanta on poistettu tai se halutaan alustaa
-        //kokonaan uudestaan, voi ajaa tämän metodin, jolla
-        //tietokanta luodaan uudestaan
-
-        try (Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb", "sa", "")) {
-            //poistetaan vanhat taulut
-            conn.prepareStatement("DROP TABLE RacialProficiency IF EXISTS").executeUpdate();            
-            conn.prepareStatement("DROP TABLE BackgroundProficiency IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE ClassProficiency IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE FeatProficiency IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE Proficiency IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE Racial IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE Background IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE SubClass IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE Class IF EXISTS").executeUpdate();
-            conn.prepareStatement("DROP TABLE Feat IF EXISTS").executeUpdate();
-            //luodaan uudet taulut
-            conn.prepareStatement("CREATE TABLE Proficiency(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
-                    + "type VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
-            conn.prepareStatement("CREATE TABLE Racial(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
-                    + "PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
-            conn.prepareStatement("CREATE TABLE RacialProficiency(racial_id INTEGER, prof_id INTEGER, "
-                    + "FOREIGN KEY (racial_id) REFERENCES Racial(id), FOREIGN KEY (prof_id) "
-                    + "REFERENCES Proficiency(id));").executeUpdate();
-            conn.prepareStatement("CREATE TABLE Background(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
-                    + "PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
-            conn.prepareStatement("CREATE TABLE BackgroundProficiency(bg_id INTEGER, prof_id INTEGER, "
-                    + "FOREIGN KEY (bg_id) REFERENCES Background(id), FOREIGN KEY (prof_id) "
-                    + "REFERENCES Proficiency(id));").executeUpdate();
-            conn.prepareStatement("CREATE TABLE Class(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
-                    + "PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
-            conn.prepareStatement("CREATE TABLE SubClass(id INTEGER AUTO_INCREMENT, class_id INTEGER, "
-                    + "name VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id), FOREIGN KEY "
-                    + "(class_id) REFERENCES Class(id));").executeUpdate();
-            conn.prepareStatement("CREATE TABLE ClassProficiency(class_id INTEGER, prof_id INTEGER, "
-                    + "FOREIGN KEY (class_id) REFERENCES Class(id), FOREIGN KEY (prof_id) "
-                    + "REFERENCES Proficiency(id));").executeUpdate();
-            conn.prepareStatement("CREATE TABLE Feat(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
-                    + "stats VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
-            conn.prepareStatement("CREATE TABLE FeatProficiency(feat_id INTEGER, prof_id INTEGER, "
-                    + "FOREIGN KEY (feat_id) REFERENCES Feat(id), FOREIGN KEY (prof_id) "
-                    + "REFERENCES Proficiency(id));").executeUpdate();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Interface.class
-                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

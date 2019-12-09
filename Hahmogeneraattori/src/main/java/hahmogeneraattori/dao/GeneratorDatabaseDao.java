@@ -17,5 +17,6 @@ public interface GeneratorDatabaseDao {
     void create(Object obj) throws SQLException;
     void update(Object obj) throws SQLException;
     void delete(Object obj) throws SQLException;
-    List list(Class c);    
+    List list(Class c);
+    void initialize() throws SQLException;
 }

@@ -115,4 +115,8 @@ public class Generator {
     public void getNewSettings(Settings settings) {
         this.settings = settings;
     }
+    
+    public void initializeDatabase() throws SQLException {
+        this.generatorDatabaseDao.initialize();
+    }
 }
