@@ -91,6 +91,14 @@ public class Generator {
         this.generatorDatabaseDao.delete(prof);
     }
     
+    public void addNewRacialToDb(Racial racial) throws SQLException {
+        this.generatorDatabaseDao.create(racial);
+    }
+    
+    public void deleteRacialFromDb(Racial racial) throws SQLException {
+        this.generatorDatabaseDao.delete(racial);
+    }
+    
     public List<Proficiency> listAllProfs() {
         return this.generatorDatabaseDao.list(Proficiency.class);
     }

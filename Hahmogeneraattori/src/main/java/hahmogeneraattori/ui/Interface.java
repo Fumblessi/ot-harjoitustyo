@@ -25,6 +25,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.Scene;
+import javafx.collections.ObservableList;
 import java.util.Properties;
 import java.io.FileInputStream;
 import hahmogeneraattori.dao.FileSettingsDao;
@@ -471,6 +472,10 @@ public class Interface extends Application {
         this.profModScene = new Scene(profModifyLayout);
 
         addProf.setOnAction((event) -> {
+            profAddNameText.setText("");
+            profAddNameError.setText("");
+            addTypeSkill.setSelected(true);
+            profDatabaseErrorText.setText("");
             this.modifyWindow.setTitle("Lisää Proficiency");
             this.modifyWindow.setScene(this.profAddScene);
             this.modifyWindow.show();
@@ -607,7 +612,10 @@ public class Interface extends Application {
         VBox addRacialStats = new VBox();
         Label addRacialStatsLabel = new Label("Racial antaa statteja: ");
         TextField addRacialStatsText = new TextField("0");
-        addRacialStats.getChildren().addAll(addRacialStatsLabel, addRacialStatsText);
+        Label racialStatsError = new Label("");
+        racialStatsError.setTextFill(Color.RED);
+        addRacialStats.getChildren().addAll(addRacialStatsLabel, addRacialStatsText, 
+                racialStatsError);
         
         CheckBox addRacialFeat = new CheckBox("Racial antaa featin");
         racialAddNameError.setTextFill(Color.RED);
@@ -657,6 +665,11 @@ public class Interface extends Application {
 
         addRacial.setOnAction((event) -> {
             refreshProfs(racialProfTable);
+            racialDatabaseErrorText.setText("");
+            racialAddNameText.setText("");
+            racialAddNameError.setText("");
+            addRacialStatsText.setText("0");
+            addRacialFeat.setSelected(false);
             this.modifyWindow.setTitle("Lisää Racial");
             this.modifyWindow.setScene(this.racialAddScene);
             this.modifyWindow.show();
@@ -667,13 +680,46 @@ public class Interface extends Application {
         });
 
         addNewRacial.setOnAction((event) -> {
+            String racialName = racialAddNameText.getText();
             
+            if (!racialName.isEmpty() && isInteger(addRacialStatsText.getText())) {
+                int racialStats = Integer.parseInt(addRacialStatsText.getText());
+                boolean racialFeat = addRacialFeat.isSelected();
+                Racial racialToAdd = new Racial(racialName, racialStats, racialFeat);
+                
+                ObservableList<Proficiency> racialProfsToAdd = racialProfTable.
+                        getSelectionModel().getSelectedItems();
+                
+                for (Proficiency prof : racialProfsToAdd) {
+                    racialToAdd.addRacialProf(prof);
+                }
+                try {
+                    this.generator.addNewRacialToDb(racialToAdd);
+                } catch (SQLException ex) {
+                    racialAddNameError.setText(ex.getMessage());
+                }
+                racialAddNameText.setText("");
+                racialAddNameError.setText("");
+                racialStatsError.setText("");
+                addRacialStatsText.setText("0");
+                addRacialFeat.setSelected(false);
+                this.modifyWindow.close();
+                refreshRacials(racials);
+            } else {
+                if (racialName.isEmpty()) {
+                    racialAddNameError.setText("Syöte ei voi olla tyhjä!");
+                } else {
+                    racialAddNameError.setText("");
+                }
+                if (!isInteger(addRacialStatsText.getText())) {
+                    racialStatsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    racialStatsError.setText("");
+                }
+            }
         });
 
         backFromAddingRacial.setOnAction((event) -> {
-            racialAddNameText.setText("");
-            addRacialStatsText.setText("0");
-            addRacialFeat.setSelected(false);
             this.modifyWindow.close();
         });
 
@@ -686,7 +732,18 @@ public class Interface extends Application {
         });
 
         deleteRacial.setOnAction((event) -> {
-            
+            try {
+                Racial racialToBeDeleted = racials.getSelectionModel().getSelectedItem();
+                this.generator.deleteRacialFromDb(racialToBeDeleted);
+                racialDatabaseErrorText.setText("");
+            } catch (Exception e) {
+                String errorText = "Valitse poistettava racial!";
+                if (!(e.getMessage() == null)) {
+                    errorText += e.getMessage();
+                }
+                racialDatabaseErrorText.setText(errorText);
+            }
+            refreshRacials(racials);
         });
         //HUOM HUOM RACIALIEN MUOKKAUS JA LISÄYS LOPPUU
 
