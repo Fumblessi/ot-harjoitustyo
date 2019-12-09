@@ -43,6 +43,15 @@ Checkstyle:
 
 "mvn jxr:jxr checkstyle:checkstyle"
 
-JavaDoc:
+JavaDoc*:
 
 "mvn javadoc:javadoc"
+
+*Luokat, joille tähän mennessä JavaDoc on tehty:
+- hahmogeneraattori.dao.SQLDatabaseDao
+- hahmogeneraattori.dao.FileSettingsDao
+- hahmogeneraattori.domain.Settings
+- hahmogeneraattori.domain.Generator
+- hahmogeneraattori.domain.Stats
+- hahmogeneraattori.domain.Proficiency
+- hahmogeneraattori.domain.Racial
