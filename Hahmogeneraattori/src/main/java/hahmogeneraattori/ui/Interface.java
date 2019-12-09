@@ -7,6 +7,7 @@ package hahmogeneraattori.ui;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.Modality;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -18,6 +19,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -282,10 +284,13 @@ public class Interface extends Application {
 
         TableColumn<Proficiency, String> profNameColumn = new TableColumn<>("Nimi");
         profNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-
+        profNameColumn.prefWidthProperty().bind(profs.widthProperty().multiply(0.5));
+        
         TableColumn<Proficiency, String> profTypeColumn = new TableColumn<>("Tyyppi");
         profTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        profTypeColumn.prefWidthProperty().bind(profs.widthProperty().multiply(0.5));
 
+        profs.getSortOrder().add(profTypeColumn);
         profs.getColumns().setAll(profNameColumn, profTypeColumn);
 
         Button addProf = new Button("Lisää uusi");
@@ -589,15 +594,22 @@ public class Interface extends Application {
         });
         
         //HUOM HUOM RACIALIEN MUOKKAUS JA LISÄYS ALKAA
-        VBox racialAddLayout = new VBox();
+        HBox racialAddLayout = new HBox();
         
-        HBox racialAddNameLayout = new HBox();
+        VBox racialAddLeftLayout = new VBox();
+        HBox racialAddRightLayout = new HBox();
+        
+        VBox racialAddNameLayout = new VBox();
         Label racialAddNameLabel = new Label("Nimi: ");
-        TextField racialAddNameText = new TextField();
+        TextField racialAddNameText = new TextField("");
         Label racialAddNameError = new Label("");
-        CheckBox addRacialStats = new CheckBox("Racial antaa statteja");
-        CheckBox addRacialProfs = new CheckBox("Racialiin kuuluu proficiencyjä");
-        CheckBox addRacialFeat = new CheckBox("Racialiin kuuluu featteja");
+        
+        VBox addRacialStats = new VBox();
+        Label addRacialStatsLabel = new Label("Racial antaa statteja: ");
+        TextField addRacialStatsText = new TextField("0");
+        addRacialStats.getChildren().addAll(addRacialStatsLabel, addRacialStatsText);
+        
+        CheckBox addRacialFeat = new CheckBox("Racial antaa featin");
         racialAddNameError.setTextFill(Color.RED);
         racialAddNameLayout.getChildren().addAll(racialAddNameLabel, racialAddNameText);
         
@@ -606,8 +618,21 @@ public class Interface extends Application {
         HBox racialAddingButtons = new HBox();    
         racialAddingButtons.getChildren().addAll(addNewRacial, backFromAddingRacial);
         
-        racialAddLayout.getChildren().addAll(racialAddNameLayout, racialAddNameError, 
-                addRacialStats, addRacialProfs, addRacialFeat, racialAddingButtons);
+        racialAddLeftLayout.getChildren().addAll(racialAddNameLayout, racialAddNameError, 
+                addRacialStats, addRacialFeat, racialAddingButtons);
+        
+        TableView<Proficiency> racialProfTable = new TableView();
+        
+        TableColumn<Proficiency, String> racialProfNameColumn = new TableColumn<>(""
+                + "Valitse proficiencyt");
+        racialProfNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        racialProfNameColumn.prefWidthProperty().bind(racialProfTable.widthProperty());
+        
+        racialProfTable.getColumns().setAll(racialProfNameColumn);
+        racialProfTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        racialProfTable.getSortOrder().add(racialProfNameColumn);
+        
+        racialAddRightLayout.getChildren().addAll(racialProfTable);
         
         VBox racialModifyLayout = new VBox();
         
@@ -626,10 +651,12 @@ public class Interface extends Application {
         racialModifyLayout.getChildren().addAll(racialModNameLayout, racialModNameError, 
                 racialModifyingButtons);
         
+        racialAddLayout.getChildren().addAll(racialAddLeftLayout, racialAddRightLayout);
         this.racialAddScene = new Scene(racialAddLayout);
         this.racialModScene = new Scene(racialModifyLayout);
 
         addRacial.setOnAction((event) -> {
+            refreshProfs(racialProfTable);
             this.modifyWindow.setTitle("Lisää Racial");
             this.modifyWindow.setScene(this.racialAddScene);
             this.modifyWindow.show();
@@ -644,6 +671,9 @@ public class Interface extends Application {
         });
 
         backFromAddingRacial.setOnAction((event) -> {
+            racialAddNameText.setText("");
+            addRacialStatsText.setText("0");
+            addRacialFeat.setSelected(false);
             this.modifyWindow.close();
         });
 
@@ -668,18 +698,19 @@ public class Interface extends Application {
                 .addAll(stats, proficiencies);
         layout.setCenter(characterAttributes);
 
-        generate.setOnAction(
-                (event) -> {
+        generate.setOnAction((event) -> {
                     this.generator.generate();
                     stats.setText(this.generator.generateStatList());
-                }
-        );
+                });
 
-        this.primaryWindow.setTitle(
-                "Hahmogeneraattori");
-
-        this.primaryWindow.setScene(
-                this.startScene);
+        this.primaryWindow.setTitle("Hahmogeneraattori");
+        this.primaryWindow.setScene(this.startScene);
+        
+        this.databaseWindow.initOwner(this.primaryWindow);
+        this.modifyWindow.initOwner(this.databaseWindow);
+        
+        this.databaseWindow.initModality(Modality.WINDOW_MODAL);
+        this.modifyWindow.initModality(Modality.WINDOW_MODAL);
 
         this.primaryWindow.show();
         //alkunäkymä
@@ -697,11 +728,13 @@ public class Interface extends Application {
     public void refreshProfs(TableView profView) {
         profView.getItems().clear();
         profView.getItems().addAll(this.generator.listAllProfs());
+        profView.sort();
     }
     
     public void refreshRacials(TableView racialView) {
         racialView.getItems().clear();
         racialView.getItems().addAll(this.generator.listAllRacials());
+        racialView.sort();
     }
 
     public boolean isInteger(String input) {

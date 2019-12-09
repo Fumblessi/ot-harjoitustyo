@@ -194,3 +194,12 @@ org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-200]
 org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-200]
 2019-12-08 15:59:39 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: No data is available [2000-200]
+2019-12-09 14:33:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE RACIAL(ID INTEGER AUTO_INCREMENT, FEAT_ID INTEGER, NAME VARCHAR(255), STATS INTEGER, PRIMARY KEY (ID), UNIQUE KEY (ID), FOREIGN KEY (FEAT_ID) REFERENCES FEAT(ID);[*]"; expected "INDEX, ON, NOT, DEFERRABLE, NOCHECK, CHECK, ,, )"; SQL statement:
+CREATE TABLE Racial(id INTEGER AUTO_INCREMENT, feat_id INTEGER, name VARCHAR(255), stats INTEGER, PRIMARY KEY (id), UNIQUE KEY (id), FOREIGN KEY (feat_id) REFERENCES Feat(id); [42001-200]
+2019-12-09 14:34:13 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RACIAL" not found; SQL statement:
+SELECT * FROM Racial [42102-200]
+2019-12-09 14:36:33 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "FEAT" not found; SQL statement:
+CREATE TABLE Racial(id INTEGER AUTO_INCREMENT, feat_id INTEGER, name VARCHAR(255), stats INTEGER, PRIMARY KEY (id), UNIQUE KEY (id), FOREIGN KEY (feat_id) REFERENCES Feat(id)); [42102-200]

@@ -17,16 +17,20 @@ public class Racial {
     
     private int id;
     private String name;
+    private int stats;
+    private boolean feat;
     private List<Proficiency> racialProfs;
     
-    public Racial(int id, String name) {
+    public Racial(int id, String name, int stats, boolean feat) {
         this.id = id;
         this.name = name;
+        this.stats = stats;
+        this.feat = feat;
         this.racialProfs = new ArrayList<>();
     }
     
-    public Racial(String name) {
-        this(-1, name);
+    public Racial(String name, int stats, boolean feat) {
+        this(-1, name, stats, feat);
     }
 
     public int getId() {
@@ -35,6 +39,14 @@ public class Racial {
     
     public String getName() {
         return this.name;
+    }
+    
+    public int getStats() {
+        return this.stats;
+    }
+    
+    public boolean getFeat() {
+        return this.feat;
     }
     
     public List<Proficiency> getRacialProfs() {

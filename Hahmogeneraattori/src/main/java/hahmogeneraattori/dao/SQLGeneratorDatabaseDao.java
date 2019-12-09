@@ -133,8 +133,10 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     public void createRacial(Racial racial, Connection conn) throws SQLException {
         if (!this.racials.contains(racial)) {
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Racial "
-                    + "(name) VALUES (?);");
+                    + "(name, stats, feat) VALUES (?, ?, ?);");
             stmt.setString(1, racial.getName());
+            stmt.setInt(2, racial.getStats());
+            stmt.setBoolean(3, racial.getFeat());
             stmt.executeUpdate();
             stmt.close();
             
@@ -586,7 +588,8 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
         ResultSet rsRacial = stmtRacial.executeQuery();
         while (rsRacial.next()) {
             int id = rsRacial.getInt(1);
-            Racial newRacial = new Racial(id, rsRacial.getString(2));
+            Racial newRacial = new Racial(id, rsRacial.getString(2), rsRacial.getInt(3), 
+                rsRacial.getBoolean(4));
             
             PreparedStatement getProfs = conn.prepareStatement("SELECT * FROM "
                     + "Proficiency LEFT JOIN RacialProficiency ON "
@@ -691,11 +694,6 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
             //luodaan uudet taulut
             conn.prepareStatement("CREATE TABLE Proficiency(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
                     + "type VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
-            conn.prepareStatement("CREATE TABLE Racial(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
-                    + "PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
-            conn.prepareStatement("CREATE TABLE RacialProficiency(racial_id INTEGER, prof_id INTEGER, "
-                    + "FOREIGN KEY (racial_id) REFERENCES Racial(id), FOREIGN KEY (prof_id) "
-                    + "REFERENCES Proficiency(id));").executeUpdate();
             conn.prepareStatement("CREATE TABLE Background(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
                     + "PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
             conn.prepareStatement("CREATE TABLE BackgroundProficiency(bg_id INTEGER, prof_id INTEGER, "
@@ -714,7 +712,12 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
             conn.prepareStatement("CREATE TABLE FeatProficiency(feat_id INTEGER, prof_id INTEGER, "
                     + "FOREIGN KEY (feat_id) REFERENCES Feat(id), FOREIGN KEY (prof_id) "
                     + "REFERENCES Proficiency(id));").executeUpdate();
-
+            conn.prepareStatement("CREATE TABLE Racial(id INTEGER AUTO_INCREMENT, "
+                    + "name VARCHAR(255), stats INTEGER, feat BOOLEAN, PRIMARY KEY (id), "
+                    + "UNIQUE KEY (id));").executeUpdate();
+            conn.prepareStatement("CREATE TABLE RacialProficiency(racial_id INTEGER, prof_id INTEGER, "
+                    + "FOREIGN KEY (racial_id) REFERENCES Racial(id), FOREIGN KEY (prof_id) "
+                    + "REFERENCES Proficiency(id));").executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(SQLGeneratorDatabaseDao.class
                     .getName()).log(Level.SEVERE, null, ex);
