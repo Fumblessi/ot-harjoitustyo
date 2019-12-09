@@ -27,23 +27,23 @@ Hahmogeneraattorin tarkoitus on arpoa satunnainen roolipelihahmo, sekä sille pi
 
 # Komentorivi
 
-Suoritus:
+### Suoritus:
 
 "mvn compile exec:java -Dexec.mainClass=hahmogeneraattori.ui.Main"
 
-Testit:
+### Testit:
 
 "mvn test"
 
-Testauskattavuus:
+### Testauskattavuus:
 
 "mvn test jacoco:report"
 
-Checkstyle:
+### Checkstyle:
 
 "mvn jxr:jxr checkstyle:checkstyle"
 
-JavaDoc*:
+### JavaDoc*:
 
 "mvn javadoc:javadoc"
 
