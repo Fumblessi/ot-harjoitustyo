@@ -6,7 +6,10 @@
 package hahmogeneraattori.domain;
 
 /**
- *
+ * Luokan avulla käsitellään hahmolle arvottavia piirteitä (stats), joihin
+ * kuuluu Strength (str), Dexterity (dex), Constitution (con), Intelligence (inte),
+ * Wisdom (wis) ja Charisma (cha)
+ * 
  * @author sampo
  */
 public class Stats {
@@ -18,6 +21,11 @@ public class Stats {
     private int wis;
     private int cha;
     
+    /**
+     * Konstruoitaessa uusi Stats-olio, asetetaan piirteiden alkuarvoksi 10
+     * 
+     * @see hahmogeneraattori.domain.Stats#setStats(int[])
+     */
     public Stats() {
         int[] stats = new int[6];
         for (int i = 0; i < 6; i++) {
@@ -26,6 +34,12 @@ public class Stats {
         setStats(stats);
     }
     
+    /**
+     * Metodi asettaa tietylle piirteelle uuden arvon
+     * 
+     * @param stat piirre
+     * @param value uusi arvo
+     */
     public void setStat(String stat, int value) {
         switch (stat) {
             case "str": this.str = value;
@@ -37,6 +51,12 @@ public class Stats {
         }
     }
     
+    /**
+     * Metodi muuntaa kuusipaikkaisen kokonaislukutaulukon tämän olion
+     * piirteiksi
+     * 
+     * @param stats piirteet taulukkona
+     */
     public final void setStats(int[] stats) {
         this.str = stats[0];
         this.dex = stats[1];
@@ -46,6 +66,12 @@ public class Stats {
         this.cha = stats[5];
     }
     
+    /**
+     * Metodi palauttaa kysytyn piirteen
+     * 
+     * @param stat piirre
+     * @return piirteen arvo
+     */
     public int getStat(String stat) {
         switch (stat) {
             case "str": return this.str;
@@ -58,6 +84,11 @@ public class Stats {
         return -1;
     }
     
+    /**
+     * Metodi palauttaa piirteet kokonaislukuja sisältävänä taulukkona
+     * 
+     * @return piirteet taulukossa
+     */
     public int[] getStats() {
         int[] stats = new int[6];
         stats[0] = this.str;
@@ -70,6 +101,13 @@ public class Stats {
         return stats;
     }
     
+    /**
+     * Metodi hakee piirteiden minimiarvon
+     * 
+     * @see hahmogeneraattori.domain.Stats#getStats()
+     * 
+     * @return arvoltaan pienin piirre
+     */
     public int getMin() {
         int min = 100;
         int[] stats = getStats();
@@ -81,6 +119,13 @@ public class Stats {
         return min;
     }
     
+    /**
+     * Metodi hakee piirteiden maksimiarvon
+     * 
+     * @see hahmogeneraattori.domain.Stats#getStats()
+     * 
+     * @return arvoltaan suurin piirre
+     */
     public int getMax() {
         int max = -1;
         int[] stats = getStats();
@@ -92,6 +137,13 @@ public class Stats {
         return max;
     }
     
+    /**
+     * Metodi hakee piirteiden summan
+     * 
+     * @see hahmogeneraattori.domain.Stats#getStats()
+     * 
+     * @return piirteiden summa
+     */
     public int getSum() {
         int sum = 0;
         int[] stats = getStats();
@@ -101,6 +153,12 @@ public class Stats {
         return sum;
     }
     
+    /**
+     * Metodi palauttaa piirteet String-muotoisena, eli siinä muodossa,
+     * missä ne tulevat generaattorin käyttöliittymään näkyviin
+     * 
+     * @return piirteen String-muotoisena
+     */
     @Override
     public String toString() {
         return "Stats:\n\nSTR: " + this.str + "\nDEX: " + this.dex + "\nCON: " + 

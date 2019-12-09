@@ -702,11 +702,29 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     /**
      * Metodi resettaa koko tietokannan, eli poistaa jo mahdollisesti olemassa
      * olevan, ja luo uudet, tyhjät tietokantataulut
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#openConnection()
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#dropTables(Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createTables(Connection)
+     * 
+     * @throws SQLException
      */
     @Override
     public void initialize() throws SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:h2:./generatordb", "sa", "");
-        
+        Connection conn = openConnection();
+        dropTables(conn);
+        createTables(conn);        
+        conn.close();
+    }
+    
+    /**
+     * Metodi poistaa tietokantataulut, jos ne ovat olemassa
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void dropTables(Connection conn) throws SQLException {
         conn.prepareStatement("DROP TABLE RacialProficiency IF EXISTS").executeUpdate();
         conn.prepareStatement("DROP TABLE BackgroundProficiency IF EXISTS").executeUpdate();
         conn.prepareStatement("DROP TABLE ClassProficiency IF EXISTS").executeUpdate();
@@ -717,7 +735,16 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
         conn.prepareStatement("DROP TABLE SubClass IF EXISTS").executeUpdate();
         conn.prepareStatement("DROP TABLE Class IF EXISTS").executeUpdate();
         conn.prepareStatement("DROP TABLE Feat IF EXISTS").executeUpdate();
-        //luodaan uudet taulut
+    }
+    
+    /**
+     * Metodi luo uudet tietokantataulut
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void createTables(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE Proficiency(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
                 + "type VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
         conn.prepareStatement("CREATE TABLE Background(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "

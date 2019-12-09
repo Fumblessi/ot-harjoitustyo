@@ -194,7 +194,6 @@ public class Interface extends Application {
                     this.settings.setStatMin(newStatMin);
                     this.settings.setStatMax(newStatMax);
                     this.settings.setRacialBonus(newRacialBonus);
-                    this.generator.getNewSettings(this.settings);
                     settingsLayout.getChildren().clear();
                     this.databaseWindow.close();
                     this.primaryWindow.setScene(this.startScene);

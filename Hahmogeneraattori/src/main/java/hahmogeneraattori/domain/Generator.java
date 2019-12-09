@@ -12,7 +12,10 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- *
+ * Luokka sisältää generaattorin hahmon generointi-toiminnallisuuden, ja tämän
+ * lisäksi yhteyden tietokantaluokkaan GeneratorDatabaseDao, josta haetaan
+ * eri ominaisuudet, minkä joukosta arvonta tehdään
+ * 
  * @author sampo
  */
 public class Generator {
@@ -21,6 +24,14 @@ public class Generator {
     private Stats stats;
     private GeneratorDatabaseDao generatorDatabaseDao;
 
+    /**
+     * @see hahmogeneraattori.dao.GeneratorDatabaseDao
+     * @see hahmogeneraattori.domain.Settings
+     * @see hahmogeneraattori.domain.Stats
+     * 
+     * @param settings generaattorin asetukset
+     * @param gbDao generaattorin tietokanta
+     */
     public Generator(Settings settings, GeneratorDatabaseDao gbDao) {
         this.settings = settings;
         this.generatorDatabaseDao = gbDao;
@@ -31,10 +42,23 @@ public class Generator {
         return this.stats;
     }
 
+    /**
+     * Metodi toteuttaa hahmon generoinnin, aloittaen hahmon piirteiden
+     * (stattien) arpomisesta.
+     * 
+     * @see hahmogeneraattori.domain.Generator#createRandomStats()
+     */
     public void generate() {
         createRandomStats();
     }
 
+    /**
+     * Metodi arpoo käyttäjän asetusten pohjalta hahmolle piirteet, ja
+     * tallentaa ne luokassa olevaan Stats-muotoiseen olioon
+     * 
+     * @see hahmogeneraattori.domain.Generator#shuffle(int[])
+     * @see hahmogeneraattori.domain.Stats
+     */
     public void createRandomStats() {
         int statVar = this.settings.getStatVar();
         int statPool = this.settings.getStatPool() - statVar;
@@ -75,38 +99,109 @@ public class Generator {
         this.stats.setStats(newStats);
     }
 
+    /**
+     * Hahmon piirteet palautetaan String-muotoisena
+     * 
+     * @return hahmon piirteet
+     */
     public String generateStatList() {
         return this.stats.toString();
     }
     
+    /**
+     * Lisätään uusi proficiency tietokantaan
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#create(Object)
+     * 
+     * @param prof lisättävä proficiency
+     * 
+     * @throws SQLException 
+     */
     public void addNewProfToDb(Proficiency prof) throws SQLException {
         this.generatorDatabaseDao.create(prof);
     }
     
-    public void updateProfToDb(Proficiency newProf) throws SQLException {
-        this.generatorDatabaseDao.update(newProf);
+    /**
+     * Päivitetään tietokannassa oleva proficiency
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#update(Object)
+     * 
+     * @param prof päivitettävä proficiency
+     * 
+     * @throws SQLException 
+     */
+    public void updateProfToDb(Proficiency prof) throws SQLException {
+        this.generatorDatabaseDao.update(prof);
     }
     
+    /**
+     * Poistetaan tietokannassa oleva proficiency
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#delete(Object)
+     * 
+     * @param prof poistettava proficiency
+     * 
+     * @throws SQLException 
+     */
     public void deleteProfFromDb(Proficiency prof) throws SQLException {
         this.generatorDatabaseDao.delete(prof);
     }
     
+    /**
+     * Lisätään uusi racial tietokantaan
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#create(Object)
+     * 
+     * @param racial lisättävä racial
+     * 
+     * @throws SQLException 
+     */
     public void addNewRacialToDb(Racial racial) throws SQLException {
         this.generatorDatabaseDao.create(racial);
     }
     
+    /**
+     * Poistetaan tietokannassa oleva racial
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#delete(Object)
+     * 
+     * @param racial poistettava racial
+     * 
+     * @throws SQLException 
+     */
     public void deleteRacialFromDb(Racial racial) throws SQLException {
         this.generatorDatabaseDao.delete(racial);
     }
     
+    /**
+     * Metodi palauttaa listana tietokantataulun 'Proficiency' sisällön
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#list(Class)
+     * 
+     * @return lista proficiencyistä
+     */
     public List<Proficiency> listAllProfs() {
         return this.generatorDatabaseDao.list(Proficiency.class);
     }
     
+    /**
+     * Metodi palauttaa listana tietokantataulun 'Racial' sisällön
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#list(Class)
+     * 
+     * @return lista racialeista
+     */
     public List<Racial> listAllRacials() {
         return this.generatorDatabaseDao.list(Racial.class);
     }
 
+    /**
+     * Metodi sekoittaa kuusi kokonaislukua sisältävän taulukon
+     * 
+     * @see hahmogeneraattori.domain.Generator#swap(int[], int, int)
+     * 
+     * @param array sekoitettava taulukko
+     */
     public static void shuffle(int[] array) {
         Random random = new Random();
         for (int i = 6; i > 1; i--) {
@@ -114,16 +209,27 @@ public class Generator {
         }
     }
 
+    /**
+     * Metodi vaihtaa annetun taulukon kahden arvon paikkaa
+     * taulukossa keskenään
+     * 
+     * @param array syötetty taulukko
+     * @param i ensimmäisen vaihdettavan arvon indeksi
+     * @param j toisen vaihdettavan arvon indeksi
+     */
     private static void swap(int[] array, int i, int j) {
         int temp = array[i];
         array[i] = array[j];
         array[j] = temp;
     }
-
-    public void getNewSettings(Settings settings) {
-        this.settings = settings;
-    }
     
+    /**
+     * Metodi tyhjentää tietokannan ja alustaa sen uudelleen
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#initialize()
+     * 
+     * @throws SQLException 
+     */
     public void initializeDatabase() throws SQLException {
         this.generatorDatabaseDao.initialize();
     }
