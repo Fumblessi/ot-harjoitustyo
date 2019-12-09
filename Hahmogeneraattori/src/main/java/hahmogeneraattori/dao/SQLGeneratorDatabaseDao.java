@@ -746,6 +746,17 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
      * Metodi luo uudet tietokantataulut
      *
      * @param conn tietokantayhteys
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createProfTable(Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createBackgroundTable(Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createBgProfTable(Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createClassTable(Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createSubclassTable(Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createClassProfTable(Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createFeatTable(Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createFeatProfTable(Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createRacialTable(Connection)
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createRacialProfTable(Connection)
      *
      * @throws SQLException
      */
@@ -762,56 +773,126 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
         createRacialProfTable(conn);
     }
 
+    /**
+     * Luodaan tietokantataulu 'Proficiency'
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public void createProfTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE Proficiency(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
                 + "type VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
     }
 
+    /**
+     * Luodaan tietokantataulu 'Background'
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public void createBackgroundTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE Background(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
                 + "PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
     }
-
+    
+    /**
+     * Luodaan liitostaulu 'BackgroundProficiency'
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public void createBgProfTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE BackgroundProficiency(bg_id INTEGER, prof_id INTEGER, "
                 + "FOREIGN KEY (bg_id) REFERENCES Background(id), FOREIGN KEY (prof_id) "
                 + "REFERENCES Proficiency(id));").executeUpdate();
     }
 
+    /**
+     * Luodaan tietokantataulu 'Class'
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public void createClassTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE Class(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
                 + "PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
     }
 
+    /**
+     * Luodaan tietokantataulu 'Subclass'
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public void createSubclassTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE SubClass(id INTEGER AUTO_INCREMENT, class_id INTEGER, "
                 + "name VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id), FOREIGN KEY "
                 + "(class_id) REFERENCES Class(id));").executeUpdate();
     }
     
+    /**
+     * Luodaan liitostaulu 'ClassProficiency'
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public void createClassProfTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE ClassProficiency(class_id INTEGER, prof_id INTEGER, "
                 + "FOREIGN KEY (class_id) REFERENCES Class(id), FOREIGN KEY (prof_id) "
                 + "REFERENCES Proficiency(id));").executeUpdate();
     }
-    
+
+    /**
+     * Luodaan tietokantataulu 'Feat'
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */    
     public void createFeatTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE Feat(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
                 + "stats VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
     }
     
+    /**
+     * Luodaan liitostaulu 'FeatProficiency'
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public void createFeatProfTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE FeatProficiency(feat_id INTEGER, prof_id INTEGER, "
                 + "FOREIGN KEY (feat_id) REFERENCES Feat(id), FOREIGN KEY (prof_id) "
                 + "REFERENCES Proficiency(id));").executeUpdate();
     }
     
+    /**
+     * Luodaan tietokantataulu 'Racial'
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public void createRacialTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE Racial(id INTEGER AUTO_INCREMENT, "
                 + "name VARCHAR(255), stats INTEGER, feat BOOLEAN, PRIMARY KEY (id), "
                 + "UNIQUE KEY (id));").executeUpdate();
     }
     
+    /**
+     * Luodaan liitostaulu 'RacialProficiency'
+     * 
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
     public void createRacialProfTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE RacialProficiency(racial_id INTEGER, prof_id INTEGER, "
                 + "FOREIGN KEY (racial_id) REFERENCES Racial(id), FOREIGN KEY (prof_id) "
