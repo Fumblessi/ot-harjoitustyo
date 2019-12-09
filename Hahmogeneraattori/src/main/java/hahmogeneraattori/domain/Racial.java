@@ -91,6 +91,33 @@ public class Racial {
     }
     
     /**
+     * Metodi asetaa racialille nimen
+     * 
+     * @param name uusi nimi
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    /**
+     * Metodi asetaa racialin antamat piirteet
+     * 
+     * @param stats uusi piirremäärä
+     */
+    public void setStats(int stats) {
+        this.stats = stats;
+    }
+    
+    /**
+     * Metodi asetaa tiedon siitä, kuuluko racialiin feat
+     * 
+     * @param value kuuluuko racialiin feat
+     */
+    public void setFeat(boolean value) {
+        this.feat = value;
+    }
+    
+    /**
      * Metodi asettaa racialille indeksin, mutta vain, jos sillä ei
      * vielä sellaista ole
      * 

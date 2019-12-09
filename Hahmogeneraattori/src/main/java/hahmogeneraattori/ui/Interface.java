@@ -69,7 +69,13 @@ public class Interface extends Application {
 
         String settingsFile = properties.getProperty("settingsFile");
         FileSettingsDao settingsDao = new FileSettingsDao(settingsFile);
-        this.generatorDatabaseDao = new SQLGeneratorDatabaseDao();
+        
+        String connectionPath = properties.getProperty("spring.datasource.url");
+        String username = properties.getProperty("spring.datasource.username");
+        String password = properties.getProperty("spring.datasource.password");
+        
+        this.generatorDatabaseDao = new SQLGeneratorDatabaseDao(connectionPath, 
+            username, password);
         this.settings = new Settings(settingsDao);
         this.generator = new Generator(this.settings, this.generatorDatabaseDao);
         

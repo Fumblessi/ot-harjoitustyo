@@ -24,6 +24,9 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     private List<RpgClass> classes;
     private List<Background> backgrounds;
     private List<Feat> feats;
+    private String connection;
+    private String user;
+    private String password;
 
     /**
      * Luokan konstruktorissa tuodaan tietokannan sisältö luokan sisältämiin
@@ -35,16 +38,21 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
      *
      * @throws SQLException
      */
-    public SQLGeneratorDatabaseDao() throws SQLException {
+    public SQLGeneratorDatabaseDao(String connPath, String user, String psw) throws SQLException {
         this.profs = new ArrayList<>();
         this.racials = new ArrayList<>();
         this.classes = new ArrayList<>();
         this.backgrounds = new ArrayList<>();
         this.feats = new ArrayList<>();
+        this.connection = connPath;
+        this.user = user;
+        this.password = psw;
 
         Connection conn = openConnection();
 
-        initializeLists(conn);
+        //initializeLists(conn);
+        //HUOM! Jos initialisoit koko tietokannan initialize()-metodilla, 
+        //initializeLists()-metodia ei saa suorittaa konstruktorissa!
 
         conn.close();
     }
@@ -279,13 +287,12 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
                     break;
                 }
             }
-
+            
             PreparedStatement stmt = conn.prepareStatement("UPDATE Proficiency "
                     + "SET name = ?, type = ? WHERE id = ?;");
             stmt.setString(1, prof.getName());
             stmt.setString(2, prof.getType());
             stmt.setInt(3, prof.getId());
-
             stmt.executeUpdate();
             stmt.close();
         }
@@ -554,7 +561,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
      * @throws SQLException
      */
     public final Connection openConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:h2:./generatordb", "sa", "");
+        return DriverManager.getConnection(this.connection, this.user, this.password);
     }
 
     /**

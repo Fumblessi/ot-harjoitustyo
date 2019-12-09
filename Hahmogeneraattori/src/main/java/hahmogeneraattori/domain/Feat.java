@@ -18,6 +18,7 @@ public class Feat {
     public Feat(int id, String name) {
         this.name = name;
         this.stats = new int[6];
+        this.id = id;
         for (int i = 0; i < 6; i++) {
             this.stats[i] = 0;
         }
@@ -36,29 +37,29 @@ public class Feat {
     }
     
     public String getStats() {
-        String stats = "";
+        String statString = "";
         if (this.stats[0] == 1) {
-            stats += "STR/";
+            statString += "STR/";
         }
         if (this.stats[1] == 1) {
-            stats += "DEX/";
+            statString += "DEX/";
         }
         if (this.stats[2] == 1) {
-            stats += "CON/";
+            statString += "CON/";
         }
         if (this.stats[3] == 1) {
-            stats += "INT/";
+            statString += "INT/";
         }
         if (this.stats[4] == 1) {
-            stats += "WIS/";
+            statString += "WIS/";
         }
         if (this.stats[5] == 1) {
-            stats += "CHA/";
+            statString += "CHA/";
         }
-        if (!stats.isEmpty()) {
-            stats = stats.substring(0, stats.length() - 1);
+        if (!statString.isEmpty()) {
+            statString = statString.substring(0, statString.length() - 1);
         }
-        return stats;
+        return statString;
     }
     
     public void setId(int id) {
@@ -68,9 +69,22 @@ public class Feat {
     }
     
     public void setStatsFromString(String stats) {
-        String[] parts = stats.split("|");
+        String[] parts = stats.split("/");
         for (int i = 0; i < parts.length; i++) {
-            this.stats[i] = 1;
+            switch (parts[i]) {
+                case "STR": this.stats[0] = 1;
+                    break;
+                case "DEX": this.stats[1] = 1;
+                    break;
+                case "CON": this.stats[2] = 1;
+                    break;
+                case "INT": this.stats[3] = 1;
+                    break;
+                case "WIS": this.stats[4] = 1;
+                    break;
+                case "CHA": this.stats[5] = 1;
+                    break;
+            }
         }
     }
 }

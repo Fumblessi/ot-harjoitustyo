@@ -5,10 +5,7 @@
  */
 package DomainTest;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import hahmogeneraattori.domain.Settings;
@@ -55,6 +52,12 @@ public class SettingsTest {
     public void statMaxCanBeModified() {
         this.settings.setStatMax(15);
         assertEquals(15, this.settings.getStatMax());
+    }
+    
+    @Test
+    public void racialBonusCanBeModifiend() {
+        this.settings.setRacialBonus(false);
+        assertFalse(this.settings.getRacialBonus());
     }
     
     @Test

@@ -92,14 +92,6 @@ public class Proficiency {
     public void setType(String type) {
         this.type = type;
     }
-    
-    /**
-     * @return proficiency String-muotoisena
-     */
-    @Override
-    public String toString() {
-        return this.name + ", type: " + this.type;
-    }
 
     /**
      * proficiencyn uniikkiuteen vaikuttaa sen nimi ja tyyppi
