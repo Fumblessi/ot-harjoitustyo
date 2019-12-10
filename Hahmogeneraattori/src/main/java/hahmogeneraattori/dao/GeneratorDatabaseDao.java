@@ -8,6 +8,7 @@ package hahmogeneraattori.dao;
 import hahmogeneraattori.domain.Proficiency;
 import java.sql.SQLException;
 import java.util.List;
+import java.sql.Connection;
 
 /**
  *
@@ -19,4 +20,5 @@ public interface GeneratorDatabaseDao {
     void delete(Object obj) throws SQLException;
     List list(Class c);
     void initialize() throws SQLException;
+    Connection openConnection() throws SQLException;
 }

@@ -330,6 +330,7 @@ public class Interface extends Application {
 
         TableColumn<Racial, String> racialNameColumn = new TableColumn<>("Nimi");
         racialNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        racialNameColumn.prefWidthProperty().bind(racials.widthProperty());
 
         racials.getColumns().setAll(racialNameColumn);
 

@@ -76,7 +76,7 @@ public class GeneratorDaoTest {
         dbDao.create(prof);
 
         Proficiency newProf = new Proficiency(prof.getId(), "corgi", prof.getType());
-        dbDao.updateProf(newProf, conn);
+        dbDao.update(newProf);
         int id = prof.getId();
         
         PreparedStatement stmt1 = conn.prepareStatement("SELECT name FROM "
