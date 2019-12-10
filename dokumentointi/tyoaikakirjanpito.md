@@ -10,4 +10,5 @@ Päivä | Aika | Mitä tein
 7.12  | 7    | Refaktorointia, käyttöliittymän ulkoasun rakentamista, tietokantatoiminnallisuuden rakentamista (Proficiency-taulu tällä hetkellä kaikilta osin toimii, niin sovelluslogiikan kuin käyttöliittymänkin puolesta)
 8.12  | 6    | Tietokantatoiminnallisuuden refaktorointia, luokat muistamaan oma tietokanta-id:nsä, kaikilla tietokannoilla nyt oma ponnahdusikkunansa tietokanta-menussa, SQLGeneratorDatabaseDaon javadoc tehty, Racial-tietokantatoiminnallisuuden ja siihen liittyvän käyttöliittymän rakentamista, tietokantakaavion päivitys
 9.12  | 8    | Tietokantatoiminnallisuuden rakentamista: Racial-tietokantaan lisääminen ja tietokannasta poistaminen toimii, javadocin kirjoittamista, domain- ja dao-testien rakentamista
-Yht.  | 53   |  tuntia
+10.12 | 2    | SQLGeneratorDatabaseDaon refaktorointi ja hajautus, JavaDocin päivitys sen mukaisesti sekä pakkauskaavion päivitys
+Yht.  | 55   |  tuntia
