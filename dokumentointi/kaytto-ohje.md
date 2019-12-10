@@ -15,8 +15,12 @@ minimiarvo 8, maksimiarvo 18 ja rodun pohjalta tulevat piirrebonukset päällä)
 
 ### Proficiency-tietokantataulun muokkaus
 
-Asetuksissa on nyt yläpalkissa menu "Tietokanta", josta painamalla näkee vaihtoehtoiset eri tietokantataulut. Tällä hetkellä ainoastaan Proficiency on painettavissa, josta aukeaa tietokannan sisältö uuteen ikkunaan, mistä voi lisätä/muokata/poistaa tietokannan sisältöä.
+Asetuksissa on nyt yläpalkissa menu "Tietokanta", josta painamalla näkee vaihtoehtoiset eri tietokantataulut. Tällä hetkellä ainoastaan Proficiency ja Racial ovat painettavissa, joista Proficiencyä painamalla näkee 'Proficiency'-tietokantataulun sisällön (eli generoinnin pohjana olevat vaihtoehtoiset hahmon taidot, joskin tietokantaa ei ole vielä juuri täytetty), ja edelleen lisätä tietokaan uusia taitoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia taitoja.
+
+## Racial-tietokantataulun muokkaus
+
+Tietokanta-palkista valitsemalla Racial, voi tarkastella tietokantataulun 'Racial' sisältöä, eli generoinnin pohjana olevia hahmon ominaisuuksia, jotka perustuvat sen rotuun (esim. örkki, haltija, ihminen yms). Halutessaan sieltä voi tällä hetkellä lisätä tietokantaan uusia ominaisuuksia, tai poistaa vanhoja, mutten vielä ehtinyt tehdä jo olemassa olevien muokkaus-toimintoa.
 
 ## Generointi
 
-Tällä hetkellä Generoi-painikkeella generaattori luo satunnaiset hahmon piirteet noudattaen Asetuksissa määriteltyjä rajoja.
+Tällä hetkellä Generoi-painikkeella generaattori luo satunnaiset hahmon piirteet noudattaen Asetuksissa määriteltyjä rajoja, eikä vielä arvo hahmolle taitoja/luokkaa/taustaa yms.
