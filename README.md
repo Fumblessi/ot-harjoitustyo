@@ -5,6 +5,7 @@ Hahmogeneraattorin tarkoitus on arpoa satunnainen roolipelihahmo, sekä sille pi
 # Releaset
 
 [Viikko5](https://github.com/Fumblessi/ot-harjoitustyo/releases/tag/viikko5)
+[Viikko6](https://github.com/Fumblessi/ot-harjoitustyo/releases/tag/viikko6)
 
 # Dokumentaatio
 
