@@ -1,6 +1,6 @@
 # Pakkauskaavio
 
-Päivitetty pakkauskaavio näyttää, mihin muotoon haluaisin ohjelmani refaktoroida. Ainoa asetustiedostoa käyttävä luokka olisi Settings, ja ainoa tietokantaa (kaavio alla) käyttävä luokka olisi Generator, jonka kautta generoitaisiin sattumanvaraisesti tarvittavia muita olioita käyttäen kaaviossa näkyviä olioluokkia. Vanhan pakkauskaavion näkee [täältä](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/pakkauskaavio_vanha.png).
+Päivitetty pakkauskaavio näyttää, mihin muotoon haluaisin ohjelmani refaktoroida. Ainoa asetustiedostoa käyttävä luokka olisi Settings, ja ainoa tietokantaa (kaavio alla) käyttävä luokka olisi Generator, jonka kautta generoitaisiin sattumanvaraisesti tarvittavia muita olioita käyttäen kaaviossa näkyviä olioluokkia.
 
 <img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/pakkauskaavio.png" width="600">
 
