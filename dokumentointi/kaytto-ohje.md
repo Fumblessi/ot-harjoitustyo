@@ -1,11 +1,12 @@
 # Käyttöohje
 
+-----------------------------------------------------------------------------------------------------------------------------
 
 ## Generointi
 
 Tällä hetkellä Generoi-painikkeella generaattori luo satunnaiset hahmon piirteet noudattaen Asetuksissa määriteltyjä rajoja, eikä vielä arvo hahmolle taitoja/luokkaa/taustaa yms.
 
-
+-----------------------------------------------------------------------------------------------------------------------------
 
 ## Asetukset
 
@@ -28,7 +29,7 @@ Asetuksissa on nyt yläpalkissa menu "Tietokanta", josta painamalla näkee vaiht
 
 Tietokanta-palkista valitsemalla Racial, voi tarkastella tietokantataulun 'Racial' sisältöä, eli generoinnin pohjana olevia hahmon ominaisuuksia, jotka perustuvat sen rotuun (esim. örkki, haltija, ihminen yms). Halutessaan sieltä voi tällä hetkellä lisätä tietokantaan uusia ominaisuuksia, tai poistaa vanhoja, mutten vielä ehtinyt tehdä jo olemassa olevien muokkaus-toimintoa.
 
-
+-----------------------------------------------------------------------------------------------------------------------------
 
 ## Dungeons and Dragons ja termistö
 
@@ -40,9 +41,9 @@ Koska hahmonluontiin kuluu mittavasti aikaa, peliporukassamme on aika ajoin esii
 
 Peliporukassamme olemme muokanneet joitakin sääntöjä, ja hahmogeneraattorin olen tehnyt seuraamaan näitä sääntömuutoksia. Normaalisti esimerkiksi hahmon rotu määrittää sen rotuominaisuuden (Racial), mutta olemme tässä mielessä roolipeliporukassamme tasa-arvoistaneet eri rotuja, sillä yksilöinä hahmot kuitenkin voivat venyä vaikka mihin, ja pelaajat saavat itse valita rotuominaisuutensa kaikista eri rotujen tarjoamista vaihtoehdoista, riippumatta hahmon rodusta. Siksi generaattorikin arpoo hahmolle rotuominaisuudet kaikista vaihtoehdoista tietokantataulussa 'Racial'.
 
+-----------------------------------------------------------------------------------------------------------------------------
+
 ## Usein kysytyt kysymykset
-
-
 
 ### 1. Miksi käyttäjän tarvitsee pystyä muokkaamaan tietokantojen sisältöä
 
