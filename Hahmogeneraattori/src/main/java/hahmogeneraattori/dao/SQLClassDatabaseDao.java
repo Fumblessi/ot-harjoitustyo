@@ -68,7 +68,7 @@ public class SQLClassDatabaseDao implements GeneratorDatabaseDao {
         updateClassToClasses(rpgclass);
 
         PreparedStatement stmt = conn.prepareStatement("UPDATE Class "
-                + "SET name = ?, WHERE id = ?;");
+                + "SET name = ? WHERE id = ?;");
         stmt.setString(1, rpgclass.getName());;
         stmt.setInt(2, rpgclass.getId());
         stmt.executeUpdate();

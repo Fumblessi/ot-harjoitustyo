@@ -186,6 +186,18 @@ public class Generator {
         this.generatorDatabaseDao.delete(racial);
     }
     
+    public void addNewClassToDb(RpgClass rpgclass) throws SQLException {
+        this.generatorDatabaseDao.create(rpgclass);
+    }
+    
+    public void updateClassToDb(RpgClass rpgclass) throws SQLException {
+        this.generatorDatabaseDao.update(rpgclass);
+    }
+    
+    public void deleteClassFromDb(RpgClass rpgclass) throws SQLException {
+        this.generatorDatabaseDao.delete(rpgclass);
+    }
+    
     /**
      * Metodi palauttaa listana tietokantataulun 'Proficiency' sisällön
      * 

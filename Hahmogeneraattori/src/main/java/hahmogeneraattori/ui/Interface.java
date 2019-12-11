@@ -21,12 +21,16 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.Scene;
 import javafx.collections.ObservableList;
 import java.util.Properties;
+import java.util.List;
+import java.util.ArrayList;
 import java.io.FileInputStream;
 import hahmogeneraattori.dao.FileSettingsDao;
 import hahmogeneraattori.dao.GeneratorDatabaseDao;
@@ -370,17 +374,26 @@ public class Interface extends Application {
 
         HBox classTables = new HBox();
         TableView<RpgClass> classes = new TableView();
-        TableView<String> subclasses = new TableView();
+        
+        VBox subclassLayout = new VBox();
+        Label subclassLabel = new Label("Subclassit");
+        ListView<String> subclasses = createEmptyList();
+        subclassLayout.getChildren().addAll(subclassLabel, subclasses);
 
         TableColumn<RpgClass, String> classNameColumn = new TableColumn<>("Nimi");
         classNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        classNameColumn.prefWidthProperty().bind(classes.widthProperty());
         
-        TableColumn<String, String> subClassNameColumn = new TableColumn<>("Subclass");
+        classes.setOnMouseClicked((event) -> {
+            RpgClass rpgclass = classes.getSelectionModel().getSelectedItem();
+            if (!(rpgclass == null)) {
+                refreshSubclasses(rpgclass, subclasses);
+            }
+        });
 
         classes.getColumns().setAll(classNameColumn);
-        subclasses.getColumns().setAll(subClassNameColumn);
         
-        classTables.getChildren().addAll(classes, subclasses);
+        classTables.getChildren().addAll(classes, subclassLayout);
 
         Button addClass = new Button("Lisää uusi");
         Button modifyExistingClass = new Button("Muokkaa");
@@ -398,7 +411,7 @@ public class Interface extends Application {
         this.classDatabaseScene = new Scene(classDatabaseLayout);
 
         modifyClass.setOnAction((event) -> {
-
+            refreshClasses(classes);
             this.databaseWindow.setScene(this.classDatabaseScene);
             this.databaseWindow.show();
         });
@@ -787,7 +800,9 @@ public class Interface extends Application {
             if (!racialName.isEmpty() && isInteger(modRacialStatsText.getText())) {
                 int racialStats = Integer.parseInt(modRacialStatsText.getText());
                 boolean racialFeat = modRacialFeat.isSelected();
-                Racial racialToMod = new Racial(racialName, racialStats, racialFeat);
+                int id = racials.getSelectionModel().getSelectedItem().getId();
+                
+                Racial racialToMod = new Racial(id, racialName, racialStats, racialFeat);
                 
                 ObservableList<Proficiency> racialProfsToMod = modRacialProfTable.
                         getSelectionModel().getSelectedItems();
@@ -839,9 +854,231 @@ public class Interface extends Application {
             }
             refreshRacials(racials);
         });
-        //HUOM HUOM CLASSIEN MUOKKAUS JA LISÄYS JA POISTO ALKAA
+
+        HBox classAddLayout = new HBox();
         
-        //HUOM HUOM RACIALIEN MUOKKAUS JA LISÄYS ALKAA
+        VBox classAddLeftLayout = new VBox();
+        HBox classAddRightLayout = new HBox();
+        
+        VBox classAddNameLayout = new VBox();
+        Label classAddNameLabel = new Label("Nimi: ");
+        TextField classAddNameText = new TextField("");
+        Label classAddNameError = new Label("");
+        classAddNameError.setTextFill(Color.RED);
+        classAddNameLayout.getChildren().addAll(classAddNameLabel, classAddNameText);
+        
+        Button addNewClass = new Button("Lisää");
+        Button backFromAddingClass = new Button("Takaisin");
+        HBox classAddingButtons = new HBox();    
+        classAddingButtons.getChildren().addAll(addNewClass, backFromAddingClass);
+        
+        classAddLeftLayout.getChildren().addAll(classAddNameLayout, classAddNameError, 
+                classAddingButtons);
+        
+        VBox addSubclassTable = new VBox();
+        Label addSubclassLabel = new Label("Lisää subclassit");
+        ListView<String> addSubclassList = createEmptyList();
+        
+        addSubclassTable.getChildren().addAll(addSubclassLabel, addSubclassList);
+           
+        TableView<Proficiency> addClassProfTable = new TableView();
+        
+        TableColumn<Proficiency, String> addClassProfNameColumn = new TableColumn<>(""
+                + "Valitse proficiencyt");
+        addClassProfNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        addClassProfNameColumn.prefWidthProperty().bind(addClassProfTable.widthProperty());
+        
+        addClassProfTable.getColumns().setAll(addClassProfNameColumn);
+        addClassProfTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        addClassProfTable.getSortOrder().add(addClassProfNameColumn);
+        
+        classAddRightLayout.getChildren().addAll(addSubclassTable, addClassProfTable);
+        
+        classAddLayout.getChildren().addAll(classAddLeftLayout, classAddRightLayout);
+        
+        HBox classModifyLayout = new HBox();
+        
+        VBox classModLeftLayout = new VBox();
+        HBox classModRightLayout = new HBox();
+        
+        VBox classModNameLayout = new VBox();
+        Label classModNameLabel = new Label("Nimi: ");
+        TextField classModNameText = new TextField("");
+        Label classModNameError = new Label("");
+        classModNameError.setTextFill(Color.RED);
+        classModNameLayout.getChildren().addAll(classModNameLabel, classModNameText);
+        
+        Button modifyThisClass = new Button("Päivitä");
+        Button backFromModifyingClass = new Button("Takaisin");      
+        HBox classModifyingButtons = new HBox();     
+        classModifyingButtons.getChildren().addAll(modifyThisClass, backFromModifyingClass);
+        
+        classModLeftLayout.getChildren().addAll(classModNameLayout, classModNameError, 
+                classModifyingButtons);
+        
+        VBox modSubclassTable = new VBox();
+        Label modSubclassLabel = new Label("Lisää subclassit");
+        ListView<String> modSubclassList = createEmptyList();
+        modSubclassTable.getChildren().addAll(modSubclassLabel, modSubclassList);
+        
+        TableView<Proficiency> modClassProfTable = new TableView();
+        
+        TableColumn<Proficiency, String> modClassProfNameColumn = new TableColumn<>(""
+                + "Valitse proficiencyt");
+        modClassProfNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        modClassProfNameColumn.prefWidthProperty().bind(modClassProfTable.widthProperty());
+        
+        modClassProfTable.getColumns().setAll(modClassProfNameColumn);
+        modClassProfTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        modClassProfTable.getSortOrder().add(modClassProfNameColumn);
+        
+        classModRightLayout.getChildren().addAll(modSubclassTable, modClassProfTable);
+        
+        classModifyLayout.getChildren().addAll(classModLeftLayout, classModRightLayout);
+        
+        this.classAddScene = new Scene(classAddLayout);
+        this.classModScene = new Scene(classModifyLayout);
+
+        addClass.setOnAction((event) -> {
+            refreshProfs(addClassProfTable);
+            classDatabaseErrorText.setText("");
+            classAddNameText.setText("");
+            classAddNameError.setText("");
+            this.modifyWindow.setTitle("Lisää Class");
+            this.modifyWindow.setScene(this.classAddScene);
+            this.modifyWindow.show();
+        });
+
+        modifyExistingClass.setOnAction((event) -> {
+            refreshProfs(modClassProfTable);
+            classDatabaseErrorText.setText("");
+            classModNameText.setText("");
+            classModNameError.setText("");
+            
+            RpgClass classToBeModified = classes.getSelectionModel().getSelectedItem();
+            if (!(classToBeModified == null)) {
+                racialDatabaseErrorText.setText("");
+                this.modifyWindow.setTitle("Muokkaa Classia");
+                this.modifyWindow.setScene(this.classModScene);
+                this.modifyWindow.show();
+                classModNameText.setText(classToBeModified.getName());
+                
+                refreshSubclasses(classToBeModified, modSubclassList);
+                
+                for (Proficiency classProf : classToBeModified.getClassProfs()) {
+                    modClassProfTable.getSelectionModel().select(classProf);
+                }
+            } else {
+                classDatabaseErrorText.setText("Valitse muokattava class!");
+            }
+        });
+
+        addNewClass.setOnAction((event) -> {
+            String className = classAddNameText.getText();
+            
+            if (!className.isEmpty()) {
+                RpgClass classToAdd = new RpgClass(className);
+                
+                ObservableList<Proficiency> classProfsToAdd = addClassProfTable.
+                        getSelectionModel().getSelectedItems();
+                
+                ObservableList<String> subclassesToAdd = addSubclassList.getItems();
+                
+                for (Proficiency prof : classProfsToAdd) {
+                    classToAdd.addClassProf(prof);
+                }
+                
+                for (String subclass : subclassesToAdd) {
+                    if (!(subclass == "")) {
+                        classToAdd.addSubclass(subclass.trim());
+                    }
+                }
+                
+                try {
+                    this.generator.addNewClassToDb(classToAdd);
+                } catch (SQLException ex) {
+                    classAddNameError.setText(ex.getMessage());
+                }
+                classAddNameText.setText("");
+                classAddNameError.setText("");
+                this.modifyWindow.close();
+                refreshClasses(classes);
+            } else {
+                if (className.isEmpty()) {
+                    classAddNameError.setText("Syöte ei voi olla tyhjä!");
+                } else {
+                    classAddNameError.setText("");
+                }
+            }
+        });
+
+        backFromAddingClass.setOnAction((event) -> {
+            this.modifyWindow.close();
+        });
+
+        modifyThisClass.setOnAction((event) -> {
+            String className = classModNameText.getText();
+            
+            if (!className.isEmpty()) {
+                int id = classes.getSelectionModel().getSelectedItem().getId();
+                
+                RpgClass classToMod = new RpgClass(id, className);
+                
+                ObservableList<Proficiency> classProfsToMod = modClassProfTable.
+                        getSelectionModel().getSelectedItems();
+                
+                ObservableList<String> subclassesToMod = modSubclassList.getItems();
+                
+                for (Proficiency prof : classProfsToMod) {
+                    classToMod.addClassProf(prof);
+                }
+                
+                ArrayList<String> newSubclasses = new ArrayList<>();
+                for (String subclass : subclassesToMod) {
+                    if (!(subclass.trim() == "")) {
+                        newSubclasses.add(subclass.trim());
+                    }
+                }
+                classToMod.setSubclasses(newSubclasses);
+                
+                try {
+                    this.generator.updateClassToDb(classToMod);
+                    emptyListView(subclasses);
+                } catch (SQLException ex) {
+                    classModNameError.setText(ex.getMessage());
+                }
+                classModNameText.setText("");
+                classModNameError.setText("");
+                this.modifyWindow.close();
+                refreshClasses(classes);
+            } else {
+                if (className.isEmpty()) {
+                    classModNameError.setText("Syöte ei voi olla tyhjä!");
+                } else {
+                    classModNameError.setText("");
+                }
+            }
+        });
+
+        backFromModifyingClass.setOnAction((event) -> {
+            this.modifyWindow.close();
+        });
+
+        deleteClass.setOnAction((event) -> {
+            try {
+                RpgClass classToBeDeleted = classes.getSelectionModel().getSelectedItem();
+                this.generator.deleteClassFromDb(classToBeDeleted);
+                classDatabaseErrorText.setText("");
+                emptyListView(subclasses);
+            } catch (Exception e) {
+                String errorText = "Valitse poistettava class!";
+                if (!(e.getMessage() == null)) {
+                    errorText += e.getMessage();
+                }
+                classDatabaseErrorText.setText(errorText);
+            }
+            refreshClasses(classes);
+        });
 
         Label stats = new Label("");
         Label proficiencies = new Label("");
@@ -894,6 +1131,36 @@ public class Interface extends Application {
         classView.getItems().clear();
         classView.getItems().addAll(this.generator.listAllClasses());
         classView.sort();
+    }
+    
+    public void refreshSubclasses(RpgClass rpgclass, ListView subclassView) {
+        emptyListView(subclassView);
+        int index = 0;
+        for (String subclass : rpgclass.getSubclasses()) {
+            subclassView.getItems().set(index, subclass);
+            index++;
+        }
+    }
+    
+    public void emptyListView(ListView listToEmpty) {
+        for (int i = 0; i < 12; i++) {
+            listToEmpty.getItems().set(i,  "");
+        }
+    }
+    
+    public ListView<String> createEmptyList() {
+        ListView<String> emptyList = new ListView();
+        
+        emptyList.setEditable(true);
+        emptyList.setCellFactory(TextFieldListCell.forListView());
+        String tyhja = "";
+        ArrayList<String> empties = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            empties.add(tyhja);
+        }
+        emptyList.getItems().addAll(empties);
+        
+        return emptyList;
     }
 
     public boolean isInteger(String input) {
