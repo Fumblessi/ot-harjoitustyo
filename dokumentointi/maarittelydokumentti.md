@@ -41,5 +41,5 @@ suurempi kuin 1). Käyttäjä pystyy itse vaikuttamaan, kuinka monta hahmoluokka
 mahdollisesti vaikuttamaan vielä näiden eri vaihtoehtojen todennäköisyyksiin
 * Asetukset -välilehdeltä voi lisätä arvontaan esimerkiksi tavaroita, joiden kanssa hahmo aloittaa, tai jotain muita lisäpiirteitä
 liittyen hahmoon
-* Sovellus luo generoidusta hahmosta kuvan, niin että pohjakuva valitaan rodun perusteella, ja sen vaatetus arvotun hahmoluokan
-perusteella
+* Sovellus luo generoidusta hahmosta kuvan, niin että pohjakuva valitaan rodun perusteella, ja sen vaatetus arvotun hahmoluokan perusteella
+* Sovellus arpoo muutenkin hahmon ulkonäön, pituuden, painon, iän, silmien/hiusten värin yms.
