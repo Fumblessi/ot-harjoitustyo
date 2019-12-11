@@ -2,6 +2,18 @@
 
 -----------------------------------------------------------------------------------------------------------------------------
 
+## Dungeons and Dragons ja termistö
+
+Dungeons and Dragons on suosittu roolipeli, johon generaattorin on tarkoitus tehdä satunnaisia hahmoja. Normaalisti pelatessa jokaisella pelaajallaan on oma hahmo, jolle he ovat valinneet hahmon rodun (Orc, Dwarf tai Human yms.), hahmon luokan (esim. Fighter tai Wizard yms.), ja hahmon taustan (Noble, Soldier tai Sage yms.). Tämän jälkeen pelaajat saavat hahmollemaan piirteet (usein jakamalla tietyn pistemäärän eri piirteiden kesken tai heittämällä nopilla) Strength (voima), Dexterity (ketteryys), Constitution (kestävyys), Intelligence (älykkyys), Wisdom (viisaus) ja Charisma (karisma).
+
+Koska hahmonluontiin kuluu mittavasti aikaa, peliporukassamme on aika ajoin esiintynyt tarve pystyä nopeasti laittamaan peli kasaan ja pelaamaan yhden päivän/illan mittainen rento sessio, johon hahmogeneraattorille on ollut kysyntää. Tämä on motivaatio projektityöni taustalla, ja luultavasti jatkan projektin kehittämistä Ohjelmistotekniikka-kurssin jälkeenkin.
+
+### Sääntömuunnokset verrattuna perinteiseen Dungeons and Dragons -roolipeliin
+
+Peliporukassamme olemme muokanneet joitakin sääntöjä, ja hahmogeneraattorin olen tehnyt seuraamaan näitä sääntömuutoksia. Normaalisti esimerkiksi hahmon rotu määrittää sen rotuominaisuuden (Racial), mutta olemme tässä mielessä roolipeliporukassamme tasa-arvoistaneet eri rotuja, sillä yksilöinä hahmot kuitenkin voivat venyä vaikka mihin, ja pelaajat saavat itse valita rotuominaisuutensa kaikista eri rotujen tarjoamista vaihtoehdoista, riippumatta hahmon rodusta. Siksi generaattorikin arpoo hahmolle rotuominaisuudet kaikista vaihtoehdoista tietokantataulussa 'Racial'.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
 ## Generointi
 
 Tällä hetkellä Generoi-painikkeella generaattori luo satunnaiset hahmon piirteet noudattaen Asetuksissa määriteltyjä rajoja, eikä vielä arvo hahmolle taitoja/luokkaa/taustaa yms.
@@ -31,21 +43,9 @@ Tietokanta-palkista valitsemalla Racial, voi tarkastella tietokantataulun 'Racia
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-## Dungeons and Dragons ja termistö
-
-Dungeons and Dragons on suosittu roolipeli, johon generaattorin on tarkoitus tehdä satunnaisia hahmoja. Normaalisti pelatessa jokaisella pelaajallaan on oma hahmo, jolle he ovat valinneet hahmon rodun (Orc, Dwarf tai Human yms.), hahmon luokan (esim. Fighter tai Wizard yms.), ja hahmon taustan (Noble, Soldier tai Sage yms.). Tämän jälkeen pelaajat saavat hahmollemaan piirteet (usein jakamalla tietyn pistemäärän eri piirteiden kesken tai heittämällä nopilla) Strength (voima), Dexterity (ketteryys), Constitution (kestävyys), Intelligence (älykkyys), Wisdom (viisaus) ja Charisma (karisma).
-
-Koska hahmonluontiin kuluu mittavasti aikaa, peliporukassamme on aika ajoin esiintynyt tarve pystyä nopeasti laittamaan peli kasaan ja pelaamaan yhden päivän/illan mittainen rento sessio, johon hahmogeneraattorille on ollut kysyntää. Tämä on motivaatio projektityöni taustalla, ja luultavasti jatkan projektin kehittämistä Ohjelmistotekniikka-kurssin jälkeenkin.
-
-### Sääntömuunnokset verrattuna perinteiseen Dungeons and Dragons -roolipeliin
-
-Peliporukassamme olemme muokanneet joitakin sääntöjä, ja hahmogeneraattorin olen tehnyt seuraamaan näitä sääntömuutoksia. Normaalisti esimerkiksi hahmon rotu määrittää sen rotuominaisuuden (Racial), mutta olemme tässä mielessä roolipeliporukassamme tasa-arvoistaneet eri rotuja, sillä yksilöinä hahmot kuitenkin voivat venyä vaikka mihin, ja pelaajat saavat itse valita rotuominaisuutensa kaikista eri rotujen tarjoamista vaihtoehdoista, riippumatta hahmon rodusta. Siksi generaattorikin arpoo hahmolle rotuominaisuudet kaikista vaihtoehdoista tietokantataulussa 'Racial'.
-
------------------------------------------------------------------------------------------------------------------------------
-
 ## Usein kysytyt kysymykset
 
-### 1. Miksi käyttäjän tarvitsee pystyä muokkaamaan tietokantojen sisältöä
+### 1. Miksi käyttäjän tarvitsee pystyä muokkaamaan tietokantojen sisältöä?
 
 Dungeons and Dragons peli päivittyy koko ajan, tulee uusia rotuja, uusia taustoja ja uusia taitoja hahmoille. Hahmogeneraattori kykenee nyt sellaiseen seuraamaan näitä muutoksia, sillä käyttäjä voi lisätä tietokantaan uutta tavaraa sitä mukaa kun sitä tulee. Tietokannan muokkaus mahdollistaa myös omien vaihtoehtojen keksimisen ja lisäämisen generaattoriin, joten sen tavoite on mukautua peliporukan tarpeisiin.
 
