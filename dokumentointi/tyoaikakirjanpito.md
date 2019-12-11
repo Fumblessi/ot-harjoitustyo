@@ -11,5 +11,5 @@ Päivä | Aika | Mitä tein
 8.12  | 6    | Tietokantatoiminnallisuuden refaktorointia, luokat muistamaan oma tietokanta-id:nsä, kaikilla tietokannoilla nyt oma ponnahdusikkunansa tietokanta-menussa, SQLGeneratorDatabaseDaon javadoc tehty, Racial-tietokantatoiminnallisuuden ja siihen liittyvän käyttöliittymän rakentamista, tietokantakaavion päivitys
 9.12  | 8    | Tietokantatoiminnallisuuden rakentamista: Racial-tietokantaan lisääminen ja tietokannasta poistaminen toimii, javadocin kirjoittamista, domain- ja dao-testien rakentamista
 10.12 | 2    | SQLGeneratorDatabaseDaon refaktorointi ja hajautus, JavaDocin päivitys sen mukaisesti sekä pakkauskaavion päivitys
-11.12 | 2    | Racial-tietokantataulun muokkaustoiminnallisuus toteutettu, käyttöohjetta päivitetty
-Yht.  | 57   |  tuntia
+11.12 | 7    | Racial-tietokantataulun muokkaustoiminnallisuus toteutettu, käyttöohjetta päivitetty, Class-tietokantataulun muokkaustoiminnallisuus toteutettu kokonaisuudessaan
+Yht.  | 62   |  tuntia
