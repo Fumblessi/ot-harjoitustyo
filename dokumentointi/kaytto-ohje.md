@@ -10,7 +10,7 @@ Koska hahmonluontiin kuluu mittavasti aikaa, peliporukassamme on aika ajoin esii
 
 ## Termipankki
 
-Erilaisia termejä joita ohjelmassani ja dokumenteissani käytän olen listannut ja suomentanut [tänne](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/termisto.md).
+Erilaisia D&D-peliin liittyviä termejä, joita ohjelmassani ja dokumenteissani käytän, olen listannut ja suomentanut [tänne](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/termisto.md).
 
 ### Sääntömuunnokset verrattuna perinteiseen Dungeons and Dragons -roolipeliin
 
