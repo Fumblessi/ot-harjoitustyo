@@ -39,9 +39,11 @@ Halutessaan voi valita, että arvotaan samantien myös rodun pohjalta tulevat li
 Asetukset tallentuvat käyttökertojen välillä, mutta Asetukset-välilehdeltä voi palauttaa myös oletusasetukset (kokonaissumma on 70,
 minimiarvo 8, maksimiarvo 18 ja rodun pohjalta tulevat piirrebonukset päällä).
 
+Asetuksissa on nyt yläpalkissa menu "Tietokanta", josta painamalla näkee vaihtoehtoiset eri tietokantataulut. Tällä hetkellä ainoastaan Proficiency ja Racial ovat painettavissa. Tietokantaa ei ole vielä täytetty, mutta joitakin esimerkkejä siellä on.
+
 ### Proficiency-tietokantataulun muokkaus
 
-Asetuksissa on nyt yläpalkissa menu "Tietokanta", josta painamalla näkee vaihtoehtoiset eri tietokantataulut. Tällä hetkellä ainoastaan Proficiency ja Racial ovat painettavissa, joista Proficiencyä painamalla näkee 'Proficiency'-tietokantataulun sisällön (eli generoinnin pohjana olevat vaihtoehtoiset hahmon taidot, joskin tietokantaa ei ole vielä juuri täytetty), ja edelleen lisätä tietokaan uusia taitoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia taitoja.
+Tietokanta-palkista valitsemalla Proficiency, voi tarkastella tietokantataulun 'Proficiency' sisältöä, eli generoinnin pohjana olevat vaihtoehtoiset hahmon taidot, ja edelleen lisätä tietokaan uusia taitoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia taitoja.
 
 ### Racial-tietokantataulun muokkaus
 
