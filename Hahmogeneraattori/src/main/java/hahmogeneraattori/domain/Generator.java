@@ -207,6 +207,10 @@ public class Generator {
     public List<Racial> listAllRacials() {
         return this.generatorDatabaseDao.list(Racial.class);
     }
+    
+    public List<RpgClass> listAllClasses() {
+        return this.generatorDatabaseDao.list(RpgClass.class);
+    }
 
     /**
      * Metodi sekoittaa kuusi kokonaislukua sisältävän taulukon

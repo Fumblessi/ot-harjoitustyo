@@ -5,6 +5,9 @@
  */
 package hahmogeneraattori.domain;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Objects;
 /**
  *
  * @author sampo
@@ -14,9 +17,11 @@ public class Feat {
     private int id;
     private String name;
     private int[] stats;
+    private List<Proficiency> featProfs;
     
     public Feat(int id, String name) {
         this.name = name;
+        this.featProfs = new ArrayList<>();
         this.stats = new int[6];
         this.id = id;
         for (int i = 0; i < 6; i++) {
@@ -34,6 +39,10 @@ public class Feat {
     
     public int getId() {
         return this.id;
+    }
+    
+    public List<Proficiency> getFeatProfs() {
+        return this.featProfs;
     }
     
     public String getStats() {
@@ -68,7 +77,21 @@ public class Feat {
         }
     }
     
-    public void setStatsFromString(String stats) {
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setFeatProfs(List<Proficiency> profs) {
+        this.featProfs = profs;
+    }
+    
+    public void addFeatProf(Proficiency prof) {
+        if (!this.featProfs.contains(prof)) {
+            this.featProfs.add(prof);
+        }
+    }
+    
+    public void setStats(String stats) {
         String[] parts = stats.split("/");
         for (int i = 0; i < parts.length; i++) {
             switch (parts[i]) {
@@ -86,5 +109,30 @@ public class Feat {
                     break;
             }
         }
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Feat other = (Feat) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return true;
     }
 }

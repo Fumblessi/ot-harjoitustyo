@@ -6,6 +6,7 @@
 package hahmogeneraattori.dao;
 
 import hahmogeneraattori.domain.Background;
+import hahmogeneraattori.domain.Proficiency;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -40,20 +41,57 @@ public class SQLBackgroundDatabaseDao implements GeneratorDatabaseDao {
         
         if (!this.backgrounds.contains(bg)) {
             Connection conn = openConnection();
+            
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Background "
+                    + "(name) VALUES (?);");
+            stmt.setString(1, bg.getName());
+            stmt.executeUpdate();
+            stmt.close();
+
+            bg.setId(getBackgroundId(bg, conn));
+
+            this.backgrounds.add(bg);
+
+            addBackgroundProficiencies(bg, conn);
+            
             conn.close();
         }
     }
     
     @Override
     public void update(Object obj) throws SQLException {
-        
+        Background bg = (Background) obj;
+
+        Connection conn = openConnection();
+
+        updateBackgroundToBackgrounds(bg);
+
+        PreparedStatement stmt = conn.prepareStatement("UPDATE Background "
+                + "SET name = ? WHERE id = ?;");
+        stmt.setString(1, bg.getName());
+        stmt.setInt(2, bg.getId());
+        stmt.executeUpdate();
+        stmt.close();
+
+        deleteBackgroundProficiencies(bg, conn);
+        addBackgroundProficiencies(bg, conn);
+
+        conn.close();
     }
     
     @Override
     public void delete(Object obj) throws SQLException {
         Background bg = (Background) obj;
         Connection conn = openConnection();
+        
+        deleteBackgroundProficiencies(bg, conn);
 
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Background "
+                + "WHERE id = ?;");
+        stmt.setInt(1, bg.getId());
+
+        stmt.executeUpdate();
+        stmt.close();
         conn.close();
         this.backgrounds.remove(bg);
     }
@@ -70,7 +108,11 @@ public class SQLBackgroundDatabaseDao implements GeneratorDatabaseDao {
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Background");
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            this.backgrounds.add(new Background(rs.getInt(1), rs.getString(2)));
+            Background newBg = new Background(rs.getInt(1), rs.getString(2));
+            
+            getBackgroundProficiencies(newBg, conn);
+            
+            this.backgrounds.add(newBg);
         }
         stmt.close();
         conn.close();
@@ -79,5 +121,64 @@ public class SQLBackgroundDatabaseDao implements GeneratorDatabaseDao {
     @Override
     public final Connection openConnection() throws SQLException {
         return DriverManager.getConnection(this.connection, this.user, this.password);
+    }
+    
+    public int getBackgroundId(Background bg, Connection conn) throws SQLException {
+        int id = -1;
+
+        PreparedStatement stmt = conn.prepareStatement("SELECT id FROM "
+                + "Background WHERE name = ?;");
+        stmt.setString(1, bg.getName());
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            id = rs.getInt(1);
+        }
+        stmt.close();
+        return id;
+    }
+    
+    public void addBackgroundProficiencies(Background bg, Connection conn) throws SQLException {
+        for (Proficiency prof : bg.getBackgroundProfs()) {
+            PreparedStatement connectProf = conn.prepareStatement("INSERT "
+                    + "INTO BackgroundProficiency (bg_id, prof_id) VALUES "
+                    + "(?, ?);");
+            connectProf.setInt(1, bg.getId());
+            connectProf.setInt(2, prof.getId());
+            connectProf.executeUpdate();
+            connectProf.close();
+        }
+    }
+    
+    public void getBackgroundProficiencies(Background bg, Connection conn) throws SQLException {
+        PreparedStatement getProfs = conn.prepareStatement("SELECT * FROM "
+                + "Proficiency LEFT JOIN BackgroundProficiency ON "
+                + "BackgroundProficiency.prof_id = Proficiency.id WHERE "
+                + "bg_id = ?;");
+        getProfs.setInt(1, bg.getId());
+        ResultSet rsProfs = getProfs.executeQuery();
+
+        while (rsProfs.next()) {
+            bg.addBackgroundProf(new Proficiency(rsProfs.getInt(1), rsProfs.getString(2),
+                    rsProfs.getString(3)));
+        }
+        getProfs.close();
+    }
+    
+    public void deleteBackgroundProficiencies(Background bg, Connection conn) throws SQLException {
+        PreparedStatement deleteProfs = conn.prepareStatement("DELETE FROM "
+                + "BackgroundProficiency WHERE bg_id = ?;");
+        deleteProfs.setInt(1, bg.getId());
+        deleteProfs.executeUpdate();
+        deleteProfs.close();
+    }
+    
+    public void updateBackgroundToBackgrounds(Background bg) {
+        for (Background oldBg : this.backgrounds) {
+            if (oldBg.getId() == bg.getId()) {
+                oldBg.setName(bg.getName());
+                oldBg.setBackgroundProfs(bg.getBackgroundProfs());
+                break;
+            }
+        }
     }
 }

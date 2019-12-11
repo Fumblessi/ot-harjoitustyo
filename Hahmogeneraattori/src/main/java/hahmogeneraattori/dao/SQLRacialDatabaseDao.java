@@ -74,17 +74,11 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
             stmt.close();
 
             racial.setId(getRacialId(racial, conn));
-            
+
             this.racials.add(racial);
 
-            for (Proficiency prof : racial.getRacialProfs()) {
-                PreparedStatement connectProf = conn.prepareStatement("INSERT "
-                        + "INTO RacialProficiency (racial_id, prof_id) VALUES "
-                        + "(?, ?);");
-                connectProf.setInt(1, racial.getId());
-                connectProf.setInt(2, prof.getId());
-                connectProf.close();
-            }
+            addRacialProficiencies(racial, conn);
+
             conn.close();
         }
     }
@@ -102,25 +96,23 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
     public void update(Object obj) throws SQLException {
         Racial racial = (Racial) obj;
 
-        if (!this.racials.contains(racial)) {
-            Connection conn = openConnection();
+        Connection conn = openConnection();
 
-            updateRacialToRacials(racial);
+        updateRacialToRacials(racial);
 
-            PreparedStatement stmt = conn.prepareStatement("UPDATE Racial "
-                    + "SET name = ?, stats = ?, feat = ? WHERE id = ?;");
-            stmt.setString(1, racial.getName());
-            stmt.setInt(2, racial.getStats());
-            stmt.setBoolean(3, racial.getFeat());
-            stmt.setInt(4, racial.getId());
-            stmt.executeUpdate();
-            stmt.close();
-            
-            deleteRacialProficiencies(racial, conn);
-            addRacialProficiencies(racial, conn);
-                       
-            conn.close();
-        }
+        PreparedStatement stmt = conn.prepareStatement("UPDATE Racial "
+                + "SET name = ?, stats = ?, feat = ? WHERE id = ?;");
+        stmt.setString(1, racial.getName());
+        stmt.setInt(2, racial.getStats());
+        stmt.setBoolean(3, racial.getFeat());
+        stmt.setInt(4, racial.getId());
+        stmt.executeUpdate();
+        stmt.close();
+
+        deleteRacialProficiencies(racial, conn);
+        addRacialProficiencies(racial, conn);
+
+        conn.close();
     }
 
     /**
@@ -138,7 +130,7 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
         Connection conn = openConnection();
 
         deleteRacialProficiencies(racial, conn);
-        
+
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Racial "
                 + "WHERE id = ?;");
         stmt.setInt(1, racial.getId());
@@ -179,7 +171,7 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
             Racial newRacial = new Racial(rsRacial.getInt(1), rsRacial.getString(2), rsRacial.getInt(3),
                     rsRacial.getBoolean(4));
 
-            addRacialProficiencies(newRacial, conn);
+            getRacialProficiencies(newRacial, conn);
 
             this.racials.add(newRacial);
         }
@@ -201,17 +193,17 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
 
     /**
      * Metodi hakee tietokannasta tietyn ominaisuuden (racial) indeksin
-     * 
+     *
      * @param racial haettava racial
      * @param conn tietokantayhteys
-     * 
+     *
      * @return racialin indeksi
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public int getRacialId(Racial racial, Connection conn) throws SQLException {
         int id = -1;
-        
+
         PreparedStatement stmt = conn.prepareStatement("SELECT id FROM "
                 + "Racial WHERE name = ?;");
         stmt.setString(1, racial.getName());
@@ -223,16 +215,28 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
         return id;
     }
 
+    public void addRacialProficiencies(Racial racial, Connection conn) throws SQLException {
+        for (Proficiency prof : racial.getRacialProfs()) {
+            PreparedStatement connectProf = conn.prepareStatement("INSERT "
+                    + "INTO RacialProficiency (racial_id, prof_id) VALUES "
+                    + "(?, ?);");
+            connectProf.setInt(1, racial.getId());
+            connectProf.setInt(2, prof.getId());
+            connectProf.executeUpdate();
+            connectProf.close();
+        }
+    }
+
     /**
-     * Metodi hakee tietokannasta tietylle ominaisuudelle (racial) siihen 
+     * Metodi hakee tietokannasta tietylle ominaisuudelle (racial) siihen
      * kuuluvat taidot (proficiency)
-     * 
+     *
      * @param racial haettava racial
      * @param conn tietokantayhteys
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
-    public void addRacialProficiencies(Racial racial, Connection conn) throws SQLException {
+    public void getRacialProficiencies(Racial racial, Connection conn) throws SQLException {
         PreparedStatement getProfs = conn.prepareStatement("SELECT * FROM "
                 + "Proficiency LEFT JOIN RacialProficiency ON "
                 + "RacialProficiency.prof_id = Proficiency.id WHERE "
@@ -246,15 +250,15 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
         }
         getProfs.close();
     }
-    
+
     /**
-     * Metodi poistaa tietokannasta tietylle ominaisuudelle (racial) siihen 
+     * Metodi poistaa tietokannasta tietylle ominaisuudelle (racial) siihen
      * kuuluvat taidot (proficiency)
-     * 
+     *
      * @param racial haettava racial
      * @param conn tietokantayhteys
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public void deleteRacialProficiencies(Racial racial, Connection conn) throws SQLException {
         PreparedStatement deleteProfs = conn.prepareStatement("DELETE FROM "
@@ -263,11 +267,11 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
         deleteProfs.executeUpdate();
         deleteProfs.close();
     }
-    
+
     /**
-     * Metodi päivittää tietyn ominaisuuden (racial) luokan hallinnoimaan 
+     * Metodi päivittää tietyn ominaisuuden (racial) luokan hallinnoimaan
      * listaan
-     * 
+     *
      * @param racial päivitettävä racial
      */
     public void updateRacialToRacials(Racial racial) {

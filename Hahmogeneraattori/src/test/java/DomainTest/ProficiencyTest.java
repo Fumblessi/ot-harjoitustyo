@@ -52,20 +52,14 @@ public class ProficiencyTest {
     }
     
     @Test
-    public void twoProficienciesAreSameIfNamesAndTypesMatch() {
-        Proficiency otherProf = new Proficiency(58, "testiProf", "Tool");
+    public void twoProficienciesAreSameIfNamesMatch() {
+        Proficiency otherProf = new Proficiency(58, "testiProf", "Skill");
         assertTrue(this.prof.equals(otherProf));
     }
     
     @Test
     public void twoProficienciesAreNotSameIfNamesMismatch() {
         Proficiency otherProf = new Proficiency(-1, "testiPuf", "Tool");
-        assertFalse(this.prof.equals(otherProf));
-    }
-    
-    @Test
-    public void twoProficienciesAreNotSameIfTypesMismatch() {
-        Proficiency otherProf = new Proficiency(-1, "testiProf", "Maol");
         assertFalse(this.prof.equals(otherProf));
     }
 }

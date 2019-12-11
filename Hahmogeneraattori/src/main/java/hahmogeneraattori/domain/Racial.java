@@ -156,8 +156,8 @@ public class Racial {
      */
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 41 * hash + Objects.hashCode(this.name);
+        int hash = 5;
+        hash = 17 * hash + Objects.hashCode(this.name);
         return hash;
     }
 
@@ -183,5 +183,5 @@ public class Racial {
             return false;
         }
         return true;
-    }
+    }  
 }

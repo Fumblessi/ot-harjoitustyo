@@ -41,7 +41,7 @@ public class FeatTest {
 
     @Test
     public void statsCanBeSetFromString() {
-        this.feat.setStatsFromString("DEX/WIS/CHA");
+        this.feat.setStats("DEX/WIS/CHA");
         assertEquals("DEX/WIS/CHA", this.feat.getStats());
     }
 }

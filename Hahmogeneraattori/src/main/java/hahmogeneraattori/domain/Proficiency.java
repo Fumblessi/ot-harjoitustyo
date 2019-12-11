@@ -94,20 +94,19 @@ public class Proficiency {
     }
 
     /**
-     * proficiencyn uniikkiuteen vaikuttaa sen nimi ja tyyppi
+     * proficiencyn uniikkiuteen vaikuttaa sen nimi
      * 
      * @return hash
      */
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = 5;
         hash = 41 * hash + Objects.hashCode(this.name);
-        hash = 41 * hash + Objects.hashCode(this.type);
         return hash;
     }
 
     /**
-     * proficiencyjen 'samuuteen' vaikuttaa nimi ja tyyppi
+     * proficiencyjen 'samuuteen' vaikuttaa nimi
      * 
      * @param obj verrattava
      * @return olivatko objektit samat
@@ -127,10 +126,6 @@ public class Proficiency {
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }
-        if (!Objects.equals(this.type, other.type)) {
-            return false;
-        }
         return true;
     }
-    
 }

@@ -92,20 +92,18 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
     public void update(Object obj) throws SQLException {
         Proficiency prof = (Proficiency) obj;
 
-        if (!this.profs.contains(prof)) {
-            Connection conn = openConnection();
+        Connection conn = openConnection();
 
-            updateProfToProfs(prof);
+        updateProfToProfs(prof);
 
-            PreparedStatement stmt = conn.prepareStatement("UPDATE Proficiency "
-                    + "SET name = ?, type = ? WHERE id = ?;");
-            stmt.setString(1, prof.getName());
-            stmt.setString(2, prof.getType());
-            stmt.setInt(3, prof.getId());
-            stmt.executeUpdate();
-            stmt.close();
-            conn.close();
-        }
+        PreparedStatement stmt = conn.prepareStatement("UPDATE Proficiency "
+                + "SET name = ?, type = ? WHERE id = ?;");
+        stmt.setString(1, prof.getName());
+        stmt.setString(2, prof.getType());
+        stmt.setInt(3, prof.getId());
+        stmt.executeUpdate();
+        stmt.close();
+        conn.close();
     }
 
     /**
@@ -181,13 +179,13 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
 
     /**
      * Metodi hakee tietokannasta tietyn taidon (proficiency) indeksin
-     * 
+     *
      * @param prof haettava proficiency
      * @param conn tietokantayhteys
-     * 
+     *
      * @return proficiencyn indeksi
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public int getProfId(Proficiency prof, Connection conn) throws SQLException {
         int id = -1;
@@ -207,7 +205,7 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
 
     /**
      * Metodi päivittää tietyn taidon (proficiency) luokan hallinnoimaan listaan
-     * 
+     *
      * @param prof päivitettävä proficiency
      */
     public void updateProfToProfs(Proficiency prof) {

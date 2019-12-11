@@ -60,6 +60,12 @@ public class Interface extends Application {
     private Scene profModScene;
     private Scene racialAddScene;
     private Scene racialModScene;
+    private Scene classAddScene;
+    private Scene classModScene;
+    private Scene bgAddScene;
+    private Scene bgModScene;
+    private Scene featAddScene;
+    private Scene featModScene;
 
     @Override
     public void init() throws Exception {
@@ -604,7 +610,6 @@ public class Interface extends Application {
             refreshProfs(profs);
         });
         
-        //HUOM HUOM RACIALIEN MUOKKAUS JA LISÄYS ALKAA
         HBox racialAddLayout = new HBox();
         
         VBox racialAddLeftLayout = new VBox();
@@ -716,7 +721,7 @@ public class Interface extends Application {
             Racial racialToBeModified = racials.getSelectionModel().getSelectedItem();
             if (!(racialToBeModified == null)) {
                 racialDatabaseErrorText.setText("");
-                this.modifyWindow.setTitle("Muokkaa Racial");
+                this.modifyWindow.setTitle("Muokkaa Racialia");
                 this.modifyWindow.setScene(this.racialModScene);
                 this.modifyWindow.show();
                 racialModNameText.setText(racialToBeModified.getName());
@@ -834,7 +839,9 @@ public class Interface extends Application {
             }
             refreshRacials(racials);
         });
-        //HUOM HUOM RACIALIEN MUOKKAUS JA LISÄYS LOPPUU
+        //HUOM HUOM CLASSIEN MUOKKAUS JA LISÄYS JA POISTO ALKAA
+        
+        //HUOM HUOM RACIALIEN MUOKKAUS JA LISÄYS ALKAA
 
         Label stats = new Label("");
         Label proficiencies = new Label("");
@@ -881,6 +888,12 @@ public class Interface extends Application {
         racialView.getItems().clear();
         racialView.getItems().addAll(this.generator.listAllRacials());
         racialView.sort();
+    }
+    
+    public void refreshClasses(TableView classView) {
+        classView.getItems().clear();
+        classView.getItems().addAll(this.generator.listAllClasses());
+        classView.sort();
     }
 
     public boolean isInteger(String input) {
