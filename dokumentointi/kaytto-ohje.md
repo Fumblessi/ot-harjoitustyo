@@ -38,12 +38,12 @@ Peliporukassamme olemme muokanneet joitakin sääntöjä, ja hahmogeneraattorin 
 
 ## Usein kysytyt kysymykset
 
-# 1. Miksi käyttäjän tarvitsee pystyä muokkaamaan tietokantojen sisältöä
+### 1. Miksi käyttäjän tarvitsee pystyä muokkaamaan tietokantojen sisältöä
 
 Dungeons and Dragons peli päivittyy koko ajan, tulee uusia rotuja, uusia taustoja ja uusia taitoja hahmoille. Hahmogeneraattori kykenee nyt sellaiseen seuraamaan näitä muutoksia, sillä käyttäjä voi lisätä tietokantaan uutta tavaraa sitä mukaa kun sitä tulee. Tietokannan muokkaus mahdollistaa myös omien vaihtoehtojen keksimisen ja lisäämisen generaattoriin, joten sen tavoite on mukautua peliporukan tarpeisiin.
 
 Esimerkiksi 'Lucky'-niminen feat (erityistaito) on yleisesti koettu verrattaen todella hyväksi, joten moni peliporukka saattaisi haluta sen ottaa pois tietokannasta, vaikka se on sinänsä täysin sääntöjen mukainen.
 
-# 2. Generaattorisi puhuu englantia ja suomea sekaisin! Päätä jo kumpi!
+### 2. Generaattorisi puhuu englantia ja suomea sekaisin! Päätä jo kumpi!
 
 Tätä olen paljon pyöritellyt, että kieltämättä olisi mukavaa puhua suoraan vain kokonaan jompaa kumpaa kieltä. Olemme halunneet peliporukassamme siirtyä mahdollisimman paljolti suomen käyttämiseen, mutta silti on selkeämpää viitata tiettyihin asioihin yksiselitteisesti samoilla termeillä kun D&D-pelin säännöissä, joten osa termistöstä ikävä kyllä säilynee englanninkielisenä, vaikka käyttöliittymä pitkälti onkin suomea. Pahoittelut.
