@@ -47,7 +47,7 @@ Tietokanta-palkista valitsemalla Proficiency, voi tarkastella tietokantataulun '
 
 ### Racial-tietokantataulun muokkaus
 
-Tietokanta-palkista valitsemalla Racial, voi tarkastella tietokantataulun 'Racial' sisältöä, eli generoinnin pohjana olevia hahmon ominaisuuksia, jotka perustuvat sen rotuun (esim. örkki, haltija, ihminen yms). Halutessaan sieltä voi tällä hetkellä lisätä tietokantaan uusia ominaisuuksia, tai poistaa vanhoja, mutten vielä ehtinyt tehdä jo olemassa olevien muokkaus-toimintoa.
+Tietokanta-palkista valitsemalla Racial, voi tarkastella tietokantataulun 'Racial' sisältöä, eli generoinnin pohjana olevia hahmon ominaisuuksia, jotka perustuvat sen rotuun (esim. örkki, haltija, ihminen yms). Halutessaan sieltä voi lisätä tietokantaan uusia ominaisuuksia, tai muokata ja poistaa siellä jo entuudestaan olevia ominaisuuksia.
 
 -----------------------------------------------------------------------------------------------------------------------------
 
