@@ -43,15 +43,15 @@ Asetuksissa on nyt yläpalkissa menu "Tietokanta", josta painamalla näkee vaiht
 
 ### Proficiency-tietokantataulun muokkaus
 
-Tietokanta-palkista valitsemalla Proficiency, voi tarkastella tietokantataulun 'Proficiency' sisältöä, eli generoinnin pohjana olevat vaihtoehtoiset hahmon taidot, ja edelleen lisätä tietokaan uusia taitoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia taitoja.
+Tietokanta-palkista valitsemalla Proficiency, voi tarkastella tietokantataulun 'Proficiency' sisältöä, eli generoinnin pohjana olevat vaihtoehtoiset hahmon taidot, ja edelleen lisätä tietokaan uusia taitoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia taitoja. Taitoihin liittyy aina kategoria, joka on joko Skill, Armor, Weapon, Tool tai Language.
 
 ### Racial-tietokantataulun muokkaus
 
-Tietokanta-palkista valitsemalla Racial, voi tarkastella tietokantataulun 'Racial' sisältöä, eli generoinnin pohjana olevia hahmon ominaisuuksia, jotka perustuvat sen rotuun (esim. örkki, haltija, ihminen yms). Halutessaan sieltä voi lisätä tietokantaan uusia ominaisuuksia, tai muokata ja poistaa siellä jo entuudestaan olevia ominaisuuksia.
+Tietokanta-palkista valitsemalla Racial, voi tarkastella tietokantataulun 'Racial' sisältöä, eli generoinnin pohjana olevia hahmon ominaisuuksia, jotka perustuvat sen rotuun (esim. örkki, haltija, ihminen yms). Halutessaan sieltä voi lisätä tietokantaan uusia ominaisuuksia, tai muokata ja poistaa siellä jo entuudestaan olevia. Racialeihin saattaa liittyä taitoja, jotka voi valita racialin luonnin tai muokkauksen yhteydessä. Lisäksi jos luotava/muokattava racial vaikuttaa hahmon piirteisiin, voi vaikutuksen kirjata kokonaislukuna (voi olla negatiivinenkin). Jos racial antaa hahmolle erityistaidon (feat), tämänkin voi päättää.
 
 ### Class-tietokantataulun muokkaus
 
-Ei vielä tehty
+Tietokanta-palkista valitsemalla Class, voi tarkastella tietokantataulun 'Class' sisältöä, eli generoinnin pohjana olevia hahmoluokkia. Halutessaan voi lisätä tietokantaan uusia hahmoluokkia, tai muokata ja poistaa siellä jo entuudestaan olevia. Hahmoluokkaan saattaa liittyä taitoja, jotka voi valita luokan luonnin tai muokkauksen yhteydessä. Hahmoluokkiin usein kuuluu aliluokkia, joiden nimet voi kirjoittaa listaan luokkaa luodessa.
 
 ### Background-tietokantataulun muokkaus
 
