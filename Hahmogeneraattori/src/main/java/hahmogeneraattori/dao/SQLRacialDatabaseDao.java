@@ -100,7 +100,27 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
      */
     @Override
     public void update(Object obj) throws SQLException {
+        Racial racial = (Racial) obj;
 
+        if (!this.racials.contains(racial)) {
+            Connection conn = openConnection();
+
+            updateRacialToRacials(racial);
+
+            PreparedStatement stmt = conn.prepareStatement("UPDATE Racial "
+                    + "SET name = ?, stats = ?, feat = ? WHERE id = ?;");
+            stmt.setString(1, racial.getName());
+            stmt.setInt(2, racial.getStats());
+            stmt.setBoolean(3, racial.getFeat());
+            stmt.setInt(4, racial.getId());
+            stmt.executeUpdate();
+            stmt.close();
+            
+            deleteRacialProficiencies(racial, conn);
+            addRacialProficiencies(racial, conn);
+                       
+            conn.close();
+        }
     }
 
     /**
@@ -117,6 +137,8 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
         Racial racial = (Racial) obj;
         Connection conn = openConnection();
 
+        deleteRacialProficiencies(racial, conn);
+        
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Racial "
                 + "WHERE id = ?;");
         stmt.setInt(1, racial.getId());
@@ -223,5 +245,40 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
                     rsProfs.getString(3)));
         }
         getProfs.close();
+    }
+    
+    /**
+     * Metodi poistaa tietokannasta tietylle ominaisuudelle (racial) siihen 
+     * kuuluvat taidot (proficiency)
+     * 
+     * @param racial haettava racial
+     * @param conn tietokantayhteys
+     * 
+     * @throws SQLException 
+     */
+    public void deleteRacialProficiencies(Racial racial, Connection conn) throws SQLException {
+        PreparedStatement deleteProfs = conn.prepareStatement("DELETE FROM "
+                + "RacialProficiency WHERE racial_id = ?;");
+        deleteProfs.setInt(1, racial.getId());
+        deleteProfs.executeUpdate();
+        deleteProfs.close();
+    }
+    
+    /**
+     * Metodi päivittää tietyn ominaisuuden (racial) luokan hallinnoimaan 
+     * listaan
+     * 
+     * @param racial päivitettävä racial
+     */
+    public void updateRacialToRacials(Racial racial) {
+        for (Racial oldRacial : this.racials) {
+            if (oldRacial.getId() == racial.getId()) {
+                oldRacial.setName(racial.getName());
+                oldRacial.setStats(racial.getStats());
+                oldRacial.setFeat(racial.getFeat());
+                oldRacial.setRacialProfs(racial.getRacialProfs());
+                break;
+            }
+        }
     }
 }

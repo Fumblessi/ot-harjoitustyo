@@ -161,6 +161,19 @@ public class Generator {
     }
     
     /**
+     * Päivitetään tietokannassa oleva racial
+     * 
+     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#update(Object)
+     * 
+     * @param racial päivitettävä racial
+     * 
+     * @throws SQLException 
+     */
+    public void updateRacialToDb(Racial racial) throws SQLException {
+        this.generatorDatabaseDao.update(racial);
+    }
+    
+    /**
      * Poistetaan tietokannassa oleva racial
      * 
      * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#delete(Object)

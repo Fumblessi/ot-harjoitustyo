@@ -614,6 +614,8 @@ public class Interface extends Application {
         Label racialAddNameLabel = new Label("Nimi: ");
         TextField racialAddNameText = new TextField("");
         Label racialAddNameError = new Label("");
+        racialAddNameError.setTextFill(Color.RED);
+        racialAddNameLayout.getChildren().addAll(racialAddNameLabel, racialAddNameText);
         
         VBox addRacialStats = new VBox();
         Label addRacialStatsLabel = new Label("Racial antaa statteja: ");
@@ -624,8 +626,6 @@ public class Interface extends Application {
                 racialStatsError);
         
         CheckBox addRacialFeat = new CheckBox("Racial antaa featin");
-        racialAddNameError.setTextFill(Color.RED);
-        racialAddNameLayout.getChildren().addAll(racialAddNameLabel, racialAddNameText);
         
         Button addNewRacial = new Button("Lisää");
         Button backFromAddingRacial = new Button("Takaisin");
@@ -648,24 +648,53 @@ public class Interface extends Application {
         
         racialAddRightLayout.getChildren().addAll(racialProfTable);
         
-        VBox racialModifyLayout = new VBox();
+        racialAddLayout.getChildren().addAll(racialAddLeftLayout, racialAddRightLayout);
         
-        HBox racialModNameLayout = new HBox();
+        HBox racialModifyLayout = new HBox();
+        
+        VBox racialModLeftLayout = new VBox();
+        VBox racialModRightLayout = new VBox();
+        
+        VBox racialModNameLayout = new VBox();
         Label racialModNameLabel = new Label("Nimi: ");
-        TextField racialModNameText = new TextField();
+        TextField racialModNameText = new TextField("");
         Label racialModNameError = new Label("");
         racialModNameError.setTextFill(Color.RED);
         racialModNameLayout.getChildren().addAll(racialModNameLabel, racialModNameText);
+        
+        CheckBox modRacialFeat = new CheckBox("Racial antaa featin");
+        
+        VBox modRacialStats = new VBox();
+        Label modRacialStatsLabel = new Label("Racial antaa statteja: ");
+        TextField modRacialStatsText = new TextField("0");
+        Label modRacialStatsError = new Label("");
+        modRacialStatsError.setTextFill(Color.RED);
+        modRacialStats.getChildren().addAll(modRacialStatsLabel, modRacialStatsText, 
+                modRacialStatsError);
         
         Button modifyThisRacial = new Button("Päivitä");
         Button backFromModifyingRacial = new Button("Takaisin");      
         HBox racialModifyingButtons = new HBox();     
         racialModifyingButtons.getChildren().addAll(modifyThisRacial, backFromModifyingRacial);
         
-        racialModifyLayout.getChildren().addAll(racialModNameLayout, racialModNameError, 
-                racialModifyingButtons);
+        racialModLeftLayout.getChildren().addAll(racialModNameLayout, racialModNameError, 
+                modRacialStats, modRacialFeat, racialModifyingButtons);
         
-        racialAddLayout.getChildren().addAll(racialAddLeftLayout, racialAddRightLayout);
+        TableView<Proficiency> modRacialProfTable = new TableView();
+        
+        TableColumn<Proficiency, String> modRacialProfNameColumn = new TableColumn<>(""
+                + "Valitse proficiencyt");
+        modRacialProfNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        modRacialProfNameColumn.prefWidthProperty().bind(modRacialProfTable.widthProperty());
+        
+        modRacialProfTable.getColumns().setAll(modRacialProfNameColumn);
+        modRacialProfTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        modRacialProfTable.getSortOrder().add(modRacialProfNameColumn);
+        
+        racialModRightLayout.getChildren().addAll(modRacialProfTable);
+        
+        racialModifyLayout.getChildren().addAll(racialModLeftLayout, racialModRightLayout);
+        
         this.racialAddScene = new Scene(racialAddLayout);
         this.racialModScene = new Scene(racialModifyLayout);
 
@@ -682,7 +711,25 @@ public class Interface extends Application {
         });
 
         modifyExistingRacial.setOnAction((event) -> {
-            
+            refreshProfs(modRacialProfTable);
+            racialModNameText.setText("");
+            Racial racialToBeModified = racials.getSelectionModel().getSelectedItem();
+            if (!(racialToBeModified == null)) {
+                racialDatabaseErrorText.setText("");
+                this.modifyWindow.setTitle("Muokkaa Racial");
+                this.modifyWindow.setScene(this.racialModScene);
+                this.modifyWindow.show();
+                racialModNameText.setText(racialToBeModified.getName());
+                String oldStats = "" + racialToBeModified.getStats();
+                modRacialStatsText.setText(oldStats);
+                modRacialFeat.setSelected(racialToBeModified.getFeat());
+
+                for (Proficiency racialProf : racialToBeModified.getRacialProfs()) {
+                    modRacialProfTable.getSelectionModel().select(racialProf);
+                }
+            } else {
+                racialDatabaseErrorText.setText("Valitse muokattava proficiency!");
+            }
         });
 
         addNewRacial.setOnAction((event) -> {
@@ -730,7 +777,43 @@ public class Interface extends Application {
         });
 
         modifyThisRacial.setOnAction((event) -> {
+            String racialName = racialModNameText.getText();
             
+            if (!racialName.isEmpty() && isInteger(modRacialStatsText.getText())) {
+                int racialStats = Integer.parseInt(modRacialStatsText.getText());
+                boolean racialFeat = modRacialFeat.isSelected();
+                Racial racialToMod = new Racial(racialName, racialStats, racialFeat);
+                
+                ObservableList<Proficiency> racialProfsToMod = modRacialProfTable.
+                        getSelectionModel().getSelectedItems();
+                
+                for (Proficiency prof : racialProfsToMod) {
+                    racialToMod.addRacialProf(prof);
+                }
+                try {
+                    this.generator.updateRacialToDb(racialToMod);
+                } catch (SQLException ex) {
+                    racialModNameError.setText(ex.getMessage());
+                }
+                racialModNameText.setText("");
+                racialModNameError.setText("");
+                modRacialStatsError.setText("");
+                modRacialStatsText.setText("0");
+                modRacialFeat.setSelected(false);
+                this.modifyWindow.close();
+                refreshRacials(racials);
+            } else {
+                if (racialName.isEmpty()) {
+                    racialModNameError.setText("Syöte ei voi olla tyhjä!");
+                } else {
+                    racialModNameError.setText("");
+                }
+                if (!isInteger(modRacialStatsText.getText())) {
+                    modRacialStatsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    modRacialStatsError.setText("");
+                }
+            }
         });
 
         backFromModifyingRacial.setOnAction((event) -> {
