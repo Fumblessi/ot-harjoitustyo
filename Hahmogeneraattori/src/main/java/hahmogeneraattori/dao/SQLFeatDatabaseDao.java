@@ -43,9 +43,14 @@ public class SQLFeatDatabaseDao implements GeneratorDatabaseDao {
             Connection conn = openConnection();
             
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Feat "
-                    + "(name, stats) VALUES (?, ?);");
+                    + "(name, stats, randomProfs, randomLangs, extraProfs, "
+                    + "extraProfType) VALUES (?, ?, ?, ?, ?, ?);");
             stmt.setString(1, feat.getName());
             stmt.setString(2, feat.getStats());
+            stmt.setInt(3, feat.getRandomProfs());
+            stmt.setInt(4, feat.getRandomLangs());
+            stmt.setInt(5, feat.getExtraProfs());
+            stmt.setString(6, feat.getExtraProfType());
             stmt.executeUpdate();
             stmt.close();
 
@@ -53,7 +58,8 @@ public class SQLFeatDatabaseDao implements GeneratorDatabaseDao {
 
             this.feats.add(feat);
 
-            addFeatProficiencies(feat, conn);
+            addCertainProficiencies(feat, conn);
+            addUncertainProficiencies(feat, conn);
             
             conn.close();
         }
@@ -68,16 +74,21 @@ public class SQLFeatDatabaseDao implements GeneratorDatabaseDao {
         updateFeatToFeats(feat);
 
         PreparedStatement stmt = conn.prepareStatement("UPDATE Feat "
-                + "SET name = ?, stats = ? WHERE id = ?;");
+                + "SET name = ?, stats = ?, randomProfs = ?, randomLangs = ?, "
+                + "extraProfs = ?, extraProfType = ? WHERE id = ?;");
         stmt.setString(1, feat.getName());
         stmt.setString(2, feat.getStats());
-        System.out.println(feat.getStats());
-        stmt.setInt(3, feat.getId());
+        stmt.setInt(3, feat.getRandomProfs());
+        stmt.setInt(4, feat.getRandomLangs());
+        stmt.setInt(5, feat.getExtraProfs());
+        stmt.setString(6, feat.getExtraProfType());
+        stmt.setInt(7, feat.getId());
         stmt.executeUpdate();
         stmt.close();
 
         deleteFeatProficiencies(feat, conn);
-        addFeatProficiencies(feat, conn);
+        addCertainProficiencies(feat, conn);
+        addUncertainProficiencies(feat, conn);
 
         conn.close();
     }
@@ -111,9 +122,12 @@ public class SQLFeatDatabaseDao implements GeneratorDatabaseDao {
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Feat");
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            Feat feat = new Feat(rs.getInt(1), rs.getString(2));
-            feat.setStats(rs.getString(3));
-            getFeatProficiencies(feat, conn);
+            Feat feat = new Feat(rs.getInt(1), rs.getString(2), rs.getString(3), 
+                rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getString(7));
+            
+            getCertainProficiencies(feat, conn);
+            getUncertainProficiencies(feat, conn);
+            
             this.feats.add(feat);
         }
         stmt.close();
@@ -139,29 +153,60 @@ public class SQLFeatDatabaseDao implements GeneratorDatabaseDao {
         return id;
     }
     
-    public void addFeatProficiencies(Feat feat, Connection conn) throws SQLException {
-        for (Proficiency prof : feat.getFeatProfs()) {
+    public void addCertainProficiencies(Feat feat, Connection conn) throws SQLException {
+        for (Proficiency prof : feat.getCertainProfs()) {
             PreparedStatement connectProf = conn.prepareStatement("INSERT "
-                    + "INTO FeatProficiency (feat_id, prof_id) VALUES "
-                    + "(?, ?);");
+                    + "INTO FeatProficiency (feat_id, prof_id, certain) VALUES "
+                    + "(?, ?, ?);");
             connectProf.setInt(1, feat.getId());
             connectProf.setInt(2, prof.getId());
+            connectProf.setBoolean(3, true);
             connectProf.executeUpdate();
             connectProf.close();
         }
     }
     
-    public void getFeatProficiencies(Feat feat, Connection conn) throws SQLException {
+    public void addUncertainProficiencies(Feat feat, Connection conn) throws SQLException {
+        for (Proficiency prof : feat.getUncertainProfs()) {
+            PreparedStatement connectProf = conn.prepareStatement("INSERT "
+                    + "INTO FeatProficiency (feat_id, prof_id, certain) VALUES "
+                    + "(?, ?, ?);");
+            connectProf.setInt(1, feat.getId());
+            connectProf.setInt(2, prof.getId());
+            connectProf.setBoolean(3, false);
+            connectProf.executeUpdate();
+            connectProf.close();
+        }
+    }
+    
+    public void getCertainProficiencies(Feat feat, Connection conn) throws SQLException {
         PreparedStatement getProfs = conn.prepareStatement("SELECT * FROM "
                 + "Proficiency LEFT JOIN FeatProficiency ON "
                 + "FeatProficiency.prof_id = Proficiency.id WHERE "
-                + "feat_id = ?;");
+                + "feat_id = ? AND certain = ?;");
         getProfs.setInt(1, feat.getId());
+        getProfs.setBoolean(2, true);
         ResultSet rsProfs = getProfs.executeQuery();
 
         while (rsProfs.next()) {
-            feat.addFeatProf(new Proficiency(rsProfs.getInt(1), rsProfs.getString(2),
-                    rsProfs.getString(3)));
+            feat.addCertainProf(new Proficiency(rsProfs.getInt(1), rsProfs.getString(2),
+                    rsProfs.getString(3), rsProfs.getString(4)));
+        }
+        getProfs.close();
+    }
+    
+    public void getUncertainProficiencies(Feat feat, Connection conn) throws SQLException {
+        PreparedStatement getProfs = conn.prepareStatement("SELECT * FROM "
+                + "Proficiency LEFT JOIN FeatProficiency ON "
+                + "FeatProficiency.prof_id = Proficiency.id WHERE "
+                + "feat_id = ? AND certain = ?;");
+        getProfs.setInt(1, feat.getId());
+        getProfs.setBoolean(2, false);
+        ResultSet rsProfs = getProfs.executeQuery();
+
+        while (rsProfs.next()) {
+            feat.addUncertainProf(new Proficiency(rsProfs.getInt(1), rsProfs.getString(2),
+                    rsProfs.getString(3), rsProfs.getString(4)));
         }
         getProfs.close();
     }
@@ -179,7 +224,12 @@ public class SQLFeatDatabaseDao implements GeneratorDatabaseDao {
             if (oldFeat.getId() == feat.getId()) {
                 oldFeat.setName(feat.getName());
                 oldFeat.setStats(feat.getStats());
-                oldFeat.setFeatProfs(feat.getFeatProfs());
+                oldFeat.setRandomProfs(feat.getRandomProfs());
+                oldFeat.setRandomLangs(feat.getRandomLangs());
+                oldFeat.setExtraProfs(feat.getExtraProfs());
+                oldFeat.setExtraProfType(feat.getExtraProfType());
+                oldFeat.setCertainProfs(feat.getCertainProfs());
+                oldFeat.setUncertainProfs(feat.getUncertainProfs());
                 break;
             }
         }

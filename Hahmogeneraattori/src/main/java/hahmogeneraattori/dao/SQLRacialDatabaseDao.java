@@ -66,10 +66,15 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
             Connection conn = openConnection();
 
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Racial "
-                    + "(name, stats, feat) VALUES (?, ?, ?);");
+                    + "(name, stats, feat, randomProfs, randomLangs, extraProfs, "
+                    + "extraProfType) VALUES (?, ?, ?, ?, ?, ?, ?);");
             stmt.setString(1, racial.getName());
             stmt.setInt(2, racial.getStats());
             stmt.setBoolean(3, racial.getFeat());
+            stmt.setInt(4, racial.getRandomProfs());
+            stmt.setInt(5, racial.getRandomLangs());
+            stmt.setInt(6, racial.getExtraProfs());
+            stmt.setString(7, racial.getExtraProfType());
             stmt.executeUpdate();
             stmt.close();
 
@@ -77,7 +82,8 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
 
             this.racials.add(racial);
 
-            addRacialProficiencies(racial, conn);
+            addCertainProficiencies(racial, conn);
+            addUncertainProficiencies(racial, conn);
 
             conn.close();
         }
@@ -101,16 +107,22 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
         updateRacialToRacials(racial);
 
         PreparedStatement stmt = conn.prepareStatement("UPDATE Racial "
-                + "SET name = ?, stats = ?, feat = ? WHERE id = ?;");
+                + "SET name = ?, stats = ?, feat = ?, randomProfs = ?, "
+                + "randomLangs = ?, extraProfs = ?, extraProfType = ? WHERE id = ?;");
         stmt.setString(1, racial.getName());
         stmt.setInt(2, racial.getStats());
         stmt.setBoolean(3, racial.getFeat());
-        stmt.setInt(4, racial.getId());
+        stmt.setInt(4, racial.getRandomProfs());
+        stmt.setInt(5, racial.getRandomLangs());
+        stmt.setInt(6, racial.getExtraProfs());
+        stmt.setString(7, racial.getExtraProfType());
+        stmt.setInt(8, racial.getId());
         stmt.executeUpdate();
         stmt.close();
 
         deleteRacialProficiencies(racial, conn);
-        addRacialProficiencies(racial, conn);
+        addCertainProficiencies(racial, conn);
+        addUncertainProficiencies(racial, conn);
 
         conn.close();
     }
@@ -168,10 +180,12 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
         PreparedStatement stmtRacial = conn.prepareStatement("SELECT * FROM Racial");
         ResultSet rsRacial = stmtRacial.executeQuery();
         while (rsRacial.next()) {
-            Racial newRacial = new Racial(rsRacial.getInt(1), rsRacial.getString(2), rsRacial.getInt(3),
-                    rsRacial.getBoolean(4));
+            Racial newRacial = new Racial(rsRacial.getInt(1), rsRacial.getString(2), 
+                    rsRacial.getInt(3), rsRacial.getBoolean(4), rsRacial.getInt(5), 
+                    rsRacial.getInt(6), rsRacial.getInt(7), rsRacial.getString(8));
 
-            getRacialProficiencies(newRacial, conn);
+            getCertainProficiencies(newRacial, conn);
+            getUncertainProficiencies(newRacial, conn);
 
             this.racials.add(newRacial);
         }
@@ -215,13 +229,27 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
         return id;
     }
 
-    public void addRacialProficiencies(Racial racial, Connection conn) throws SQLException {
-        for (Proficiency prof : racial.getRacialProfs()) {
+    public void addCertainProficiencies(Racial racial, Connection conn) throws SQLException {
+        for (Proficiency prof : racial.getCertainProfs()) {
             PreparedStatement connectProf = conn.prepareStatement("INSERT "
-                    + "INTO RacialProficiency (racial_id, prof_id) VALUES "
-                    + "(?, ?);");
+                    + "INTO RacialProficiency (racial_id, prof_id, certain) VALUES "
+                    + "(?, ?, ?);");
             connectProf.setInt(1, racial.getId());
             connectProf.setInt(2, prof.getId());
+            connectProf.setBoolean(3, true);
+            connectProf.executeUpdate();
+            connectProf.close();
+        }
+    }
+    
+    public void addUncertainProficiencies(Racial racial, Connection conn) throws SQLException {
+        for (Proficiency prof : racial.getUncertainProfs()) {
+            PreparedStatement connectProf = conn.prepareStatement("INSERT "
+                    + "INTO RacialProficiency (racial_id, prof_id, certain) VALUES "
+                    + "(?, ?, ?);");
+            connectProf.setInt(1, racial.getId());
+            connectProf.setInt(2, prof.getId());
+            connectProf.setBoolean(3, false);
             connectProf.executeUpdate();
             connectProf.close();
         }
@@ -236,17 +264,34 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
      *
      * @throws SQLException
      */
-    public void getRacialProficiencies(Racial racial, Connection conn) throws SQLException {
+    public void getCertainProficiencies(Racial racial, Connection conn) throws SQLException {
         PreparedStatement getProfs = conn.prepareStatement("SELECT * FROM "
                 + "Proficiency LEFT JOIN RacialProficiency ON "
                 + "RacialProficiency.prof_id = Proficiency.id WHERE "
-                + "racial_id = ?;");
+                + "racial_id = ? AND certain = ?;");
         getProfs.setInt(1, racial.getId());
+        getProfs.setBoolean(2, true);
         ResultSet rsProfs = getProfs.executeQuery();
 
         while (rsProfs.next()) {
-            racial.addRacialProf(new Proficiency(rsProfs.getInt(1), rsProfs.getString(2),
-                    rsProfs.getString(3)));
+            racial.addCertainProf(new Proficiency(rsProfs.getInt(1), rsProfs.getString(2),
+                    rsProfs.getString(3), rsProfs.getString(4)));
+        }
+        getProfs.close();
+    }
+    
+    public void getUncertainProficiencies(Racial racial, Connection conn) throws SQLException {
+        PreparedStatement getProfs = conn.prepareStatement("SELECT * FROM "
+                + "Proficiency LEFT JOIN RacialProficiency ON "
+                + "RacialProficiency.prof_id = Proficiency.id WHERE "
+                + "racial_id = ? AND certain = ?;");
+        getProfs.setInt(1, racial.getId());
+        getProfs.setBoolean(2, false);
+        ResultSet rsProfs = getProfs.executeQuery();
+
+        while (rsProfs.next()) {
+            racial.addUncertainProf(new Proficiency(rsProfs.getInt(1), rsProfs.getString(2),
+                    rsProfs.getString(3), rsProfs.getString(4)));
         }
         getProfs.close();
     }
@@ -280,7 +325,12 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
                 oldRacial.setName(racial.getName());
                 oldRacial.setStats(racial.getStats());
                 oldRacial.setFeat(racial.getFeat());
-                oldRacial.setRacialProfs(racial.getRacialProfs());
+                oldRacial.setRandomProfs(racial.getRandomProfs());
+                oldRacial.setRandomLangs(racial.getRandomLangs());
+                oldRacial.setExtraProfs(racial.getExtraProfs());
+                oldRacial.setExtraProfType(racial.getExtraProfType());
+                oldRacial.setCertainProfs(racial.getCertainProfs());
+                oldRacial.setUncertainProfs(racial.getUncertainProfs());
                 break;
             }
         }

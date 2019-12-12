@@ -17,17 +17,29 @@ public class RpgClass {
     private int id;
     private String name;
     private List<String> subclasses;
-    private List<Proficiency> classProfs;
+    private List<Proficiency> certainProfs;
+    private List<Proficiency> uncertainProfs;
+    private int randomProfs;
+    private int randomLangs;
+    private int extraProfs;
+    private String extraProfType;
     
-    public RpgClass(int id, String name) {
+    public RpgClass(int id, String name, int randomProfs, int randomLangs, int 
+            extraProfs, String extraProfType) {
         this.id = id;
         this.name = name;
+        this.randomProfs = randomProfs;
+        this.randomLangs = randomLangs;
+        this.extraProfs = extraProfs;
+        this.extraProfType = extraProfType;
         this.subclasses = new ArrayList<>();
-        this.classProfs = new ArrayList<>();
+        this.certainProfs = new ArrayList<>();
+        this.uncertainProfs = new ArrayList<>();
     }
     
-    public RpgClass(String name) {
-        this(-1, name);
+    public RpgClass(String name, int randomProfs, int randomLangs, int extraProfs, 
+            String extraProfType) {
+        this(-1, name, randomProfs, randomLangs, extraProfs, extraProfType);
     }
     
     public int getId() {
@@ -38,12 +50,32 @@ public class RpgClass {
         return this.name;
     }
     
+    public int getRandomProfs() {
+        return this.randomProfs;
+    }
+    
+    public int getRandomLangs() {
+        return this.randomLangs;
+    }
+    
+    public String getExtraProfType() {
+        return this.extraProfType;
+    }
+    
+    public int getExtraProfs() {
+        return this.extraProfs;
+    }
+    
     public List<String> getSubclasses() {
         return this.subclasses;
     }
     
-    public List<Proficiency> getClassProfs() {
-        return this.classProfs;
+    public List<Proficiency> getCertainProfs() {
+        return this.certainProfs;
+    }
+    
+    public List<Proficiency> getUncertainProfs() {
+        return this.uncertainProfs;
     }
     
     public void setId(int id) {
@@ -54,6 +86,22 @@ public class RpgClass {
     
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public void setRandomProfs(int amount) {
+        this.randomProfs = amount;
+    }
+    
+    public void setRandomLangs(int amount) {
+        this.randomLangs = amount;
+    }
+    
+    public void setExtraProfs(int amount) {
+        this.extraProfs = amount;
+    }
+    
+    public void setExtraProfType(String type) {
+        this.extraProfType = type;
     }
     
     public void setSubclasses(List<String> subclasses) {
@@ -70,13 +118,23 @@ public class RpgClass {
         this.subclasses.remove(subclass);
     }
     
-    public void setClassProfs(List<Proficiency> profs) {
-        this.classProfs = profs;
+    public void setCertainProfs(List<Proficiency> profs) {
+        this.certainProfs = profs;
     }
     
-    public void addClassProf(Proficiency prof) {
-        if (!this.classProfs.contains(prof)) {
-            this.classProfs.add(prof);
+    public void setUncertainProfs(List<Proficiency> profs) {
+        this.uncertainProfs = profs;
+    }
+    
+    public void addCertainProf(Proficiency prof) {
+        if (!this.certainProfs.contains(prof)) {
+            this.certainProfs.add(prof);
+        }
+    }
+    
+    public void addUncertainProf(Proficiency prof) {
+        if (!this.uncertainProfs.contains(prof)) {
+            this.uncertainProfs.add(prof);
         }
     }
 

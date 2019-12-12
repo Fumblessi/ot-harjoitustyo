@@ -65,9 +65,10 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
             Connection conn = openConnection();
 
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Proficiency "
-                    + "(name, type) VALUES (?, ?);");
+                    + "(name, type, subtype) VALUES (?, ?, ?);");
             stmt.setString(1, prof.getName());
             stmt.setString(2, prof.getType());
+            stmt.setString(3, prof.getSubtype());
             stmt.executeUpdate();
             stmt.close();
 
@@ -97,10 +98,11 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
         updateProfToProfs(prof);
 
         PreparedStatement stmt = conn.prepareStatement("UPDATE Proficiency "
-                + "SET name = ?, type = ? WHERE id = ?;");
+                + "SET name = ?, type = ?, subtype = ? WHERE id = ?;");
         stmt.setString(1, prof.getName());
         stmt.setString(2, prof.getType());
-        stmt.setInt(3, prof.getId());
+        stmt.setString(3, prof.getSubtype());
+        stmt.setInt(4, prof.getId());
         stmt.executeUpdate();
         stmt.close();
         conn.close();
@@ -159,7 +161,7 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
         ResultSet rsProf = stmtProf.executeQuery();
         while (rsProf.next()) {
             this.profs.add(new Proficiency(rsProf.getInt(1), rsProf.getString(2),
-                    rsProf.getString(3)));
+                    rsProf.getString(3), rsProf.getString(4)));
         }
         stmtProf.close();
         conn.close();
@@ -191,9 +193,8 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
         int id = -1;
 
         PreparedStatement stmt = conn.prepareStatement("SELECT id FROM "
-                + "Proficiency WHERE name = ? AND type = ?;");
+                + "Proficiency WHERE name = ?;");
         stmt.setString(1, prof.getName());
-        stmt.setString(2, prof.getType());
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             id = rs.getInt(1);
@@ -213,6 +214,7 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
             if (oldProf.getId() == prof.getId()) {
                 oldProf.setName(prof.getName());
                 oldProf.setType(prof.getType());
+                oldProf.setSubtype(prof.getSubtype());
                 break;
             }
         }

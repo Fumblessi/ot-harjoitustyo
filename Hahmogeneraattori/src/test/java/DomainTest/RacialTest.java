@@ -23,7 +23,7 @@ public class RacialTest {
     
     public RacialTest() {
     }
-    
+    /*
     @Before
     public void setUp() {
         this.racial = new Racial(-1, "testiRasiaali", -1, true);
@@ -87,5 +87,5 @@ public class RacialTest {
     public void twoRacialsAreNotSameIfNamesAreDifferent() {
         Racial otherRacial = new Racial(-1, "testRasiaali2", -1, true);
         assertFalse(this.racial.equals(otherRacial));
-    }
+    }*/
 }

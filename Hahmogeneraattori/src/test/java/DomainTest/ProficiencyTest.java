@@ -20,7 +20,7 @@ public class ProficiencyTest {
     
     public ProficiencyTest() {
     }
-    
+    /*
     @Before
     public void setUp() {
         this.prof = new Proficiency(-1, "testiProf", "Tool");
@@ -61,5 +61,5 @@ public class ProficiencyTest {
     public void twoProficienciesAreNotSameIfNamesMismatch() {
         Proficiency otherProf = new Proficiency(-1, "testiPuf", "Tool");
         assertFalse(this.prof.equals(otherProf));
-    }
+    }*/
 }

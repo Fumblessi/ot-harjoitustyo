@@ -16,21 +16,28 @@ public class Feat {
     
     private int id;
     private String name;
-    private int[] stats;
-    private List<Proficiency> featProfs;
+    private String stats;
+    private int randomProfs;
+    private int randomLangs;
+    private int extraProfs;
+    private String extraProfType;
+    private List<Proficiency> certainProfs;
+    private List<Proficiency> uncertainProfs;
     
-    public Feat(int id, String name) {
+    public Feat(int id, String name, String stats, int randomProfs, int randomLangs, 
+            int extraProfs, String extraProfType) {
         this.name = name;
-        this.featProfs = new ArrayList<>();
-        this.stats = new int[6];
-        this.id = id;
-        for (int i = 0; i < 6; i++) {
-            this.stats[i] = 0;
-        }
+        this.stats = stats;
+        this.randomProfs = randomProfs;
+        this.randomLangs = randomLangs;
+        this.extraProfs = extraProfs;
+        this.extraProfType = extraProfType;
+        this.certainProfs = new ArrayList<>();
+        this.uncertainProfs = new ArrayList<>();
     }
     
-    public Feat(String name) {
-        this(-1, name);
+    public Feat(String name, String stats, int randomProfs, int randomLangs, int extraProfs, String extraProfType) {
+        this(-1, name, stats, randomProfs, randomLangs, extraProfs, extraProfType);
     }
     
     public String getName() {
@@ -41,34 +48,32 @@ public class Feat {
         return this.id;
     }
     
-    public List<Proficiency> getFeatProfs() {
-        return this.featProfs;
+    public int getRandomProfs() {
+        return this.randomProfs;
+    }
+    
+    public int getRandomLangs() {
+        return this.randomLangs;
+    }
+    
+    public int getExtraProfs() {
+        return this.extraProfs;
+    }
+    
+    public String getExtraProfType() {
+        return this.extraProfType;
+    }
+    
+    public List<Proficiency> getCertainProfs() {
+        return this.certainProfs;
+    }
+    
+    public List<Proficiency> getUncertainProfs() {
+        return this.uncertainProfs;
     }
     
     public String getStats() {
-        String statString = "";
-        if (this.stats[0] == 1) {
-            statString += "STR/";
-        }
-        if (this.stats[1] == 1) {
-            statString += "DEX/";
-        }
-        if (this.stats[2] == 1) {
-            statString += "CON/";
-        }
-        if (this.stats[3] == 1) {
-            statString += "INT/";
-        }
-        if (this.stats[4] == 1) {
-            statString += "WIS/";
-        }
-        if (this.stats[5] == 1) {
-            statString += "CHA/";
-        }
-        if (!statString.isEmpty()) {
-            statString = statString.substring(0, statString.length() - 1);
-        }
-        return statString;
+        return this.stats;
     }
     
     public void setId(int id) {
@@ -81,41 +86,44 @@ public class Feat {
         this.name = name;
     }
     
-    public void setFeatProfs(List<Proficiency> profs) {
-        this.featProfs = profs;
+    public void setRandomProfs(int amount) {
+        this.randomProfs = amount;
     }
     
-    public void addFeatProf(Proficiency prof) {
-        if (!this.featProfs.contains(prof)) {
-            this.featProfs.add(prof);
+    public void setRandomLangs(int amount) {
+        this.randomLangs = amount;
+    }
+    
+    public void setExtraProfs(int amount) {
+        this.extraProfs = amount;
+    }
+    
+    public void setExtraProfType(String type) {
+        this.extraProfType = type;
+    }
+    
+    public void setCertainProfs(List<Proficiency> profs) {
+        this.certainProfs = profs;
+    }
+    
+    public void setUncertainProfs(List<Proficiency> profs) {
+        this.uncertainProfs = profs;
+    }
+    
+    public void addCertainProf(Proficiency prof) {
+        if (!this.certainProfs.contains(prof)) {
+            this.certainProfs.add(prof);
+        }
+    }
+    
+    public void addUncertainProf(Proficiency prof) {
+        if (!this.uncertainProfs.contains(prof)) {
+            this.uncertainProfs.add(prof);
         }
     }
     
     public void setStats(String stats) {
-        emptyStats();
-        String[] parts = stats.split("/");
-        for (int i = 0; i < parts.length; i++) {
-            switch (parts[i]) {
-                case "STR": this.stats[0] = 1;
-                    break;
-                case "DEX": this.stats[1] = 1;
-                    break;
-                case "CON": this.stats[2] = 1;
-                    break;
-                case "INT": this.stats[3] = 1;
-                    break;
-                case "WIS": this.stats[4] = 1;
-                    break;
-                case "CHA": this.stats[5] = 1;
-                    break;
-            }
-        }
-    }
-    
-    public void emptyStats() {
-        for (int i = 0; i < 6; i++) {
-            this.stats[i] = 0;
-        }
+        this.stats = stats;
     }
 
     @Override

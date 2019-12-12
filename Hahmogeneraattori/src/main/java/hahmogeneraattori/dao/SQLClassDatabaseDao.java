@@ -43,8 +43,13 @@ public class SQLClassDatabaseDao implements GeneratorDatabaseDao {
             Connection conn = openConnection();
 
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Class "
-                    + "(name) VALUES (?);");
+                    + "(name, randomProfs, randomLangs, extraProfs, "
+                    + "extraProfType) VALUES (?, ?, ?, ?, ?);");
             stmt.setString(1, rpgclass.getName());
+            stmt.setInt(2, rpgclass.getRandomProfs());
+            stmt.setInt(3, rpgclass.getRandomLangs());
+            stmt.setInt(4, rpgclass.getExtraProfs());
+            stmt.setString(5, rpgclass.getExtraProfType());
             stmt.executeUpdate();
             stmt.close();
 
@@ -52,7 +57,8 @@ public class SQLClassDatabaseDao implements GeneratorDatabaseDao {
 
             this.classes.add(rpgclass);
 
-            addClassProficiencies(rpgclass, conn);
+            addCertainProficiencies(rpgclass, conn);
+            addUncertainProficiencies(rpgclass, conn);
             addSubclasses(rpgclass, conn);
 
             conn.close();
@@ -68,14 +74,20 @@ public class SQLClassDatabaseDao implements GeneratorDatabaseDao {
         updateClassToClasses(rpgclass);
 
         PreparedStatement stmt = conn.prepareStatement("UPDATE Class "
-                + "SET name = ? WHERE id = ?;");
-        stmt.setString(1, rpgclass.getName());;
-        stmt.setInt(2, rpgclass.getId());
+                + "SET name = ?, randomProfs = ?, randomLangs = ?, extraProfs = ?, "
+                + "extraProfType = ? WHERE id = ?;");
+        stmt.setString(1, rpgclass.getName());
+        stmt.setInt(2, rpgclass.getRandomProfs());
+        stmt.setInt(3, rpgclass.getRandomLangs());
+        stmt.setInt(4, rpgclass.getExtraProfs());
+        stmt.setString(5, rpgclass.getExtraProfType());
+        stmt.setInt(6, rpgclass.getId());
         stmt.executeUpdate();
         stmt.close();
 
         deleteClassProficiencies(rpgclass, conn);
-        addClassProficiencies(rpgclass, conn);
+        addCertainProficiencies(rpgclass, conn);
+        addUncertainProficiencies(rpgclass, conn);
 
         deleteSubclasses(rpgclass, conn);
         addSubclasses(rpgclass, conn);
@@ -114,10 +126,12 @@ public class SQLClassDatabaseDao implements GeneratorDatabaseDao {
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Class");
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            RpgClass rpgclass = new RpgClass(rs.getInt(1), rs.getString(2));
+            RpgClass rpgclass = new RpgClass(rs.getInt(1), rs.getString(2), 
+                rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6));
 
             getSubclasses(rpgclass, conn);
-            getClassProficiencies(rpgclass, conn);
+            getCertainProficiencies(rpgclass, conn);
+            getUncertainProficiencies(rpgclass, conn);
 
             this.classes.add(rpgclass);
         }
@@ -144,13 +158,27 @@ public class SQLClassDatabaseDao implements GeneratorDatabaseDao {
         return id;
     }
 
-    public void addClassProficiencies(RpgClass rpgclass, Connection conn) throws SQLException {
-        for (Proficiency prof : rpgclass.getClassProfs()) {
+    public void addCertainProficiencies(RpgClass rpgclass, Connection conn) throws SQLException {
+        for (Proficiency prof : rpgclass.getCertainProfs()) {
             PreparedStatement connectProf = conn.prepareStatement("INSERT "
-                    + "INTO ClassProficiency (class_id, prof_id) VALUES "
-                    + "(?, ?);");
+                    + "INTO ClassProficiency (class_id, prof_id, certain) VALUES "
+                    + "(?, ?, ?);");
             connectProf.setInt(1, rpgclass.getId());
             connectProf.setInt(2, prof.getId());
+            connectProf.setBoolean(3, true);
+            connectProf.executeUpdate();
+            connectProf.close();
+        }
+    }
+    
+    public void addUncertainProficiencies(RpgClass rpgclass, Connection conn) throws SQLException {
+        for (Proficiency prof : rpgclass.getUncertainProfs()) {
+            PreparedStatement connectProf = conn.prepareStatement("INSERT "
+                    + "INTO ClassProficiency (racial_id, prof_id, certain) VALUES "
+                    + "(?, ?, ?);");
+            connectProf.setInt(1, rpgclass.getId());
+            connectProf.setInt(2, prof.getId());
+            connectProf.setBoolean(3, false);
             connectProf.executeUpdate();
             connectProf.close();
         }
@@ -164,17 +192,34 @@ public class SQLClassDatabaseDao implements GeneratorDatabaseDao {
         deleteProfs.close();
     }
 
-    public void getClassProficiencies(RpgClass rpgclass, Connection conn) throws SQLException {
+    public void getCertainProficiencies(RpgClass rpgclass, Connection conn) throws SQLException {
         PreparedStatement getProfs = conn.prepareStatement("SELECT * FROM "
                 + "Proficiency LEFT JOIN ClassProficiency ON "
                 + "ClassProficiency.prof_id = Proficiency.id WHERE "
-                + "class_id = ?;");
+                + "class_id = ? AND certain = ?;");
         getProfs.setInt(1, rpgclass.getId());
+        getProfs.setBoolean(2, true);
         ResultSet rsProfs = getProfs.executeQuery();
 
         while (rsProfs.next()) {
-            rpgclass.addClassProf(new Proficiency(rsProfs.getInt(1), rsProfs.getString(2),
-                    rsProfs.getString(3)));
+            rpgclass.addCertainProf(new Proficiency(rsProfs.getInt(1), rsProfs.getString(2),
+                    rsProfs.getString(3), rsProfs.getString(4)));
+        }
+        getProfs.close();
+    }
+    
+    public void getUncertainProficiencies(RpgClass rpgclass, Connection conn) throws SQLException {
+        PreparedStatement getProfs = conn.prepareStatement("SELECT * FROM "
+                + "Proficiency LEFT JOIN ClassProficiency ON "
+                + "ClassProficiency.prof_id = Proficiency.id WHERE "
+                + "class_id = ? AND certain = ?;");
+        getProfs.setInt(1, rpgclass.getId());
+        getProfs.setBoolean(2, false);
+        ResultSet rsProfs = getProfs.executeQuery();
+
+        while (rsProfs.next()) {
+            rpgclass.addUncertainProf(new Proficiency(rsProfs.getInt(1), rsProfs.getString(2),
+                    rsProfs.getString(3), rsProfs.getString(4)));
         }
         getProfs.close();
     }
@@ -213,8 +258,13 @@ public class SQLClassDatabaseDao implements GeneratorDatabaseDao {
         for (RpgClass oldClass : this.classes) {
             if (oldClass.getId() == rpgclass.getId()) {
                 oldClass.setName(rpgclass.getName());
+                oldClass.setRandomProfs(rpgclass.getRandomProfs());
+                oldClass.setRandomLangs(rpgclass.getRandomLangs());
+                oldClass.setExtraProfs(rpgclass.getExtraProfs());
+                oldClass.setExtraProfType(rpgclass.getExtraProfType());
                 oldClass.setSubclasses(rpgclass.getSubclasses());
-                oldClass.setClassProfs(rpgclass.getClassProfs());
+                oldClass.setCertainProfs(rpgclass.getCertainProfs());
+                oldClass.setUncertainProfs(rpgclass.getUncertainProfs());
                 break;
             }
         }

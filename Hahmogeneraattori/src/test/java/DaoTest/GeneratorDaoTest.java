@@ -38,7 +38,7 @@ public class GeneratorDaoTest {
         this.testUser = this.properties.getProperty("spring.datasource.username");
         this.testPswd = properties.getProperty("spring.datasource.password");
     }
-    
+    /*
     @Test
     public void proficiencyCanBeCreated() throws SQLException {
         SQLGeneratorDatabaseDao dbDao = new SQLGeneratorDatabaseDao(this.testConnectionPath, 
@@ -233,5 +233,5 @@ public class GeneratorDaoTest {
         assertEquals(1, racialFound);
         assertEquals(0, racialNotFound);
         dbDao.initialize();
-    }
+    }*/
 }

@@ -18,6 +18,7 @@ public class Proficiency {
     private int id;
     private String name;
     private String type;
+    private String subtype;
     
     /**
      * Proficiencyillä on indeksi ja nimi, joiden avulla ne voidaan uniikisti 
@@ -28,10 +29,11 @@ public class Proficiency {
      * @param name proficiencyn nimi
      * @param type proficiencyn tyyppi
      */
-    public Proficiency(int id, String name, String type) {
+    public Proficiency(int id, String name, String type, String subtype) {
         this.id = id;
         this.name = name;
         this.type = type;
+        this.subtype = subtype;
     }
     
     /**
@@ -42,8 +44,8 @@ public class Proficiency {
      * @param name proficiencyn nimi
      * @param type proficiencyn tyyppi
      */
-    public Proficiency(String name, String type) {
-        this(-1, name, type);
+    public Proficiency(String name, String type, String subtype) {
+        this(-1, name, type, subtype);
     }
     
     /**
@@ -65,6 +67,10 @@ public class Proficiency {
      */
     public String getType() {
         return this.type;
+    }
+    
+    public String getSubtype() {
+        return this.subtype;
     }
     
     /**
@@ -91,6 +97,10 @@ public class Proficiency {
      */
     public void setType(String type) {
         this.type = type;
+    }
+    
+    public void setSubtype(String subtype) {
+        this.subtype = subtype;
     }
 
     /**

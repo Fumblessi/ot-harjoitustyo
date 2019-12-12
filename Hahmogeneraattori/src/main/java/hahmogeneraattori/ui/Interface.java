@@ -99,19 +99,16 @@ public class Interface extends Application {
         BorderPane layout = new BorderPane();
         layout.setPrefSize(300, 200);
         this.startScene = new Scene(layout);
-        //luodaan alkunäkymä
 
         HBox buttons = new HBox();
         Button generate = new Button("Generoi");
         Button settingsButton = new Button("Asetukset");
         buttons.getChildren().addAll(generate, settingsButton);
         layout.setTop(buttons);
-        //luodaan alkunäkymän painikkeet
 
         VBox settingsLayout = new VBox();
         settingsLayout.setPrefSize(600, 400);
         this.settingsScene = new Scene(settingsLayout);
-        //luodaan asetusnäkymä
 
         Button back = new Button("Tallenna ja palaa");
         Button setDefault = new Button("Palauta alkuperäiset");
@@ -120,16 +117,16 @@ public class Interface extends Application {
         databaseBar.getMenus().add(database);
 
         MenuItem modifyProf = new MenuItem("Proficiency");
+        MenuItem modifyRace = new MenuItem("Race");
         MenuItem modifyRacial = new MenuItem("Racial");
         MenuItem modifyClass = new MenuItem("Class");
         MenuItem modifyBg = new MenuItem("Background");
         MenuItem modifyFeat = new MenuItem("Feat");
-        database.getItems().addAll(modifyProf, modifyRacial, modifyClass,
-                modifyBg, modifyFeat);
+        database.getItems().addAll(modifyRace, modifyRacial, modifyClass,
+                modifyBg, modifyProf, modifyFeat);
 
         HBox settingsButtons = new HBox();
         settingsButtons.getChildren().addAll(back, setDefault, databaseBar);
-        //luodaan asetusnäkymän painikkeet
 
         HBox statPool = new HBox();
         Label statPoolLabel = new Label("Piirteiden summa:");
@@ -157,14 +154,12 @@ public class Interface extends Application {
 
         CheckBox racialBonus = new CheckBox("Lisää rotubonukset");
         racialBonus.setSelected(this.settings.getRacialBonus());
-        //luodaan asetusnäkymän asetusvaihtoehdot
 
         settingsButton.setOnAction((event) -> {
             settingsLayout.getChildren().addAll(settingsButtons, statPool, statPoolError,
                     statLimits, statLimitError, racialBonus);
             this.primaryWindow.setScene(this.settingsScene);
         });
-        //asetukset -ikkunaan siirtyminen
 
         back.setOnAction((event) -> {
 
@@ -216,7 +211,6 @@ public class Interface extends Application {
                 }
             }
         });
-        //asetukset-ikkunasta paluu, uusien asetusten tarkistaminen ja tallennus
 
         setDefault.setOnAction((event) -> {
             statPoolAmount.setText("70");
@@ -225,12 +219,12 @@ public class Interface extends Application {
             statMaxAmount.setText("18");
             racialBonus.setSelected(true);
         });
-        //oletus-asetusten palautus
 
         this.databaseWindow = new Stage();
         this.databaseWindow.setTitle("Tietokanta");
 
         VBox profAddLayout = new VBox();
+        profAddLayout.setPrefSize(400, 200);
 
         HBox profAddNameLayout = new HBox();
         Label profAddNameLabel = new Label("Nimi: ");
@@ -255,8 +249,43 @@ public class Interface extends Application {
         profAddTypeLayout.getChildren().addAll(addTypeSkill, addTypeArmor, addTypeWeapon,
                 addTypeTool, addTypeLanguage);
 
-        VBox profModifyLayout = new VBox();
+        HBox profAddSubtypeToolLayout = new HBox();
+        ToggleGroup profAddSubtypeToolGroup = new ToggleGroup();
+        RadioButton addSubtypeArtisan = new RadioButton("Artisan");
+        addSubtypeArtisan.setSelected(true);
+        addSubtypeArtisan.setToggleGroup(profAddSubtypeToolGroup);
+        RadioButton addSubtypeGamingSet = new RadioButton("Gaming Set");
+        addSubtypeGamingSet.setToggleGroup(profAddSubtypeToolGroup);
+        RadioButton addSubtypeInstrument = new RadioButton("Instrument");
+        addSubtypeInstrument.setToggleGroup(profAddSubtypeToolGroup);
+        profAddSubtypeToolLayout.getChildren().addAll(addSubtypeArtisan,
+                addSubtypeGamingSet, addSubtypeInstrument);
 
+        HBox profAddSubtypeWeaponLayout = new HBox();
+        ToggleGroup profAddSubtypeWeaponGroup = new ToggleGroup();
+        RadioButton addSubtypeSimple = new RadioButton("Simple");
+        addSubtypeSimple.setSelected(true);
+        addSubtypeSimple.setToggleGroup(profAddSubtypeWeaponGroup);
+        RadioButton addSubtypeMartial = new RadioButton("Martial");
+        addSubtypeMartial.setToggleGroup(profAddSubtypeWeaponGroup);
+        profAddSubtypeWeaponLayout.getChildren().addAll(addSubtypeSimple,
+                addSubtypeMartial);
+
+        HBox profAddSubtypeLanguageLayout = new HBox();
+        ToggleGroup profAddSubtypeLanguageGroup = new ToggleGroup();
+        RadioButton addSubtypeCommon = new RadioButton("Common");
+        addSubtypeCommon.setSelected(true);
+        addSubtypeCommon.setToggleGroup(profAddSubtypeLanguageGroup);
+        RadioButton addSubtypeRare = new RadioButton("Rare");
+        addSubtypeRare.setToggleGroup(profAddSubtypeLanguageGroup);
+        RadioButton addSubtypeLegendary = new RadioButton("Legendary");
+        addSubtypeLegendary.setToggleGroup(profAddSubtypeLanguageGroup);
+        profAddSubtypeLanguageLayout.getChildren().addAll(addSubtypeCommon,
+                addSubtypeRare, addSubtypeLegendary);
+
+        VBox profModifyLayout = new VBox();
+        profModifyLayout.setPrefSize(400, 200);
+        
         HBox profModNameLayout = new HBox();
         Label profModNameLabel = new Label("Nimi: ");
         TextField profModNameText = new TextField();
@@ -279,6 +308,40 @@ public class Interface extends Application {
         profModTypeLayout.getChildren().addAll(modTypeSkill, modTypeArmor, modTypeWeapon,
                 modTypeTool, modTypeLanguage);
 
+        HBox profModSubtypeToolLayout = new HBox();
+        ToggleGroup profModSubtypeToolGroup = new ToggleGroup();
+        RadioButton modSubtypeArtisan = new RadioButton("Artisan");
+        modSubtypeArtisan.setSelected(true);
+        modSubtypeArtisan.setToggleGroup(profModSubtypeToolGroup);
+        RadioButton modSubtypeGamingSet = new RadioButton("Gaming Set");
+        modSubtypeGamingSet.setToggleGroup(profModSubtypeToolGroup);
+        RadioButton modSubtypeInstrument = new RadioButton("Instrument");
+        modSubtypeInstrument.setToggleGroup(profModSubtypeToolGroup);
+        profModSubtypeToolLayout.getChildren().addAll(modSubtypeArtisan,
+                modSubtypeGamingSet, modSubtypeInstrument);
+
+        HBox profModSubtypeWeaponLayout = new HBox();
+        ToggleGroup profModSubtypeWeaponGroup = new ToggleGroup();
+        RadioButton modSubtypeSimple = new RadioButton("Simple");
+        modSubtypeSimple.setSelected(true);
+        modSubtypeSimple.setToggleGroup(profModSubtypeWeaponGroup);
+        RadioButton modSubtypeMartial = new RadioButton("Martial");
+        modSubtypeMartial.setToggleGroup(profModSubtypeWeaponGroup);
+        profModSubtypeWeaponLayout.getChildren().addAll(modSubtypeSimple,
+                modSubtypeMartial);
+
+        HBox profModSubtypeLanguageLayout = new HBox();
+        ToggleGroup profModSubtypeLanguageGroup = new ToggleGroup();
+        RadioButton modSubtypeCommon = new RadioButton("Common");
+        modSubtypeCommon.setSelected(true);
+        modSubtypeCommon.setToggleGroup(profModSubtypeLanguageGroup);
+        RadioButton modSubtypeRare = new RadioButton("Rare");
+        modSubtypeRare.setToggleGroup(profModSubtypeLanguageGroup);
+        RadioButton modSubtypeLegendary = new RadioButton("Legendary");
+        modSubtypeLegendary.setToggleGroup(profModSubtypeLanguageGroup);
+        profModSubtypeLanguageLayout.getChildren().addAll(modSubtypeCommon,
+                modSubtypeRare, modSubtypeLegendary);
+
         Button addNewProf = new Button("Lisää");
         Button backFromAddingProf = new Button("Takaisin");
 
@@ -292,22 +355,111 @@ public class Interface extends Application {
 
         profAddLayout.getChildren().addAll(profAddNameLayout, profAddNameError,
                 profAddTypeLayout, profAddingButtons);
+
+        addTypeSkill.setOnAction((event) -> {
+            if (addTypeSkill.isSelected()) {
+                profAddLayout.getChildren().clear();
+                profAddLayout.getChildren().addAll(profAddNameLayout, profAddNameError,
+                        profAddTypeLayout, profAddingButtons);
+            }
+        });
+
+        addTypeArmor.setOnAction((event) -> {
+            if (addTypeArmor.isSelected()) {
+                profAddLayout.getChildren().clear();
+                profAddLayout.getChildren().addAll(profAddNameLayout, profAddNameError,
+                        profAddTypeLayout, profAddingButtons);
+            }
+        });
+
+        addTypeWeapon.setOnAction((event) -> {
+            if (addTypeWeapon.isSelected()) {
+                profAddLayout.getChildren().clear();
+                profAddLayout.getChildren().addAll(profAddNameLayout, profAddNameError,
+                        profAddTypeLayout, profAddSubtypeWeaponLayout, profAddingButtons);
+            }
+        });
+
+        addTypeTool.setOnAction((event) -> {
+            if (addTypeTool.isSelected()) {
+                profAddLayout.getChildren().clear();
+                profAddLayout.getChildren().addAll(profAddNameLayout, profAddNameError,
+                        profAddTypeLayout, profAddSubtypeToolLayout, profAddingButtons);
+            }
+        });
+
+        addTypeLanguage.setOnAction((event) -> {
+            if (addTypeLanguage.isSelected()) {
+                profAddLayout.getChildren().clear();
+                profAddLayout.getChildren().addAll(profAddNameLayout, profAddNameError,
+                        profAddTypeLayout, profAddSubtypeLanguageLayout, profAddingButtons);
+            }
+        });
+
         profModifyLayout.getChildren().addAll(profModNameLayout, profModNameError,
                 profModTypeLayout, profModifyingButtons);
 
+        modTypeSkill.setOnAction((event) -> {
+            if (modTypeSkill.isSelected()) {
+                profModifyLayout.getChildren().clear();
+                profModifyLayout.getChildren().addAll(profModNameLayout,
+                        profModNameError, profModTypeLayout, profModifyingButtons);
+            }
+        });
+
+        modTypeArmor.setOnAction((event) -> {
+            if (modTypeArmor.isSelected()) {
+                profModifyLayout.getChildren().clear();
+                profModifyLayout.getChildren().addAll(profModNameLayout,
+                        profModNameError, profModTypeLayout, profModifyingButtons);
+            }
+        });
+
+        modTypeWeapon.setOnAction((event) -> {
+            if (modTypeWeapon.isSelected()) {
+                profModifyLayout.getChildren().clear();
+                profModifyLayout.getChildren().addAll(profModNameLayout,
+                        profModNameError, profModTypeLayout,
+                        profModSubtypeWeaponLayout, profModifyingButtons);
+            }
+        });
+
+        modTypeTool.setOnAction((event) -> {
+            if (modTypeTool.isSelected()) {
+                profModifyLayout.getChildren().clear();
+                profModifyLayout.getChildren().addAll(profModNameLayout,
+                        profModNameError, profModTypeLayout,
+                        profModSubtypeToolLayout, profModifyingButtons);
+            }
+        });
+
+        modTypeLanguage.setOnAction((event) -> {
+            if (modTypeLanguage.isSelected()) {
+                profModifyLayout.getChildren().clear();
+                profModifyLayout.getChildren().addAll(profModNameLayout,
+                        profModNameError, profModTypeLayout,
+                        profModSubtypeLanguageLayout, profModifyingButtons);
+            }
+        });
+
         VBox profDatabaseLayout = new VBox();
+        profDatabaseLayout.setPrefSize(500, 500);
         TableView<Proficiency> profs = new TableView();
 
         TableColumn<Proficiency, String> profNameColumn = new TableColumn<>("Nimi");
         profNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        profNameColumn.prefWidthProperty().bind(profs.widthProperty().multiply(0.5));
+        profNameColumn.prefWidthProperty().bind(profs.widthProperty().multiply(0.33));
 
         TableColumn<Proficiency, String> profTypeColumn = new TableColumn<>("Tyyppi");
         profTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        profTypeColumn.prefWidthProperty().bind(profs.widthProperty().multiply(0.5));
+        profTypeColumn.prefWidthProperty().bind(profs.widthProperty().multiply(0.33));
+
+        TableColumn<Proficiency, String> profSubtypeColumn = new TableColumn<>("Alityyppi");
+        profSubtypeColumn.setCellValueFactory(new PropertyValueFactory<>("subtype"));
+        profSubtypeColumn.prefWidthProperty().bind(profs.widthProperty().multiply(0.33));
 
         profs.getSortOrder().add(profTypeColumn);
-        profs.getColumns().setAll(profNameColumn, profTypeColumn);
+        profs.getColumns().setAll(profNameColumn, profTypeColumn, profSubtypeColumn);
 
         Button addProf = new Button("Lisää uusi");
         Button modifyExistingProf = new Button("Muokkaa");
@@ -500,9 +652,15 @@ public class Interface extends Application {
         this.profModScene = new Scene(profModifyLayout);
 
         addProf.setOnAction((event) -> {
+            profAddLayout.getChildren().clear();
+            profAddLayout.getChildren().addAll(profAddNameLayout,
+                profAddNameError, profAddTypeLayout, profAddingButtons);
             profAddNameText.setText("");
             profAddNameError.setText("");
             addTypeSkill.setSelected(true);
+            addSubtypeSimple.setSelected(true);
+            addSubtypeArtisan.setSelected(true);
+            addSubtypeCommon.setSelected(true);
             profDatabaseErrorText.setText("");
             this.modifyWindow.setTitle("Lisää Proficiency");
             this.modifyWindow.setScene(this.profAddScene);
@@ -523,18 +681,69 @@ public class Interface extends Application {
                 switch (profType) {
                     case "Skill":
                         modTypeSkill.setSelected(true);
+                        profModifyLayout.getChildren().clear();
+                        profModifyLayout.getChildren().addAll(profModNameLayout,
+                            profModNameError, profModTypeLayout, profModifyingButtons);
                         break;
                     case "Armor":
                         modTypeArmor.setSelected(true);
+                        profModifyLayout.getChildren().clear();
+                        profModifyLayout.getChildren().addAll(profModNameLayout,
+                            profModNameError, profModTypeLayout, profModifyingButtons);
                         break;
                     case "Weapon":
                         modTypeWeapon.setSelected(true);
+                        profModifyLayout.getChildren().clear();
+                        profModifyLayout.getChildren().addAll(profModNameLayout,
+                            profModNameError, profModTypeLayout, profModSubtypeWeaponLayout, 
+                            profModifyingButtons);
+                        String profSubtypeWep = profToBeModified.getSubtype();
+                        switch (profSubtypeWep) {
+                            case "Simple":
+                                modSubtypeSimple.setSelected(true);
+                                break;
+                            case "Martial":
+                                modSubtypeMartial.setSelected(true);
+                                break;
+                        }
                         break;
                     case "Tool":
                         modTypeTool.setSelected(true);
+                        profModifyLayout.getChildren().clear();
+                        profModifyLayout.getChildren().addAll(profModNameLayout,
+                            profModNameError, profModTypeLayout, profModSubtypeToolLayout, 
+                            profModifyingButtons);
+                        String profSubtypeTool = profToBeModified.getSubtype();
+                        switch (profSubtypeTool) {
+                            case "Artisan":
+                                modSubtypeArtisan.setSelected(true);
+                                break;
+                            case "Gaming Set":
+                                modSubtypeGamingSet.setSelected(true);
+                                break;
+                            case "Instrument":
+                                modSubtypeInstrument.setSelected(true);
+                                break;
+                        }
                         break;
                     default:
                         modTypeLanguage.setSelected(true);
+                        profModifyLayout.getChildren().clear();
+                        profModifyLayout.getChildren().addAll(profModNameLayout,
+                            profModNameError, profModTypeLayout, profModSubtypeLanguageLayout, 
+                            profModifyingButtons);
+                        String profSubtypeLang = profToBeModified.getSubtype();
+                        switch (profSubtypeLang) {
+                            case "Common":
+                                modSubtypeCommon.setSelected(true);
+                                break;
+                            case "Rare":
+                                modSubtypeRare.setSelected(true);
+                                break;
+                            case "Legendary":
+                                modSubtypeLegendary.setSelected(true);
+                                break;
+                        }
                         break;
                 }
             } else {
@@ -546,25 +755,51 @@ public class Interface extends Application {
             String profName = profAddNameText.getText();
             profAddNameText.setText("");
             String profType = "";
+            String profSubtype = "";
             if (addTypeLanguage.isSelected()) {
                 profType = "Language";
+                if (addSubtypeCommon.isSelected()) {
+                    profSubtype = "Common";
+                } else if (addSubtypeRare.isSelected()) {
+                    profSubtype = "Rare";
+                } else {
+                    profSubtype = "Legendary";
+                }
             } else if (addTypeArmor.isSelected()) {
                 profType = "Armor";
+                profSubtype = "";
             } else if (addTypeWeapon.isSelected()) {
                 profType = "Weapon";
+                if (addSubtypeSimple.isSelected()) {
+                    profSubtype = "Simple";
+                } else {
+                    profSubtype = "Martial";
+                }
             } else if (addTypeTool.isSelected()) {
                 profType = "Tool";
+                if (addSubtypeArtisan.isSelected()) {
+                    profSubtype = "Artisan";
+                } else if (addSubtypeGamingSet.isSelected()) {
+                    profSubtype = "Gaming Set";
+                } else {
+                    profSubtype = "Instrument";
+                }
             } else {
                 profType = "Skill";
+                profSubtype = "";
             }
             if (!profName.isEmpty()) {
                 try {
-                    this.generator.addNewProfToDb(new Proficiency(profName, profType));
+                    this.generator.addNewProfToDb(new Proficiency(profName, profType,
+                            profSubtype));
                 } catch (SQLException ex) {
                     profAddNameError.setText(ex.getMessage());
                 }
                 profAddNameError.setText("");
                 addTypeSkill.setSelected(true);
+                addSubtypeSimple.setSelected(true);
+                addSubtypeArtisan.setSelected(true);
+                addSubtypeCommon.setSelected(true);
                 this.modifyWindow.close();
                 refreshProfs(profs);
             } else {
@@ -580,19 +815,41 @@ public class Interface extends Application {
             String profName = profModNameText.getText();
             profModNameText.setText("");
             String profType = "";
+            String profSubtype = "";
             if (modTypeLanguage.isSelected()) {
                 profType = "Language";
+                if (modSubtypeCommon.isSelected()) {
+                    profSubtype = "Common";
+                } else if (modSubtypeRare.isSelected()) {
+                    profSubtype = "Rare";
+                } else {
+                    profSubtype = "Legendary";
+                }
             } else if (modTypeArmor.isSelected()) {
                 profType = "Armor";
+                profSubtype = "";
             } else if (modTypeWeapon.isSelected()) {
                 profType = "Weapon";
+                if (modSubtypeSimple.isSelected()) {
+                    profSubtype = "Simple";
+                } else {
+                    profSubtype = "Martial";
+                }
             } else if (modTypeTool.isSelected()) {
                 profType = "Tool";
+                if (modSubtypeArtisan.isSelected()) {
+                    profSubtype = "Artisan";
+                } else if (modSubtypeGamingSet.isSelected()) {
+                    profSubtype = "Gaming Set";
+                } else {
+                    profSubtype = "Instrument";
+                }
             } else {
                 profType = "Skill";
+                profSubtype = "";
             }
             int id = profs.getSelectionModel().getSelectedItem().getId();
-            Proficiency newProf = new Proficiency(id, profName, profType);
+            Proficiency newProf = new Proficiency(id, profName, profType, profSubtype);
             if (!profName.isEmpty()) {
                 try {
                     this.generator.updateProfToDb(newProf);
@@ -618,7 +875,8 @@ public class Interface extends Application {
         HBox racialAddLayout = new HBox();
 
         VBox racialAddLeftLayout = new VBox();
-        HBox racialAddRightLayout = new HBox();
+        VBox racialAddCenterLayout = new VBox();
+        VBox racialAddRightLayout = new VBox();
 
         VBox racialAddNameLayout = new VBox();
         Label racialAddNameLabel = new Label("Nimi: ");
@@ -630,12 +888,45 @@ public class Interface extends Application {
         VBox addRacialStats = new VBox();
         Label addRacialStatsLabel = new Label("Racial antaa statteja: ");
         TextField addRacialStatsText = new TextField("0");
-        Label racialStatsError = new Label("");
-        racialStatsError.setTextFill(Color.RED);
+        Label addRacialStatsError = new Label("");
+        Label addRacialRandomProfsLabel = new Label("Racial antaa epävarmoja proficiencyjä:");
+        TextField addRacialRandomProfs = new TextField("0");
+        Label racialAddRandomProfsError = new Label("");
+        Label addRacialRandomLangsLabel = new Label("Racial antaa kieliä:");
+        TextField addRacialRandomLangs = new TextField("0");
+        Label racialAddRandomLangsError = new Label("");
+        Label addRacialExtraProfsLabel = new Label("Racial antaa extra-proficiencyjä:");
+        TextField addRacialExtraProfs = new TextField("0");
+        Label racialAddExtraProfsError = new Label("");
+
+        addRacialStatsError.setTextFill(Color.RED);
         addRacialStats.getChildren().addAll(addRacialStatsLabel, addRacialStatsText,
-                racialStatsError);
+                addRacialStatsError);
 
         CheckBox addRacialFeat = new CheckBox("Racial antaa featin");
+
+        Label addRacialExtraProfTypeLabel = new Label("Mitä tyyppiä extra-proficiencyt ovat?");
+
+        ToggleGroup addRacialExtraProfGroup = new ToggleGroup();
+        RadioButton addExtraSkill = new RadioButton("Skill");
+        addExtraSkill.setSelected(true);
+        RadioButton addExtraTool = new RadioButton("Tool");
+        RadioButton addExtraArtisan = new RadioButton("Artisan");
+        RadioButton addExtraGamingSet = new RadioButton("Gaming Set");
+        RadioButton addExtraInstrument = new RadioButton("Instrument");
+        RadioButton addExtraSkillTool = new RadioButton("Skill/Tool");
+        RadioButton addExtraArtisanInstrument = new RadioButton("Artisan/Instrument");
+        RadioButton addExtraArtisanGamingSet = new RadioButton("Artisan/Gaming Set");
+        RadioButton addExtraGamingSetInstrument = new RadioButton("Gaming Set/Instrument");
+        addExtraSkill.setToggleGroup(addRacialExtraProfGroup);
+        addExtraTool.setToggleGroup(addRacialExtraProfGroup);
+        addExtraArtisan.setToggleGroup(addRacialExtraProfGroup);
+        addExtraGamingSet.setToggleGroup(addRacialExtraProfGroup);
+        addExtraInstrument.setToggleGroup(addRacialExtraProfGroup);
+        addExtraSkillTool.setToggleGroup(addRacialExtraProfGroup);
+        addExtraArtisanInstrument.setToggleGroup(addRacialExtraProfGroup);
+        addExtraArtisanGamingSet.setToggleGroup(addRacialExtraProfGroup);
+        addExtraGamingSetInstrument.setToggleGroup(addRacialExtraProfGroup);
 
         Button addNewRacial = new Button("Lisää");
         Button backFromAddingRacial = new Button("Takaisin");
@@ -643,17 +934,34 @@ public class Interface extends Application {
         racialAddingButtons.getChildren().addAll(addNewRacial, backFromAddingRacial);
 
         racialAddLeftLayout.getChildren().addAll(racialAddNameLayout, racialAddNameError,
-                addRacialStats, addRacialFeat, racialAddingButtons);
+                addRacialStats, addRacialStatsError, addRacialRandomProfsLabel, 
+                addRacialRandomProfs, racialAddRandomProfsError, 
+                addRacialRandomLangsLabel, addRacialRandomLangs,
+                racialAddRandomLangsError, addRacialExtraProfsLabel, 
+                addRacialExtraProfs, racialAddExtraProfsError,
+                addRacialFeat, addRacialExtraProfTypeLabel, addExtraSkill, addExtraTool,
+                addExtraArtisan, addExtraGamingSet, addExtraInstrument,
+                addExtraSkillTool, addExtraArtisanInstrument,
+                addExtraArtisanGamingSet, addExtraGamingSetInstrument,
+                racialAddingButtons);
 
-        TableView<Proficiency> addRacialProfTable = createProfTable();
+        Label addCertainRacialProfLabel = new Label("Valitse varmat proficiencyt");
+        TableView<Proficiency> addRacialCertainProfTable = createProfTable();
+        Label addUncertainRacialProfLabel = new Label("Valitse epävarmat proficiencyt");
+        TableView<Proficiency> addRacialUncertainProfTable = createProfTable();
 
-        racialAddRightLayout.getChildren().addAll(addRacialProfTable);
+        racialAddCenterLayout.getChildren().addAll(addCertainRacialProfLabel,
+                addRacialCertainProfTable);
+        racialAddRightLayout.getChildren().addAll(addUncertainRacialProfLabel,
+                addRacialUncertainProfTable);
 
-        racialAddLayout.getChildren().addAll(racialAddLeftLayout, racialAddRightLayout);
+        racialAddLayout.getChildren().addAll(racialAddLeftLayout, racialAddCenterLayout,
+                racialAddRightLayout);
 
         HBox racialModifyLayout = new HBox();
 
         VBox racialModLeftLayout = new VBox();
+        VBox racialModCenterLayout = new VBox();
         VBox racialModRightLayout = new VBox();
 
         VBox racialModNameLayout = new VBox();
@@ -663,47 +971,107 @@ public class Interface extends Application {
         racialModNameError.setTextFill(Color.RED);
         racialModNameLayout.getChildren().addAll(racialModNameLabel, racialModNameText);
 
-        CheckBox modRacialFeat = new CheckBox("Racial antaa featin");
-
         VBox modRacialStats = new VBox();
         Label modRacialStatsLabel = new Label("Racial antaa statteja: ");
         TextField modRacialStatsText = new TextField("0");
         Label modRacialStatsError = new Label("");
+        Label modRacialRandomProfsLabel = new Label("Racial antaa epävarmoja proficiencyjä:");
+        TextField modRacialRandomProfs = new TextField("0");
+        Label racialModRandomProfsError = new Label("");
+        Label modRacialRandomLangsLabel = new Label("Racial antaa kieliä:");
+        TextField modRacialRandomLangs = new TextField("0");
+        Label racialModRandomLangsError = new Label("");
+        Label modRacialExtraProfsLabel = new Label("Racial antaa extra-proficiencyjä:");
+        TextField modRacialExtraProfs = new TextField("0");
+        Label racialModExtraProfsError = new Label("");
+
         modRacialStatsError.setTextFill(Color.RED);
         modRacialStats.getChildren().addAll(modRacialStatsLabel, modRacialStatsText,
                 modRacialStatsError);
 
-        Button modifyThisRacial = new Button("Päivitä");
+        CheckBox modRacialFeat = new CheckBox("Racial antaa featin");
+
+        Label modRacialExtraProfTypeLabel = new Label("Mitä tyyppiä extra-proficiencyt ovat?");
+
+        ToggleGroup modRacialExtraProfGroup = new ToggleGroup();
+        RadioButton modExtraSkill = new RadioButton("Skill");
+        modExtraSkill.setSelected(true);
+        RadioButton modExtraTool = new RadioButton("Tool");
+        RadioButton modExtraArtisan = new RadioButton("Artisan");
+        RadioButton modExtraGamingSet = new RadioButton("Gaming Set");
+        RadioButton modExtraInstrument = new RadioButton("Instrument");
+        RadioButton modExtraSkillTool = new RadioButton("Skill/Tool");
+        RadioButton modExtraArtisanInstrument = new RadioButton("Artisan/Instrument");
+        RadioButton modExtraArtisanGamingSet = new RadioButton("Artisan/Gaming Set");
+        RadioButton modExtraGamingSetInstrument = new RadioButton("Gaming Set/Instrument");
+        modExtraSkill.setToggleGroup(modRacialExtraProfGroup);
+        modExtraTool.setToggleGroup(modRacialExtraProfGroup);
+        modExtraArtisan.setToggleGroup(modRacialExtraProfGroup);
+        modExtraGamingSet.setToggleGroup(modRacialExtraProfGroup);
+        modExtraInstrument.setToggleGroup(modRacialExtraProfGroup);
+        modExtraSkillTool.setToggleGroup(modRacialExtraProfGroup);
+        modExtraArtisanInstrument.setToggleGroup(modRacialExtraProfGroup);
+        modExtraArtisanGamingSet.setToggleGroup(modRacialExtraProfGroup);
+        modExtraGamingSetInstrument.setToggleGroup(modRacialExtraProfGroup);
+
+        Button modifyThisRacial = new Button("Lisää");
         Button backFromModifyingRacial = new Button("Takaisin");
         HBox racialModifyingButtons = new HBox();
-        racialModifyingButtons.getChildren().addAll(modifyThisRacial, backFromModifyingRacial);
+        racialModifyingButtons.getChildren().addAll(modifyThisRacial,
+                backFromModifyingRacial);
 
         racialModLeftLayout.getChildren().addAll(racialModNameLayout, racialModNameError,
-                modRacialStats, modRacialFeat, racialModifyingButtons);
+                modRacialStats, modRacialStatsError, modRacialRandomProfsLabel, 
+                modRacialRandomProfs, racialModRandomProfsError, 
+                modRacialRandomLangsLabel, modRacialRandomLangs,
+                racialModRandomLangsError, modRacialExtraProfsLabel, modRacialExtraProfs, 
+                racialModExtraProfsError, modRacialFeat, 
+                modRacialExtraProfTypeLabel, modExtraSkill, modExtraTool,
+                modExtraArtisan, modExtraGamingSet, modExtraInstrument,
+                modExtraSkillTool, modExtraArtisanInstrument,
+                modExtraArtisanGamingSet, modExtraGamingSetInstrument,
+                racialModifyingButtons);
 
-        TableView<Proficiency> modRacialProfTable = createProfTable();
+        Label modCertainRacialProfLabel = new Label("Valitse varmat proficiencyt");
+        TableView<Proficiency> modRacialCertainProfTable = createProfTable();
+        Label modUncertainRacialProfLabel = new Label("Valitse epävarmat proficiencyt");
+        TableView<Proficiency> modRacialUncertainProfTable = createProfTable();
 
-        racialModRightLayout.getChildren().addAll(modRacialProfTable);
+        racialModCenterLayout.getChildren().addAll(modCertainRacialProfLabel,
+                modRacialCertainProfTable);
+        racialModRightLayout.getChildren().addAll(modUncertainRacialProfLabel,
+                modRacialUncertainProfTable);
 
-        racialModifyLayout.getChildren().addAll(racialModLeftLayout, racialModRightLayout);
+        racialModifyLayout.getChildren().addAll(racialModLeftLayout,
+                racialModCenterLayout, racialModRightLayout);
 
         this.racialAddScene = new Scene(racialAddLayout);
         this.racialModScene = new Scene(racialModifyLayout);
 
         addRacial.setOnAction((event) -> {
-            refreshProfs(addRacialProfTable);
+            refreshProfs(addRacialCertainProfTable);
+            refreshProfs(addRacialUncertainProfTable);
             racialDatabaseErrorText.setText("");
             racialAddNameText.setText("");
             racialAddNameError.setText("");
             addRacialStatsText.setText("0");
+            addRacialStatsError.setText("");
+            addRacialRandomProfs.setText("0");
+            racialAddRandomProfsError.setText("");
+            addRacialRandomLangs.setText("0");
+            racialAddRandomLangsError.setText("");
+            addRacialExtraProfs.setText("0");
+            racialAddExtraProfsError.setText("");
             addRacialFeat.setSelected(false);
+            addExtraSkill.setSelected(true);
             this.modifyWindow.setTitle("Lisää Racial");
             this.modifyWindow.setScene(this.racialAddScene);
             this.modifyWindow.show();
         });
 
         modifyExistingRacial.setOnAction((event) -> {
-            refreshProfs(modRacialProfTable);
+            refreshProfs(modRacialCertainProfTable);
+            refreshProfs(modRacialUncertainProfTable);
             racialModNameText.setText("");
             Racial racialToBeModified = racials.getSelectionModel().getSelectedItem();
             if (!(racialToBeModified == null)) {
@@ -713,11 +1081,50 @@ public class Interface extends Application {
                 this.modifyWindow.show();
                 racialModNameText.setText(racialToBeModified.getName());
                 String oldStats = "" + racialToBeModified.getStats();
+                String oldRandomProfs = "" + racialToBeModified.getRandomProfs();
+                String oldRandomLangs = "" + racialToBeModified.getRandomLangs();
+                String oldExtraProfs = "" + racialToBeModified.getExtraProfs();
+                String oldExtraProfType = racialToBeModified.getExtraProfType();
                 modRacialStatsText.setText(oldStats);
+                modRacialRandomProfs.setText(oldRandomProfs);
+                modRacialRandomLangs.setText(oldRandomLangs);
+                modRacialExtraProfs.setText(oldExtraProfs);
+                switch (oldExtraProfType) {
+                    case "Skill":
+                        modExtraSkill.setSelected(true);
+                        break;
+                    case "Tool":
+                        modExtraTool.setSelected(true);
+                        break;
+                    case "Artisan":
+                        modExtraArtisan.setSelected(true);
+                        break;
+                    case "Gaming Set":
+                        modExtraGamingSet.setSelected(true);
+                        break;
+                    case "Instrument":
+                        modExtraInstrument.setSelected(true);
+                        break;
+                    case "Skill/Tool":
+                        modExtraSkillTool.setSelected(true);
+                        break;
+                    case "Artisan/Instrument":
+                        modExtraArtisanInstrument.setSelected(true);
+                        break;
+                    case "Artisan/Gaming Set":
+                        modExtraArtisanGamingSet.setSelected(true);
+                        break;
+                    default:
+                        modExtraGamingSetInstrument.setSelected(true);
+                        break;
+                }
                 modRacialFeat.setSelected(racialToBeModified.getFeat());
 
-                for (Proficiency racialProf : racialToBeModified.getRacialProfs()) {
-                    modRacialProfTable.getSelectionModel().select(racialProf);
+                for (Proficiency certainProf : racialToBeModified.getCertainProfs()) {
+                    modRacialCertainProfTable.getSelectionModel().select(certainProf);
+                }
+                for (Proficiency uncertainProf : racialToBeModified.getUncertainProfs()) {
+                    modRacialUncertainProfTable.getSelectionModel().select(uncertainProf);
                 }
             } else {
                 racialDatabaseErrorText.setText("Valitse muokattava racial!");
@@ -725,29 +1132,73 @@ public class Interface extends Application {
         });
 
         addNewRacial.setOnAction((event) -> {
+            /*
             String racialName = racialAddNameText.getText();
 
-            if (!racialName.isEmpty() && isInteger(addRacialStatsText.getText())) {
+            if (!racialName.isEmpty() && isInteger(addRacialStatsText.getText())
+                    && isInteger(addRacialRandomProfs.getText())
+                    && isInteger(addRacialRandomLangs.getText())
+                    && isInteger(addRacialExtraProfs.getText())) {
                 int racialStats = Integer.parseInt(addRacialStatsText.getText());
+                int randomProfs = Integer.parseInt(addRacialRandomProfs.getText());
+                int randomLangs = Integer.parseInt(addRacialRandomLangs.getText());
+                int extraProfs = Integer.parseInt(addRacialExtraProfs.getText());
                 boolean racialFeat = addRacialFeat.isSelected();
-                Racial racialToAdd = new Racial(racialName, racialStats, racialFeat);
+                String extraProfType = "";
+                if (extraProfs != 0) {
+                    if (addExtraSkill.isSelected()) {
+                        extraProfType = "Skill";
+                    } else if (addExtraTool.isSelected()) {
+                        extraProfType = "Tool";
+                    } else if (addExtraArtisan.isSelected()) {
+                        extraProfType = "Artisan";
+                    } else if (addExtraGamingSet.isSelected()) {
+                        extraProfType = "Gaming Set";
+                    } else if (addExtraInstrument.isSelected()) {
+                        extraProfType = "Instrument";
+                    } else if (addExtraSkillTool.isSelected()) {
+                        extraProfType = "Skill/Tool";
+                    } else if (addExtraArtisanInstrument.isSelected()) {
+                        extraProfType = "Artisan/Instrument";
+                    } else if (addExtraArtisanGamingSet.isSelected()) {
+                        extraProfType = "Artisan/Gaming Set";
+                    } else {
+                        extraProfType = "Gaming Set/Instrument";
+                    }
+                }
+                Racial racialToAdd = new Racial(racialName, racialStats, racialFeat,
+                        randomProfs, randomLangs, extraProfs, extraProfType);
 
-                ObservableList<Proficiency> racialProfsToAdd = addRacialProfTable.
+                ObservableList<Proficiency> certainProfsToAdd = addRacialCertainProfTable.
                         getSelectionModel().getSelectedItems();
 
-                for (Proficiency prof : racialProfsToAdd) {
-                    racialToAdd.addRacialProf(prof);
+                ObservableList<Proficiency> uncertainProfsToAdd = addRacialUncertainProfTable.
+                        getSelectionModel().getSelectedItems();
+
+                for (Proficiency prof : certainProfsToAdd) {
+                    racialToAdd.addCertainProf(prof);
+                }
+                for (Proficiency prof : uncertainProfsToAdd) {
+                    racialToAdd.addUncertainProf(prof);
                 }
                 try {
                     this.generator.addNewRacialToDb(racialToAdd);
                 } catch (SQLException ex) {
                     racialAddNameError.setText(ex.getMessage());
                 }
+                racialDatabaseErrorText.setText("");
                 racialAddNameText.setText("");
                 racialAddNameError.setText("");
-                racialStatsError.setText("");
                 addRacialStatsText.setText("0");
+                addRacialStatsError.setText("");
+                addRacialRandomProfs.setText("0");
+                racialAddRandomProfsError.setText("");
+                addRacialRandomLangs.setText("0");
+                racialAddRandomLangsError.setText("");
+                addRacialExtraProfs.setText("0");
+                racialAddExtraProfsError.setText("");
                 addRacialFeat.setSelected(false);
+                addExtraSkill.setSelected(true);
                 this.modifyWindow.close();
                 refreshRacials(racials);
             } else {
@@ -757,11 +1208,26 @@ public class Interface extends Application {
                     racialAddNameError.setText("");
                 }
                 if (!isInteger(addRacialStatsText.getText())) {
-                    racialStatsError.setText("Syötteen täytyy olla kokonaisluku");
+                    addRacialStatsError.setText("Syötteen täytyy olla kokonaisluku");
                 } else {
-                    racialStatsError.setText("");
+                    addRacialStatsError.setText("");
                 }
-            }
+                if (!isInteger(addRacialRandomProfs.getText())) {
+                    racialAddRandomProfsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    racialAddRandomProfsError.setText("");
+                }
+                if (!isInteger(addRacialRandomLangs.getText())) {
+                    racialAddRandomLangsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    racialAddRandomLangsError.setText("");
+                }
+                if (!isInteger(addRacialExtraProfs.getText())) {
+                    racialAddExtraProfsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    racialAddExtraProfsError.setText("");
+                }
+            }*/
         });
 
         backFromAddingRacial.setOnAction((event) -> {
@@ -769,7 +1235,7 @@ public class Interface extends Application {
         });
 
         modifyThisRacial.setOnAction((event) -> {
-            String racialName = racialModNameText.getText();
+            /*String racialName = racialModNameText.getText();
 
             if (!racialName.isEmpty() && isInteger(modRacialStatsText.getText())) {
                 int racialStats = Integer.parseInt(modRacialStatsText.getText());
@@ -807,7 +1273,7 @@ public class Interface extends Application {
                 } else {
                     modRacialStatsError.setText("");
                 }
-            }
+            }*/
         });
 
         backFromModifyingRacial.setOnAction((event) -> {
@@ -885,18 +1351,18 @@ public class Interface extends Application {
         this.classModScene = new Scene(classModifyLayout);
 
         addClass.setOnAction((event) -> {
-            refreshProfs(addClassProfTable);
+            /*refreshProfs(addClassProfTable);
             emptyListView(addSubclassList);
             classDatabaseErrorText.setText("");
             classAddNameText.setText("");
             classAddNameError.setText("");
             this.modifyWindow.setTitle("Lisää Class");
             this.modifyWindow.setScene(this.classAddScene);
-            this.modifyWindow.show();
+            this.modifyWindow.show();*/
         });
 
         modifyExistingClass.setOnAction((event) -> {
-            refreshProfs(modClassProfTable);
+            /*refreshProfs(modClassProfTable);
             classDatabaseErrorText.setText("");
             classModNameText.setText("");
             classModNameError.setText("");
@@ -916,11 +1382,11 @@ public class Interface extends Application {
                 }
             } else {
                 classDatabaseErrorText.setText("Valitse muokattava class!");
-            }
+            }*/
         });
 
         addNewClass.setOnAction((event) -> {
-            String className = classAddNameText.getText();
+            /*String className = classAddNameText.getText();
 
             if (!className.isEmpty()) {
                 RpgClass classToAdd = new RpgClass(className);
@@ -955,15 +1421,15 @@ public class Interface extends Application {
                 } else {
                     classAddNameError.setText("");
                 }
-            }
+            }*/
         });
 
         backFromAddingClass.setOnAction((event) -> {
-            this.modifyWindow.close();
+            /*this.modifyWindow.close();*/
         });
 
         modifyThisClass.setOnAction((event) -> {
-            String className = classModNameText.getText();
+            /*String className = classModNameText.getText();
 
             if (!className.isEmpty()) {
                 int id = classes.getSelectionModel().getSelectedItem().getId();
@@ -1003,15 +1469,15 @@ public class Interface extends Application {
                 } else {
                     classModNameError.setText("");
                 }
-            }
+            }*/
         });
 
         backFromModifyingClass.setOnAction((event) -> {
-            this.modifyWindow.close();
+            /*this.modifyWindow.close();*/
         });
 
         deleteClass.setOnAction((event) -> {
-            deleteClass(classes, subclasses, classDatabaseErrorText);
+            /*deleteClass(classes, subclasses, classDatabaseErrorText);*/
         });
 
         HBox bgAddLayout = new HBox();
@@ -1070,17 +1536,17 @@ public class Interface extends Application {
         this.bgModScene = new Scene(bgModifyLayout);
 
         addBg.setOnAction((event) -> {
-            refreshProfs(addBgProfTable);
+            /*refreshProfs(addBgProfTable);
             bgDatabaseErrorText.setText("");
             bgAddNameText.setText("");
             bgAddNameError.setText("");
             this.modifyWindow.setTitle("Lisää Background");
             this.modifyWindow.setScene(this.bgAddScene);
-            this.modifyWindow.show();
+            this.modifyWindow.show();*/
         });
 
         modifyExistingBg.setOnAction((event) -> {
-            refreshProfs(modBgProfTable);
+            /*refreshProfs(modBgProfTable);
             bgModNameText.setText("");
             Background bgToBeModified = bgs.getSelectionModel().getSelectedItem();
             if (!(bgToBeModified == null)) {
@@ -1095,11 +1561,11 @@ public class Interface extends Application {
                 }
             } else {
                 bgDatabaseErrorText.setText("Valitse muokattava background!");
-            }
+            }*/
         });
 
         addNewBg.setOnAction((event) -> {
-            String bgName = bgAddNameText.getText();
+            /*String bgName = bgAddNameText.getText();
 
             if (!bgName.isEmpty()) {
                 Background bgToAdd = new Background(bgName);
@@ -1125,15 +1591,15 @@ public class Interface extends Application {
                 } else {
                     bgAddNameError.setText("");
                 }
-            }
+            }*/
         });
 
         backFromAddingBg.setOnAction((event) -> {
-            this.modifyWindow.close();
+            /*this.modifyWindow.close();*/
         });
 
         modifyThisBg.setOnAction((event) -> {
-            String bgName = bgModNameText.getText();
+            /*String bgName = bgModNameText.getText();
 
             if (!bgName.isEmpty()) {
                 int id = bgs.getSelectionModel().getSelectedItem().getId();
@@ -1161,17 +1627,17 @@ public class Interface extends Application {
                 } else {
                     bgModNameError.setText("");
                 }
-            }
+            }*/
         });
 
         backFromModifyingBg.setOnAction((event) -> {
-            this.modifyWindow.close();
+            /*this.modifyWindow.close();*/
         });
 
         deleteBg.setOnAction((event) -> {
-            deleteBg(bgs, bgDatabaseErrorText);
+            /*deleteBg(bgs, bgDatabaseErrorText);*/
         });
-        //HUOM HUOM FEATTIEN LISÄYS ALKAA
+        
         HBox featAddLayout = new HBox();
 
         VBox featAddLeftLayout = new VBox();
@@ -1258,7 +1724,7 @@ public class Interface extends Application {
         this.featModScene = new Scene(featModifyLayout);
 
         addFeat.setOnAction((event) -> {
-            refreshProfs(addFeatProfTable);
+            /*refreshProfs(addFeatProfTable);
             featDatabaseErrorText.setText("");
             featAddNameText.setText("");
             featAddNameError.setText("");
@@ -1270,11 +1736,11 @@ public class Interface extends Application {
             addFeatStatCha.setSelected(false);
             this.modifyWindow.setTitle("Lisää Feat");
             this.modifyWindow.setScene(this.featAddScene);
-            this.modifyWindow.show();
+            this.modifyWindow.show();*/
         });
 
         modifyExistingFeat.setOnAction((event) -> {
-            refreshProfs(modFeatProfTable);
+            /*refreshProfs(modFeatProfTable);
             featModNameText.setText("");
             modFeatStatStr.setSelected(false);
             modFeatStatDex.setSelected(false);
@@ -1320,11 +1786,11 @@ public class Interface extends Application {
                 }
             } else {
                 racialDatabaseErrorText.setText("Valitse muokattava feat!");
-            }
+            }*/
         });
 
         addNewFeat.setOnAction((event) -> {
-            String featName = featAddNameText.getText();
+            /*String featName = featAddNameText.getText();
 
             if (!featName.isEmpty()) {
                 String stats = "";
@@ -1380,15 +1846,15 @@ public class Interface extends Application {
                 } else {
                     featAddNameError.setText("");
                 }
-            }
+            }*/
         });
 
         backFromAddingFeat.setOnAction((event) -> {
-            this.modifyWindow.close();
+            /*this.modifyWindow.close();*/
         });
 
         modifyThisFeat.setOnAction((event) -> {
-            String featName = featModNameText.getText();
+            /*String featName = featModNameText.getText();
 
             if (!featName.isEmpty()) {
                 int id = feats.getSelectionModel().getSelectedItem().getId();
@@ -1417,9 +1883,9 @@ public class Interface extends Application {
                 if (!stats.isEmpty()) {
                     stats = stats.substring(0, stats.length() - 1);
                 }
-                
+
                 featToMod.setStats(stats);
-                
+
                 ObservableList<Proficiency> featProfsToMod = modFeatProfTable.
                         getSelectionModel().getSelectedItems();
 
@@ -1447,17 +1913,16 @@ public class Interface extends Application {
                 } else {
                     featModNameError.setText("");
                 }
-            }
+            }*/
         });
 
         backFromModifyingFeat.setOnAction((event) -> {
-            this.modifyWindow.close();
+            /*this.modifyWindow.close();*/
         });
 
         deleteFeat.setOnAction((event) -> {
-            deleteFeat(feats, featDatabaseErrorText);
+            /*deleteFeat(feats, featDatabaseErrorText);*/
         });
-        //HUOM HUOM FEATTIEN LISÄYS LOPPUU
 
         Label stats = new Label("");
         Label proficiencies = new Label("");

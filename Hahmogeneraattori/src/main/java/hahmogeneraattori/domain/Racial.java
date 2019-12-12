@@ -21,7 +21,12 @@ public class Racial {
     private String name;
     private int stats;
     private boolean feat;
-    private List<Proficiency> racialProfs;
+    private int randomProfs;
+    private int randomLangs;
+    private int extraProfs;
+    private String extraProfType;
+    private List<Proficiency> certainProfs;
+    private List<Proficiency> uncertainProfs;
     
     /**
      * Racialilla on indeksi ja nimi, joiden avulla se voidaan uniikisti 
@@ -34,12 +39,18 @@ public class Racial {
      * @param stats racialin antamat tai vähentämät piirteet
      * @param feat tieto, antaako racial uuden featin vai ei
      */
-    public Racial(int id, String name, int stats, boolean feat) {
+    public Racial(int id, String name, int stats, boolean feat, int randomProfs, 
+            int randomLangs, int extraProfs, String extraProfType) {
         this.id = id;
         this.name = name;
         this.stats = stats;
         this.feat = feat;
-        this.racialProfs = new ArrayList<>();
+        this.randomProfs = randomProfs;
+        this.randomLangs = randomLangs;
+        this.extraProfs = extraProfs;
+        this.extraProfType = extraProfType;
+        this.certainProfs = new ArrayList<>();
+        this.uncertainProfs = new ArrayList<>();
     }
     
     /**
@@ -51,8 +62,10 @@ public class Racial {
      * @param stats racialin antamat tai vähentämät piirteet
      * @param feat tieto, antaako racial uuden featin vai ei
      */
-    public Racial(String name, int stats, boolean feat) {
-        this(-1, name, stats, feat);
+    public Racial(String name, int stats, boolean feat, int randomProfs, 
+            int randomLangs, int extraProfs, String extraProfType) {
+        this(-1, name, stats, feat, randomProfs, randomLangs, extraProfs, 
+                extraProfType);
     }
 
     /**
@@ -83,11 +96,31 @@ public class Racial {
         return this.feat;
     }
     
+    public int getRandomProfs() {
+        return this.randomProfs;
+    }
+    
+    public int getRandomLangs() {
+        return this.randomLangs;
+    }
+    
+    public int getExtraProfs() {
+        return this.extraProfs;
+    }
+    
+    public String getExtraProfType() {
+        return this.extraProfType;
+    }
+    
     /**
      * @return lista racialiin liittyvistä taidoista
      */
-    public List<Proficiency> getRacialProfs() {
-        return this.racialProfs;
+    public List<Proficiency> getCertainProfs() {
+        return this.certainProfs;
+    }
+    
+    public List<Proficiency> getUncertainProfs() {
+        return this.uncertainProfs;
     }
     
     /**
@@ -129,13 +162,33 @@ public class Racial {
         }
     }
     
+    public void setRandomProfs(int amount) {
+        this.randomProfs = amount;
+    }
+    
+    public void setRandomLangs(int amount) {
+        this.randomLangs = amount;
+    }
+    
+    public void setExtraProfs(int amount) {
+        this.extraProfs = amount;
+    }
+    
+    public void setExtraProfType(String type) {
+        this.extraProfType = type;
+    }
+    
     /**
      * Metodi antaa racialille siihen liittyvän taidot
      * 
      * @param profs lista taidoista
      */
-    public void setRacialProfs(List<Proficiency> profs) {
-        this.racialProfs = profs;
+    public void setCertainProfs(List<Proficiency> profs) {
+        this.certainProfs = profs;
+    }
+    
+    public void setUncertainProfs(List<Proficiency> profs) {
+        this.uncertainProfs = profs;
     }
     
     /**
@@ -143,9 +196,15 @@ public class Racial {
      * 
      * @param prof uusi racialiin liittyvä taito
      */
-    public void addRacialProf(Proficiency prof) {
-        if (!this.racialProfs.contains(prof)) {
-            this.racialProfs.add(prof);
+    public void addCertainProf(Proficiency prof) {
+        if (!this.certainProfs.contains(prof)) {
+            this.certainProfs.add(prof);
+        }
+    }
+    
+    public void addUncertainProf(Proficiency prof) {
+        if (!this.uncertainProfs.contains(prof)) {
+            this.uncertainProfs.add(prof);
         }
     }
 
