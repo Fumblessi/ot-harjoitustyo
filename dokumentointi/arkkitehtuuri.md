@@ -6,9 +6,7 @@ Päivitetty pakkauskaavio näyttää, mihin muotoon haluaisin ohjelmani refaktor
 
 # Tietokantakaavio:
 
-Siinä missä pakkauskaavio vielä tässä vaiheessa vastaa tämänhetkistä tilannetta, tietokantakaavio vastaa suunnitelmaani koko
-ohjelman tietokannan toteutuksesta. Feat- ja FeatProficiency-tietokantataulut samoin kuin Featin arpomistoiminnallisuus tosin toteutunee
-vasta kurssin jälkeen.
+Valmiin ohjelman tietokantakaavio. Featin arpomistoiminnallisuus tosin toteutunee vasta kurssin jälkeen.
 
 <img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/tietokantakaavio.png" width="600">
 
