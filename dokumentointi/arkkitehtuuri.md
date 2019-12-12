@@ -6,7 +6,7 @@ Päivitetty pakkauskaavio näyttää, mihin muotoon haluaisin ohjelmani refaktor
 
 # Tietokantakaavio:
 
-Valmiin ohjelman tietokantakaavio. Featin arpomistoiminnallisuus tosin toteutunee vasta kurssin jälkeen.
+Valmiin ohjelman tietokantakaavio. Havaitsin, että aiempi tietokanta-arkkitehtuurini oli naiivista aivan liian yksinkertainen kattamaan D&D-roolipelin tarjoama varianssi, ja muistamaan kaikki oleellinen tieto. Nyt kun huomaan, kuinka monimutkainen prosessi oikeasti hahmon proficiencyjen arpominen on, saa nähdä kerkeänkö toteuttamaan tätä kaikkea toiminnallisuutta kurssin puitteissa.
 
 <img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/tietokantakaavio.png" width="600">
 
