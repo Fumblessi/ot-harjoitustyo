@@ -55,11 +55,11 @@ Tietokanta-palkista valitsemalla Class, voi tarkastella tietokantataulun 'Class'
 
 ### Background-tietokantataulun muokkaus
 
-Ei vielä tehty
+Tietokanta-palkista valitsemalla Background, voi tarkastella tietokantataulun 'Background' sisältöä, eli generoinnin pohjana olevia hahmon taustoja. Halutessaan voi lisätä tietokantaan uusia taustoja, tai muokata ja poistaa siellä jo entuudestaan olevia. Hahmon taustaan saattaa liittyä taitoja, jotka voi valita taustan luonnin tai muokkauksen yhteydessä.
 
 ### Feat-tietokantataulun muokkaus
 
-Ei vielä tehty
+Tietokanta-palkista valitsemalla Feat, voi tarkastella tietokantataulun 'Feat' sisältöä, eli generoinnissa mukana olevia hahmon erityistaitoja (joita se ei välttämättä tosin saa). Halutessaan voi lisätä tietokantaan uusia erityistaitoja, tai muokata ja poistaa siellä jo entuudestaan olevia. Hahmon erityistaitoihin saattaa liittyä taitoja, jotka voi valita erityistaidon luonnin tai muokkauksen yhteydessä. Lisäksi erityistaito saattaa antaa yhden jotain tietyistä piirteistä, jotka erityistaito luodessa/muokatessa valitaan.
 
 -----------------------------------------------------------------------------------------------------------------------------
 
