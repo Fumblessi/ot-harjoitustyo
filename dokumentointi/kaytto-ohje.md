@@ -47,19 +47,19 @@ Tietokanta-palkista valitsemalla Proficiency, voi tarkastella tietokantataulun '
 
 ### Racial-tietokantataulun muokkaus
 
-Tietokanta-palkista valitsemalla Racial, voi tarkastella tietokantataulun 'Racial' sisältöä, eli generoinnin pohjana olevia hahmon ominaisuuksia, jotka perustuvat sen rotuun (esim. örkki, haltija, ihminen yms). Halutessaan sieltä voi lisätä tietokantaan uusia ominaisuuksia, tai muokata ja poistaa siellä jo entuudestaan olevia. Racialeihin saattaa liittyä taitoja, jotka voi valita racialin luonnin tai muokkauksen yhteydessä. Lisäksi jos luotava/muokattava racial vaikuttaa hahmon piirteisiin, voi vaikutuksen kirjata kokonaislukuna (voi olla negatiivinenkin). Jos racial antaa hahmolle erityistaidon (feat), tämänkin voi päättää.
+Tekemättä (koska rakensin tietokannan uuteen uskoon)
 
 ### Class-tietokantataulun muokkaus
 
-Tietokanta-palkista valitsemalla Class, voi tarkastella tietokantataulun 'Class' sisältöä, eli generoinnin pohjana olevia hahmoluokkia. Halutessaan voi lisätä tietokantaan uusia hahmoluokkia, tai muokata ja poistaa siellä jo entuudestaan olevia. Hahmoluokkaan saattaa liittyä taitoja, jotka voi valita luokan luonnin tai muokkauksen yhteydessä. Hahmoluokkiin usein kuuluu aliluokkia, joiden nimet voi kirjoittaa listaan luokkaa luodessa.
+Tekemättä
 
 ### Background-tietokantataulun muokkaus
 
-Tietokanta-palkista valitsemalla Background, voi tarkastella tietokantataulun 'Background' sisältöä, eli generoinnin pohjana olevia hahmon taustoja. Halutessaan voi lisätä tietokantaan uusia taustoja, tai muokata ja poistaa siellä jo entuudestaan olevia. Hahmon taustaan saattaa liittyä taitoja, jotka voi valita taustan luonnin tai muokkauksen yhteydessä.
+Tekemättä
 
 ### Feat-tietokantataulun muokkaus
 
-Tietokanta-palkista valitsemalla Feat, voi tarkastella tietokantataulun 'Feat' sisältöä, eli generoinnissa mukana olevia hahmon erityistaitoja (joita se ei välttämättä tosin saa). Halutessaan voi lisätä tietokantaan uusia erityistaitoja, tai muokata ja poistaa siellä jo entuudestaan olevia. Hahmon erityistaitoihin saattaa liittyä taitoja, jotka voi valita erityistaidon luonnin tai muokkauksen yhteydessä. Lisäksi erityistaito saattaa antaa yhden jotain tietyistä piirteistä, jotka erityistaito luodessa/muokatessa valitaan.
+Tekemättä
 
 -----------------------------------------------------------------------------------------------------------------------------
 
