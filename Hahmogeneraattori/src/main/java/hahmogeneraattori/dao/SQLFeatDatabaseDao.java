@@ -71,6 +71,7 @@ public class SQLFeatDatabaseDao implements GeneratorDatabaseDao {
                 + "SET name = ?, stats = ? WHERE id = ?;");
         stmt.setString(1, feat.getName());
         stmt.setString(2, feat.getStats());
+        System.out.println(feat.getStats());
         stmt.setInt(3, feat.getId());
         stmt.executeUpdate();
         stmt.close();

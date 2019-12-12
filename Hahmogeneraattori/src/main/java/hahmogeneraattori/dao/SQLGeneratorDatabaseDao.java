@@ -136,9 +136,9 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
         } else if (obj.getClass() == RpgClass.class) {
             this.classDao.delete(obj);
         } else if (obj.getClass() == Background.class) {
-            this.bgDao.update(obj);
+            this.bgDao.delete(obj);
         } else if (obj.getClass() == Feat.class) {
-            this.featDao.update(obj);
+            this.featDao.delete(obj);
         }
     }
 

@@ -198,6 +198,30 @@ public class Generator {
         this.generatorDatabaseDao.delete(rpgclass);
     }
     
+    public void addNewBgToDb(Background bg) throws SQLException {
+        this.generatorDatabaseDao.create(bg);
+    }
+    
+    public void updateBgToDb(Background bg) throws SQLException {
+        this.generatorDatabaseDao.update(bg);
+    }
+    
+    public void deleteBgFromDb(Background bg) throws SQLException {
+        this.generatorDatabaseDao.delete(bg);
+    }
+    
+    public void addNewFeatToDb(Feat feat) throws SQLException {
+        this.generatorDatabaseDao.create(feat);
+    }
+    
+    public void updateFeatToDb(Feat feat) throws SQLException {
+        this.generatorDatabaseDao.update(feat);
+    }
+    
+    public void deleteFeatFromDb(Feat feat) throws SQLException {
+        this.generatorDatabaseDao.delete(feat);
+    }
+    
     /**
      * Metodi palauttaa listana tietokantataulun 'Proficiency' sisällön
      * 
@@ -222,6 +246,14 @@ public class Generator {
     
     public List<RpgClass> listAllClasses() {
         return this.generatorDatabaseDao.list(RpgClass.class);
+    }
+    
+    public List<Background> listAllBackgrounds() {
+        return this.generatorDatabaseDao.list(Background.class);
+    }
+    
+    public List<Feat> listAllFeats() {
+        return this.generatorDatabaseDao.list(Feat.class);
     }
 
     /**

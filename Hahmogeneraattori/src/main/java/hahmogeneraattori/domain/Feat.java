@@ -92,6 +92,7 @@ public class Feat {
     }
     
     public void setStats(String stats) {
+        emptyStats();
         String[] parts = stats.split("/");
         for (int i = 0; i < parts.length; i++) {
             switch (parts[i]) {
@@ -108,6 +109,12 @@ public class Feat {
                 case "CHA": this.stats[5] = 1;
                     break;
             }
+        }
+    }
+    
+    public void emptyStats() {
+        for (int i = 0; i < 6; i++) {
+            this.stats[i] = 0;
         }
     }
 
