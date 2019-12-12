@@ -45,21 +45,25 @@ Asetuksissa on nyt yläpalkissa menu "Tietokanta", josta painamalla näkee vaiht
 
 Tietokanta-palkista valitsemalla Proficiency, voi tarkastella tietokantataulun 'Proficiency' sisältöä, eli generoinnin pohjana olevat vaihtoehtoiset hahmon taidot, ja edelleen lisätä tietokaan uusia taitoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia taitoja. Taitoihin liittyy aina kategoria, joka on joko Skill, Armor, Weapon, Tool tai Language.
 
+### Race-tietokantataulun muokkaus
+
+Tekemättä
+
 ### Racial-tietokantataulun muokkaus
 
 Tekemättä (koska rakensin tietokannan uuteen uskoon)
 
 ### Class-tietokantataulun muokkaus
 
-Tekemättä
+Tekemättä (koska rakensin tietokannan uuteen uskoon)
 
 ### Background-tietokantataulun muokkaus
 
-Tekemättä
+Tekemättä (koska rakensin tietokannan uuteen uskoon)
 
 ### Feat-tietokantataulun muokkaus
 
-Tekemättä
+Tekemättä (koska rakensin tietokannan uuteen uskoon)
 
 -----------------------------------------------------------------------------------------------------------------------------
 
