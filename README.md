@@ -21,7 +21,7 @@ Hahmogeneraattorin tarkoitus on arpoa satunnainen roolipelihahmo, sekä sille pi
 
 # Työn alla tällä hetkellä:
 
-* Tietokantatoiminnallisuuden ja -kyselyiden edelleen kirjoittaminen
+* Generointi-toiminnallisuuden rakentaminen
 * Alustava pohja tietokanta olisi hyvä luoda, niin käyttäjä voi halutessaan palata jonkinlaiseen "default"-tilaan, mikäli on tietokannan sisältöön koskenut
 * Käyttöliittymän ulkoasu kivemmaksi
 
