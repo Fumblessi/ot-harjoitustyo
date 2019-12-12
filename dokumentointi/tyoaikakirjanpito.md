@@ -12,4 +12,5 @@ Päivä | Aika | Mitä tein
 9.12  | 8    | Tietokantatoiminnallisuuden rakentamista: Racial-tietokantaan lisääminen ja tietokannasta poistaminen toimii, javadocin kirjoittamista, domain- ja dao-testien rakentamista
 10.12 | 2    | SQLGeneratorDatabaseDaon refaktorointi ja hajautus, JavaDocin päivitys sen mukaisesti sekä pakkauskaavion päivitys
 11.12 | 7    | Racial-tietokantataulun muokkaustoiminnallisuus tehty loppuun, käyttöohjetta päivitetty, Class-tietokantataulun muokkaustoiminnallisuus toteutettu kokonaisuudessaan
-Yht.  | 62   |  tuntia
+12.12 | 1,5  | Background- ja Feat-tietokantataulujen muokkaustoiminnallisuuden tehty
+Yht.  | 63,5 |  tuntia
