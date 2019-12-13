@@ -42,7 +42,7 @@ public class SQLRaceDatabaseDao implements GeneratorDatabaseDao {
             Connection conn = openConnection();
 
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Race "
-                    + "(namee) VALUES (?);");
+                    + "(name) VALUES (?);");
             stmt.setString(1, race.getName());
             stmt.executeUpdate();
             stmt.close();
@@ -50,7 +50,6 @@ public class SQLRaceDatabaseDao implements GeneratorDatabaseDao {
             race.setId(getRaceId(race, conn));
 
             this.races.add(race);
-
             conn.close();
         }
     }

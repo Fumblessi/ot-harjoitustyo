@@ -108,6 +108,18 @@ public class Generator {
         return this.stats.toString();
     }
     
+    public void addNewRaceToDb(Race race) throws SQLException {
+        this.generatorDatabaseDao.create(race);
+    }
+    
+    public void updateRaceToDb(Race race) throws SQLException {
+        this.generatorDatabaseDao.update(race);
+    }
+    
+    public void deleteRaceFromDb(Race race) throws SQLException {
+        this.generatorDatabaseDao.delete(race);
+    }
+    
     /**
      * Lisätään uusi proficiency tietokantaan
      * 
@@ -220,6 +232,10 @@ public class Generator {
     
     public void deleteFeatFromDb(Feat feat) throws SQLException {
         this.generatorDatabaseDao.delete(feat);
+    }
+    
+    public List<Race> listAllRaces() {
+        return this.generatorDatabaseDao.list(Race.class);
     }
     
     /**
