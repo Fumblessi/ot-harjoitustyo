@@ -382,7 +382,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     public void createRacialTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE Racial(id INTEGER AUTO_INCREMENT, "
                 + "name VARCHAR(255), stats INTEGER, feat BOOLEAN, "
-                + "randomProfs INTEGER, randomLangs INTEGER, extraProf INTEGER, "
+                + "randomProfs INTEGER, randomLangs INTEGER, extraProfs INTEGER, "
                 + "extraProfType VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
     }
     

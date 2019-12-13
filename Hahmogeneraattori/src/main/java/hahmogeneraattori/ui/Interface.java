@@ -246,8 +246,10 @@ public class Interface extends Application {
         addTypeTool.setToggleGroup(profAddGroup);
         RadioButton addTypeLanguage = new RadioButton("Language");
         addTypeLanguage.setToggleGroup(profAddGroup);
+        RadioButton addTypeSave = new RadioButton("Save");
+        addTypeSave.setToggleGroup(profAddGroup);
         profAddTypeLayout.getChildren().addAll(addTypeSkill, addTypeArmor, addTypeWeapon,
-                addTypeTool, addTypeLanguage);
+                addTypeTool, addTypeLanguage, addTypeSave);
 
         HBox profAddSubtypeToolLayout = new HBox();
         ToggleGroup profAddSubtypeToolGroup = new ToggleGroup();
@@ -258,8 +260,10 @@ public class Interface extends Application {
         addSubtypeGamingSet.setToggleGroup(profAddSubtypeToolGroup);
         RadioButton addSubtypeInstrument = new RadioButton("Instrument");
         addSubtypeInstrument.setToggleGroup(profAddSubtypeToolGroup);
+        RadioButton addSubtypeOther = new RadioButton("Other");
+        addSubtypeOther.setToggleGroup(profAddSubtypeToolGroup);
         profAddSubtypeToolLayout.getChildren().addAll(addSubtypeArtisan,
-                addSubtypeGamingSet, addSubtypeInstrument);
+                addSubtypeGamingSet, addSubtypeInstrument, addSubtypeOther);
 
         HBox profAddSubtypeWeaponLayout = new HBox();
         ToggleGroup profAddSubtypeWeaponGroup = new ToggleGroup();
@@ -305,8 +309,10 @@ public class Interface extends Application {
         modTypeTool.setToggleGroup(profModGroup);
         RadioButton modTypeLanguage = new RadioButton("Language");
         modTypeLanguage.setToggleGroup(profModGroup);
+        RadioButton modTypeSave = new RadioButton("Save");
+        modTypeSave.setToggleGroup(profModGroup);
         profModTypeLayout.getChildren().addAll(modTypeSkill, modTypeArmor, modTypeWeapon,
-                modTypeTool, modTypeLanguage);
+                modTypeTool, modTypeLanguage, modTypeSave);
 
         HBox profModSubtypeToolLayout = new HBox();
         ToggleGroup profModSubtypeToolGroup = new ToggleGroup();
@@ -317,8 +323,10 @@ public class Interface extends Application {
         modSubtypeGamingSet.setToggleGroup(profModSubtypeToolGroup);
         RadioButton modSubtypeInstrument = new RadioButton("Instrument");
         modSubtypeInstrument.setToggleGroup(profModSubtypeToolGroup);
+        RadioButton modSubtypeOther = new RadioButton("Other");
+        modSubtypeOther.setToggleGroup(profModSubtypeToolGroup);
         profModSubtypeToolLayout.getChildren().addAll(modSubtypeArtisan,
-                modSubtypeGamingSet, modSubtypeInstrument);
+                modSubtypeGamingSet, modSubtypeInstrument, modSubtypeOther);
 
         HBox profModSubtypeWeaponLayout = new HBox();
         ToggleGroup profModSubtypeWeaponGroup = new ToggleGroup();
@@ -395,6 +403,14 @@ public class Interface extends Application {
                         profAddTypeLayout, profAddSubtypeLanguageLayout, profAddingButtons);
             }
         });
+        
+        addTypeSave.setOnAction((event) -> {
+            if (addTypeSave.isSelected()) {
+                profAddLayout.getChildren().clear();
+                profAddLayout.getChildren().addAll(profAddNameLayout, profAddNameError,
+                        profAddTypeLayout, profAddingButtons);
+            }
+        });
 
         profModifyLayout.getChildren().addAll(profModNameLayout, profModNameError,
                 profModTypeLayout, profModifyingButtons);
@@ -439,6 +455,14 @@ public class Interface extends Application {
                 profModifyLayout.getChildren().addAll(profModNameLayout,
                         profModNameError, profModTypeLayout,
                         profModSubtypeLanguageLayout, profModifyingButtons);
+            }
+        });
+        
+        modTypeSave.setOnAction((event) -> {
+            if (modTypeSave.isSelected()) {
+                profModifyLayout.getChildren().clear();
+                profModifyLayout.getChildren().addAll(profModNameLayout, profModNameError,
+                        profModTypeLayout, profModifyingButtons);
             }
         });
 
@@ -724,9 +748,12 @@ public class Interface extends Application {
                             case "Instrument":
                                 modSubtypeInstrument.setSelected(true);
                                 break;
+                            case "Other":
+                                modSubtypeOther.setSelected(true);
+                                break;
                         }
                         break;
-                    default:
+                    case "Language":
                         modTypeLanguage.setSelected(true);
                         profModifyLayout.getChildren().clear();
                         profModifyLayout.getChildren().addAll(profModNameLayout,
@@ -744,6 +771,12 @@ public class Interface extends Application {
                                 modSubtypeLegendary.setSelected(true);
                                 break;
                         }
+                        break;
+                    default:
+                        modTypeSave.setSelected(true);
+                        profModifyLayout.getChildren().clear();
+                        profModifyLayout.getChildren().addAll(profModNameLayout,
+                            profModNameError, profModTypeLayout, profModifyingButtons);
                         break;
                 }
             } else {
@@ -781,9 +814,14 @@ public class Interface extends Application {
                     profSubtype = "Artisan";
                 } else if (addSubtypeGamingSet.isSelected()) {
                     profSubtype = "Gaming Set";
-                } else {
+                } else if (addSubtypeInstrument.isSelected()) {
                     profSubtype = "Instrument";
+                } else {
+                    profSubtype = "Other";
                 }
+            } else if (addTypeSave.isSelected()) {
+                profType = "Save";
+                profSubtype = "";
             } else {
                 profType = "Skill";
                 profSubtype = "";
@@ -841,9 +879,14 @@ public class Interface extends Application {
                     profSubtype = "Artisan";
                 } else if (modSubtypeGamingSet.isSelected()) {
                     profSubtype = "Gaming Set";
-                } else {
+                } else if (modSubtypeInstrument.isSelected()) {
                     profSubtype = "Instrument";
+                } else {
+                    profSubtype = "Other";
                 }
+            } else if (modTypeSave.isSelected()) {
+                profType = "Save";
+                profSubtype = "";
             } else {
                 profType = "Skill";
                 profSubtype = "";
@@ -1132,7 +1175,6 @@ public class Interface extends Application {
         });
 
         addNewRacial.setOnAction((event) -> {
-            /*
             String racialName = racialAddNameText.getText();
 
             if (!racialName.isEmpty() && isInteger(addRacialStatsText.getText())
@@ -1227,7 +1269,7 @@ public class Interface extends Application {
                 } else {
                     racialAddExtraProfsError.setText("");
                 }
-            }*/
+            }
         });
 
         backFromAddingRacial.setOnAction((event) -> {
@@ -1235,31 +1277,74 @@ public class Interface extends Application {
         });
 
         modifyThisRacial.setOnAction((event) -> {
-            /*String racialName = racialModNameText.getText();
+            String racialName = racialModNameText.getText();
 
-            if (!racialName.isEmpty() && isInteger(modRacialStatsText.getText())) {
+            if (!racialName.isEmpty() && isInteger(modRacialStatsText.getText())
+                    && isInteger(modRacialRandomProfs.getText())
+                    && isInteger(modRacialRandomLangs.getText())
+                    && isInteger(modRacialExtraProfs.getText())) {
                 int racialStats = Integer.parseInt(modRacialStatsText.getText());
+                int randomProfs = Integer.parseInt(modRacialRandomProfs.getText());
+                int randomLangs = Integer.parseInt(modRacialRandomLangs.getText());
+                int extraProfs = Integer.parseInt(modRacialExtraProfs.getText());
                 boolean racialFeat = modRacialFeat.isSelected();
                 int id = racials.getSelectionModel().getSelectedItem().getId();
+                String extraProfType = "";
+                if (extraProfs != 0) {
+                    if (modExtraSkill.isSelected()) {
+                        extraProfType = "Skill";
+                    } else if (modExtraTool.isSelected()) {
+                        extraProfType = "Tool";
+                    } else if (modExtraArtisan.isSelected()) {
+                        extraProfType = "Artisan";
+                    } else if (modExtraGamingSet.isSelected()) {
+                        extraProfType = "Gaming Set";
+                    } else if (modExtraInstrument.isSelected()) {
+                        extraProfType = "Instrument";
+                    } else if (modExtraSkillTool.isSelected()) {
+                        extraProfType = "Skill/Tool";
+                    } else if (modExtraArtisanInstrument.isSelected()) {
+                        extraProfType = "Artisan/Instrument";
+                    } else if (modExtraArtisanGamingSet.isSelected()) {
+                        extraProfType = "Artisan/Gaming Set";
+                    } else {
+                        extraProfType = "Gaming Set/Instrument";
+                    }
+                }
+                Racial racialToMod = new Racial(id, racialName, racialStats, racialFeat, 
+                    randomProfs, randomLangs, extraProfs, extraProfType);
 
-                Racial racialToMod = new Racial(id, racialName, racialStats, racialFeat);
-
-                ObservableList<Proficiency> racialProfsToMod = modRacialProfTable.
+                ObservableList<Proficiency> certainProfsToMod = modRacialCertainProfTable.
                         getSelectionModel().getSelectedItems();
+                
+                ObservableList<Proficiency> uncertainProfsToMod = 
+                        modRacialUncertainProfTable.getSelectionModel().
+                        getSelectedItems();
 
-                for (Proficiency prof : racialProfsToMod) {
-                    racialToMod.addRacialProf(prof);
+                for (Proficiency prof : certainProfsToMod) {
+                    racialToMod.addCertainProf(prof);
+                }
+                for (Proficiency prof : uncertainProfsToMod) {
+                    racialToMod.addUncertainProf(prof);
                 }
                 try {
                     this.generator.updateRacialToDb(racialToMod);
                 } catch (SQLException ex) {
                     racialModNameError.setText(ex.getMessage());
                 }
+                racialDatabaseErrorText.setText("");
                 racialModNameText.setText("");
                 racialModNameError.setText("");
-                modRacialStatsError.setText("");
                 modRacialStatsText.setText("0");
+                modRacialStatsError.setText("");
+                modRacialRandomProfs.setText("0");
+                racialModRandomProfsError.setText("");
+                modRacialRandomLangs.setText("0");
+                racialModRandomLangsError.setText("");
+                modRacialExtraProfs.setText("0");
+                racialModExtraProfsError.setText("");
                 modRacialFeat.setSelected(false);
+                modExtraSkill.setSelected(true);
                 this.modifyWindow.close();
                 refreshRacials(racials);
             } else {
@@ -1273,7 +1358,22 @@ public class Interface extends Application {
                 } else {
                     modRacialStatsError.setText("");
                 }
-            }*/
+                if (!isInteger(modRacialRandomProfs.getText())) {
+                    racialModRandomProfsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    racialModRandomProfsError.setText("");
+                }
+                if (!isInteger(modRacialRandomLangs.getText())) {
+                    racialModRandomLangsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    racialModRandomLangsError.setText("");
+                }
+                if (!isInteger(modRacialExtraProfs.getText())) {
+                    racialModExtraProfsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    racialModExtraProfsError.setText("");
+                }
+            }
         });
 
         backFromModifyingRacial.setOnAction((event) -> {
