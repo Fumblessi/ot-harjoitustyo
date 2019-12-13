@@ -43,11 +43,13 @@ Asetuksissa on nyt yläpalkissa menu "Tietokanta", josta painamalla näkee vaiht
 
 ### Proficiency-tietokantataulun muokkaus
 
-Tietokanta-palkista valitsemalla Proficiency, voi tarkastella tietokantataulun 'Proficiency' sisältöä, eli generoinnin pohjana olevat vaihtoehtoiset hahmon taidot, ja edelleen lisätä tietokaan uusia taitoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia taitoja. Taitoihin liittyy aina kategoria, joka on joko Skill, Armor, Weapon, Tool tai Language.
+Tietokanta-palkista valitsemalla Proficiency, voi tarkastella tietokantataulun 'Proficiency' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia hahmon taitoja, ja edelleen lisätä tietokaan uusia taitoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia taitoja. Taitoihin liittyy aina kategoria, joka on joko Skill, Armor, Weapon, Tool, Language tai Save, ja osaan näistä kategorioista vielä eri alakategorioita.
 
 ### Race-tietokantataulun muokkaus
 
-Tekemättä
+Tietokanta-palkista valitsemalla Proficiency, voi tarkastella tietokantataulun 'Racial' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia hahmon rotuominaisuuksia, ja edelleen lisätä tietokantaan uusia ominaisuuksia tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia.
+
+Racialien sisällä on paljon varianssia. Osa niistä saattaa antaa varmasti joitain taitoja, osa epävarmasti, jolloin taidot pitää arpoa. Lisäksi taitoja voi tulla eri kategorioista, siksi rotuominaisuuksien lisäämis- ja muokkausikkunat ovat varsin monimutkaisia.
 
 ### Racial-tietokantataulun muokkaus
 
