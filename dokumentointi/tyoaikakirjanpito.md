@@ -13,4 +13,5 @@ Päivä | Aika | Mitä tein
 10.12 | 2    | SQLGeneratorDatabaseDaon refaktorointi ja hajautus, JavaDocin päivitys sen mukaisesti sekä pakkauskaavion päivitys
 11.12 | 7    | Racial-tietokantataulun muokkaustoiminnallisuus tehty loppuun, käyttöohjetta päivitetty, Class-tietokantataulun muokkaustoiminnallisuus toteutettu kokonaisuudessaan
 12.12 | 9    | Background- ja Feat-tietokantataulujen muokkaustoiminnallisuuden tehty, jonka jälkeen koko tietokanta uusittu ja ohjelman rakenne overhaulattu, joten uudelleenrakentamisessa kerkesin saada Proficiency-tietokantataulutoiminnallisuuden jälleen toimimaan. Totuus on, että vanha tietokanta-arkkitehtuuri ei mitenkään ollut riittävän kompleksinen käsittelemään D&D-pelin varianssia
-Yht.  | 71   |  tuntia
+13.12 | 1,5  | Racial-tietokantatoiminnallisuus jälleen toimii
+Yht.  | 72,5 |  tuntia
