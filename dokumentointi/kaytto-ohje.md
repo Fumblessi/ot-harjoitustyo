@@ -41,31 +41,41 @@ minimiarvo 8, maksimiarvo 18 ja rodun pohjalta tulevat piirrebonukset päällä)
 
 Asetuksissa on nyt yläpalkissa menu "Tietokanta", josta painamalla näkee vaihtoehtoiset eri tietokantataulut. Tällä hetkellä ainoastaan Proficiency ja Racial ovat muokattavissa. Tietokantaa ei ole vielä täytetty, mutta joitakin esimerkkejä siellä on.
 
+### Race-tietokantataulun muokkaus
+
+Tietokanta-palkista valitsemalla Race, voi tarkastella tietokantataulun 'Race' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia rotuja, ja edelleen lisätä tietokantaan uusia rotuja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia. Rotujen muokkaus ja lisäys on helppoa, sillä niistä ei tallenneta kuin nimet, koska generaattorini jakaa rotuominaisuudet erikseen Racial-tietokantataulun pohjalta.
+
 ### Proficiency-tietokantataulun muokkaus
 
 Tietokanta-palkista valitsemalla Proficiency, voi tarkastella tietokantataulun 'Proficiency' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia hahmon taitoja, ja edelleen lisätä tietokaan uusia taitoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia taitoja. Taitoihin liittyy aina kategoria, joka on joko Skill, Armor, Weapon, Tool, Language tai Save, ja osaan näistä kategorioista vielä eri alakategorioita.
 
-### Race-tietokantataulun muokkaus
+### Racial-tietokantataulun muokkaus
 
 Tietokanta-palkista valitsemalla Proficiency, voi tarkastella tietokantataulun 'Racial' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia hahmon rotuominaisuuksia, ja edelleen lisätä tietokantaan uusia ominaisuuksia tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia.
 
-Racialien sisällä on paljon varianssia. Osa niistä saattaa antaa varmasti joitain taitoja, osa epävarmasti, jolloin taidot pitää arpoa. Lisäksi taitoja voi tulla eri kategorioista, siksi rotuominaisuuksien lisäämis- ja muokkausikkunat ovat varsin monimutkaisia.
-
-### Racial-tietokantataulun muokkaus
-
-Tekemättä (koska rakensin tietokannan uuteen uskoon)
+Racialien sisällä on paljon varianssia. Osa niistä antaa varmasti joitain taitoja, osa epävarmasti, jolloin taidot pitää arpoa. Lisäksi taitoja voi tulla eri kategorioista, siksi rotuominaisuuksien lisäämis- ja muokkausikkunat ovat varsin monimutkaisia. Lisäksi racialit voivat antaa erityistaidon tai vaikuttaa hahmon piirteisiin.
 
 ### Class-tietokantataulun muokkaus
 
-Tekemättä (koska rakensin tietokannan uuteen uskoon)
+Tietokanta-palkista valitsemalla Class, voi tarkastella tietokantataulun 'Class' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia hahmon hahmoluokkia, ja edelleen lisätä tietokantaan uusia hahmoluokkia tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia.
+
+Classien sisällä on paljon varianssia. Osa niistä antaa varmasti joitain taitoja, osa epävarmasti, jolloin taidot pitää arpoa. Lisäksi taitoja voi tulla eri kategorioista, siksi hahmoluokkien lisäämis- ja muokkausikkunat ovat varsin monimutkaisia. Lisäksi hahmoluokkiin liittyy aina hahmojen aliluokkia.
 
 ### Background-tietokantataulun muokkaus
 
-Tekemättä (koska rakensin tietokannan uuteen uskoon)
+Tietokanta-palkista valitsemalla Background, voi tarkastella tietokantataulun 'Background' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia hahmon taustoja, ja edelleen lisätä tietokantaan uusia taustoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia.
+
+Taustojen sisällä on paljon varianssia. Osa niistä antaa varmasti joitain taitoja, osa epävarmasti, jolloin taidot pitää arpoa. Lisäksi taitoja voi tulla eri kategorioista, siksi taustojen lisäämis- ja muokkausikkunat ovat varsin monimutkaisia.
 
 ### Feat-tietokantataulun muokkaus
 
-Tekemättä (koska rakensin tietokannan uuteen uskoon)
+Tietokanta-palkista valitsemalla Feat, voi tarkastella tietokantataulun 'Feat' sisältöä, eli generoinnissa mukana olevia vaihtoehtoisia hahmojen erityistaitoja (joita hahmolla voi olla, muttei välttämättä ole), ja edelleen lisätä tietokantaan uusia erityistaitoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia.
+
+Erityistaitojen sisällä on paljon varianssia. Osa niistä antaa varmasti taitoja, osa epävarmasti, jolloin taidot pitää arpoa. Lisäksi taitoja voi tulla eri kategorioista, siksi erityistaitojen lisäämis- ja muokkausikkunat ovat varsin monimutkaisia. Lisäksi erityistaidot saattavat antaa joitakin piirteitä.
+
+### Default-tietokanta
+
+Projektin juuressa on kansio "default-database", johon on rakennettu varmuuskopio alustavasti perustietokannasta.
 
 -----------------------------------------------------------------------------------------------------------------------------
 
