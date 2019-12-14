@@ -463,8 +463,10 @@ public class Interface extends Application {
         addSubtypeSimple.setToggleGroup(profAddSubtypeWeaponGroup);
         RadioButton addSubtypeMartial = new RadioButton("Martial");
         addSubtypeMartial.setToggleGroup(profAddSubtypeWeaponGroup);
+        RadioButton addSubtypeWepOther = new RadioButton("Other");
+        addSubtypeWepOther.setToggleGroup(profAddSubtypeWeaponGroup);
         profAddSubtypeWeaponLayout.getChildren().addAll(addSubtypeSimple,
-                addSubtypeMartial);
+                addSubtypeMartial, addSubtypeWepOther);
 
         HBox profAddSubtypeLanguageLayout = new HBox();
         ToggleGroup profAddSubtypeLanguageGroup = new ToggleGroup();
@@ -581,8 +583,10 @@ public class Interface extends Application {
         modSubtypeSimple.setToggleGroup(profModSubtypeWeaponGroup);
         RadioButton modSubtypeMartial = new RadioButton("Martial");
         modSubtypeMartial.setToggleGroup(profModSubtypeWeaponGroup);
+        RadioButton modSubtypeWepOther = new RadioButton("Other");
+        modSubtypeWepOther.setToggleGroup(profModSubtypeWeaponGroup);
         profModSubtypeWeaponLayout.getChildren().addAll(modSubtypeSimple,
-                modSubtypeMartial);
+                modSubtypeMartial, modSubtypeWepOther);
 
         HBox profModSubtypeLanguageLayout = new HBox();
         ToggleGroup profModSubtypeLanguageGroup = new ToggleGroup();
@@ -722,6 +726,8 @@ public class Interface extends Application {
                             case "Martial":
                                 modSubtypeMartial.setSelected(true);
                                 break;
+                            default:
+                                modSubtypeWepOther.setSelected(true);
                         }
                         break;
                     case "Tool":
@@ -798,8 +804,10 @@ public class Interface extends Application {
                 profType = "Weapon";
                 if (addSubtypeSimple.isSelected()) {
                     profSubtype = "Simple";
-                } else {
+                } else if (addSubtypeMartial.isSelected()) {
                     profSubtype = "Martial";
+                } else {
+                    profSubtype = "Other";
                 }
             } else if (addTypeTool.isSelected()) {
                 profType = "Tool";
@@ -863,8 +871,10 @@ public class Interface extends Application {
                 profType = "Weapon";
                 if (modSubtypeSimple.isSelected()) {
                     profSubtype = "Simple";
-                } else {
+                } else if (modSubtypeMartial.isSelected()) {
                     profSubtype = "Martial";
+                } else {
+                    profSubtype = "Other";
                 }
             } else if (modTypeTool.isSelected()) {
                 profType = "Tool";
@@ -1174,8 +1184,8 @@ public class Interface extends Application {
                 modRacialRandomLangs.setText(oldRandomLangs);
                 modRacialExtraProfs.setText(oldExtraProfs);
                 switch (oldExtraProfType) {
-                    case "Skill":
-                        modRacialExtraSkill.setSelected(true);
+                    case "Gaming Set/Instrument":
+                        modRacialExtraGamingSetInstrument.setSelected(true);
                         break;
                     case "Tool":
                         modRacialExtraTool.setSelected(true);
@@ -1199,7 +1209,7 @@ public class Interface extends Application {
                         modRacialExtraArtisanGamingSet.setSelected(true);
                         break;
                     default:
-                        modRacialExtraGamingSetInstrument.setSelected(true);
+                        modRacialExtraSkill.setSelected(true);
                         break;
                 }
                 modRacialFeat.setSelected(racialToBeModified.getFeat());
@@ -1694,8 +1704,8 @@ public class Interface extends Application {
                 modClassRandomLangs.setText(oldRandomLangs);
                 modClassExtraProfs.setText(oldExtraProfs);
                 switch (oldExtraProfType) {
-                    case "Skill":
-                        modClassExtraSkill.setSelected(true);
+                    case "Gaming Set/Instrument":
+                        modClassExtraGamingSetInstrument.setSelected(true);
                         break;
                     case "Tool":
                         modClassExtraTool.setSelected(true);
@@ -1719,7 +1729,7 @@ public class Interface extends Application {
                         modClassExtraArtisanGamingSet.setSelected(true);
                         break;
                     default:
-                        modClassExtraGamingSetInstrument.setSelected(true);
+                        modClassExtraSkill.setSelected(true);
                         break;
                 }
                 refreshSubclasses(classToBeModified, modSubclassList);
@@ -1971,54 +1981,166 @@ public class Interface extends Application {
         HBox bgAddLayout = new HBox();
 
         VBox bgAddLeftLayout = new VBox();
-        HBox bgAddRightLayout = new HBox();
+        VBox bgAddCenterLayout = new VBox();
+        VBox bgAddRightLayout = new VBox();
 
         VBox bgAddNameLayout = new VBox();
-        Label bgAddNameLabel = new Label("Nimi: ");
-        TextField bgAddNameText = new TextField("");
-        Label bgAddNameError = new Label("");
-        bgAddNameError.setTextFill(Color.RED);
-        bgAddNameLayout.getChildren().addAll(bgAddNameLabel, bgAddNameText);
+        Label addBgNameLabel = new Label("Nimi: ");
+        TextField addBgNameText = new TextField("");
+        Label addBgNameError = new Label("");
+        addBgNameError.setTextFill(Color.RED);
+        bgAddNameLayout.getChildren().addAll(addBgNameLabel, addBgNameText);
+
+        Label addBgRandomProfsLabel = new Label("Background antaa epävarmoja proficiencyjä:");
+        TextField addBgRandomProfs = new TextField("0");
+        Label addBgRandomProfsError = new Label("");
+        Label addBgRandomLangsLabel = new Label("Background antaa kieliä:");
+        TextField addBgRandomLangs = new TextField("0");
+        Label addBgRandomLangsError = new Label("");
+        Label addBgExtraProfsLabel = new Label("Background antaa extra-proficiencyjä:");
+        TextField addBgExtraProfs = new TextField("0");
+        Label addBgExtraProfsError = new Label("");
+
+        addBgRandomProfsError.setTextFill(Color.RED);
+        addBgRandomLangsError.setTextFill(Color.RED);
+        addBgExtraProfsError.setTextFill(Color.RED);
+
+        Label addBgExtraProfTypeLabel = new Label("Mitä tyyppiä extra-proficiencyt ovat?");
+
+        ToggleGroup addBgExtraProfGroup = new ToggleGroup();
+        RadioButton addBgExtraSkill = new RadioButton("Skill");
+        addBgExtraSkill.setSelected(true);
+        RadioButton addBgExtraTool = new RadioButton("Tool");
+        RadioButton addBgExtraArtisan = new RadioButton("Artisan");
+        RadioButton addBgExtraGamingSet = new RadioButton("Gaming Set");
+        RadioButton addBgExtraInstrument = new RadioButton("Instrument");
+        RadioButton addBgExtraSkillTool = new RadioButton("Skill/Tool");
+        RadioButton addBgExtraArtisanInstrument = 
+                new RadioButton("Artisan/Instrument");
+        RadioButton addBgExtraArtisanGamingSet = 
+                new RadioButton("Artisan/Gaming Set");
+        RadioButton addBgExtraGamingSetInstrument = 
+                new RadioButton("Gaming Set/Instrument");
+        addBgExtraSkill.setToggleGroup(addBgExtraProfGroup);
+        addBgExtraTool.setToggleGroup(addBgExtraProfGroup);
+        addBgExtraArtisan.setToggleGroup(addBgExtraProfGroup);
+        addBgExtraGamingSet.setToggleGroup(addBgExtraProfGroup);
+        addBgExtraInstrument.setToggleGroup(addBgExtraProfGroup);
+        addBgExtraSkillTool.setToggleGroup(addBgExtraProfGroup);
+        addBgExtraArtisanInstrument.setToggleGroup(addBgExtraProfGroup);
+        addBgExtraArtisanGamingSet.setToggleGroup(addBgExtraProfGroup);
+        addBgExtraGamingSetInstrument.setToggleGroup(addBgExtraProfGroup);
 
         Button addNewBg = new Button("Lisää");
         Button backFromAddingBg = new Button("Takaisin");
         HBox bgAddingButtons = new HBox();
         bgAddingButtons.getChildren().addAll(addNewBg, backFromAddingBg);
 
-        bgAddLeftLayout.getChildren().addAll(bgAddNameLayout, bgAddNameError,
-                bgAddingButtons);
+        bgAddLeftLayout.getChildren().addAll(bgAddNameLayout, addBgNameError,
+                addBgRandomProfsLabel, addBgRandomProfs, addBgRandomProfsError, 
+                addBgRandomLangsLabel, addBgRandomLangs,
+                addBgRandomLangsError, addBgExtraProfsLabel, 
+                addBgExtraProfs, addBgExtraProfsError,
+                addBgExtraProfTypeLabel, addBgExtraSkill, 
+                addBgExtraTool, addBgExtraArtisan, addBgExtraGamingSet, 
+                addBgExtraInstrument, addBgExtraSkillTool, 
+                addBgExtraArtisanInstrument, addBgExtraArtisanGamingSet, 
+                addBgExtraGamingSetInstrument, bgAddingButtons);
 
-        TableView<Proficiency> addBgProfTable = createProfTable();
+        Label addBgCertainProfLabel = new Label("Valitse varmat proficiencyt");
+        TableView<Proficiency> addBgCertainProfTable = createProfTable();
+        Label addBgUncertainProfLabel = new Label("Valitse epävarmat proficiencyt");
+        TableView<Proficiency> addBgUncertainProfTable = createProfTable();
 
-        bgAddRightLayout.getChildren().addAll(addBgProfTable);
+        bgAddCenterLayout.getChildren().addAll(addBgCertainProfLabel,
+                addBgCertainProfTable);
+        bgAddRightLayout.getChildren().addAll(addBgUncertainProfLabel,
+                addBgUncertainProfTable);
 
-        bgAddLayout.getChildren().addAll(bgAddLeftLayout, bgAddRightLayout);
+        bgAddLayout.getChildren().addAll(bgAddLeftLayout, bgAddCenterLayout, 
+                bgAddRightLayout);
 
         HBox bgModifyLayout = new HBox();
 
         VBox bgModLeftLayout = new VBox();
+        VBox bgModCenterLayout = new VBox();
         VBox bgModRightLayout = new VBox();
 
         VBox bgModNameLayout = new VBox();
-        Label bgModNameLabel = new Label("Nimi: ");
-        TextField bgModNameText = new TextField("");
-        Label bgModNameError = new Label("");
-        bgModNameError.setTextFill(Color.RED);
-        bgModNameLayout.getChildren().addAll(bgModNameLabel, bgModNameText);
+        Label modBgNameLabel = new Label("Nimi: ");
+        TextField modBgNameText = new TextField("");
+        Label modBgNameError = new Label("");
+        modBgNameError.setTextFill(Color.RED);
+        bgModNameLayout.getChildren().addAll(modBgNameLabel, modBgNameText);
+
+        Label modBgRandomProfsLabel = new Label("Background antaa epävarmoja proficiencyjä:");
+        TextField modBgRandomProfs = new TextField("0");
+        Label modBgRandomProfsError = new Label("");
+        Label modBgRandomLangsLabel = new Label("Background antaa kieliä:");
+        TextField modBgRandomLangs = new TextField("0");
+        Label modBgRandomLangsError = new Label("");
+        Label modBgExtraProfsLabel = new Label("Background antaa extra-proficiencyjä:");
+        TextField modBgExtraProfs = new TextField("0");
+        Label modBgExtraProfsError = new Label("");
+
+        modBgRandomProfsError.setTextFill(Color.RED);
+        modBgRandomLangsError.setTextFill(Color.RED);
+        modBgExtraProfsError.setTextFill(Color.RED);
+
+        Label modBgExtraProfTypeLabel = new Label("Mitä tyyppiä extra-proficiencyt ovat?");
+
+        ToggleGroup modBgExtraProfGroup = new ToggleGroup();
+        RadioButton modBgExtraSkill = new RadioButton("Skill");
+        modBgExtraSkill.setSelected(true);
+        RadioButton modBgExtraTool = new RadioButton("Tool");
+        RadioButton modBgExtraArtisan = new RadioButton("Artisan");
+        RadioButton modBgExtraGamingSet = new RadioButton("Gaming Set");
+        RadioButton modBgExtraInstrument = new RadioButton("Instrument");
+        RadioButton modBgExtraSkillTool = new RadioButton("Skill/Tool");
+        RadioButton modBgExtraArtisanInstrument = 
+                new RadioButton("Artisan/Instrument");
+        RadioButton modBgExtraArtisanGamingSet = 
+                new RadioButton("Artisan/Gaming Set");
+        RadioButton modBgExtraGamingSetInstrument = 
+                new RadioButton("Gaming Set/Instrument");
+        modBgExtraSkill.setToggleGroup(modBgExtraProfGroup);
+        modBgExtraTool.setToggleGroup(modBgExtraProfGroup);
+        modBgExtraArtisan.setToggleGroup(modBgExtraProfGroup);
+        modBgExtraGamingSet.setToggleGroup(modBgExtraProfGroup);
+        modBgExtraInstrument.setToggleGroup(modBgExtraProfGroup);
+        modBgExtraSkillTool.setToggleGroup(modBgExtraProfGroup);
+        modBgExtraArtisanInstrument.setToggleGroup(modBgExtraProfGroup);
+        modBgExtraArtisanGamingSet.setToggleGroup(modBgExtraProfGroup);
+        modBgExtraGamingSetInstrument.setToggleGroup(modBgExtraProfGroup);
 
         Button modifyThisBg = new Button("Päivitä");
         Button backFromModifyingBg = new Button("Takaisin");
         HBox bgModifyingButtons = new HBox();
         bgModifyingButtons.getChildren().addAll(modifyThisBg, backFromModifyingBg);
 
-        bgModLeftLayout.getChildren().addAll(bgModNameLayout, bgModNameError,
-                bgModifyingButtons);
+        bgModLeftLayout.getChildren().addAll(bgModNameLayout, modBgNameError,
+                modBgRandomProfsLabel, modBgRandomProfs, modBgRandomProfsError, 
+                modBgRandomLangsLabel, modBgRandomLangs,
+                modBgRandomLangsError, modBgExtraProfsLabel, 
+                modBgExtraProfs, modBgExtraProfsError,
+                modBgExtraProfTypeLabel, modBgExtraSkill, 
+                modBgExtraTool, modBgExtraArtisan, modBgExtraGamingSet, 
+                modBgExtraInstrument, modBgExtraSkillTool, 
+                modBgExtraArtisanInstrument, modBgExtraArtisanGamingSet, 
+                modBgExtraGamingSetInstrument, bgModifyingButtons);
 
-        TableView<Proficiency> modBgProfTable = createProfTable();
+        Label modBgCertainProfLabel = new Label("Valitse varmat proficiencyt");
+        TableView<Proficiency> modBgCertainProfTable = createProfTable();
+        Label modBgUncertainProfLabel = new Label("Valitse epävarmat proficiencyt");
+        TableView<Proficiency> modBgUncertainProfTable = createProfTable();
 
-        bgModRightLayout.getChildren().addAll(modBgProfTable);
+        bgModCenterLayout.getChildren().addAll(modBgCertainProfLabel,
+                modBgCertainProfTable);
+        bgModRightLayout.getChildren().addAll(modBgUncertainProfLabel,
+                modBgUncertainProfTable);
 
-        bgModifyLayout.getChildren().addAll(bgModLeftLayout, bgModRightLayout);
+        bgModifyLayout.getChildren().addAll(bgModLeftLayout, bgModCenterLayout, 
+                bgModRightLayout);
 
         this.bgAddScene = new Scene(bgAddLayout);
         this.bgModScene = new Scene(bgModifyLayout);
@@ -2035,106 +2157,270 @@ public class Interface extends Application {
         });
 
         addBg.setOnAction((event) -> {
-            /*refreshProfs(addBgProfTable);
+            refreshProfs(addBgCertainProfTable);
+            refreshProfs(addBgUncertainProfTable);
             bgDatabaseErrorText.setText("");
-            bgAddNameText.setText("");
-            bgAddNameError.setText("");
+            addBgNameText.setText("");
+            addBgNameError.setText("");
+            addBgRandomProfs.setText("0");
+            addBgRandomProfsError.setText("");
+            addBgRandomLangs.setText("0");
+            addBgRandomLangsError.setText("");
+            addBgExtraProfs.setText("0");
+            addBgExtraProfsError.setText("");
+            addBgExtraSkill.setSelected(true);
             this.modifyWindow.setTitle("Lisää Background");
             this.modifyWindow.setScene(this.bgAddScene);
-            this.modifyWindow.show();*/
+            this.modifyWindow.show();
         });
 
         modifyExistingBg.setOnAction((event) -> {
-            /*refreshProfs(modBgProfTable);
-            bgModNameText.setText("");
+            refreshProfs(modBgCertainProfTable);
+            refreshProfs(modBgUncertainProfTable);
+            modBgNameText.setText("");
             Background bgToBeModified = bgs.getSelectionModel().getSelectedItem();
             if (!(bgToBeModified == null)) {
                 bgDatabaseErrorText.setText("");
                 this.modifyWindow.setTitle("Muokkaa Backgroundia");
                 this.modifyWindow.setScene(this.bgModScene);
                 this.modifyWindow.show();
-                bgModNameText.setText(bgToBeModified.getName());
+                modBgNameText.setText(bgToBeModified.getName());
+                String oldRandomProfs = "" + bgToBeModified.getRandomProfs();
+                String oldRandomLangs = "" + bgToBeModified.getRandomLangs();
+                String oldExtraProfs = "" + bgToBeModified.getExtraProfs();
+                String oldExtraProfType = bgToBeModified.getExtraProfType();
+                modBgRandomProfs.setText(oldRandomProfs);
+                modBgRandomLangs.setText(oldRandomLangs);
+                modBgExtraProfs.setText(oldExtraProfs);
+                switch (oldExtraProfType) {
+                    case "Gaming Set/Instrument":
+                        modBgExtraGamingSetInstrument.setSelected(true);
+                        break;
+                    case "Tool":
+                        modBgExtraTool.setSelected(true);
+                        break;
+                    case "Artisan":
+                        modBgExtraArtisan.setSelected(true);
+                        break;
+                    case "Gaming Set":
+                        modBgExtraGamingSet.setSelected(true);
+                        break;
+                    case "Instrument":
+                        modBgExtraInstrument.setSelected(true);
+                        break;
+                    case "Skill/Tool":
+                        modBgExtraSkillTool.setSelected(true);
+                        break;
+                    case "Artisan/Instrument":
+                        modBgExtraArtisanInstrument.setSelected(true);
+                        break;
+                    case "Artisan/Gaming Set":
+                        modBgExtraArtisanGamingSet.setSelected(true);
+                        break;
+                    default:
+                        modBgExtraSkill.setSelected(true);
+                        break;
+                }
 
-                for (Proficiency bgProf : bgToBeModified.getBackgroundProfs()) {
-                    modBgProfTable.getSelectionModel().select(bgProf);
+                for (Proficiency certainProf : bgToBeModified.getCertainProfs()) {
+                    modBgCertainProfTable.getSelectionModel().select(certainProf);
+                }
+                for (Proficiency uncertainProf : bgToBeModified.getUncertainProfs()) {
+                    modBgUncertainProfTable.getSelectionModel().select(uncertainProf);
                 }
             } else {
                 bgDatabaseErrorText.setText("Valitse muokattava background!");
-            }*/
+            }
         });
 
         addNewBg.setOnAction((event) -> {
-            /*String bgName = bgAddNameText.getText();
+            String bgName = addBgNameText.getText();
 
-            if (!bgName.isEmpty()) {
-                Background bgToAdd = new Background(bgName);
+            if (!bgName.isEmpty() && isInteger(addBgRandomProfs.getText())
+                    && isInteger(addBgRandomLangs.getText())
+                    && isInteger(addBgExtraProfs.getText())) {
+                int randomProfs = Integer.parseInt(addBgRandomProfs.getText());
+                int randomLangs = Integer.parseInt(addBgRandomLangs.getText());
+                int extraProfs = Integer.parseInt(addBgExtraProfs.getText());
+                String extraProfType = "";
+                if (extraProfs != 0) {
+                    if (addBgExtraSkill.isSelected()) {
+                        extraProfType = "Skill";
+                    } else if (addBgExtraTool.isSelected()) {
+                        extraProfType = "Tool";
+                    } else if (addBgExtraArtisan.isSelected()) {
+                        extraProfType = "Artisan";
+                    } else if (addBgExtraGamingSet.isSelected()) {
+                        extraProfType = "Gaming Set";
+                    } else if (addBgExtraInstrument.isSelected()) {
+                        extraProfType = "Instrument";
+                    } else if (addBgExtraSkillTool.isSelected()) {
+                        extraProfType = "Skill/Tool";
+                    } else if (addBgExtraArtisanInstrument.isSelected()) {
+                        extraProfType = "Artisan/Instrument";
+                    } else if (addBgExtraArtisanGamingSet.isSelected()) {
+                        extraProfType = "Artisan/Gaming Set";
+                    } else {
+                        extraProfType = "Gaming Set/Instrument";
+                    }
+                }
+                Background bgToAdd = new Background(bgName, randomProfs, randomLangs, 
+                        extraProfs, extraProfType);
 
-                ObservableList<Proficiency> bgProfsToAdd = addBgProfTable.
+                ObservableList<Proficiency> certainProfsToAdd = addBgCertainProfTable.
                         getSelectionModel().getSelectedItems();
 
-                for (Proficiency prof : bgProfsToAdd) {
-                    bgToAdd.addBackgroundProf(prof);
+                ObservableList<Proficiency> uncertainProfsToAdd = addBgUncertainProfTable.
+                        getSelectionModel().getSelectedItems();
+               
+                for (Proficiency prof : certainProfsToAdd) {
+                    bgToAdd.addCertainProf(prof);
                 }
+                for (Proficiency prof : uncertainProfsToAdd) {
+                    bgToAdd.addUncertainProf(prof);
+                }
+                
                 try {
                     this.generator.addNewBgToDb(bgToAdd);
                 } catch (SQLException ex) {
-                    bgAddNameError.setText(ex.getMessage());
+                    addBgNameError.setText(ex.getMessage());
                 }
-                bgAddNameText.setText("");
-                bgAddNameError.setText("");
+                bgDatabaseErrorText.setText("");
+                addBgNameText.setText("");
+                addBgNameError.setText("");
+                addBgRandomProfs.setText("0");
+                addBgRandomProfsError.setText("");
+                addBgRandomLangs.setText("0");
+                addBgRandomLangsError.setText("");
+                addBgExtraProfs.setText("0");
+                addBgExtraProfsError.setText("");
+                addBgExtraSkill.setSelected(true);
                 this.modifyWindow.close();
                 refreshBackgrounds(bgs);
             } else {
                 if (bgName.isEmpty()) {
-                    bgAddNameError.setText("Syöte ei voi olla tyhjä!");
+                    addBgNameError.setText("Syöte ei voi olla tyhjä!");
                 } else {
-                    bgAddNameError.setText("");
+                    addBgNameError.setText("");
                 }
-            }*/
+                if (!isInteger(addBgRandomProfs.getText())) {
+                    addBgRandomProfsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    addBgRandomProfsError.setText("");
+                }
+                if (!isInteger(addBgRandomLangs.getText())) {
+                    addBgRandomLangsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    addBgRandomLangsError.setText("");
+                }
+                if (!isInteger(addBgExtraProfs.getText())) {
+                    addBgExtraProfsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    addBgExtraProfsError.setText("");
+                }
+            }
         });
 
         backFromAddingBg.setOnAction((event) -> {
-            /*this.modifyWindow.close();*/
+            this.modifyWindow.close();
         });
 
         modifyThisBg.setOnAction((event) -> {
-            /*String bgName = bgModNameText.getText();
+            String bgName = modBgNameText.getText();
 
-            if (!bgName.isEmpty()) {
+            if (!bgName.isEmpty() && isInteger(modBgRandomProfs.getText())
+                    && isInteger(modBgRandomLangs.getText())
+                    && isInteger(modBgExtraProfs.getText())) {
+                int randomProfs = Integer.parseInt(modBgRandomProfs.getText());
+                int randomLangs = Integer.parseInt(modBgRandomLangs.getText());
+                int extraProfs = Integer.parseInt(modBgExtraProfs.getText());
                 int id = bgs.getSelectionModel().getSelectedItem().getId();
-
-                Background bgToMod = new Background(id, bgName);
-
-                ObservableList<Proficiency> bgProfsToMod = modBgProfTable.
-                        getSelectionModel().getSelectedItems();
-
-                for (Proficiency prof : bgProfsToMod) {
-                    bgToMod.addBackgroundProf(prof);
+                String extraProfType = "";
+                if (extraProfs != 0) {
+                    if (modBgExtraSkill.isSelected()) {
+                        extraProfType = "Skill";
+                    } else if (modBgExtraTool.isSelected()) {
+                        extraProfType = "Tool";
+                    } else if (modBgExtraArtisan.isSelected()) {
+                        extraProfType = "Artisan";
+                    } else if (modBgExtraGamingSet.isSelected()) {
+                        extraProfType = "Gaming Set";
+                    } else if (modBgExtraInstrument.isSelected()) {
+                        extraProfType = "Instrument";
+                    } else if (modBgExtraSkillTool.isSelected()) {
+                        extraProfType = "Skill/Tool";
+                    } else if (modBgExtraArtisanInstrument.isSelected()) {
+                        extraProfType = "Artisan/Instrument";
+                    } else if (modBgExtraArtisanGamingSet.isSelected()) {
+                        extraProfType = "Artisan/Gaming Set";
+                    } else {
+                        extraProfType = "Gaming Set/Instrument";
+                    }
                 }
+                Background bgToMod = new Background(id, bgName, randomProfs, 
+                        randomLangs, extraProfs, extraProfType);
+
+                ObservableList<Proficiency> certainProfsToMod = modBgCertainProfTable.
+                        getSelectionModel().getSelectedItems();
+                
+                ObservableList<Proficiency> uncertainProfsToMod = 
+                        modBgUncertainProfTable.getSelectionModel().
+                        getSelectedItems();
+                
+                for (Proficiency prof : certainProfsToMod) {
+                    bgToMod.addCertainProf(prof);
+                }              
+                for (Proficiency prof : uncertainProfsToMod) {
+                    bgToMod.addUncertainProf(prof);
+                }
+                
                 try {
                     this.generator.updateBgToDb(bgToMod);
                 } catch (SQLException ex) {
-                    bgModNameError.setText(ex.getMessage());
+                    modBgNameError.setText(ex.getMessage());
                 }
-                bgModNameText.setText("");
-                bgModNameError.setText("");
+                bgDatabaseErrorText.setText("");
+                modBgNameText.setText("");
+                modBgNameError.setText("");
+                modBgRandomProfs.setText("0");
+                modBgRandomProfsError.setText("");
+                modBgRandomLangs.setText("0");
+                modBgRandomLangsError.setText("");
+                modBgExtraProfs.setText("0");
+                modBgExtraProfsError.setText("");
+                modBgExtraSkill.setSelected(true);
                 this.modifyWindow.close();
                 refreshBackgrounds(bgs);
             } else {
                 if (bgName.isEmpty()) {
-                    bgModNameError.setText("Syöte ei voi olla tyhjä!");
+                    modBgNameError.setText("Syöte ei voi olla tyhjä!");
                 } else {
-                    bgModNameError.setText("");
+                    modBgNameError.setText("");
                 }
-            }*/
+                if (!isInteger(modBgRandomProfs.getText())) {
+                    modBgRandomProfsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    modBgRandomProfsError.setText("");
+                }
+                if (!isInteger(modBgRandomLangs.getText())) {
+                    modBgRandomLangsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    modBgRandomLangsError.setText("");
+                }
+                if (!isInteger(modBgExtraProfs.getText())) {
+                    modBgExtraProfsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    modBgExtraProfsError.setText("");
+                }
+            }
         });
 
         backFromModifyingBg.setOnAction((event) -> {
-            /*this.modifyWindow.close();*/
+            this.modifyWindow.close();
         });
 
         deleteBg.setOnAction((event) -> {
-            /*deleteBg(bgs, bgDatabaseErrorText);*/
+            deleteBg(bgs, bgDatabaseErrorText);
         });
 
         VBox featDatabaseLayout = new VBox();
@@ -2167,14 +2453,15 @@ public class Interface extends Application {
         HBox featAddLayout = new HBox();
 
         VBox featAddLeftLayout = new VBox();
-        HBox featAddRightLayout = new HBox();
+        VBox featAddCenterLayout = new VBox();
+        VBox featAddRightLayout = new VBox();
 
         VBox featAddNameLayout = new VBox();
-        Label featAddNameLabel = new Label("Nimi: ");
-        TextField featAddNameText = new TextField("");
-        Label featAddNameError = new Label("");
-        featAddNameError.setTextFill(Color.RED);
-        featAddNameLayout.getChildren().addAll(featAddNameLabel, featAddNameText);
+        Label addFeatNameLabel = new Label("Nimi: ");
+        TextField addFeatNameText = new TextField("");
+        Label addFeatNameError = new Label("");
+        addFeatNameError.setTextFill(Color.RED);
+        featAddNameLayout.getChildren().addAll(addFeatNameLabel, addFeatNameText);
 
         VBox addFeatStats = new VBox();
         Label addFeatStatsLabel = new Label("Mitä statteja Feat voi antaa?");
@@ -2190,32 +2477,88 @@ public class Interface extends Application {
                 addFeatStatCon, addFeatStatInt, addFeatStatWis, addFeatStatCha);
 
         addFeatStats.getChildren().addAll(addFeatStatsLabel, addFeatStatsBoxes);
+        
+        Label addFeatRandomProfsLabel = new Label("Feat antaa epävarmoja proficiencyjä:");
+        TextField addFeatRandomProfs = new TextField("0");
+        Label addFeatRandomProfsError = new Label("");
+        Label addFeatRandomLangsLabel = new Label("Feat antaa kieliä:");
+        TextField addFeatRandomLangs = new TextField("0");
+        Label addFeatRandomLangsError = new Label("");
+        Label addFeatExtraProfsLabel = new Label("Feat antaa extra-proficiencyjä:");
+        TextField addFeatExtraProfs = new TextField("0");
+        Label addFeatExtraProfsError = new Label("");
+
+        addFeatRandomProfsError.setTextFill(Color.RED);
+        addFeatRandomLangsError.setTextFill(Color.RED);
+        addFeatExtraProfsError.setTextFill(Color.RED);
+
+        Label addFeatExtraProfTypeLabel = new Label("Mitä tyyppiä extra-proficiencyt ovat?");
+
+        ToggleGroup addFeatExtraProfGroup = new ToggleGroup();
+        RadioButton addFeatExtraSkill = new RadioButton("Skill");
+        addFeatExtraSkill.setSelected(true);
+        RadioButton addFeatExtraTool = new RadioButton("Tool");
+        RadioButton addFeatExtraArtisan = new RadioButton("Artisan");
+        RadioButton addFeatExtraGamingSet = new RadioButton("Gaming Set");
+        RadioButton addFeatExtraInstrument = new RadioButton("Instrument");
+        RadioButton addFeatExtraSkillTool = new RadioButton("Skill/Tool");
+        RadioButton addFeatExtraArtisanInstrument = 
+                new RadioButton("Artisan/Instrument");
+        RadioButton addFeatExtraArtisanGamingSet = 
+                new RadioButton("Artisan/Gaming Set");
+        RadioButton addFeatExtraGamingSetInstrument = 
+                new RadioButton("Gaming Set/Instrument");
+        addFeatExtraSkill.setToggleGroup(addFeatExtraProfGroup);
+        addFeatExtraTool.setToggleGroup(addFeatExtraProfGroup);
+        addFeatExtraArtisan.setToggleGroup(addFeatExtraProfGroup);
+        addFeatExtraGamingSet.setToggleGroup(addFeatExtraProfGroup);
+        addFeatExtraInstrument.setToggleGroup(addFeatExtraProfGroup);
+        addFeatExtraSkillTool.setToggleGroup(addFeatExtraProfGroup);
+        addFeatExtraArtisanInstrument.setToggleGroup(addFeatExtraProfGroup);
+        addFeatExtraArtisanGamingSet.setToggleGroup(addFeatExtraProfGroup);
+        addFeatExtraGamingSetInstrument.setToggleGroup(addFeatExtraProfGroup);
 
         Button addNewFeat = new Button("Lisää");
         Button backFromAddingFeat = new Button("Takaisin");
         HBox featAddingButtons = new HBox();
         featAddingButtons.getChildren().addAll(addNewFeat, backFromAddingFeat);
 
-        featAddLeftLayout.getChildren().addAll(featAddNameLayout, featAddNameError,
-                addFeatStats, featAddingButtons);
+        featAddLeftLayout.getChildren().addAll(featAddNameLayout, addFeatNameError,
+                addFeatStats, addFeatRandomProfsLabel, addFeatRandomProfs, 
+                addFeatRandomProfsError, addFeatRandomLangsLabel, addFeatRandomLangs,
+                addFeatRandomLangsError, addFeatExtraProfsLabel, 
+                addFeatExtraProfs, addFeatExtraProfsError,
+                addFeatExtraProfTypeLabel, addFeatExtraSkill, 
+                addFeatExtraTool, addFeatExtraArtisan, addFeatExtraGamingSet, 
+                addFeatExtraInstrument, addFeatExtraSkillTool, 
+                addFeatExtraArtisanInstrument, addFeatExtraArtisanGamingSet, 
+                addFeatExtraGamingSetInstrument, featAddingButtons);
 
-        TableView<Proficiency> addFeatProfTable = createProfTable();
+        Label addFeatCertainProfLabel = new Label("Valitse varmat proficiencyt");
+        TableView<Proficiency> addFeatCertainProfTable = createProfTable();
+        Label addFeatUncertainProfLabel = new Label("Valitse epävarmat proficiencyt");
+        TableView<Proficiency> addFeatUncertainProfTable = createProfTable();
 
-        featAddRightLayout.getChildren().addAll(addFeatProfTable);
+        featAddCenterLayout.getChildren().addAll(addFeatCertainProfLabel,
+                addFeatCertainProfTable);
+        featAddRightLayout.getChildren().addAll(addFeatUncertainProfLabel,
+                addFeatUncertainProfTable);
 
-        featAddLayout.getChildren().addAll(featAddLeftLayout, featAddRightLayout);
+        featAddLayout.getChildren().addAll(featAddLeftLayout, featAddCenterLayout, 
+                featAddRightLayout);     
 
         HBox featModifyLayout = new HBox();
 
         VBox featModLeftLayout = new VBox();
+        VBox featModCenterLayout = new VBox();
         VBox featModRightLayout = new VBox();
 
         VBox featModNameLayout = new VBox();
-        Label featModNameLabel = new Label("Nimi: ");
-        TextField featModNameText = new TextField("");
-        Label featModNameError = new Label("");
-        featModNameError.setTextFill(Color.RED);
-        featModNameLayout.getChildren().addAll(featModNameLabel, featModNameText);
+        Label modFeatNameLabel = new Label("Nimi: ");
+        TextField modFeatNameText = new TextField("");
+        Label modFeatNameError = new Label("");
+        modFeatNameError.setTextFill(Color.RED);
+        featModNameLayout.getChildren().addAll(modFeatNameLabel, modFeatNameText);
 
         VBox modFeatStats = new VBox();
         Label modFeatStatsLabel = new Label("Mitä statteja Feat voi antaa?");
@@ -2231,20 +2574,75 @@ public class Interface extends Application {
                 modFeatStatCon, modFeatStatInt, modFeatStatWis, modFeatStatCha);
 
         modFeatStats.getChildren().addAll(modFeatStatsLabel, modFeatStatsBoxes);
+        
+        Label modFeatRandomProfsLabel = new Label("Feat antaa epävarmoja proficiencyjä:");
+        TextField modFeatRandomProfs = new TextField("0");
+        Label modFeatRandomProfsError = new Label("");
+        Label modFeatRandomLangsLabel = new Label("Feat antaa kieliä:");
+        TextField modFeatRandomLangs = new TextField("0");
+        Label modFeatRandomLangsError = new Label("");
+        Label modFeatExtraProfsLabel = new Label("Feat antaa extra-proficiencyjä:");
+        TextField modFeatExtraProfs = new TextField("0");
+        Label modFeatExtraProfsError = new Label("");
+
+        modFeatRandomProfsError.setTextFill(Color.RED);
+        modFeatRandomLangsError.setTextFill(Color.RED);
+        modFeatExtraProfsError.setTextFill(Color.RED);
+
+        Label modFeatExtraProfTypeLabel = new Label("Mitä tyyppiä extra-proficiencyt ovat?");
+
+        ToggleGroup modFeatExtraProfGroup = new ToggleGroup();
+        RadioButton modFeatExtraSkill = new RadioButton("Skill");
+        modFeatExtraSkill.setSelected(true);
+        RadioButton modFeatExtraTool = new RadioButton("Tool");
+        RadioButton modFeatExtraArtisan = new RadioButton("Artisan");
+        RadioButton modFeatExtraGamingSet = new RadioButton("Gaming Set");
+        RadioButton modFeatExtraInstrument = new RadioButton("Instrument");
+        RadioButton modFeatExtraSkillTool = new RadioButton("Skill/Tool");
+        RadioButton modFeatExtraArtisanInstrument = 
+                new RadioButton("Artisan/Instrument");
+        RadioButton modFeatExtraArtisanGamingSet = 
+                new RadioButton("Artisan/Gaming Set");
+        RadioButton modFeatExtraGamingSetInstrument = 
+                new RadioButton("Gaming Set/Instrument");
+        modFeatExtraSkill.setToggleGroup(modFeatExtraProfGroup);
+        modFeatExtraTool.setToggleGroup(modFeatExtraProfGroup);
+        modFeatExtraArtisan.setToggleGroup(modFeatExtraProfGroup);
+        modFeatExtraGamingSet.setToggleGroup(modFeatExtraProfGroup);
+        modFeatExtraInstrument.setToggleGroup(modFeatExtraProfGroup);
+        modFeatExtraSkillTool.setToggleGroup(modFeatExtraProfGroup);
+        modFeatExtraArtisanInstrument.setToggleGroup(modFeatExtraProfGroup);
+        modFeatExtraArtisanGamingSet.setToggleGroup(modFeatExtraProfGroup);
+        modFeatExtraGamingSetInstrument.setToggleGroup(modFeatExtraProfGroup);
 
         Button modifyThisFeat = new Button("Päivitä");
         Button backFromModifyingFeat = new Button("Takaisin");
         HBox featModifyingButtons = new HBox();
         featModifyingButtons.getChildren().addAll(modifyThisFeat, backFromModifyingFeat);
 
-        featModLeftLayout.getChildren().addAll(featModNameLayout, featModNameError,
-                modFeatStats, featModifyingButtons);
+        featModLeftLayout.getChildren().addAll(featModNameLayout, modFeatNameError,
+                modFeatStats, modFeatRandomProfsLabel, modFeatRandomProfs, 
+                modFeatRandomProfsError, modFeatRandomLangsLabel, modFeatRandomLangs,
+                modFeatRandomLangsError, modFeatExtraProfsLabel, 
+                modFeatExtraProfs, modFeatExtraProfsError,
+                modFeatExtraProfTypeLabel, modFeatExtraSkill, 
+                modFeatExtraTool, modFeatExtraArtisan, modFeatExtraGamingSet, 
+                modFeatExtraInstrument, modFeatExtraSkillTool, 
+                modFeatExtraArtisanInstrument, modFeatExtraArtisanGamingSet, 
+                modFeatExtraGamingSetInstrument, featModifyingButtons);
 
-        TableView<Proficiency> modFeatProfTable = createProfTable();
+        Label modFeatCertainProfLabel = new Label("Valitse varmat proficiencyt");
+        TableView<Proficiency> modFeatCertainProfTable = createProfTable();
+        Label modFeatUncertainProfLabel = new Label("Valitse epävarmat proficiencyt");
+        TableView<Proficiency> modFeatUncertainProfTable = createProfTable();
 
-        featModRightLayout.getChildren().addAll(modFeatProfTable);
+        featModCenterLayout.getChildren().addAll(modFeatCertainProfLabel,
+                modFeatCertainProfTable);
+        featModRightLayout.getChildren().addAll(modFeatUncertainProfLabel,
+                modFeatUncertainProfTable);
 
-        featModifyLayout.getChildren().addAll(featModLeftLayout, featModRightLayout);
+        featModifyLayout.getChildren().addAll(featModLeftLayout, featModCenterLayout, 
+                featModRightLayout);
 
         this.featAddScene = new Scene(featAddLayout);
         this.featModScene = new Scene(featModifyLayout);
@@ -2261,10 +2659,18 @@ public class Interface extends Application {
         });
 
         addFeat.setOnAction((event) -> {
-            /*refreshProfs(addFeatProfTable);
+            refreshProfs(addFeatCertainProfTable);
+            refreshProfs(addFeatUncertainProfTable);
             featDatabaseErrorText.setText("");
-            featAddNameText.setText("");
-            featAddNameError.setText("");
+            addFeatNameText.setText("");
+            addFeatNameError.setText("");
+            addFeatRandomProfs.setText("0");
+            addFeatRandomProfsError.setText("");
+            addFeatRandomLangs.setText("0");
+            addFeatRandomLangsError.setText("");
+            addFeatExtraProfs.setText("0");
+            addFeatExtraProfsError.setText("");
+            addFeatExtraSkill.setSelected(true);
             addFeatStatStr.setSelected(false);
             addFeatStatDex.setSelected(false);
             addFeatStatCon.setSelected(false);
@@ -2273,12 +2679,13 @@ public class Interface extends Application {
             addFeatStatCha.setSelected(false);
             this.modifyWindow.setTitle("Lisää Feat");
             this.modifyWindow.setScene(this.featAddScene);
-            this.modifyWindow.show();*/
+            this.modifyWindow.show();
         });
 
         modifyExistingFeat.setOnAction((event) -> {
-            /*refreshProfs(modFeatProfTable);
-            featModNameText.setText("");
+            refreshProfs(modFeatCertainProfTable);
+            refreshProfs(modFeatUncertainProfTable);
+            modFeatNameText.setText("");
             modFeatStatStr.setSelected(false);
             modFeatStatDex.setSelected(false);
             modFeatStatCon.setSelected(false);
@@ -2291,8 +2698,44 @@ public class Interface extends Application {
                 this.modifyWindow.setTitle("Muokkaa Feattia");
                 this.modifyWindow.setScene(this.featModScene);
                 this.modifyWindow.show();
-                featModNameText.setText(featToBeModified.getName());
+                modFeatNameText.setText(featToBeModified.getName());
                 String oldStats = featToBeModified.getStats();
+                String oldRandomProfs = "" + featToBeModified.getRandomProfs();
+                String oldRandomLangs = "" + featToBeModified.getRandomLangs();
+                String oldExtraProfs = "" + featToBeModified.getExtraProfs();
+                String oldExtraProfType = featToBeModified.getExtraProfType();
+                modFeatRandomProfs.setText(oldRandomProfs);
+                modFeatRandomLangs.setText(oldRandomLangs);
+                modFeatExtraProfs.setText(oldExtraProfs);
+                switch (oldExtraProfType) {
+                    case "Gaming Set/Instrument":
+                        modFeatExtraGamingSetInstrument.setSelected(true);
+                        break;
+                    case "Tool":
+                        modFeatExtraTool.setSelected(true);
+                        break;
+                    case "Artisan":
+                        modFeatExtraArtisan.setSelected(true);
+                        break;
+                    case "Gaming Set":
+                        modFeatExtraGamingSet.setSelected(true);
+                        break;
+                    case "Instrument":
+                        modFeatExtraInstrument.setSelected(true);
+                        break;
+                    case "Skill/Tool":
+                        modFeatExtraSkillTool.setSelected(true);
+                        break;
+                    case "Artisan/Instrument":
+                        modFeatExtraArtisanInstrument.setSelected(true);
+                        break;
+                    case "Artisan/Gaming Set":
+                        modFeatExtraArtisanGamingSet.setSelected(true);
+                        break;
+                    default:
+                        modFeatExtraSkill.setSelected(true);
+                        break;
+                }
 
                 String[] parts = oldStats.split("/");
                 for (int i = 0; i < parts.length; i++) {
@@ -2318,18 +2761,48 @@ public class Interface extends Application {
                     }
                 }
 
-                for (Proficiency featProf : featToBeModified.getFeatProfs()) {
-                    modFeatProfTable.getSelectionModel().select(featProf);
+                for (Proficiency certainProf : featToBeModified.getCertainProfs()) {
+                    modFeatCertainProfTable.getSelectionModel().select(certainProf);
+                }
+                for (Proficiency uncertainProf : featToBeModified.getUncertainProfs()) {
+                    modFeatUncertainProfTable.getSelectionModel().select(uncertainProf);
                 }
             } else {
-                racialDatabaseErrorText.setText("Valitse muokattava feat!");
-            }*/
+                featDatabaseErrorText.setText("Valitse muokattava feat!");
+            }
         });
 
         addNewFeat.setOnAction((event) -> {
-            /*String featName = featAddNameText.getText();
+            String featName = addFeatNameText.getText();
 
-            if (!featName.isEmpty()) {
+            if (!featName.isEmpty() && isInteger(addFeatRandomProfs.getText())
+                    && isInteger(addFeatRandomLangs.getText())
+                    && isInteger(addFeatExtraProfs.getText())) {
+                int randomProfs = Integer.parseInt(addFeatRandomProfs.getText());
+                int randomLangs = Integer.parseInt(addFeatRandomLangs.getText());
+                int extraProfs = Integer.parseInt(addFeatExtraProfs.getText());
+                String extraProfType = "";
+                if (extraProfs != 0) {
+                    if (addFeatExtraSkill.isSelected()) {
+                        extraProfType = "Skill";
+                    } else if (addFeatExtraTool.isSelected()) {
+                        extraProfType = "Tool";
+                    } else if (addFeatExtraArtisan.isSelected()) {
+                        extraProfType = "Artisan";
+                    } else if (addFeatExtraGamingSet.isSelected()) {
+                        extraProfType = "Gaming Set";
+                    } else if (addFeatExtraInstrument.isSelected()) {
+                        extraProfType = "Instrument";
+                    } else if (addFeatExtraSkillTool.isSelected()) {
+                        extraProfType = "Skill/Tool";
+                    } else if (addFeatExtraArtisanInstrument.isSelected()) {
+                        extraProfType = "Artisan/Instrument";
+                    } else if (addFeatExtraArtisanGamingSet.isSelected()) {
+                        extraProfType = "Artisan/Gaming Set";
+                    } else {
+                        extraProfType = "Gaming Set/Instrument";
+                    }
+                }
                 String stats = "";
                 if (addFeatStatStr.isSelected()) {
                     stats += "STR/";
@@ -2352,23 +2825,38 @@ public class Interface extends Application {
                 if (!stats.isEmpty()) {
                     stats = stats.substring(0, stats.length() - 1);
                 }
+                
+                Feat featToAdd = new Feat(featName, stats, randomProfs, randomLangs, 
+                        extraProfs, extraProfType);
 
-                Feat featToAdd = new Feat(featName);
-                featToAdd.setStats(stats);
-
-                ObservableList<Proficiency> featProfsToAdd = addFeatProfTable.
+                ObservableList<Proficiency> certainProfsToAdd = addFeatCertainProfTable.
                         getSelectionModel().getSelectedItems();
 
-                for (Proficiency prof : featProfsToAdd) {
-                    featToAdd.addFeatProf(prof);
+                ObservableList<Proficiency> uncertainProfsToAdd = addFeatUncertainProfTable.
+                        getSelectionModel().getSelectedItems();
+               
+                for (Proficiency prof : certainProfsToAdd) {
+                    featToAdd.addCertainProf(prof);
                 }
+                for (Proficiency prof : uncertainProfsToAdd) {
+                    featToAdd.addUncertainProf(prof);
+                }
+                
                 try {
                     this.generator.addNewFeatToDb(featToAdd);
                 } catch (SQLException ex) {
-                    featAddNameError.setText(ex.getMessage());
+                    addFeatNameError.setText(ex.getMessage());
                 }
-                featAddNameText.setText("");
-                featAddNameError.setText("");
+                featDatabaseErrorText.setText("");
+                addFeatNameText.setText("");
+                addFeatNameError.setText("");
+                addFeatRandomProfs.setText("0");
+                addFeatRandomProfsError.setText("");
+                addFeatRandomLangs.setText("0");
+                addFeatRandomLangsError.setText("");
+                addFeatExtraProfs.setText("0");
+                addFeatExtraProfsError.setText("");
+                addFeatExtraSkill.setSelected(true);
                 addFeatStatStr.setSelected(false);
                 addFeatStatDex.setSelected(false);
                 addFeatStatCon.setSelected(false);
@@ -2379,25 +2867,64 @@ public class Interface extends Application {
                 refreshFeats(feats);
             } else {
                 if (featName.isEmpty()) {
-                    featAddNameError.setText("Syöte ei voi olla tyhjä!");
+                    addFeatNameError.setText("Syöte ei voi olla tyhjä!");
                 } else {
-                    featAddNameError.setText("");
+                    addFeatNameError.setText("");
                 }
-            }*/
+                if (!isInteger(addFeatRandomProfs.getText())) {
+                    addFeatRandomProfsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    addFeatRandomProfsError.setText("");
+                }
+                if (!isInteger(addFeatRandomLangs.getText())) {
+                    addFeatRandomLangsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    addFeatRandomLangsError.setText("");
+                }
+                if (!isInteger(addFeatExtraProfs.getText())) {
+                    addFeatExtraProfsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    addFeatExtraProfsError.setText("");
+                }
+            }
         });
 
         backFromAddingFeat.setOnAction((event) -> {
-            /*this.modifyWindow.close();*/
+            this.modifyWindow.close();
         });
 
         modifyThisFeat.setOnAction((event) -> {
-            /*String featName = featModNameText.getText();
+            String featName = modFeatNameText.getText();
 
-            if (!featName.isEmpty()) {
+            if (!featName.isEmpty() && isInteger(modFeatRandomProfs.getText())
+                    && isInteger(modFeatRandomLangs.getText())
+                    && isInteger(modFeatExtraProfs.getText())) {
+                int randomProfs = Integer.parseInt(modFeatRandomProfs.getText());
+                int randomLangs = Integer.parseInt(modFeatRandomLangs.getText());
+                int extraProfs = Integer.parseInt(modFeatExtraProfs.getText());
                 int id = feats.getSelectionModel().getSelectedItem().getId();
-
-                Feat featToMod = new Feat(id, featName);
-
+                String extraProfType = "";
+                if (extraProfs != 0) {
+                    if (modFeatExtraSkill.isSelected()) {
+                        extraProfType = "Skill";
+                    } else if (modFeatExtraTool.isSelected()) {
+                        extraProfType = "Tool";
+                    } else if (modFeatExtraArtisan.isSelected()) {
+                        extraProfType = "Artisan";
+                    } else if (modFeatExtraGamingSet.isSelected()) {
+                        extraProfType = "Gaming Set";
+                    } else if (modFeatExtraInstrument.isSelected()) {
+                        extraProfType = "Instrument";
+                    } else if (modFeatExtraSkillTool.isSelected()) {
+                        extraProfType = "Skill/Tool";
+                    } else if (modFeatExtraArtisanInstrument.isSelected()) {
+                        extraProfType = "Artisan/Instrument";
+                    } else if (modFeatExtraArtisanGamingSet.isSelected()) {
+                        extraProfType = "Artisan/Gaming Set";
+                    } else {
+                        extraProfType = "Gaming Set/Instrument";
+                    }
+                }
                 String stats = "";
                 if (modFeatStatStr.isSelected()) {
                     stats += "STR/";
@@ -2421,21 +2948,38 @@ public class Interface extends Application {
                     stats = stats.substring(0, stats.length() - 1);
                 }
 
-                featToMod.setStats(stats);
+                Feat featToMod = new Feat(id, featName, stats, randomProfs, 
+                        randomLangs, extraProfs, extraProfType);
 
-                ObservableList<Proficiency> featProfsToMod = modFeatProfTable.
+                ObservableList<Proficiency> certainProfsToMod = modFeatCertainProfTable.
                         getSelectionModel().getSelectedItems();
-
-                for (Proficiency prof : featProfsToMod) {
-                    featToMod.addFeatProf(prof);
+                
+                ObservableList<Proficiency> uncertainProfsToMod = 
+                        modFeatUncertainProfTable.getSelectionModel().
+                        getSelectedItems();
+                
+                for (Proficiency prof : certainProfsToMod) {
+                    featToMod.addCertainProf(prof);
+                }              
+                for (Proficiency prof : uncertainProfsToMod) {
+                    featToMod.addUncertainProf(prof);
                 }
+                
                 try {
                     this.generator.updateFeatToDb(featToMod);
                 } catch (SQLException ex) {
-                    featModNameError.setText(ex.getMessage());
+                    modFeatNameError.setText(ex.getMessage());
                 }
-                featModNameText.setText("");
-                featModNameError.setText("");
+                featDatabaseErrorText.setText("");
+                modFeatNameText.setText("");
+                modFeatNameError.setText("");
+                modFeatRandomProfs.setText("0");
+                modFeatRandomProfsError.setText("");
+                modFeatRandomLangs.setText("0");
+                modFeatRandomLangsError.setText("");
+                modFeatExtraProfs.setText("0");
+                modFeatExtraProfsError.setText("");
+                modFeatExtraSkill.setSelected(true);
                 modFeatStatStr.setSelected(false);
                 modFeatStatDex.setSelected(false);
                 modFeatStatCon.setSelected(false);
@@ -2446,19 +2990,34 @@ public class Interface extends Application {
                 refreshFeats(feats);
             } else {
                 if (featName.isEmpty()) {
-                    featModNameError.setText("Syöte ei voi olla tyhjä!");
+                    modFeatNameError.setText("Syöte ei voi olla tyhjä!");
                 } else {
-                    featModNameError.setText("");
+                    modFeatNameError.setText("");
                 }
-            }*/
+                if (!isInteger(modFeatRandomProfs.getText())) {
+                    modFeatRandomProfsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    modFeatRandomProfsError.setText("");
+                }
+                if (!isInteger(modFeatRandomLangs.getText())) {
+                    modFeatRandomLangsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    modFeatRandomLangsError.setText("");
+                }
+                if (!isInteger(modFeatExtraProfs.getText())) {
+                    modFeatExtraProfsError.setText("Syötteen täytyy olla kokonaisluku");
+                } else {
+                    modFeatExtraProfsError.setText("");
+                }
+            }
         });
 
         backFromModifyingFeat.setOnAction((event) -> {
-            /*this.modifyWindow.close();*/
+            this.modifyWindow.close();
         });
 
         deleteFeat.setOnAction((event) -> {
-            /*deleteFeat(feats, featDatabaseErrorText);*/
+            deleteFeat(feats, featDatabaseErrorText);
         });
 
         Label stats = new Label("");
@@ -2579,7 +3138,7 @@ public class Interface extends Application {
             this.generator.deleteFeatFromDb(featToBeDeleted);
             error.setText("");
         } catch (Exception e) {
-            String errorText = "Valitse poistettava background!";
+            String errorText = "Valitse poistettava feat!";
             if (!(e.getMessage() == null)) {
                 errorText += e.getMessage();
             }
@@ -2649,7 +3208,7 @@ public class Interface extends Application {
     }
 
     public void emptyListView(ListView listToEmpty) {
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 14; i++) {
             listToEmpty.getItems().set(i, "");
         }
     }
@@ -2661,7 +3220,7 @@ public class Interface extends Application {
         emptyList.setCellFactory(TextFieldListCell.forListView());
         String tyhja = "";
         ArrayList<String> empties = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 14; i++) {
             empties.add(tyhja);
         }
         emptyList.getItems().addAll(empties);

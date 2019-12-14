@@ -174,7 +174,7 @@ public class SQLClassDatabaseDao implements GeneratorDatabaseDao {
     public void addUncertainProficiencies(RpgClass rpgclass, Connection conn) throws SQLException {
         for (Proficiency prof : rpgclass.getUncertainProfs()) {
             PreparedStatement connectProf = conn.prepareStatement("INSERT "
-                    + "INTO ClassProficiency (racial_id, prof_id, certain) VALUES "
+                    + "INTO ClassProficiency (class_id, prof_id, certain) VALUES "
                     + "(?, ?, ?);");
             connectProf.setInt(1, rpgclass.getId());
             connectProf.setInt(2, prof.getId());
