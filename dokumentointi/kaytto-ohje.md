@@ -51,7 +51,7 @@ Tietokanta-palkista valitsemalla Race, voi tarkastella tietokantataulun 'Race' s
 
 Tietokanta-palkista valitsemalla Proficiency, voi tarkastella tietokantataulun 'Proficiency' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia hahmon taitoja, ja edelleen lisätä tietokaan uusia taitoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia taitoja.
 
-<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/proflisays.png" width="600">
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/proflisays.png" width="200">
 
 1. Uuden taidon nimi.
 2. Uuden taidon tyyppi.
