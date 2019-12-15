@@ -103,7 +103,7 @@ ks. Racial-tietokantataulun muokkaus, minkä lisäksi:
 
 ### Default-tietokanta
 
-Projektin juuressa on kansio "default-database", johon on rakennettu varmuuskopio alustavasti perustietokannasta.
+Projektin juuressa on kansio "default-database", johon on rakennettu varmuuskopio alustavasta perustietokannasta.
 
 -----------------------------------------------------------------------------------------------------------------------------
 
