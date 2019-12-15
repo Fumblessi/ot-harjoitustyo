@@ -45,7 +45,7 @@ Asetuksissa on nyt yläpalkissa menu "Tietokanta", josta painamalla näkee vaiht
 
 Tietokanta-palkista valitsemalla Race, voi tarkastella tietokantataulun 'Race' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia rotuja, ja edelleen lisätä tietokantaan uusia rotuja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia.
 
-<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/raceLisays.png" width="350">
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/raceLisays.png" width="250">
 
 Roduista tietokantaan tallennetaan tällä hetkellä vain niiden nimi. Myöhemmin saatan lisätä rotuun liittyviin tietoihin ulkonäköön liittyviä seikkoja, kuten hahmon pituuden, painon ja iän arpomisen, mihin rotu vaikuttaa.
 
