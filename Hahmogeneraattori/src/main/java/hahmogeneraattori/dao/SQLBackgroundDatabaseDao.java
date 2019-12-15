@@ -57,8 +57,7 @@ public class SQLBackgroundDatabaseDao implements GeneratorDatabaseDao {
 
             this.backgrounds.add(bg);
 
-            addCertainProficiencies(bg, conn);
-            addUncertainProficiencies(bg, conn);
+            addProficiencies(bg, conn);
             
             conn.close();
         }
@@ -149,6 +148,11 @@ public class SQLBackgroundDatabaseDao implements GeneratorDatabaseDao {
         }
         stmt.close();
         return id;
+    }
+    
+    public void addProficiencies(Background bg, Connection conn) throws SQLException {
+        addCertainProficiencies(bg, conn);
+        addUncertainProficiencies(bg, conn);
     }
     
     public void addCertainProficiencies(Background bg, Connection conn) throws SQLException {

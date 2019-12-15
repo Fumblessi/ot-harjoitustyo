@@ -10,10 +10,9 @@ package hahmogeneraattori.dao;
  * @author sampo
  */
 public interface SettingsDao {
-    void setValue(String setting, int value);
-    //asetetaan asetukselle uusi arvo
-    int getValue(String setting);
-    //haetaan tietyn asetuksen arvo
+    void setIntValue(String setting, int value);
+    void setDoubleValue(String setting, double value);
+    int getIntValue(String setting);
+    double getDoubleValue(String setting);
     void update() throws Exception;
-    //päivitetään muutokset tiedostoon
 }

@@ -97,7 +97,7 @@ public class SQLRaceDatabaseDao implements GeneratorDatabaseDao {
     public void initialize() throws SQLException {
         Connection conn = openConnection();
 
-        PreparedStatement stmt= conn.prepareStatement("SELECT * FROM Race");
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Race");
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             Race newRace = new Race(rs.getInt(1), rs.getString(2));

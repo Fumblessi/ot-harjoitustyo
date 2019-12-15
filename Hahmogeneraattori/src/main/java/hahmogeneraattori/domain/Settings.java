@@ -34,7 +34,7 @@ public class Settings {
      * @param pool uusi arvo
      */
     public void setStatPool(int pool) {
-        this.settingsDao.setValue("StatPool", pool);
+        this.settingsDao.setIntValue("StatPool", pool);
     }
     
     /**
@@ -45,7 +45,7 @@ public class Settings {
      * @param min uusi arvo
      */
     public void setStatMin(int min) {
-        this.settingsDao.setValue("StatMin", min);
+        this.settingsDao.setIntValue("StatMin", min);
     }
     
     /**
@@ -56,7 +56,7 @@ public class Settings {
      * @param max uusi arvo
      */
     public void setStatMax(int max) {
-        this.settingsDao.setValue("StatMax", max);
+        this.settingsDao.setIntValue("StatMax", max);
     }
     
     /**
@@ -67,7 +67,7 @@ public class Settings {
      * @param var uusi arvo
      */
     public void setStatVar(int var) {
-        this.settingsDao.setValue("StatVar", var);
+        this.settingsDao.setIntValue("StatVar", var);
     }
     
     /**
@@ -80,10 +80,74 @@ public class Settings {
      */
     public void setRacialBonus(boolean value) {
         if (value) {
-            this.settingsDao.setValue("RacialBonus", 1);
+            this.settingsDao.setIntValue("RacialBonus", 1);
         } else {
-            this.settingsDao.setValue("RacialBonus", 0);
+            this.settingsDao.setIntValue("RacialBonus", 0);
         }
+    }
+    
+    public void setRacialAmount(int amount) {
+        this.settingsDao.setIntValue("RacialAmount", amount);
+    }
+    
+    public void setCommonChance(double value) {
+        this.settingsDao.setDoubleValue("CommonChance", value);
+    }
+    
+    public void setRareChance(double value) {
+        this.settingsDao.setDoubleValue("RareChance", value);
+    }
+    
+    public void setLegendaryChance(double value) {
+        this.settingsDao.setDoubleValue("LegendaryChance", value);
+    }
+    
+    public void setCommonFirstTierChance(double value) {
+        this.settingsDao.setDoubleValue("CommonFTC", value);
+    }
+    
+    public void setCommonSecondTierChance(double value) {
+        this.settingsDao.setDoubleValue("CommonSTC", value);
+    }
+    
+    public void setCommonThirdTierChance(double value) {
+        this.settingsDao.setDoubleValue("CommonTTC", value);
+    }
+    
+    public void setRareFirstTierChance(double value) {
+        this.settingsDao.setDoubleValue("RareFTC", value);
+    }
+    
+    public void setRareSecondTierChance(double value) {
+        this.settingsDao.setDoubleValue("RareSTC", value);
+    }
+    
+    public void setRareThirdTierChance(double value) {
+        this.settingsDao.setDoubleValue("RareTTC", value);
+    }
+    
+    public void setLegendaryFirstTierChance(double value) {
+        this.settingsDao.setDoubleValue("LegendaryFTC", value);
+    }
+    
+    public void setLegendarySecondTierChance(double value) {
+        this.settingsDao.setDoubleValue("LegendarySTC", value);
+    }
+    
+    public void setLegendaryThirdTierChance(double value) {
+        this.settingsDao.setDoubleValue("LegendaryTTC", value);
+    }
+    
+    public void setMotherLanguage(boolean value) {
+        if (value) {
+            this.settingsDao.setIntValue("MotherLanguage", 1);
+        } else {
+            this.settingsDao.setIntValue("MotherLanguage", 0);
+        }
+    }
+    
+    public void setMotherLanguageType(int value) {
+        this.settingsDao.setIntValue("MotherLanguageType", value);
     }
     
     /**
@@ -94,7 +158,7 @@ public class Settings {
      * @return arvo
      */
     public int getStatPool() {
-        return this.settingsDao.getValue("StatPool");
+        return this.settingsDao.getIntValue("StatPool");
     }
     
     /**
@@ -105,7 +169,7 @@ public class Settings {
      * @return arvo
      */
     public int getStatMin() {
-        return this.settingsDao.getValue("StatMin");
+        return this.settingsDao.getIntValue("StatMin");
     }
     
     /**
@@ -116,7 +180,7 @@ public class Settings {
      * @return arvo
      */
     public int getStatMax() {
-        return this.settingsDao.getValue("StatMax");
+        return this.settingsDao.getIntValue("StatMax");
     }
     
     /**
@@ -127,7 +191,7 @@ public class Settings {
      * @return arvo
      */
     public int getStatVar() {
-        return this.settingsDao.getValue("StatVar");
+        return this.settingsDao.getIntValue("StatVar");
     }
     
     /**
@@ -140,12 +204,77 @@ public class Settings {
      * @return arvo
      */
     public boolean getRacialBonus() {
-        int value = this.settingsDao.getValue("RacialBonus");
+        int value = this.settingsDao.getIntValue("RacialBonus");
         
         if (value > 0) {
             return true;
         }
         return false;
+    }
+    
+    public int getRacialAmount() {
+        return this.settingsDao.getIntValue("RacialAmount");
+    }
+    
+    public double getCommonChance() {
+        return this.settingsDao.getDoubleValue("CommonChance");
+    }
+    
+    public double getRareChance() {
+        return this.settingsDao.getDoubleValue("RareChance");
+    }
+    
+    public double getLegendaryChance() {
+        return this.settingsDao.getDoubleValue("LegendaryChance");
+    }
+    
+    public double getCommonFirstTierChance() {
+        return this.settingsDao.getDoubleValue("CommonFTC");
+    }
+    
+    public double getCommonSecondTierChance() {
+        return this.settingsDao.getDoubleValue("CommonSTC");
+    }
+    
+    public double getCommonThirdTierChance() {
+        return this.settingsDao.getDoubleValue("CommonTTC");
+    }
+    
+    public double getRareFirstTierChance() {
+        return this.settingsDao.getDoubleValue("RareFTC");
+    }
+    
+    public double getRareSecondTierChance() {
+        return this.settingsDao.getDoubleValue("RareSTC");
+    }
+    
+    public double getRareThirdTierChance() {
+        return this.settingsDao.getDoubleValue("RareTTC");
+    }
+    
+    public double getLegendaryFirstTierChance() {
+        return this.settingsDao.getDoubleValue("LegendaryFTC");
+    }
+    
+    public double getLegendarySecondTierChance() {
+        return this.settingsDao.getDoubleValue("LegendarySTC");
+    }
+    
+    public double getLegendaryThirdTierChance() {
+        return this.settingsDao.getDoubleValue("LegendaryTTC");
+    }
+    
+    public boolean getMotherLanguage() {
+        int value = this.settingsDao.getIntValue("MotherLanguage");
+        
+        if (value > 0) {
+            return true;
+        }
+        return false;
+    }
+    
+    public int getMotherLanguageType() {
+        return this.settingsDao.getIntValue("MotherLanguageType");
     }
     
     /**

@@ -58,8 +58,7 @@ public class SQLFeatDatabaseDao implements GeneratorDatabaseDao {
 
             this.feats.add(feat);
 
-            addCertainProficiencies(feat, conn);
-            addUncertainProficiencies(feat, conn);
+            addProficiencies(feat, conn);
             
             conn.close();
         }
@@ -87,8 +86,7 @@ public class SQLFeatDatabaseDao implements GeneratorDatabaseDao {
         stmt.close();
 
         deleteFeatProficiencies(feat, conn);
-        addCertainProficiencies(feat, conn);
-        addUncertainProficiencies(feat, conn);
+        addProficiencies(feat, conn);
 
         conn.close();
     }
@@ -153,6 +151,10 @@ public class SQLFeatDatabaseDao implements GeneratorDatabaseDao {
         return id;
     }
     
+    public void addProficiencies(Feat feat, Connection conn) throws SQLException {
+        addCertainProficiencies(feat, conn);
+        addUncertainProficiencies(feat, conn);
+    }
     public void addCertainProficiencies(Feat feat, Connection conn) throws SQLException {
         for (Proficiency prof : feat.getCertainProfs()) {
             PreparedStatement connectProf = conn.prepareStatement("INSERT "

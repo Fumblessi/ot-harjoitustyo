@@ -57,9 +57,7 @@ public class SQLClassDatabaseDao implements GeneratorDatabaseDao {
 
             this.classes.add(rpgclass);
 
-            addCertainProficiencies(rpgclass, conn);
-            addUncertainProficiencies(rpgclass, conn);
-            addSubclasses(rpgclass, conn);
+            addProficienciesAndSubclasses(rpgclass, conn);
 
             conn.close();
         }
@@ -86,11 +84,9 @@ public class SQLClassDatabaseDao implements GeneratorDatabaseDao {
         stmt.close();
 
         deleteClassProficiencies(rpgclass, conn);
-        addCertainProficiencies(rpgclass, conn);
-        addUncertainProficiencies(rpgclass, conn);
-
         deleteSubclasses(rpgclass, conn);
-        addSubclasses(rpgclass, conn);
+        
+        addProficienciesAndSubclasses(rpgclass, conn);
 
         conn.close();
     }
@@ -156,6 +152,12 @@ public class SQLClassDatabaseDao implements GeneratorDatabaseDao {
         }
         stmt.close();
         return id;
+    }
+    
+    public void addProficienciesAndSubclasses(RpgClass rpgclass, Connection conn) throws SQLException {
+        addCertainProficiencies(rpgclass, conn);
+        addUncertainProficiencies(rpgclass, conn);
+        addSubclasses(rpgclass, conn);
     }
 
     public void addCertainProficiencies(RpgClass rpgclass, Connection conn) throws SQLException {

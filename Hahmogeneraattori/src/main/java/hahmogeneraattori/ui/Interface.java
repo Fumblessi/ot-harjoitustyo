@@ -111,7 +111,7 @@ public class Interface extends Application {
         layout.setTop(buttons);
 
         VBox settingsLayout = new VBox();
-        settingsLayout.setPrefSize(600, 400);
+        settingsLayout.setPrefSize(450, 550);
         this.settingsScene = new Scene(settingsLayout);
 
         Button back = new Button("Tallenna ja palaa");
@@ -133,35 +133,240 @@ public class Interface extends Application {
         settingsButtons.getChildren().addAll(back, setDefault, databaseBar);
 
         HBox statPool = new HBox();
-        Label statPoolLabel = new Label("Piirteiden summa:");
+        Label statPoolLabel = new Label("Piirteiden summa: ");
         String initialStatPool = String.valueOf(this.settings.getStatPool());
         TextField statPoolAmount = new TextField(initialStatPool);
+        statPoolAmount.setMaxWidth(80);
         Label statPoolVariance = new Label("Varianssi: +-");
         String initialStatVar = String.valueOf(this.settings.getStatVar());
         TextField statPoolVarAmount = new TextField(initialStatVar);
+        statPoolVarAmount.setMaxWidth(80);
         Label statPoolError = new Label("");
         statPoolError.setTextFill(Color.RED);
         statPool.getChildren().addAll(statPoolLabel, statPoolAmount,
                 statPoolVariance, statPoolVarAmount);
 
         HBox statLimits = new HBox();
-        Label statMinLabel = new Label("Piirreminimi:");
+        Label statMinLabel = new Label("Piirreminimi: ");
         String initialStatMin = String.valueOf(this.settings.getStatMin());
         TextField statMinAmount = new TextField(initialStatMin);
-        Label statMaxLabel = new Label("Piirremaksimi:");
+        statMinAmount.setMaxWidth(80);
+        Label statMaxLabel = new Label("Piirremaksimi: ");
         String initialStatMax = String.valueOf(this.settings.getStatMax());
         TextField statMaxAmount = new TextField(initialStatMax);
+        statMaxAmount.setMaxWidth(80);
         Label statLimitError = new Label("");
         statLimitError.setTextFill(Color.RED);
         statLimits.getChildren().addAll(statMinLabel, statMinAmount,
                 statMaxLabel, statMaxAmount);
 
-        CheckBox racialBonus = new CheckBox("Lisää rotubonukset");
+        CheckBox racialBonus = new CheckBox(" Lisää rotubonukset (+2/+1)");
         racialBonus.setSelected(this.settings.getRacialBonus());
-
+        
+        HBox racialAmountLayout = new HBox();
+        Label racialAmountLabel = new Label("Kuinka monta Racialia arvotaan: ");
+        String initialRacialAmount = String.valueOf(this.settings.getRacialAmount());
+        TextField racialAmount = new TextField(initialRacialAmount);
+        racialAmount.setMaxWidth(40);
+        racialAmountLayout.getChildren().addAll(racialAmountLabel, racialAmount);
+        
+        Label racialAmountError = new Label("");
+        racialAmountError.setTextFill(Color.RED);
+        
+        Label languageChance = new Label("Kielten harvinaisuuksien todennäköisyydet: ");
+        
+        HBox languageChanceOptions = new HBox();
+        
+        VBox commonLayout = new VBox();
+        HBox commonTexts = new HBox();       
+        Label commonChanceLabel = new Label("Common: ");
+        String initialCommonChance = String.valueOf(this.settings.getCommonChance());
+        TextField commonChance = new TextField(initialCommonChance);
+        commonChance.setMaxWidth(80);
+        Label commonChancePercent = new Label("% ");
+        commonTexts.getChildren().addAll(commonChance, commonChancePercent);
+        commonLayout.getChildren().addAll(commonChanceLabel, commonTexts);
+        
+        VBox rareLayout = new VBox();
+        HBox rareTexts = new HBox();
+        Label rareChanceLabel = new Label("Rare: ");
+        String initialRareChance = String.valueOf(this.settings.getRareChance());
+        TextField rareChance = new TextField(initialRareChance);
+        rareChance.setMaxWidth(80);
+        Label rareChancePercent = new Label("% ");
+        rareTexts.getChildren().addAll(rareChance, rareChancePercent);
+        rareLayout.getChildren().addAll(rareChanceLabel, rareTexts);
+        
+        VBox legendaryLayout = new VBox();
+        HBox legendaryTexts = new HBox();
+        Label legendaryChanceLabel = new Label("Legendary: ");
+        String initialLegendaryChance = String.valueOf(this.settings.getLegendaryChance());
+        TextField legendaryChance = new TextField(initialLegendaryChance);
+        legendaryChance.setMaxWidth(80);
+        Label legendaryChancePercent = new Label("% ");
+        legendaryTexts.getChildren().addAll(legendaryChance, legendaryChancePercent);
+        legendaryLayout.getChildren().addAll(legendaryChanceLabel, legendaryTexts);
+        
+        languageChanceOptions.getChildren().addAll(commonLayout, rareLayout, 
+                legendaryLayout);
+        
+        Label languageChanceError = new Label("");
+        languageChanceError.setTextFill(Color.RED);
+        
+        Label languageTierChance = new Label("Kielten osaamistasojen todennäköisyydet: ");
+        Label commonChances = new Label("Common: ");
+        
+        HBox commonTierChanceOptions = new HBox();
+              
+        Label commonFirstTierChanceLabel = new Label("I: ");
+        String initialCommonFirstTierChance = String.valueOf(this.settings.
+                getCommonFirstTierChance());
+        TextField commonFirstTierChance = new TextField(initialCommonFirstTierChance);
+        commonFirstTierChance.setMaxWidth(80);
+        Label commonFirstTierChancePercent = new Label("% ");
+        
+        Label commonSecondTierChanceLabel = new Label("II: ");
+        String initialCommonSecondTierChance = String.valueOf(this.settings.
+                getCommonSecondTierChance());
+        TextField commonSecondTierChance = new TextField(initialCommonSecondTierChance);
+        commonSecondTierChance.setMaxWidth(80);
+        Label commonSecondTierChancePercent = new Label("% ");
+        
+        Label commonThirdTierChanceLabel = new Label("III: ");
+        String initialCommonThirdTierChance = String.valueOf(this.settings.
+                getCommonThirdTierChance());
+        TextField commonThirdTierChance = new TextField(initialCommonThirdTierChance);
+        commonThirdTierChance.setMaxWidth(80);
+        Label commonThirdTierChancePercent = new Label("% ");
+        
+        commonTierChanceOptions.getChildren().addAll(commonFirstTierChanceLabel, 
+                commonFirstTierChance, commonFirstTierChancePercent, 
+                commonSecondTierChanceLabel, commonSecondTierChance, 
+                commonSecondTierChancePercent, commonThirdTierChanceLabel, 
+                commonThirdTierChance, commonThirdTierChancePercent);
+        
+        Label commonTierChanceError = new Label("");
+        commonTierChanceError.setTextFill(Color.RED);
+        
+        Label rareChances = new Label("Rare: ");
+        
+        HBox rareTierChanceOptions = new HBox();
+              
+        Label rareFirstTierChanceLabel = new Label("I: ");
+        String initialRareFirstTierChance = String.valueOf(this.settings.
+                getRareFirstTierChance());
+        TextField rareFirstTierChance = new TextField(initialRareFirstTierChance);
+        rareFirstTierChance.setMaxWidth(80);
+        Label rareFirstTierChancePercent = new Label("% ");
+        
+        Label rareSecondTierChanceLabel = new Label("II: ");
+        String initialRareSecondTierChance = String.valueOf(this.settings.
+                getRareSecondTierChance());
+        TextField rareSecondTierChance = new TextField(initialRareSecondTierChance);
+        rareSecondTierChance.setMaxWidth(80);
+        Label rareSecondTierChancePercent = new Label("% ");
+        
+        Label rareThirdTierChanceLabel = new Label("III: ");
+        String initialRareThirdTierChance = String.valueOf(this.settings.
+                getRareThirdTierChance());
+        TextField rareThirdTierChance = new TextField(initialRareThirdTierChance);
+        rareThirdTierChance.setMaxWidth(80);
+        Label rareThirdTierChancePercent = new Label("% ");
+        
+        rareTierChanceOptions.getChildren().addAll(rareFirstTierChanceLabel, 
+                rareFirstTierChance, rareFirstTierChancePercent, 
+                rareSecondTierChanceLabel, rareSecondTierChance, 
+                rareSecondTierChancePercent, rareThirdTierChanceLabel, 
+                rareThirdTierChance, rareThirdTierChancePercent);
+        
+        Label rareTierChanceError = new Label("");
+        rareTierChanceError.setTextFill(Color.RED);
+        
+        Label legendaryChances = new Label("Legendary: ");
+        
+        HBox legendaryTierChanceOptions = new HBox();
+              
+        Label legendaryFirstTierChanceLabel = new Label("I: ");
+        String initialLegendaryFirstTierChance = String.valueOf(this.settings.
+                getLegendaryFirstTierChance());
+        TextField legendaryFirstTierChance = new TextField(initialLegendaryFirstTierChance);
+        legendaryFirstTierChance.setMaxWidth(80);
+        Label legendaryFirstTierChancePercent = new Label("% ");
+        
+        Label legendarySecondTierChanceLabel = new Label("II: ");
+        String initialLegendarySecondTierChance = String.valueOf(this.settings.
+                getLegendarySecondTierChance());
+        TextField legendarySecondTierChance = new TextField(initialLegendarySecondTierChance);
+        legendarySecondTierChance.setMaxWidth(80);
+        Label legendarySecondTierChancePercent = new Label("% ");
+        
+        Label legendaryThirdTierChanceLabel = new Label("III: ");
+        String initialLegendaryThirdTierChance = String.valueOf(this.settings.
+                getLegendaryThirdTierChance());
+        TextField legendaryThirdTierChance = new TextField(initialLegendaryThirdTierChance);
+        legendaryThirdTierChance.setMaxWidth(80);
+        Label legendaryThirdTierChancePercent = new Label("% ");
+        
+        legendaryTierChanceOptions.getChildren().addAll(legendaryFirstTierChanceLabel, 
+                legendaryFirstTierChance, legendaryFirstTierChancePercent, 
+                legendarySecondTierChanceLabel, legendarySecondTierChance, 
+                legendarySecondTierChancePercent, legendaryThirdTierChanceLabel, 
+                legendaryThirdTierChance, legendaryThirdTierChancePercent);
+        
+        Label legendaryTierChanceError = new Label("");
+        legendaryTierChanceError.setTextFill(Color.RED);
+        
+        Label motherLanguageLabel = new Label("Äidinkieli: ");
+        
+        HBox motherLanguageLayout = new HBox();
+        
+        CheckBox motherLanguage = new CheckBox(" Pakota yksi tason III kielitaito: ");
+        motherLanguage.setSelected(this.settings.getMotherLanguage());
+        
+        VBox motherLanguageOptions = new VBox();
+        ToggleGroup motherLanguageGroup = new ToggleGroup();
+        RadioButton argan = new RadioButton(" Argan");
+        argan.setToggleGroup(motherLanguageGroup);
+        RadioButton anyCommon = new RadioButton(" Mikä vain Common-kieli");
+        anyCommon.setToggleGroup(motherLanguageGroup);
+        RadioButton anyLang = new RadioButton(" Mikä vain kieli");
+        anyLang.setToggleGroup(motherLanguageGroup);
+        motherLanguageOptions.getChildren().addAll(argan, anyCommon, anyLang);
+        
+        int initialMotherLanguageType = this.settings.getMotherLanguageType();
+        
+        if (initialMotherLanguageType == 3) {
+            anyLang.setSelected(true);
+        } else if (initialMotherLanguageType == 2) {
+            anyCommon.setSelected(true);
+        } else {
+            argan.setSelected(true);
+        }
+        
+        motherLanguageLayout.getChildren().add(motherLanguage);
+        
+        if (motherLanguage.isSelected()) {
+            motherLanguageLayout.getChildren().add(motherLanguageOptions);
+        }
+        
+        motherLanguage.setOnAction((event) -> {
+            if (motherLanguage.isSelected()) {
+                motherLanguageLayout.getChildren().add(motherLanguageOptions);
+            } else {
+                motherLanguageLayout.getChildren().remove(motherLanguageOptions);
+            }
+        });
+        
+        
         settingsButton.setOnAction((event) -> {
             settingsLayout.getChildren().addAll(settingsButtons, statPool, statPoolError,
-                    statLimits, statLimitError, racialBonus);
+                    statLimits, statLimitError, racialBonus, racialAmountLayout, 
+                    racialAmountError, languageChance, languageChanceOptions, 
+                    languageChanceError, languageTierChance, commonChances, 
+                    commonTierChanceOptions, commonTierChanceError, rareChances, 
+                    rareTierChanceOptions, rareTierChanceError, legendaryChances, 
+                    legendaryTierChanceOptions, legendaryTierChanceError, 
+                    motherLanguageLabel, motherLanguageLayout);
             this.primaryWindow.setScene(this.settingsScene);
         });
 
@@ -169,18 +374,73 @@ public class Interface extends Application {
 
             statPoolError.setText("");
             statLimitError.setText("");
+            racialAmountError.setText("");
+            languageChanceError.setText("");
+            commonTierChanceError.setText("");
+            rareTierChanceError.setText("");
+            legendaryTierChanceError.setText("");
 
             if (!isInteger(statPoolAmount.getText())
                     || !isInteger(statPoolVarAmount.getText())
                     || !isInteger(statMinAmount.getText())
-                    || !isInteger(statMaxAmount.getText())) {
+                    || !isInteger(statMaxAmount.getText())
+                    || !isInteger(racialAmount.getText())
+                    || !isDouble(commonChance.getText())
+                    || !isDouble(rareChance.getText())
+                    || !isDouble(legendaryChance.getText())
+                    || !isDouble(commonFirstTierChance.getText())
+                    || !isDouble(commonSecondTierChance.getText())
+                    || !isDouble(commonThirdTierChance.getText())
+                    || !isDouble(rareFirstTierChance.getText())
+                    || !isDouble(rareSecondTierChance.getText())
+                    || !isDouble(rareThirdTierChance.getText())
+                    || !isDouble(legendaryFirstTierChance.getText())
+                    || !isDouble(legendarySecondTierChance.getText())
+                    || !isDouble(legendaryThirdTierChance.getText())) {
                 if (!isInteger(statPoolAmount.getText())
                         || !isInteger(statPoolVarAmount.getText())) {
                     statPoolError.setText("Kirjoita syöte kokonaislukuna!");
+                } else {
+                    statPoolError.setText("");
                 }
                 if (!isInteger(statMinAmount.getText())
                         || !isInteger(statMaxAmount.getText())) {
-                    statLimitError.setText("Kirjoita syötä kokonaislukuna!");
+                    statLimitError.setText("Kirjoita syöte kokonaislukuna!");
+                } else {
+                    statLimitError.setText("");
+                }
+                if (!isInteger(racialAmount.getText())) {
+                    racialAmountError.setText("Kirjoita syöte kokonaislukuna!");
+                } else {
+                    racialAmountError.setText("");
+                }
+                if (!isDouble(commonChance.getText()) 
+                    || !isDouble(rareChance.getText())
+                    || !isDouble(legendaryChance.getText())) {
+                    languageChanceError.setText("Kirjoita syötteet lukuina!");
+                } else {
+                    languageChanceError.setText("");
+                }
+                if (!isDouble(commonFirstTierChance.getText()) 
+                        || !isDouble(commonSecondTierChance.getText())
+                        || !isDouble(commonThirdTierChance.getText())) {
+                    commonTierChanceError.setText("Kirjoita syötteet lukuina!");    
+                } else {
+                    commonTierChanceError.setText("");
+                }
+                if (!isDouble(rareFirstTierChance.getText())
+                        || !isDouble(rareSecondTierChance.getText())
+                        || !isDouble(rareThirdTierChance.getText())) {
+                    rareTierChanceError.setText("Kirjoita syötteet lukuina!");
+                } else {
+                    rareTierChanceError.setText("");
+                }
+                if (!isDouble(legendaryFirstTierChance.getText())
+                        || !isDouble(legendarySecondTierChance.getText())
+                        || !isDouble(legendaryThirdTierChance.getText())) {
+                    legendaryTierChanceError.setText("Kirjoita syötteet lukuina!");
+                } else {
+                    legendaryTierChanceError.setText("");
                 }
             } else {
                 int newStatPool = Integer.parseInt(statPoolAmount.getText());
@@ -188,13 +448,56 @@ public class Interface extends Application {
                 int newStatMin = Integer.parseInt(statMinAmount.getText());
                 int newStatMax = Integer.parseInt(statMaxAmount.getText());
                 boolean newRacialBonus = racialBonus.isSelected();
-
+                int newRacialAmount = Integer.parseInt(racialAmount.getText());
+                double newCommonChance = Double.parseDouble(commonChance.getText());
+                double newRareChance = Double.parseDouble(rareChance.getText());
+                double newLegendaryChance = Double.parseDouble(legendaryChance.getText());
+                double newCommonFtc = Double.parseDouble(commonFirstTierChance.getText());
+                double newCommonStc = Double.parseDouble(commonSecondTierChance.getText());
+                double newCommonTtc = Double.parseDouble(commonThirdTierChance.getText());
+                double newRareFtc = Double.parseDouble(rareFirstTierChance.getText());
+                double newRareStc = Double.parseDouble(rareSecondTierChance.getText());
+                double newRareTtc = Double.parseDouble(rareThirdTierChance.getText());
+                double newLegendaryFtc = Double.parseDouble(legendaryFirstTierChance.getText());
+                double newLegendaryStc = Double.parseDouble(legendarySecondTierChance.getText());
+                double newLegendaryTtc = Double.parseDouble(legendaryThirdTierChance.getText());
+                boolean newMotherLanguage = motherLanguage.isSelected();
+                int newMotherLanguageType = 0;
+                if (newMotherLanguage) {
+                    if (argan.isSelected()) {
+                        newMotherLanguageType = 1;
+                    } else if (anyCommon.isSelected()) {
+                        newMotherLanguageType = 2;
+                    } else if (anyLang.isSelected()) {
+                        newMotherLanguageType = 3;
+                    }
+                }
                 if (newStatPool < 0 || newStatPool > 100 || newStatMin < 0
                         || newStatMin > newStatMax || 6 * newStatMin
                         > (newStatPool - newStatVar) || 6 * newStatMax
-                        < (newStatPool + newStatVar) || newStatVar < 0) {
+                        < (newStatPool + newStatVar) || newStatVar < 0 || 
+                        newRacialAmount < 0 || newCommonChance < 0 || 
+                        newCommonChance > 100 || newRareChance < 0 || 
+                        newRareChance > 100 || newLegendaryChance < 0 || 
+                        newLegendaryChance > 100 || (newCommonChance + 
+                        newRareChance + newLegendaryChance != 100.0) || 
+                        newCommonFtc < 0 || newCommonFtc > 100 || 
+                        newCommonStc < 0 || newCommonStc > 100 || 
+                        newCommonTtc < 0 || newCommonTtc > 100 || 
+                        (newCommonFtc + newCommonStc + newCommonTtc != 100.0) || 
+                        newRareFtc < 0 || newRareFtc > 100 || 
+                        newRareStc < 0 || newRareStc > 100 || 
+                        newRareTtc < 0 || newRareTtc > 100 || 
+                        (newRareFtc + newRareStc + newRareTtc != 100.0) || 
+                        newLegendaryFtc < 0 || newLegendaryFtc > 100 || 
+                        newLegendaryStc < 0 || newLegendaryStc > 100 || 
+                        newLegendaryTtc < 0 || newLegendaryTtc > 100 || 
+                        (newLegendaryFtc + newLegendaryStc + newLegendaryTtc != 
+                        100.0)) {
                     if (newStatPool < 0 || newStatPool > 100 || newStatVar < 0) {
                         statPoolError.setText("Valitse arvo väliltä 0-100!");
+                    } else {
+                        statPoolError.setText("");
                     }
                     if (newStatMin < 0 || newStatMax < 0) {
                         statLimitError.setText("Valitse epänegatiiviset arvot!");
@@ -202,6 +505,81 @@ public class Interface extends Application {
                             || 6 * newStatMin > (newStatPool - newStatVar)
                             || 6 * newStatMax < (newStatPool + newStatVar)) {
                         statLimitError.setText("Mahdottomat rajat!");
+                    } else {
+                        statLimitError.setText("");
+                    }
+                    if (newRacialAmount < 0) {
+                        racialAmountError.setText("Valitse epänegatiivinen arvo!");
+                    } else {
+                        racialAmountError.setText("");
+                    }
+                    if (newCommonChance < 0 || newCommonChance > 100 || 
+                            newRareChance < 0 || newRareChance > 100 || 
+                            newLegendaryChance < 0 || newLegendaryChance > 100 || 
+                            (newCommonChance + newRareChance + 
+                            newLegendaryChance != 100)) {
+                        if (newCommonChance < 0 || newCommonChance > 100 || 
+                            newRareChance < 0 || newRareChance > 100 || 
+                            newLegendaryChance < 0 || newLegendaryChance > 100) {
+                            languageChanceError.setText("Valitse arvot väliltä 0.0-100.0!");
+                        } 
+                        if (newCommonChance + newRareChance + newLegendaryChance != 100) {
+                            languageChanceError.setText("Todennäköisyyksien summan pitää olla 100.0%!");
+                        }
+                        
+                    } else {
+                        languageChanceError.setText("");
+                    }
+                    if (newCommonFtc < 0 || newCommonFtc > 100 || 
+                            newCommonStc < 0 || newCommonStc > 100 || 
+                            newCommonTtc < 0 || newCommonTtc > 100 || 
+                            (newCommonFtc + newCommonStc + 
+                            newCommonTtc != 100)) {
+                        if (newCommonFtc < 0 || newCommonFtc > 100 || 
+                            newCommonStc < 0 || newCommonStc > 100 || 
+                            newCommonTtc < 0 || newCommonTtc > 100) {
+                            commonTierChanceError.setText("Valitse arvot väliltä 0.0-100.0!");
+                        } 
+                        if (newCommonFtc+ newCommonStc + newCommonFtc != 100) {
+                            commonTierChanceError.setText("Todennäköisyyksien summan pitää olla 100.0%!");
+                        }
+                        
+                    } else {
+                        commonTierChanceError.setText("");
+                    }
+                    if (newRareFtc < 0 || newRareFtc > 100 || 
+                            newRareStc < 0 || newRareStc > 100 || 
+                            newRareTtc < 0 || newRareTtc > 100 || 
+                            (newRareFtc + newRareStc + 
+                            newRareTtc != 100)) {
+                        if (newRareFtc < 0 || newRareFtc > 100 || 
+                            newRareStc < 0 || newRareStc > 100 || 
+                            newRareTtc < 0 || newRareTtc > 100) {
+                            rareTierChanceError.setText("Valitse arvot väliltä 0.0-100.0!");
+                        } 
+                        if (newRareFtc+ newRareStc + newRareFtc != 100) {
+                            rareTierChanceError.setText("Todennäköisyyksien summan pitää olla 100.0%!");
+                        }
+                        
+                    } else {
+                        rareTierChanceError.setText("");
+                    }
+                    if (newLegendaryFtc < 0 || newLegendaryFtc > 100 || 
+                            newLegendaryStc < 0 || newLegendaryStc > 100 || 
+                            newLegendaryTtc < 0 || newLegendaryTtc > 100 || 
+                            (newLegendaryFtc + newLegendaryStc + 
+                            newLegendaryTtc != 100)) {
+                        if (newLegendaryFtc < 0 || newLegendaryFtc > 100 || 
+                            newLegendaryStc < 0 || newLegendaryStc > 100 || 
+                            newLegendaryTtc < 0 || newLegendaryTtc > 100) {
+                            legendaryTierChanceError.setText("Valitse arvot väliltä 0.0-100.0!");
+                        } 
+                        if (newLegendaryFtc+ newLegendaryStc + newLegendaryFtc != 100) {
+                            legendaryTierChanceError.setText("Todennäköisyyksien summan pitää olla 100.0%!");
+                        }
+                        
+                    } else {
+                        legendaryTierChanceError.setText("");
                     }
                 } else {
                     this.settings.setStatPool(newStatPool);
@@ -209,6 +587,21 @@ public class Interface extends Application {
                     this.settings.setStatMin(newStatMin);
                     this.settings.setStatMax(newStatMax);
                     this.settings.setRacialBonus(newRacialBonus);
+                    this.settings.setRacialAmount(newRacialAmount);
+                    this.settings.setCommonChance(newCommonChance);
+                    this.settings.setRareChance(newRareChance);
+                    this.settings.setLegendaryChance(newLegendaryChance);
+                    this.settings.setCommonFirstTierChance(newCommonFtc);
+                    this.settings.setCommonSecondTierChance(newCommonStc);
+                    this.settings.setCommonThirdTierChance(newCommonTtc);
+                    this.settings.setRareFirstTierChance(newRareFtc);
+                    this.settings.setRareSecondTierChance(newRareStc);
+                    this.settings.setRareThirdTierChance(newRareTtc);
+                    this.settings.setLegendaryFirstTierChance(newLegendaryFtc);
+                    this.settings.setLegendarySecondTierChance(newLegendaryStc);
+                    this.settings.setLegendaryThirdTierChance(newLegendaryTtc);
+                    this.settings.setMotherLanguage(newMotherLanguage);
+                    this.settings.setMotherLanguageType(newMotherLanguageType);
                     settingsLayout.getChildren().clear();
                     this.databaseWindow.close();
                     this.primaryWindow.setScene(this.startScene);
@@ -217,11 +610,38 @@ public class Interface extends Application {
         });
 
         setDefault.setOnAction((event) -> {
+            statPoolError.setText("");
+            statLimitError.setText("");
+            racialAmountError.setText("");
+            languageChanceError.setText("");
+            commonTierChanceError.setText("");
+            rareTierChanceError.setText("");
+            legendaryTierChanceError.setText("");
             statPoolAmount.setText("70");
             statPoolVarAmount.setText("5");
             statMinAmount.setText("8");
             statMaxAmount.setText("18");
             racialBonus.setSelected(true);
+            racialAmount.setText("4");
+            commonChance.setText("65.0");
+            rareChance.setText("34.9");
+            legendaryChance.setText("0.1");
+            commonFirstTierChance.setText("50.0");
+            commonSecondTierChance.setText("35.0");
+            commonThirdTierChance.setText("15.0");
+            rareFirstTierChance.setText("75.0");
+            rareSecondTierChance.setText("20.0");
+            rareThirdTierChance.setText("5.0");
+            legendaryFirstTierChance.setText("100.0");
+            legendarySecondTierChance.setText("0.0");
+            legendaryThirdTierChance.setText("0.0");
+            if (motherLanguage.isSelected()) {
+                argan.setSelected(true);
+            } else {
+                motherLanguage.setSelected(true);
+                motherLanguageLayout.getChildren().add(motherLanguageOptions);
+                argan.setSelected(true);
+            }            
         });
 
         this.databaseWindow = new Stage();
@@ -3231,6 +3651,15 @@ public class Interface extends Application {
     public boolean isInteger(String input) {
         try {
             Integer.parseInt(input);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    public boolean isDouble(String input) {
+        try {
+            Double.parseDouble(input);
             return true;
         } catch (Exception e) {
             return false;
