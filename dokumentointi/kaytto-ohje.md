@@ -8,7 +8,7 @@ Dungeons and Dragons on suosittu roolipeli, johon generaattorin on tarkoitus teh
 
 Koska hahmonluontiin kuluu mittavasti aikaa, peliporukassamme on aika ajoin esiintynyt tarve pystyä nopeasti laittamaan peli kasaan ja pelaamaan yhden päivän/illan mittainen rento sessio, johon hahmogeneraattorille on ollut kysyntää. Tämä on motivaatio projektityöni taustalla, ja luultavasti jatkan projektin kehittämistä Ohjelmistotekniikka-kurssin jälkeenkin.
 
-## Termipankki
+### Termipankki
 
 Erilaisia D&D-peliin liittyviä termejä, joita ohjelmassani ja dokumenteissani käytän, olen listannut ja suomentanut [tänne](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/termisto.md).
 
