@@ -43,35 +43,61 @@ Asetuksissa on nyt yläpalkissa menu "Tietokanta", josta painamalla näkee vaiht
 
 ### Race-tietokantataulun muokkaus
 
-Tietokanta-palkista valitsemalla Race, voi tarkastella tietokantataulun 'Race' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia rotuja, ja edelleen lisätä tietokantaan uusia rotuja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia. Rotujen muokkaus ja lisäys on helppoa, sillä niistä ei tallenneta kuin nimet, koska generaattorini jakaa rotuominaisuudet erikseen Racial-tietokantataulun pohjalta.
+Tietokanta-palkista valitsemalla Race, voi tarkastella tietokantataulun 'Race' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia rotuja, ja edelleen lisätä tietokantaan uusia rotuja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia.
+
+
 
 ### Proficiency-tietokantataulun muokkaus
 
-Tietokanta-palkista valitsemalla Proficiency, voi tarkastella tietokantataulun 'Proficiency' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia hahmon taitoja, ja edelleen lisätä tietokaan uusia taitoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia taitoja. Taitoihin liittyy aina kategoria, joka on joko Skill, Armor, Weapon, Tool, Language tai Save, ja osaan näistä kategorioista vielä eri alakategorioita.
+Tietokanta-palkista valitsemalla Proficiency, voi tarkastella tietokantataulun 'Proficiency' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia hahmon taitoja, ja edelleen lisätä tietokaan uusia taitoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia taitoja.
+
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/proflisays.png" width="600">
+
+1. Uuden taidon nimi.
+2. Uuden taidon tyyppi.
+3. Riippuen taidon tyypistä, taidolla saattaa olla myös alityyppejä.
+4. "Lisää" lisää uuden taidon tietokantaan, "Takaisin" palaa proficiency-tietokantanäkymään.
 
 ### Racial-tietokantataulun muokkaus
 
 Tietokanta-palkista valitsemalla Proficiency, voi tarkastella tietokantataulun 'Racial' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia hahmon rotuominaisuuksia, ja edelleen lisätä tietokantaan uusia ominaisuuksia tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia.
 
-Racialien sisällä on paljon varianssia. Osa niistä antaa varmasti joitain taitoja, osa epävarmasti, jolloin taidot pitää arpoa. Lisäksi taitoja voi tulla eri kategorioista, siksi rotuominaisuuksien lisäämis- ja muokkausikkunat ovat varsin monimutkaisia. Lisäksi racialit voivat antaa erityistaidon tai vaikuttaa hahmon piirteisiin.
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/racialLisays.png" width="600">
+
+1. Uuden rotuominaisuuden nimi.
+2. Jos rotuominaisuus vaikuttaa hahmon piirteisiin, tähän kirjataan määrä. Voi olla negatiivinen tai positiivinen kokonaisluku.
+3. Jos rotuominaisuus antaa varmasti hahmolle joitain taitoja, valitse ne ensimmäisestä listasta
+4. Jos rotuominaisuus normaalisti antaisi pelaajan valita tietyistä vaihtoehtoisista taidosta tietyt, kirjaa kuinka monta pelaaja saisi valita ja valitse listasta, mistä vaihtoehdoista. Generaattori osaa sitten "arpoa" tämän valitsemin.
+5. Jos rotuominaisuus antaa hahmolle uusia kieliä, kirjaa tähän määrä.
+6. Jos rotuominaisuus antaa valinnaisia tietystä kategoriasta, kirjaa tähän montako, ja valitse alta mistä kategoriasta.
+7. Jos rotuominaisuus antaa hahmolle erityistaidon (feat), ruksaa tämä boksi.
+8. Painike "Lisää" lisää uuden rotuominaisuuden tietokantaan, painike "Takaisin" palaa Racial-tietokantanäkymään.
 
 ### Class-tietokantataulun muokkaus
 
 Tietokanta-palkista valitsemalla Class, voi tarkastella tietokantataulun 'Class' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia hahmon hahmoluokkia, ja edelleen lisätä tietokantaan uusia hahmoluokkia tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia.
 
-Classien sisällä on paljon varianssia. Osa niistä antaa varmasti joitain taitoja, osa epävarmasti, jolloin taidot pitää arpoa. Lisäksi taitoja voi tulla eri kategorioista, siksi hahmoluokkien lisäämis- ja muokkausikkunat ovat varsin monimutkaisia. Lisäksi hahmoluokkiin liittyy aina hahmojen aliluokkia.
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/classLisays.png" width="600">
+
+1. ks. Racial-tietokannan muokkaus (hahmoluokan taitojen antaminen toimii samalla tavalla, mutta hahmoluokka ei voi antaa hahmolle erityistaitoa tai vaikuttaa hahmon piirteisiin)
+2. Hahmoluokkaan liittyy erilaisia aliluokkia, jotka listataan tähän.
 
 ### Background-tietokantataulun muokkaus
 
 Tietokanta-palkista valitsemalla Background, voi tarkastella tietokantataulun 'Background' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia hahmon taustoja, ja edelleen lisätä tietokantaan uusia taustoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia.
 
-Taustojen sisällä on paljon varianssia. Osa niistä antaa varmasti joitain taitoja, osa epävarmasti, jolloin taidot pitää arpoa. Lisäksi taitoja voi tulla eri kategorioista, siksi taustojen lisäämis- ja muokkausikkunat ovat varsin monimutkaisia.
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/bgLisays.png" width="600">
+
+ks. Racial-tietokantataulun muokkaus (taustan taitojen antaminen toimii samalla tavalla, mutta tausta ei voi antaa hahmolle erityistaitoa tai vaikuttaa hahmon piirteisiin)
 
 ### Feat-tietokantataulun muokkaus
 
 Tietokanta-palkista valitsemalla Feat, voi tarkastella tietokantataulun 'Feat' sisältöä, eli generoinnissa mukana olevia vaihtoehtoisia hahmojen erityistaitoja (joita hahmolla voi olla, muttei välttämättä ole), ja edelleen lisätä tietokantaan uusia erityistaitoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia.
 
-Erityistaitojen sisällä on paljon varianssia. Osa niistä antaa varmasti taitoja, osa epävarmasti, jolloin taidot pitää arpoa. Lisäksi taitoja voi tulla eri kategorioista, siksi erityistaitojen lisäämis- ja muokkausikkunat ovat varsin monimutkaisia. Lisäksi erityistaidot saattavat antaa joitakin piirteitä.
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/featLisays.png" width="600">
+
+ks. Racial-tietokantataulun muokkaus, minkä lisäksi:
+1. Erityistaito saattaa antaa hahmolle +1 johonkin piirteeseen. Valitse ruksaamalla ne piirteet, joihin tuo +1 voisi tulla.
 
 ### Default-tietokanta
 
