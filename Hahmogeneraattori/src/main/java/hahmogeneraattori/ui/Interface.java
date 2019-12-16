@@ -11,9 +11,12 @@ import javafx.stage.Modality;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -46,7 +49,7 @@ public class Interface extends Application {
 
     private Settings settings;
     private GeneratorDatabaseDao generatorDatabaseDao;
-    private Generator generator;
+    private GeneratorService generator;
 
     private Stage primaryWindow;
     private Stage databaseWindow;
@@ -89,7 +92,7 @@ public class Interface extends Application {
         this.generatorDatabaseDao = new SQLGeneratorDatabaseDao(connectionPath,
                 username, password);
         this.settings = new Settings(settingsDao);
-        this.generator = new Generator(this.settings, this.generatorDatabaseDao);
+        this.generator = new GeneratorService(this.settings, this.generatorDatabaseDao);
 
         //this.generator.initializeDatabase();
         //alusta tarvittaessa tietokanta
@@ -109,9 +112,13 @@ public class Interface extends Application {
         buttons.getChildren().addAll(generate, settingsButton);
         layout.setTop(buttons);
 
+        VBox settingsScreen = new VBox();
         VBox settingsLayout = new VBox();
-        settingsLayout.setPrefSize(460, 560);
-        this.settingsScene = new Scene(settingsLayout);
+        settingsLayout.setPrefSize(560, 460);
+        ScrollPane settingsPane = new ScrollPane();
+        settingsPane.setContent(settingsLayout);
+        settingsPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+        settingsPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 
         Button back = new Button("Tallenna ja palaa");
         Button setDefault = new Button("Palauta alkuperäiset");
@@ -130,7 +137,11 @@ public class Interface extends Application {
 
         HBox settingsButtons = new HBox();
         settingsButtons.getChildren().addAll(back, setDefault, databaseBar);
+        settingsScreen.getChildren().addAll(settingsButtons, settingsPane);
+        this.settingsScene = new Scene(settingsScreen);
 
+        Label statLabel = new Label("Piirteet: ");
+        
         HBox statPool = new HBox();
         Label statPoolLabel = new Label("Piirteiden summa: ");
         String initialStatPool = String.valueOf(this.settings.getStatPool());
@@ -159,6 +170,7 @@ public class Interface extends Application {
         statLimits.getChildren().addAll(statMinLabel, statMinAmount,
                 statMaxLabel, statMaxAmount);
 
+        Label raceLabel = new Label("Rotu:");
         CheckBox racialBonus = new CheckBox(" Lisää rotubonukset (+2/+1) satunnaisesti");
         racialBonus.setSelected(this.settings.getRacialBonus());
         
@@ -171,6 +183,80 @@ public class Interface extends Application {
         
         Label racialAmountError = new Label("");
         racialAmountError.setTextFill(Color.RED);
+        
+        Label bgLabel = new Label("Background:");
+        
+        HBox bgSkills = new HBox();
+        Label bgSkillsLabel = new Label("Kuinka monta skilliä background antaa: ");
+        String initialBgSkillsAmount = String.valueOf(this.settings.getBgSkillsAmount());
+        TextField bgSkillsText = new TextField(initialBgSkillsAmount);
+        bgSkillsText.setMaxWidth(40);
+        bgSkills.getChildren().addAll(bgSkillsLabel, bgSkillsText);
+        Label bgSkillsError = new Label("");
+        bgSkillsError.setTextFill(Color.RED);
+        
+        HBox bgOtherProfs = new HBox();
+        Label bgOtherProfsLabel = new Label("Kuinka monta muuta proficiencyä "
+                + "background antaa: ");
+        String initialBgOtherProfsAmount = String.valueOf(this.settings.
+                getBgOtherAmount());
+        TextField bgOtherProfsText = new TextField(initialBgOtherProfsAmount);
+        bgOtherProfsText.setMaxWidth(40);
+        bgOtherProfs.getChildren().addAll(bgOtherProfsLabel, bgOtherProfsText);
+        Label bgOtherProfsError = new Label("");
+        bgOtherProfsError.setTextFill(Color.RED);
+        
+        Label bgToolOrLangLabel = new Label("Tool- vs. Kieli-proficiency painotus: ");
+                
+        HBox bgToolOrLang = new HBox();
+        Label bgToolChanceLabel = new Label("Tool: ");
+        String initialBgToolChance = String.valueOf(this.settings.getBgToolChance());
+        TextField bgToolChance = new TextField(initialBgToolChance);
+        bgToolChance.setMaxWidth(80);
+        Label bgLangChanceLabel = new Label("Kieli: ");
+        String initialBgLangChance = String.valueOf(this.settings.getBgLangChance());
+        TextField bgLangChance = new TextField(initialBgLangChance);
+        bgLangChance.setMaxWidth(80);
+        bgToolOrLang.getChildren().addAll(bgToolChanceLabel, bgToolChance, 
+                bgLangChanceLabel, bgLangChance);
+        Label bgToolOrLangError = new Label("");
+        bgToolOrLangError.setTextFill(Color.RED);
+        
+        Label bgToolSubtypeLabel = new Label("Toolien alityyppien painotus: ");
+        
+        HBox bgToolSubtype = new HBox();
+        Label bgArtisanChanceLabel = new Label("Artisan/Other: ");
+        String initialBgArtisanChance = String.valueOf(this.settings.
+                getBgArtisanChance());
+        TextField bgArtisanChance = new TextField(initialBgArtisanChance);
+        bgArtisanChance.setMaxWidth(80);
+        Label bgGamingSetChanceLabel = new Label("Gaming Set: ");
+        String initialBgGamingSetChance = String.valueOf(this.settings.
+                getBgGamingSetChance());
+        TextField bgGamingSetChance = new TextField(initialBgGamingSetChance);
+        bgGamingSetChance.setMaxWidth(80);
+        Label bgInstrumentChanceLabel = new Label("Instrument: ");
+        String initialBgInstrumentChance = String.valueOf(this.settings.
+                getBgInstrumentChance());
+        TextField bgInstrumentChance = new TextField(initialBgInstrumentChance);
+        bgInstrumentChance.setMaxWidth(80);
+        bgToolSubtype.getChildren().addAll(bgArtisanChanceLabel, bgArtisanChance, 
+                bgGamingSetChanceLabel, bgGamingSetChance, bgInstrumentChanceLabel, 
+                bgInstrumentChance);
+        
+        Label bgToolSubtypeError = new Label("");
+        bgToolSubtypeError.setTextFill(Color.RED);
+        
+        HBox languageAmountLayout = new HBox();
+        Label languageAmountLabel = new Label("Kuinka monta kieltä hahmo "
+                + "pohjimmiltaan osaa: ");
+        String initialLanguageAmount = String.valueOf(this.settings.getLanguageAmount());
+        TextField languageAmount = new TextField(initialLanguageAmount);
+        languageAmount.setMaxWidth(40);
+        languageAmountLayout.getChildren().addAll(languageAmountLabel, languageAmount);
+        
+        Label languageAmountError = new Label("");
+        languageAmountError.setTextFill(Color.RED);
         
         Label languageChance = new Label("Kielten harvinaisuuksien todennäköisyydet: ");
         
@@ -391,14 +477,20 @@ public class Interface extends Application {
         
         
         settingsButton.setOnAction((event) -> {
-            settingsLayout.getChildren().addAll(settingsButtons, statPool, statPoolError,
-                    statLimits, statLimitError, racialBonus, racialAmountLayout, 
-                    racialAmountError, languageChance, languageChanceOptions, 
-                    languageChanceError, languageTierChance, commonChances, 
-                    commonTierChanceOptions, commonTierChanceError, rareChances, 
-                    rareTierChanceOptions, rareTierChanceError, legendaryChances, 
-                    legendaryTierChanceOptions, legendaryTierChanceError, 
-                    motherLanguageLabel, motherLanguageLayout, motherLanguageTierError);
+            settingsLayout.getChildren().addAll(statLabel, 
+                    statPool, statPoolError, statLimits, statLimitError, 
+                    raceLabel, racialBonus, racialAmountLayout, 
+                    racialAmountError, bgLabel, bgSkills, 
+                    bgSkillsError, bgOtherProfs, bgOtherProfsError, 
+                    bgToolOrLangLabel, bgToolOrLang, bgToolOrLangError, 
+                    bgToolSubtypeLabel, bgToolSubtype, bgToolSubtypeError, 
+                    languageAmountLayout, languageAmountError, languageChance, 
+                    languageChanceOptions, languageChanceError, languageTierChance, 
+                    commonChances, commonTierChanceOptions, commonTierChanceError, 
+                    rareChances, rareTierChanceOptions, rareTierChanceError, 
+                    legendaryChances, legendaryTierChanceOptions, 
+                    legendaryTierChanceError, motherLanguageLabel, 
+                    motherLanguageLayout, motherLanguageTierError);
             this.primaryWindow.setScene(this.settingsScene);
         });
 
@@ -407,6 +499,11 @@ public class Interface extends Application {
             statPoolError.setText("");
             statLimitError.setText("");
             racialAmountError.setText("");
+            bgSkillsError.setText("");
+            bgOtherProfsError.setText("");
+            bgToolOrLangError.setText("");
+            bgToolSubtypeError.setText("");
+            languageAmountError.setText("");
             languageChanceError.setText("");
             commonTierChanceError.setText("");
             rareTierChanceError.setText("");
@@ -418,6 +515,14 @@ public class Interface extends Application {
                     || !isInteger(statMinAmount.getText())
                     || !isInteger(statMaxAmount.getText())
                     || !isInteger(racialAmount.getText())
+                    || !isInteger(bgSkillsText.getText())
+                    || !isInteger(bgOtherProfsText.getText())
+                    || !isDouble(bgToolChance.getText())
+                    || !isDouble(bgLangChance.getText())
+                    || !isDouble(bgArtisanChance.getText())
+                    || !isDouble(bgGamingSetChance.getText())
+                    || !isDouble(bgInstrumentChance.getText())
+                    || !isInteger(languageAmount.getText())
                     || !isDouble(commonChance.getText())
                     || !isDouble(rareChance.getText())
                     || !isDouble(legendaryChance.getText())
@@ -448,6 +553,34 @@ public class Interface extends Application {
                     racialAmountError.setText("Kirjoita syöte kokonaislukuna!");
                 } else {
                     racialAmountError.setText("");
+                }
+                if (!isInteger(bgSkillsText.getText())) {
+                    bgSkillsError.setText("Kirjoita syöte kokonaislukuna!");
+                } else {
+                    bgSkillsError.setText("");
+                }
+                if (!isInteger(bgOtherProfsText.getText())) {
+                    bgOtherProfsError.setText("Kirjoita syöte kokonaislukuna!");
+                } else {
+                    bgOtherProfsError.setText("");
+                }
+                if (!isDouble(bgToolChance.getText()) || 
+                        !isDouble(bgLangChance.getText())) {
+                    bgToolOrLangError.setText("Kirjoita syöte lukuna!");
+                } else {
+                    bgToolOrLangError.setText("");
+                }
+                if (!isDouble(bgArtisanChance.getText()) || 
+                        !isDouble(bgGamingSetChance.getText()) || 
+                        !isDouble(bgInstrumentChance.getText())) {
+                    bgToolSubtypeError.setText("Kirjoita syöte lukuna!");
+                } else {
+                    bgToolSubtypeError.setText("");
+                }
+                if (!isInteger(languageAmount.getText())) {
+                    languageAmountError.setText("Kirjoita syöte kokonaislukuna!");
+                } else {
+                    languageAmountError.setText("");
                 }
                 if (!isDouble(commonChance.getText()) 
                     || !isDouble(rareChance.getText())
@@ -490,6 +623,14 @@ public class Interface extends Application {
                 int newStatMax = Integer.parseInt(statMaxAmount.getText());
                 boolean newRacialBonus = racialBonus.isSelected();
                 int newRacialAmount = Integer.parseInt(racialAmount.getText());
+                int newBgSkillsAmount = Integer.parseInt(bgSkillsText.getText());
+                int newBgOtherProfsAmount = Integer.parseInt(bgOtherProfsText.getText());
+                double newBgToolChance = Double.parseDouble(bgToolChance.getText());
+                double newBgLangChance = Double.parseDouble(bgLangChance.getText());
+                double newBgArtisanChance = Double.parseDouble(bgArtisanChance.getText());
+                double newBgGamingSetChance = Double.parseDouble(bgGamingSetChance.getText());
+                double newBgInstrumentChance = Double.parseDouble(bgInstrumentChance.getText());
+                int newLanguageAmount = Integer.parseInt(languageAmount.getText());
                 double newCommonChance = Double.parseDouble(commonChance.getText());
                 double newRareChance = Double.parseDouble(rareChance.getText());
                 double newLegendaryChance = Double.parseDouble(legendaryChance.getText());
@@ -519,7 +660,16 @@ public class Interface extends Application {
                         || newStatMin > newStatMax || 6 * newStatMin
                         > (newStatPool - newStatVar) || 6 * newStatMax
                         < (newStatPool + newStatVar) || newStatVar < 0 || 
-                        newRacialAmount < 0 || newCommonChance < 0 || 
+                        newRacialAmount < 0 || newBgSkillsAmount < 0 || 
+                        newBgOtherProfsAmount < 0 || newBgToolChance < 0 || 
+                        newBgToolChance > 100 || newBgLangChance < 0 || 
+                        newBgLangChance > 100 || (newBgToolChance + newBgLangChance) 
+                        != 100.0 || newBgArtisanChance < 0 || 
+                        newBgArtisanChance > 100 || newBgGamingSetChance < 0 || 
+                        newBgGamingSetChance > 100 || newBgInstrumentChance < 0 || 
+                        newBgInstrumentChance > 100 || (newBgArtisanChance + 
+                        newBgGamingSetChance + newBgInstrumentChance) != 100.0 || 
+                        newLanguageAmount < 0 || newCommonChance < 0 || 
                         newCommonChance > 100 || newRareChance < 0 || 
                         newRareChance > 100 || newLegendaryChance < 0 || 
                         newLegendaryChance > 100 || (newCommonChance + 
@@ -557,6 +707,51 @@ public class Interface extends Application {
                         racialAmountError.setText("Valitse epänegatiivinen arvo!");
                     } else {
                         racialAmountError.setText("");
+                    }
+                    if (newBgSkillsAmount < 0) {
+                        bgSkillsError.setText("Valitse epänegatiivinen arvo!");
+                    } else {
+                        bgSkillsError.setText("");
+                    }
+                    if (newBgOtherProfsAmount < 0) {
+                        bgOtherProfsError.setText("Valitse epänegativiinen arvo!");
+                    } else {
+                        bgOtherProfsError.setText("");
+                    }
+                    if (newBgToolChance < 0 || newBgToolChance > 100 || 
+                            newBgLangChance < 0 || newBgLangChance > 100 || 
+                            (newBgToolChance + newBgLangChance) != 100.0) {
+                        if (newBgToolChance < 0 || newBgToolChance > 100 || 
+                                newBgLangChance < 0 || newBgLangChance > 100) {
+                            bgToolOrLangError.setText("Valitse arvot väliltä 0.0-100.0!");
+                        }
+                        if (newBgToolChance + newBgLangChance != 100.0) {
+                            bgToolOrLangError.setText("Todennäköisyyksien summan pitää olla 100.0%!");
+                        }
+                    } else {
+                        bgToolOrLangError.setText("");
+                    }
+                    if (newBgArtisanChance < 0 || newBgArtisanChance > 100 || 
+                            newBgGamingSetChance < 0 || newBgGamingSetChance > 100 || 
+                            newBgInstrumentChance < 0 || newBgInstrumentChance > 100 || 
+                            (newBgArtisanChance + newBgGamingSetChance + 
+                            newBgInstrumentChance) != 100.0) {
+                        if (newBgArtisanChance < 0 || newBgArtisanChance > 100 || 
+                            newBgGamingSetChance < 0 || newBgGamingSetChance > 100 || 
+                            newBgInstrumentChance < 0 || newBgInstrumentChance > 100) {
+                            bgToolSubtypeError.setText("Valitse arvot väliltä 0.0-100.0!");
+                        }
+                        if (newBgArtisanChance + newBgGamingSetChance + newBgInstrumentChance 
+                                != 100.0) {
+                            bgToolSubtypeError.setText("Todennäköisyyksien summan pitää olla 100.0%!");
+                        }
+                    } else {
+                        bgToolSubtypeError.setText("");
+                    }
+                    if (newLanguageAmount < 0) {
+                        languageAmountError.setText("Valitse epänegatiivinen arvo!");
+                    } else {
+                        languageAmountError.setText("");
                     }
                     if (newCommonChance < 0 || newCommonChance > 100 || 
                             newRareChance < 0 || newRareChance > 100 || 
@@ -647,6 +842,14 @@ public class Interface extends Application {
                     this.settings.setStatMax(newStatMax);
                     this.settings.setRacialBonus(newRacialBonus);
                     this.settings.setRacialAmount(newRacialAmount);
+                    this.settings.setBgSkillsAmount(newBgSkillsAmount);
+                    this.settings.setBgOtherAmount(newBgOtherProfsAmount);
+                    this.settings.setBgToolChance(newBgToolChance);
+                    this.settings.setBgLangChance(newBgLangChance);
+                    this.settings.setBgArtisanChance(newBgArtisanChance);
+                    this.settings.setBgGamingSetChance(newBgGamingSetChance);
+                    this.settings.setBgInstrumentChance(newBgInstrumentChance);
+                    this.settings.setLanguageAmount(newLanguageAmount);
                     this.settings.setCommonChance(newCommonChance);
                     this.settings.setRareChance(newRareChance);
                     this.settings.setLegendaryChance(newLegendaryChance);
@@ -674,6 +877,11 @@ public class Interface extends Application {
             statPoolError.setText("");
             statLimitError.setText("");
             racialAmountError.setText("");
+            bgSkillsError.setText("");
+            bgOtherProfsError.setText("");
+            bgToolOrLangError.setText("");
+            bgToolSubtypeError.setText("");
+            languageAmountError.setText("");
             languageChanceError.setText("");
             commonTierChanceError.setText("");
             rareTierChanceError.setText("");
@@ -685,6 +893,14 @@ public class Interface extends Application {
             statMaxAmount.setText("18");
             racialBonus.setSelected(true);
             racialAmount.setText("4");
+            bgSkillsText.setText("2");
+            bgOtherProfsText.setText("2");
+            bgToolChance.setText("75.0");
+            bgLangChance.setText("25.0");
+            bgArtisanChance.setText("60.0");
+            bgGamingSetChance.setText("20.0");
+            bgInstrumentChance.setText("20.0");
+            languageAmount.setText("2");
             commonChance.setText("65.0");
             rareChance.setText("34.9");
             legendaryChance.setText("0.1");
@@ -2466,169 +2682,57 @@ public class Interface extends Application {
                 bgDatabaseErrorText);
         this.bgDatabaseScene = new Scene(bgDatabaseLayout);
 
-        HBox bgAddLayout = new HBox();
+        VBox bgAddLayout = new VBox();
 
-        VBox bgAddLeftLayout = new VBox();
-        VBox bgAddCenterLayout = new VBox();
-        VBox bgAddRightLayout = new VBox();
-
-        VBox bgAddNameLayout = new VBox();
-        Label addBgNameLabel = new Label("Nimi: ");
-        TextField addBgNameText = new TextField("");
-        Label addBgNameError = new Label("");
-        addBgNameError.setTextFill(Color.RED);
-        bgAddNameLayout.getChildren().addAll(addBgNameLabel, addBgNameText);
-
-        Label addBgRandomProfsLabel = new Label("Background antaa epävarmoja proficiencyjä:");
-        TextField addBgRandomProfs = new TextField("0");
-        Label addBgRandomProfsError = new Label("");
-        Label addBgRandomLangsLabel = new Label("Background antaa kieliä:");
-        TextField addBgRandomLangs = new TextField("0");
-        Label addBgRandomLangsError = new Label("");
-        Label addBgExtraProfsLabel = new Label("Background antaa extra-proficiencyjä:");
-        TextField addBgExtraProfs = new TextField("0");
-        Label addBgExtraProfsError = new Label("");
-
-        addBgRandomProfsError.setTextFill(Color.RED);
-        addBgRandomLangsError.setTextFill(Color.RED);
-        addBgExtraProfsError.setTextFill(Color.RED);
-
-        Label addBgExtraProfTypeLabel = new Label("Mitä tyyppiä extra-proficiencyt ovat?");
-
-        ToggleGroup addBgExtraProfGroup = new ToggleGroup();
-        RadioButton addBgExtraSkill = new RadioButton("Skill");
-        addBgExtraSkill.setSelected(true);
-        RadioButton addBgExtraTool = new RadioButton("Tool");
-        RadioButton addBgExtraArtisan = new RadioButton("Artisan");
-        RadioButton addBgExtraGamingSet = new RadioButton("Gaming Set");
-        RadioButton addBgExtraInstrument = new RadioButton("Instrument");
-        RadioButton addBgExtraSkillTool = new RadioButton("Skill/Tool");
-        RadioButton addBgExtraArtisanInstrument = 
-                new RadioButton("Artisan/Instrument");
-        RadioButton addBgExtraArtisanGamingSet = 
-                new RadioButton("Artisan/Gaming Set");
-        RadioButton addBgExtraGamingSetInstrument = 
-                new RadioButton("Gaming Set/Instrument");
-        addBgExtraSkill.setToggleGroup(addBgExtraProfGroup);
-        addBgExtraTool.setToggleGroup(addBgExtraProfGroup);
-        addBgExtraArtisan.setToggleGroup(addBgExtraProfGroup);
-        addBgExtraGamingSet.setToggleGroup(addBgExtraProfGroup);
-        addBgExtraInstrument.setToggleGroup(addBgExtraProfGroup);
-        addBgExtraSkillTool.setToggleGroup(addBgExtraProfGroup);
-        addBgExtraArtisanInstrument.setToggleGroup(addBgExtraProfGroup);
-        addBgExtraArtisanGamingSet.setToggleGroup(addBgExtraProfGroup);
-        addBgExtraGamingSetInstrument.setToggleGroup(addBgExtraProfGroup);
-
+        HBox bgAddNameLayout = new HBox();
+        Label bgAddNameLabel = new Label("Nimi: ");
+        TextField bgAddNameText = new TextField();
+        bgAddNameText.setMinWidth(250);
+        Label bgAddNameError = new Label("");
+        bgAddNameError.setTextFill(Color.RED);
+        bgAddNameLayout.getChildren().addAll(bgAddNameLabel, bgAddNameText);
+        
+        BorderPane bgAddFeatureLayout = new BorderPane();
+        Label bgAddFeatureLabel = new Label("Feature: ");
+        TextArea bgAddFeature = new TextArea();
+        bgAddFeature.setMaxSize(350, 250);
+        bgAddFeature.setMinSize(350, 250);
+        bgAddFeature.setWrapText(true);
+        bgAddFeatureLayout.setTop(bgAddFeatureLabel);
+        bgAddFeatureLayout.setCenter(bgAddFeature);
+        
         Button addNewBg = new Button("Lisää");
         Button backFromAddingBg = new Button("Takaisin");
         HBox bgAddingButtons = new HBox();
         bgAddingButtons.getChildren().addAll(addNewBg, backFromAddingBg);
-
-        bgAddLeftLayout.getChildren().addAll(bgAddNameLayout, addBgNameError,
-                addBgRandomProfsLabel, addBgRandomProfs, addBgRandomProfsError, 
-                addBgRandomLangsLabel, addBgRandomLangs,
-                addBgRandomLangsError, addBgExtraProfsLabel, 
-                addBgExtraProfs, addBgExtraProfsError,
-                addBgExtraProfTypeLabel, addBgExtraSkill, 
-                addBgExtraTool, addBgExtraArtisan, addBgExtraGamingSet, 
-                addBgExtraInstrument, addBgExtraSkillTool, 
-                addBgExtraArtisanInstrument, addBgExtraArtisanGamingSet, 
-                addBgExtraGamingSetInstrument, bgAddingButtons);
-
-        Label addBgCertainProfLabel = new Label("Valitse varmat proficiencyt");
-        TableView<Proficiency> addBgCertainProfTable = createProfTable();
-        Label addBgUncertainProfLabel = new Label("Valitse epävarmat proficiencyt");
-        TableView<Proficiency> addBgUncertainProfTable = createProfTable();
-
-        bgAddCenterLayout.getChildren().addAll(addBgCertainProfLabel,
-                addBgCertainProfTable);
-        bgAddRightLayout.getChildren().addAll(addBgUncertainProfLabel,
-                addBgUncertainProfTable);
-
-        bgAddLayout.getChildren().addAll(bgAddLeftLayout, bgAddCenterLayout, 
-                bgAddRightLayout);
-
-        HBox bgModifyLayout = new HBox();
-
-        VBox bgModLeftLayout = new VBox();
-        VBox bgModCenterLayout = new VBox();
-        VBox bgModRightLayout = new VBox();
-
-        VBox bgModNameLayout = new VBox();
-        Label modBgNameLabel = new Label("Nimi: ");
-        TextField modBgNameText = new TextField("");
-        Label modBgNameError = new Label("");
-        modBgNameError.setTextFill(Color.RED);
-        bgModNameLayout.getChildren().addAll(modBgNameLabel, modBgNameText);
-
-        Label modBgRandomProfsLabel = new Label("Background antaa epävarmoja proficiencyjä:");
-        TextField modBgRandomProfs = new TextField("0");
-        Label modBgRandomProfsError = new Label("");
-        Label modBgRandomLangsLabel = new Label("Background antaa kieliä:");
-        TextField modBgRandomLangs = new TextField("0");
-        Label modBgRandomLangsError = new Label("");
-        Label modBgExtraProfsLabel = new Label("Background antaa extra-proficiencyjä:");
-        TextField modBgExtraProfs = new TextField("0");
-        Label modBgExtraProfsError = new Label("");
-
-        modBgRandomProfsError.setTextFill(Color.RED);
-        modBgRandomLangsError.setTextFill(Color.RED);
-        modBgExtraProfsError.setTextFill(Color.RED);
-
-        Label modBgExtraProfTypeLabel = new Label("Mitä tyyppiä extra-proficiencyt ovat?");
-
-        ToggleGroup modBgExtraProfGroup = new ToggleGroup();
-        RadioButton modBgExtraSkill = new RadioButton("Skill");
-        modBgExtraSkill.setSelected(true);
-        RadioButton modBgExtraTool = new RadioButton("Tool");
-        RadioButton modBgExtraArtisan = new RadioButton("Artisan");
-        RadioButton modBgExtraGamingSet = new RadioButton("Gaming Set");
-        RadioButton modBgExtraInstrument = new RadioButton("Instrument");
-        RadioButton modBgExtraSkillTool = new RadioButton("Skill/Tool");
-        RadioButton modBgExtraArtisanInstrument = 
-                new RadioButton("Artisan/Instrument");
-        RadioButton modBgExtraArtisanGamingSet = 
-                new RadioButton("Artisan/Gaming Set");
-        RadioButton modBgExtraGamingSetInstrument = 
-                new RadioButton("Gaming Set/Instrument");
-        modBgExtraSkill.setToggleGroup(modBgExtraProfGroup);
-        modBgExtraTool.setToggleGroup(modBgExtraProfGroup);
-        modBgExtraArtisan.setToggleGroup(modBgExtraProfGroup);
-        modBgExtraGamingSet.setToggleGroup(modBgExtraProfGroup);
-        modBgExtraInstrument.setToggleGroup(modBgExtraProfGroup);
-        modBgExtraSkillTool.setToggleGroup(modBgExtraProfGroup);
-        modBgExtraArtisanInstrument.setToggleGroup(modBgExtraProfGroup);
-        modBgExtraArtisanGamingSet.setToggleGroup(modBgExtraProfGroup);
-        modBgExtraGamingSetInstrument.setToggleGroup(modBgExtraProfGroup);
-
+        bgAddLayout.getChildren().addAll(bgAddNameLayout, bgAddNameError,
+                bgAddFeatureLayout, bgAddingButtons);
+        
+        VBox bgModifyLayout = new VBox();
+        
+        HBox bgModNameLayout = new HBox();
+        Label bgModNameLabel = new Label("Nimi: ");
+        TextField bgModNameText = new TextField();
+        bgModNameText.setMinWidth(250);
+        Label bgModNameError = new Label("");
+        bgModNameError.setTextFill(Color.RED);
+        bgModNameLayout.getChildren().addAll(bgModNameLabel, bgModNameText);
+        
+        BorderPane bgModFeatureLayout = new BorderPane();
+        Label bgModFeatureLabel = new Label("Feature: ");
+        TextArea bgModFeature = new TextArea();
+        bgModFeature.setMaxSize(350, 250);
+        bgModFeature.setMinSize(350, 250);
+        bgModFeature.setWrapText(true);
+        bgModFeatureLayout.setTop(bgModFeatureLabel);
+        bgModFeatureLayout.setCenter(bgModFeature);
+        
         Button modifyThisBg = new Button("Päivitä");
         Button backFromModifyingBg = new Button("Takaisin");
         HBox bgModifyingButtons = new HBox();
         bgModifyingButtons.getChildren().addAll(modifyThisBg, backFromModifyingBg);
-
-        bgModLeftLayout.getChildren().addAll(bgModNameLayout, modBgNameError,
-                modBgRandomProfsLabel, modBgRandomProfs, modBgRandomProfsError, 
-                modBgRandomLangsLabel, modBgRandomLangs,
-                modBgRandomLangsError, modBgExtraProfsLabel, 
-                modBgExtraProfs, modBgExtraProfsError,
-                modBgExtraProfTypeLabel, modBgExtraSkill, 
-                modBgExtraTool, modBgExtraArtisan, modBgExtraGamingSet, 
-                modBgExtraInstrument, modBgExtraSkillTool, 
-                modBgExtraArtisanInstrument, modBgExtraArtisanGamingSet, 
-                modBgExtraGamingSetInstrument, bgModifyingButtons);
-
-        Label modBgCertainProfLabel = new Label("Valitse varmat proficiencyt");
-        TableView<Proficiency> modBgCertainProfTable = createProfTable();
-        Label modBgUncertainProfLabel = new Label("Valitse epävarmat proficiencyt");
-        TableView<Proficiency> modBgUncertainProfTable = createProfTable();
-
-        bgModCenterLayout.getChildren().addAll(modBgCertainProfLabel,
-                modBgCertainProfTable);
-        bgModRightLayout.getChildren().addAll(modBgUncertainProfLabel,
-                modBgUncertainProfTable);
-
-        bgModifyLayout.getChildren().addAll(bgModLeftLayout, bgModCenterLayout, 
-                bgModRightLayout);
+        bgModifyLayout.getChildren().addAll(bgModNameLayout, bgModNameError,
+                bgModFeatureLayout, bgModifyingButtons);
 
         this.bgAddScene = new Scene(bgAddLayout);
         this.bgModScene = new Scene(bgModifyLayout);
@@ -2645,166 +2749,52 @@ public class Interface extends Application {
         });
 
         addBg.setOnAction((event) -> {
-            refreshProfs(addBgCertainProfTable);
-            refreshProfs(addBgUncertainProfTable);
+            bgAddNameText.setText("");
+            bgAddNameError.setText("");
+            bgAddFeature.setText("");
             bgDatabaseErrorText.setText("");
-            addBgNameText.setText("");
-            addBgNameError.setText("");
-            addBgRandomProfs.setText("0");
-            addBgRandomProfsError.setText("");
-            addBgRandomLangs.setText("0");
-            addBgRandomLangsError.setText("");
-            addBgExtraProfs.setText("0");
-            addBgExtraProfsError.setText("");
-            addBgExtraSkill.setSelected(true);
             this.modifyWindow.setTitle("Lisää Background");
             this.modifyWindow.setScene(this.bgAddScene);
             this.modifyWindow.show();
         });
 
         modifyExistingBg.setOnAction((event) -> {
-            refreshProfs(modBgCertainProfTable);
-            refreshProfs(modBgUncertainProfTable);
-            modBgNameText.setText("");
             Background bgToBeModified = bgs.getSelectionModel().getSelectedItem();
+            
             if (!(bgToBeModified == null)) {
                 bgDatabaseErrorText.setText("");
                 this.modifyWindow.setTitle("Muokkaa Backgroundia");
                 this.modifyWindow.setScene(this.bgModScene);
                 this.modifyWindow.show();
-                modBgNameText.setText(bgToBeModified.getName());
-                String oldRandomProfs = "" + bgToBeModified.getRandomProfs();
-                String oldRandomLangs = "" + bgToBeModified.getRandomLangs();
-                String oldExtraProfs = "" + bgToBeModified.getExtraProfs();
-                String oldExtraProfType = bgToBeModified.getExtraProfType();
-                modBgRandomProfs.setText(oldRandomProfs);
-                modBgRandomLangs.setText(oldRandomLangs);
-                modBgExtraProfs.setText(oldExtraProfs);
-                switch (oldExtraProfType) {
-                    case "Gaming Set/Instrument":
-                        modBgExtraGamingSetInstrument.setSelected(true);
-                        break;
-                    case "Tool":
-                        modBgExtraTool.setSelected(true);
-                        break;
-                    case "Artisan":
-                        modBgExtraArtisan.setSelected(true);
-                        break;
-                    case "Gaming Set":
-                        modBgExtraGamingSet.setSelected(true);
-                        break;
-                    case "Instrument":
-                        modBgExtraInstrument.setSelected(true);
-                        break;
-                    case "Skill/Tool":
-                        modBgExtraSkillTool.setSelected(true);
-                        break;
-                    case "Artisan/Instrument":
-                        modBgExtraArtisanInstrument.setSelected(true);
-                        break;
-                    case "Artisan/Gaming Set":
-                        modBgExtraArtisanGamingSet.setSelected(true);
-                        break;
-                    default:
-                        modBgExtraSkill.setSelected(true);
-                        break;
-                }
-
-                for (Proficiency certainProf : bgToBeModified.getCertainProfs()) {
-                    modBgCertainProfTable.getSelectionModel().select(certainProf);
-                }
-                for (Proficiency uncertainProf : bgToBeModified.getUncertainProfs()) {
-                    modBgUncertainProfTable.getSelectionModel().select(uncertainProf);
-                }
+                bgModNameText.setText(bgToBeModified.getName());
+                bgModFeature.setText(bgToBeModified.getFeature());
             } else {
                 bgDatabaseErrorText.setText("Valitse muokattava background!");
             }
         });
 
         addNewBg.setOnAction((event) -> {
-            String bgName = addBgNameText.getText();
-
-            if (!bgName.isEmpty() && isInteger(addBgRandomProfs.getText())
-                    && isInteger(addBgRandomLangs.getText())
-                    && isInteger(addBgExtraProfs.getText())) {
-                int randomProfs = Integer.parseInt(addBgRandomProfs.getText());
-                int randomLangs = Integer.parseInt(addBgRandomLangs.getText());
-                int extraProfs = Integer.parseInt(addBgExtraProfs.getText());
-                String extraProfType = "";
-                if (extraProfs != 0) {
-                    if (addBgExtraSkill.isSelected()) {
-                        extraProfType = "Skill";
-                    } else if (addBgExtraTool.isSelected()) {
-                        extraProfType = "Tool";
-                    } else if (addBgExtraArtisan.isSelected()) {
-                        extraProfType = "Artisan";
-                    } else if (addBgExtraGamingSet.isSelected()) {
-                        extraProfType = "Gaming Set";
-                    } else if (addBgExtraInstrument.isSelected()) {
-                        extraProfType = "Instrument";
-                    } else if (addBgExtraSkillTool.isSelected()) {
-                        extraProfType = "Skill/Tool";
-                    } else if (addBgExtraArtisanInstrument.isSelected()) {
-                        extraProfType = "Artisan/Instrument";
-                    } else if (addBgExtraArtisanGamingSet.isSelected()) {
-                        extraProfType = "Artisan/Gaming Set";
-                    } else {
-                        extraProfType = "Gaming Set/Instrument";
-                    }
-                }
-                Background bgToAdd = new Background(bgName, randomProfs, randomLangs, 
-                        extraProfs, extraProfType);
-
-                ObservableList<Proficiency> certainProfsToAdd = addBgCertainProfTable.
-                        getSelectionModel().getSelectedItems();
-
-                ObservableList<Proficiency> uncertainProfsToAdd = addBgUncertainProfTable.
-                        getSelectionModel().getSelectedItems();
-               
-                for (Proficiency prof : certainProfsToAdd) {
-                    bgToAdd.addCertainProf(prof);
-                }
-                for (Proficiency prof : uncertainProfsToAdd) {
-                    bgToAdd.addUncertainProf(prof);
-                }
-                
+            String bgName = bgAddNameText.getText();
+            String bgFeature = bgAddFeature.getText();
+            
+            if (!bgName.isEmpty()) {
                 try {
-                    this.generator.addNewBgToDb(bgToAdd);
-                } catch (SQLException ex) {
-                    addBgNameError.setText(ex.getMessage());
+                    this.generator.addNewBgToDb(new Background(bgName, 
+                        bgFeature));
+                } catch (SQLException e) {
+                    bgAddNameError.setText(e.getMessage());
                 }
                 bgDatabaseErrorText.setText("");
-                addBgNameText.setText("");
-                addBgNameError.setText("");
-                addBgRandomProfs.setText("0");
-                addBgRandomProfsError.setText("");
-                addBgRandomLangs.setText("0");
-                addBgRandomLangsError.setText("");
-                addBgExtraProfs.setText("0");
-                addBgExtraProfsError.setText("");
-                addBgExtraSkill.setSelected(true);
+                bgAddNameText.setText("");
+                bgAddFeature.setText("");
+                bgAddNameError.setText("");
                 this.modifyWindow.close();
                 refreshBackgrounds(bgs);
             } else {
                 if (bgName.isEmpty()) {
-                    addBgNameError.setText("Syöte ei voi olla tyhjä!");
+                    bgAddNameError.setText("Syöte ei voi olla tyhjä!");
                 } else {
-                    addBgNameError.setText("");
-                }
-                if (!isInteger(addBgRandomProfs.getText())) {
-                    addBgRandomProfsError.setText("Syötteen täytyy olla kokonaisluku");
-                } else {
-                    addBgRandomProfsError.setText("");
-                }
-                if (!isInteger(addBgRandomLangs.getText())) {
-                    addBgRandomLangsError.setText("Syötteen täytyy olla kokonaisluku");
-                } else {
-                    addBgRandomLangsError.setText("");
-                }
-                if (!isInteger(addBgExtraProfs.getText())) {
-                    addBgExtraProfsError.setText("Syötteen täytyy olla kokonaisluku");
-                } else {
-                    addBgExtraProfsError.setText("");
+                    bgAddNameError.setText("");
                 }
             }
         });
@@ -2814,91 +2804,28 @@ public class Interface extends Application {
         });
 
         modifyThisBg.setOnAction((event) -> {
-            String bgName = modBgNameText.getText();
+            String bgName = bgModNameText.getText();
+            String bgFeature = bgModFeature.getText();
 
-            if (!bgName.isEmpty() && isInteger(modBgRandomProfs.getText())
-                    && isInteger(modBgRandomLangs.getText())
-                    && isInteger(modBgExtraProfs.getText())) {
-                int randomProfs = Integer.parseInt(modBgRandomProfs.getText());
-                int randomLangs = Integer.parseInt(modBgRandomLangs.getText());
-                int extraProfs = Integer.parseInt(modBgExtraProfs.getText());
+            if (!bgName.isEmpty()) {
                 int id = bgs.getSelectionModel().getSelectedItem().getId();
-                String extraProfType = "";
-                if (extraProfs != 0) {
-                    if (modBgExtraSkill.isSelected()) {
-                        extraProfType = "Skill";
-                    } else if (modBgExtraTool.isSelected()) {
-                        extraProfType = "Tool";
-                    } else if (modBgExtraArtisan.isSelected()) {
-                        extraProfType = "Artisan";
-                    } else if (modBgExtraGamingSet.isSelected()) {
-                        extraProfType = "Gaming Set";
-                    } else if (modBgExtraInstrument.isSelected()) {
-                        extraProfType = "Instrument";
-                    } else if (modBgExtraSkillTool.isSelected()) {
-                        extraProfType = "Skill/Tool";
-                    } else if (modBgExtraArtisanInstrument.isSelected()) {
-                        extraProfType = "Artisan/Instrument";
-                    } else if (modBgExtraArtisanGamingSet.isSelected()) {
-                        extraProfType = "Artisan/Gaming Set";
-                    } else {
-                        extraProfType = "Gaming Set/Instrument";
-                    }
-                }
-                Background bgToMod = new Background(id, bgName, randomProfs, 
-                        randomLangs, extraProfs, extraProfType);
 
-                ObservableList<Proficiency> certainProfsToMod = modBgCertainProfTable.
-                        getSelectionModel().getSelectedItems();
-                
-                ObservableList<Proficiency> uncertainProfsToMod = 
-                        modBgUncertainProfTable.getSelectionModel().
-                        getSelectedItems();
-                
-                for (Proficiency prof : certainProfsToMod) {
-                    bgToMod.addCertainProf(prof);
-                }              
-                for (Proficiency prof : uncertainProfsToMod) {
-                    bgToMod.addUncertainProf(prof);
-                }
-                
+                Background bgToMod = new Background(id, bgName, bgFeature);
                 try {
                     this.generator.updateBgToDb(bgToMod);
                 } catch (SQLException ex) {
-                    modBgNameError.setText(ex.getMessage());
+                    bgModNameError.setText(ex.getMessage());
                 }
-                bgDatabaseErrorText.setText("");
-                modBgNameText.setText("");
-                modBgNameError.setText("");
-                modBgRandomProfs.setText("0");
-                modBgRandomProfsError.setText("");
-                modBgRandomLangs.setText("0");
-                modBgRandomLangsError.setText("");
-                modBgExtraProfs.setText("0");
-                modBgExtraProfsError.setText("");
-                modBgExtraSkill.setSelected(true);
+                bgModNameText.setText("");
+                bgModFeature.setText("");
+                bgModNameError.setText("");
                 this.modifyWindow.close();
                 refreshBackgrounds(bgs);
             } else {
                 if (bgName.isEmpty()) {
-                    modBgNameError.setText("Syöte ei voi olla tyhjä!");
+                    bgModNameError.setText("Syöte ei voi olla tyhjä!");
                 } else {
-                    modBgNameError.setText("");
-                }
-                if (!isInteger(modBgRandomProfs.getText())) {
-                    modBgRandomProfsError.setText("Syötteen täytyy olla kokonaisluku");
-                } else {
-                    modBgRandomProfsError.setText("");
-                }
-                if (!isInteger(modBgRandomLangs.getText())) {
-                    modBgRandomLangsError.setText("Syötteen täytyy olla kokonaisluku");
-                } else {
-                    modBgRandomLangsError.setText("");
-                }
-                if (!isInteger(modBgExtraProfs.getText())) {
-                    modBgExtraProfsError.setText("Syötteen täytyy olla kokonaisluku");
-                } else {
-                    modBgExtraProfsError.setText("");
+                    bgModNameError.setText("");
                 }
             }
         });

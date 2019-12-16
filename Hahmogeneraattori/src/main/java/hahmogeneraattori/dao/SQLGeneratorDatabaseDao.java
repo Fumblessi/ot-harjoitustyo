@@ -254,8 +254,6 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
      */
     public void createTables(Connection conn) throws SQLException {
         createProfTable(conn);
-        createBackgroundTable(conn);
-        createBgProfTable(conn);
         createClassTable(conn);
         createSubclassTable(conn);
         createClassProfTable(conn);
@@ -264,6 +262,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
         createRacialTable(conn);
         createRacialProfTable(conn);
         createRaceTable(conn);
+        createBackgroundTable(conn);
     }
 
     /**
@@ -288,22 +287,8 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
      */
     public void createBackgroundTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE Background(id INTEGER AUTO_INCREMENT, "
-                + "name VARCHAR(255), randomProfs INTEGER, randomLangs INTEGER, "
-                + "extraProfs INTEGER, extraProfType VARCHAR(255), "
+                + "name VARCHAR(255), feature VARCHAR(8000), "
                 + "PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
-    }
-    
-    /**
-     * Luodaan liitostaulu 'BackgroundProficiency'
-     * 
-     * @param conn tietokantayhteys
-     * 
-     * @throws SQLException 
-     */
-    public void createBgProfTable(Connection conn) throws SQLException {
-        conn.prepareStatement("CREATE TABLE BackgroundProficiency(bg_id INTEGER, prof_id INTEGER, "
-                + "certain BOOLEAN, FOREIGN KEY (bg_id) REFERENCES Background(id), "
-                + "FOREIGN KEY (prof_id) REFERENCES Proficiency(id));").executeUpdate();
     }
 
     /**

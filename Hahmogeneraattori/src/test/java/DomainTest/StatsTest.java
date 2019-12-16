@@ -23,7 +23,14 @@ public class StatsTest {
     
     @Before
     public void setUp() {
-        this.stats = new Stats();
+        int[] stats = new int[6];
+        stats[0] = 10;
+        stats[1] = 10;
+        stats[2] = 10;
+        stats[3] = 10;
+        stats[4] = 10;
+        stats[5] = 10;
+        this.stats = new Stats(stats);
     }
     
     @Test

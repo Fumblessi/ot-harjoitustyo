@@ -8,7 +8,7 @@ package DomainTest;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import hahmogeneraattori.domain.Generator;
+import hahmogeneraattori.domain.GeneratorService;
 import hahmogeneraattori.domain.Settings;
 import hahmogeneraattori.dao.FileSettingsDao;
 import hahmogeneraattori.domain.Stats;
@@ -21,7 +21,7 @@ public class GeneratorTest {
     
     private FileSettingsDao settingsDao;
     private Settings settings;
-    private Generator generator;
+    private GeneratorService generator;
     private Stats stats;
     
     public GeneratorTest() {
@@ -31,7 +31,8 @@ public class GeneratorTest {
     public void setUp() throws Exception {
         this.settingsDao = new FileSettingsDao("testSettings.txt");
         this.settings = new Settings(this.settingsDao);
-        this.generator = new Generator(this.settings, null);
+        this.generator = new GeneratorService(this.settings, null);
+        this.generator.createRandomStats();
         this.stats = this.generator.getStats();
     }
 

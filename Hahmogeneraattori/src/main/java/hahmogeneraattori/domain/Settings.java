@@ -90,6 +90,38 @@ public class Settings {
         this.settingsDao.setIntValue("RacialAmount", amount);
     }
     
+    public void setBgSkillsAmount(int amount) {
+        this.settingsDao.setIntValue("BgSkillsAmount", amount);
+    }
+    
+    public void setBgOtherAmount(int amount) {
+        this.settingsDao.setIntValue("BgOtherAmount", amount);
+    }
+    
+    public void setBgToolChance(double value) {
+        this.settingsDao.setDoubleValue("BgToolChance", value);
+    }
+    
+    public void setBgLangChance(double value) {
+        this.settingsDao.setDoubleValue("BgLangChance", value);
+    }
+    
+    public void setBgArtisanChance(double value) {
+        this.settingsDao.setDoubleValue("BgArtisanChance", value);
+    }
+    
+    public void setBgGamingSetChance(double value) {
+        this.settingsDao.setDoubleValue("BgGamingSetChance", value);
+    }
+    
+    public void setBgInstrumentChance(double value) {
+        this.settingsDao.setDoubleValue("BgInstrumentChance", value);
+    }
+    
+    public void setLanguageAmount(int amount) {
+        this.settingsDao.setIntValue("LanguageAmount", amount);
+    }
+    
     public void setCommonChance(double value) {
         this.settingsDao.setDoubleValue("CommonChance", value);
     }
@@ -222,6 +254,38 @@ public class Settings {
     
     public int getRacialAmount() {
         return this.settingsDao.getIntValue("RacialAmount");
+    }
+    
+    public int getBgSkillsAmount() {
+        return this.settingsDao.getIntValue("BgSkillsAmount");
+    }
+    
+    public int getBgOtherAmount() {
+        return this.settingsDao.getIntValue("BgOtherAmount");
+    }
+    
+    public double getBgToolChance() {
+        return this.settingsDao.getDoubleValue("BgToolChance");
+    }
+    
+    public double getBgLangChance() {
+        return this.settingsDao.getDoubleValue("BgLangChance");
+    }
+    
+    public double getBgArtisanChance() {
+        return this.settingsDao.getDoubleValue("BgArtisanChance");
+    }
+    
+    public double getBgGamingSetChance() {
+        return this.settingsDao.getDoubleValue("BgGamingSetChance");
+    }
+    
+    public double getBgInstrumentChance() {
+        return this.settingsDao.getDoubleValue("BgInstrumentChance");
+    }
+    
+    public int getLanguageAmount() {
+        return this.settingsDao.getIntValue("LanguageAmount");
     }
     
     public double getCommonChance() {

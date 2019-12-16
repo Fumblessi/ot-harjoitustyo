@@ -17,28 +17,16 @@ public class Background {
     
     private int id;
     private String name;
-    private List<Proficiency> certainProfs;
-    private List<Proficiency> uncertainProfs;
-    private int randomProfs;
-    private int randomLangs;
-    private int extraProfs;
-    private String extraProfType;
+    private String feature;
     
-    public Background(int id, String name, int randomProfs, int randomLangs, 
-            int extraProfs, String extraProfType) {
+    public Background(int id, String name, String feature) {
         this.id = id;
         this.name = name;
-        this.randomProfs = randomProfs;
-        this.randomLangs = randomLangs;
-        this.extraProfs = extraProfs;
-        this.extraProfType = extraProfType;
-        this.certainProfs = new ArrayList<>();
-        this.uncertainProfs = new ArrayList<>();
+        this.feature = feature;
     }
     
-    public Background(String name, int randomProfs, int randomLangs, int 
-            extraProfs, String extraProfType) {
-        this(-1, name, randomProfs, randomLangs, extraProfs, extraProfType);
+    public Background(String name, String feature) {
+        this(-1, name, feature);
     }
     
     public int getId() {
@@ -49,28 +37,8 @@ public class Background {
         return this.name;
     }
     
-    public int getRandomProfs() {
-        return this.randomProfs;
-    }
-    
-    public int getRandomLangs() {
-        return this.randomLangs;
-    }
-    
-    public int getExtraProfs() {
-        return this.extraProfs;
-    }
-    
-    public String getExtraProfType() {
-        return this.extraProfType;
-    }
-    
-    public List<Proficiency> getCertainProfs() {
-        return this.certainProfs;
-    }
-    
-    public List<Proficiency> getUncertainProfs() {
-        return this.uncertainProfs;
+    public String getFeature() {
+        return this.feature;
     }
     
     public void setId(int id) {
@@ -83,40 +51,8 @@ public class Background {
         this.name = name;
     }
     
-    public void setRandomProfs(int amount) {
-        this.randomProfs = amount;
-    }
-    
-    public void setRandomLangs(int amount) {
-        this.randomLangs = amount;
-    }
-    
-    public void setExtraProfs(int amount) {
-        this.extraProfs = amount;
-    }
-    
-    public void setExtraProfType(String type) {
-        this.extraProfType = type;
-    }
-    
-    public void setCertainProfs(List<Proficiency> profs) {
-        this.certainProfs = profs;
-    }
-    
-    public void setUncertainProfs(List<Proficiency> profs) {
-        this.uncertainProfs = profs;
-    }
-    
-    public void addCertainProf(Proficiency prof) {
-        if (!this.certainProfs.contains(prof)) {
-            this.certainProfs.add(prof);
-        }
-    }
-    
-    public void addUncertainProf(Proficiency prof) {
-        if (!this.uncertainProfs.contains(prof)) {
-            this.uncertainProfs.add(prof);
-        }
+    public void setFeature(String feature) {
+        this.feature = feature;
     }
 
     @Override

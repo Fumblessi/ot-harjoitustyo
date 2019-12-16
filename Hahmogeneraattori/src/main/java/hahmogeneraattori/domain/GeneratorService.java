@@ -6,8 +6,6 @@
 package hahmogeneraattori.domain;
 
 import hahmogeneraattori.dao.GeneratorDatabaseDao;
-import java.util.Random;
-import java.lang.*;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -18,10 +16,18 @@ import java.util.*;
  * 
  * @author sampo
  */
-public class Generator {
+public class GeneratorService {
 
     private Settings settings;
     private Stats stats;
+    private Race race;
+    private RpgClass rpgclass;
+    private String subclass;
+    private Background bg;
+    private List<Racial> racials;
+    private List<Proficiency> profs;
+    private List<Feat> feats;
+    private Randomizer randomizer;
     private GeneratorDatabaseDao generatorDatabaseDao;
 
     /**
@@ -32,10 +38,18 @@ public class Generator {
      * @param settings generaattorin asetukset
      * @param gbDao generaattorin tietokanta
      */
-    public Generator(Settings settings, GeneratorDatabaseDao gbDao) {
+    public GeneratorService(Settings settings, GeneratorDatabaseDao gbDao) {
         this.settings = settings;
         this.generatorDatabaseDao = gbDao;
-        this.stats = new Stats();
+        this.randomizer = null;
+        this.stats = null;
+        this.race = null;
+        this.rpgclass = null;
+        this.subclass = null;
+        this.bg = null;
+        this.racials = new ArrayList<>();
+        this.profs = new ArrayList<>();
+        this.feats = new ArrayList<>();
     }
 
     public Stats getStats() {
@@ -46,9 +60,15 @@ public class Generator {
      * Metodi toteuttaa hahmon generoinnin, aloittaen hahmon piirteiden
      * (stattien) arpomisesta.
      * 
-     * @see hahmogeneraattori.domain.Generator#createRandomStats()
+     * @see hahmogeneraattori.domain.GeneratorService#createRandomStats()
      */
     public void generate() {
+        this.randomizer = new Randomizer();
+        createRandomRace();
+        createRandomClass();
+        createRandomSubclass();
+        createRandomBackground();
+        createRandomRacials();
         createRandomStats();
     }
 
@@ -56,47 +76,43 @@ public class Generator {
      * Metodi arpoo käyttäjän asetusten pohjalta hahmolle piirteet, ja
      * tallentaa ne luokassa olevaan Stats-muotoiseen olioon
      * 
-     * @see hahmogeneraattori.domain.Generator#shuffle(int[])
+     * @see hahmogeneraattori.domain.GeneratorService#shuffle(int[])
      * @see hahmogeneraattori.domain.Stats
      */
     public void createRandomStats() {
+        int statPool = this.settings.getStatPool();
         int statVar = this.settings.getStatVar();
-        int statPool = this.settings.getStatPool() - statVar;
-        Random random = new Random(System.currentTimeMillis());
-        statPool += random.nextInt(2 * statVar + 1);
         int statMin = this.settings.getStatMin();
         int statMax = this.settings.getStatMax();
-        int range = statMax - statMin;
-        int[] newStats = new int[6];
-        for (int i = 0; i < 6; i++) {
-            newStats[i] = statMin;
-        }
-        statPool -= 6 * statMin;
-
-        for (int i = 0; i < 6; i++) {
-            int statBonus = random.nextInt(Math.min(statPool, range) + 1);
-            newStats[i] += statBonus;
-            statPool -= statBonus;
-
-            while (statPool > (5 - i) * range) {
-                newStats[i]++;
-                statPool--;
-            }
-        }
-        shuffle(newStats);
-
-        if (this.settings.getRacialBonus()) {
-            int bonusStat1 = random.nextInt(6);
-            int bonusStat2 = random.nextInt(5);
-
-            if (bonusStat2 >= bonusStat1) {
-                bonusStat2++;
-            }
-
-            newStats[bonusStat1] += 2;
-            newStats[bonusStat2]++;
-        }
-        this.stats.setStats(newStats);
+        boolean racialBonus = this.settings.getRacialBonus();
+        this.stats = new Stats(this.randomizer.randomizeStats(statPool, statVar, 
+                statMin, statMax, racialBonus));
+    }
+    
+    public void createRandomRace() {
+        List<Race> races = listAllRaces();
+        this.race = this.randomizer.getRandomRace(races);
+    }
+    
+    public void createRandomClass() {
+        List<RpgClass> classes = listAllClasses();
+        this.rpgclass = this.randomizer.getRandomClass(classes);
+    }
+    
+    public void createRandomSubclass() {
+        List<String> subclasses = this.rpgclass.getSubclasses();
+        this.subclass = this.randomizer.getRandomSubclass(subclasses);
+    }
+    
+    public void createRandomBackground() {
+        List<Background> bgs = listAllBackgrounds();
+        this.bg = this.randomizer.getRandomBackground(bgs);
+    }
+    
+    public void createRandomRacials() {
+        List<Racial> racialList = listAllRacials();
+        int racialAmount = this.settings.getRacialAmount();
+        this.racials = this.randomizer.getRandomRacials(racialAmount, racialList);
     }
 
     /**
@@ -270,34 +286,6 @@ public class Generator {
     
     public List<Feat> listAllFeats() {
         return this.generatorDatabaseDao.list(Feat.class);
-    }
-
-    /**
-     * Metodi sekoittaa kuusi kokonaislukua sisältävän taulukon
-     * 
-     * @see hahmogeneraattori.domain.Generator#swap(int[], int, int)
-     * 
-     * @param array sekoitettava taulukko
-     */
-    public static void shuffle(int[] array) {
-        Random random = new Random();
-        for (int i = 6; i > 1; i--) {
-            swap(array, i - 1, random.nextInt(i));
-        }
-    }
-
-    /**
-     * Metodi vaihtaa annetun taulukon kahden arvon paikkaa
-     * taulukossa keskenään
-     * 
-     * @param array syötetty taulukko
-     * @param i ensimmäisen vaihdettavan arvon indeksi
-     * @param j toisen vaihdettavan arvon indeksi
-     */
-    private static void swap(int[] array, int i, int j) {
-        int temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
     }
     
     /**

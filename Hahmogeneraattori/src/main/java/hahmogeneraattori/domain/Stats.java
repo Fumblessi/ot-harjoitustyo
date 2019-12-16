@@ -26,12 +26,13 @@ public class Stats {
      * 
      * @see hahmogeneraattori.domain.Stats#setStats(int[])
      */
-    public Stats() {
-        int[] stats = new int[6];
-        for (int i = 0; i < 6; i++) {
-            stats[i] = 10;
-        }
-        setStats(stats);
+    public Stats(int[] stats) {
+        this.str = stats[0];
+        this.dex = stats[1];
+        this.con = stats[2];
+        this.inte = stats[3];
+        this.wis = stats[4];
+        this.cha = stats[5];
     }
     
     /**
@@ -49,21 +50,6 @@ public class Stats {
             case "wis": this.wis = value;
             case "cha": this.cha = value;
         }
-    }
-    
-    /**
-     * Metodi muuntaa kuusipaikkaisen kokonaislukutaulukon tämän olion
-     * piirteiksi
-     * 
-     * @param stats piirteet taulukkona
-     */
-    public final void setStats(int[] stats) {
-        this.str = stats[0];
-        this.dex = stats[1];
-        this.con = stats[2];
-        this.inte = stats[3];
-        this.wis = stats[4];
-        this.cha = stats[5];
     }
     
     /**
