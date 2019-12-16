@@ -93,7 +93,7 @@ Tietokanta-palkista valitsemalla Class, voi tarkastella tietokantataulun 'Class'
 
 Tietokanta-palkista valitsemalla Background, voi tarkastella tietokantataulun 'Background' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia hahmon taustoja, ja edelleen lisätä tietokantaan uusia taustoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia.
 
-<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/bgLisays.png" width="350">
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/bgLisays.png" width="300">
 
 1. Uuden taustan nimi.
 2. Taustan antama ominaisuus ja sen kuvaus.
