@@ -150,6 +150,14 @@ public class Settings {
         this.settingsDao.setIntValue("MotherLanguageType", value);
     }
     
+    public void setMotherLanguageSecondTierChance(double value) {
+        this.settingsDao.setDoubleValue("MotherLanguageSTC", value);
+    }
+    
+    public void setMotherLanguageThirdTierChance(double value) {
+        this.settingsDao.setDoubleValue("MotherLanguageTTC", value);
+    }
+    
     /**
      * Hae asetuksista arvottavien piirteiden kokonaissumman arvo
      * 
@@ -277,6 +285,14 @@ public class Settings {
         return this.settingsDao.getIntValue("MotherLanguageType");
     }
     
+    public double getMotherLanguageSecondTierChance() {
+        return this.settingsDao.getDoubleValue("MotherLanguageSTC");
+    }
+    
+    public double getMotherLanguageThirdTierChance() {
+        return this.settingsDao.getDoubleValue("MotherLanguageTTC");
+    }
+     
     /**
      * Päivitetään nykyiset asetukset asetus-tiedostoon
      * 

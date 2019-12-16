@@ -29,7 +29,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.Scene;
 import javafx.collections.ObservableList;
 import java.util.Properties;
-import java.util.List;
 import java.util.ArrayList;
 import java.io.FileInputStream;
 import hahmogeneraattori.dao.FileSettingsDao;
@@ -111,7 +110,7 @@ public class Interface extends Application {
         layout.setTop(buttons);
 
         VBox settingsLayout = new VBox();
-        settingsLayout.setPrefSize(450, 550);
+        settingsLayout.setPrefSize(460, 560);
         this.settingsScene = new Scene(settingsLayout);
 
         Button back = new Button("Tallenna ja palaa");
@@ -160,7 +159,7 @@ public class Interface extends Application {
         statLimits.getChildren().addAll(statMinLabel, statMinAmount,
                 statMaxLabel, statMaxAmount);
 
-        CheckBox racialBonus = new CheckBox(" Lisää rotubonukset (+2/+1)");
+        CheckBox racialBonus = new CheckBox(" Lisää rotubonukset (+2/+1) satunnaisesti");
         racialBonus.setSelected(this.settings.getRacialBonus());
         
         HBox racialAmountLayout = new HBox();
@@ -320,8 +319,35 @@ public class Interface extends Application {
         
         HBox motherLanguageLayout = new HBox();
         
-        CheckBox motherLanguage = new CheckBox(" Pakota yksi tason III kielitaito: ");
+        VBox motherLanguageChoiceLayout = new VBox();
+        CheckBox motherLanguage = new CheckBox(" Pakota yksi tason II-III kielitaito: ");
         motherLanguage.setSelected(this.settings.getMotherLanguage());
+        Label motherLanguageTierChance = new Label("Painotus:");
+        Label motherLanguageTierError = new Label("");
+        motherLanguageTierError.setTextFill(Color.RED);
+        
+        HBox motherLanguageTierChanceOptions = new HBox();
+        Label motherLanguageTierTwo = new Label("II: ");
+        String initialMotherLanguageSecondTierChance = String.valueOf(this.settings.
+                getMotherLanguageSecondTierChance());
+        TextField motherLanguageSecondTierChance = new TextField(
+            initialMotherLanguageSecondTierChance);
+        motherLanguageSecondTierChance.setMaxWidth(80);
+        Label motherLanguageStcPercent = new Label("% ");
+        Label motherLanguageTierThree = new Label("III: ");
+        String initialMotherLanguageThirdTierChance = String.valueOf(this.settings.
+                getMotherLanguageThirdTierChance());
+        TextField motherLanguageThirdTierChance = new TextField(
+            initialMotherLanguageThirdTierChance);
+        motherLanguageThirdTierChance.setMaxWidth(80);
+        Label motherLanguageTtcPercent = new Label("% ");
+        motherLanguageTierChanceOptions.getChildren().addAll(
+            motherLanguageTierTwo, motherLanguageSecondTierChance, 
+            motherLanguageStcPercent, motherLanguageTierThree, 
+            motherLanguageThirdTierChance, motherLanguageTtcPercent);
+        
+        motherLanguageChoiceLayout.getChildren().add(motherLanguage);
+        
         
         VBox motherLanguageOptions = new VBox();
         ToggleGroup motherLanguageGroup = new ToggleGroup();
@@ -343,17 +369,23 @@ public class Interface extends Application {
             argan.setSelected(true);
         }
         
-        motherLanguageLayout.getChildren().add(motherLanguage);
+        motherLanguageLayout.getChildren().add(motherLanguageChoiceLayout);
         
         if (motherLanguage.isSelected()) {
+            motherLanguageChoiceLayout.getChildren().addAll(motherLanguageTierChance, 
+                motherLanguageTierChanceOptions);
             motherLanguageLayout.getChildren().add(motherLanguageOptions);
         }
         
         motherLanguage.setOnAction((event) -> {
             if (motherLanguage.isSelected()) {
+                motherLanguageChoiceLayout.getChildren().addAll(motherLanguageTierChance, 
+                motherLanguageTierChanceOptions);
                 motherLanguageLayout.getChildren().add(motherLanguageOptions);
             } else {
                 motherLanguageLayout.getChildren().remove(motherLanguageOptions);
+                motherLanguageChoiceLayout.getChildren().removeAll(motherLanguageTierChance, 
+                motherLanguageTierChanceOptions, motherLanguageTierError);
             }
         });
         
@@ -366,7 +398,7 @@ public class Interface extends Application {
                     commonTierChanceOptions, commonTierChanceError, rareChances, 
                     rareTierChanceOptions, rareTierChanceError, legendaryChances, 
                     legendaryTierChanceOptions, legendaryTierChanceError, 
-                    motherLanguageLabel, motherLanguageLayout);
+                    motherLanguageLabel, motherLanguageLayout, motherLanguageTierError);
             this.primaryWindow.setScene(this.settingsScene);
         });
 
@@ -379,6 +411,7 @@ public class Interface extends Application {
             commonTierChanceError.setText("");
             rareTierChanceError.setText("");
             legendaryTierChanceError.setText("");
+            motherLanguageTierError.setText("");
 
             if (!isInteger(statPoolAmount.getText())
                     || !isInteger(statPoolVarAmount.getText())
@@ -396,7 +429,9 @@ public class Interface extends Application {
                     || !isDouble(rareThirdTierChance.getText())
                     || !isDouble(legendaryFirstTierChance.getText())
                     || !isDouble(legendarySecondTierChance.getText())
-                    || !isDouble(legendaryThirdTierChance.getText())) {
+                    || !isDouble(legendaryThirdTierChance.getText())
+                    || !isDouble(motherLanguageSecondTierChance.getText())
+                    || !isDouble(motherLanguageThirdTierChance.getText())) {
                 if (!isInteger(statPoolAmount.getText())
                         || !isInteger(statPoolVarAmount.getText())) {
                     statPoolError.setText("Kirjoita syöte kokonaislukuna!");
@@ -442,6 +477,12 @@ public class Interface extends Application {
                 } else {
                     legendaryTierChanceError.setText("");
                 }
+                if (!isDouble(motherLanguageSecondTierChance.getText())
+                        || !isDouble(motherLanguageThirdTierChance.getText())) {
+                    motherLanguageTierError.setText("Kirjoita syötteet lukuina!");
+                } else {
+                    motherLanguageTierError.setText("");
+                }
             } else {
                 int newStatPool = Integer.parseInt(statPoolAmount.getText());
                 int newStatVar = Integer.parseInt(statPoolVarAmount.getText());
@@ -462,6 +503,8 @@ public class Interface extends Application {
                 double newLegendaryStc = Double.parseDouble(legendarySecondTierChance.getText());
                 double newLegendaryTtc = Double.parseDouble(legendaryThirdTierChance.getText());
                 boolean newMotherLanguage = motherLanguage.isSelected();
+                double newMotherStc = Double.parseDouble(motherLanguageSecondTierChance.getText());
+                double newMotherTtc = Double.parseDouble(motherLanguageThirdTierChance.getText());
                 int newMotherLanguageType = 0;
                 if (newMotherLanguage) {
                     if (argan.isSelected()) {
@@ -493,7 +536,9 @@ public class Interface extends Application {
                         newLegendaryStc < 0 || newLegendaryStc > 100 || 
                         newLegendaryTtc < 0 || newLegendaryTtc > 100 || 
                         (newLegendaryFtc + newLegendaryStc + newLegendaryTtc != 
-                        100.0)) {
+                        100.0) || newMotherStc < 0 || newMotherStc > 100 ||
+                        newMotherTtc < 0 || newMotherTtc > 100 || (newMotherStc + 
+                        newMotherTtc != 100.0)) {
                     if (newStatPool < 0 || newStatPool > 100 || newStatVar < 0) {
                         statPoolError.setText("Valitse arvo väliltä 0-100!");
                     } else {
@@ -517,7 +562,7 @@ public class Interface extends Application {
                             newRareChance < 0 || newRareChance > 100 || 
                             newLegendaryChance < 0 || newLegendaryChance > 100 || 
                             (newCommonChance + newRareChance + 
-                            newLegendaryChance != 100)) {
+                            newLegendaryChance != 100.0)) {
                         if (newCommonChance < 0 || newCommonChance > 100 || 
                             newRareChance < 0 || newRareChance > 100 || 
                             newLegendaryChance < 0 || newLegendaryChance > 100) {
@@ -534,7 +579,7 @@ public class Interface extends Application {
                             newCommonStc < 0 || newCommonStc > 100 || 
                             newCommonTtc < 0 || newCommonTtc > 100 || 
                             (newCommonFtc + newCommonStc + 
-                            newCommonTtc != 100)) {
+                            newCommonTtc != 100.0)) {
                         if (newCommonFtc < 0 || newCommonFtc > 100 || 
                             newCommonStc < 0 || newCommonStc > 100 || 
                             newCommonTtc < 0 || newCommonTtc > 100) {
@@ -551,7 +596,7 @@ public class Interface extends Application {
                             newRareStc < 0 || newRareStc > 100 || 
                             newRareTtc < 0 || newRareTtc > 100 || 
                             (newRareFtc + newRareStc + 
-                            newRareTtc != 100)) {
+                            newRareTtc != 100.0)) {
                         if (newRareFtc < 0 || newRareFtc > 100 || 
                             newRareStc < 0 || newRareStc > 100 || 
                             newRareTtc < 0 || newRareTtc > 100) {
@@ -568,7 +613,7 @@ public class Interface extends Application {
                             newLegendaryStc < 0 || newLegendaryStc > 100 || 
                             newLegendaryTtc < 0 || newLegendaryTtc > 100 || 
                             (newLegendaryFtc + newLegendaryStc + 
-                            newLegendaryTtc != 100)) {
+                            newLegendaryTtc != 100.0)) {
                         if (newLegendaryFtc < 0 || newLegendaryFtc > 100 || 
                             newLegendaryStc < 0 || newLegendaryStc > 100 || 
                             newLegendaryTtc < 0 || newLegendaryTtc > 100) {
@@ -580,6 +625,20 @@ public class Interface extends Application {
                         
                     } else {
                         legendaryTierChanceError.setText("");
+                    }
+                    if (newMotherStc < 0 || newMotherStc > 100 || 
+                            newMotherTtc < 0 || newMotherTtc > 100 || 
+                            (newMotherStc + newMotherTtc != 100.0)) {
+                        if (newMotherStc < 0 || newMotherStc > 100 || 
+                                newMotherTtc < 0 || newMotherTtc > 100) {
+                                motherLanguageTierError.setText("Valitse arvot väliltä 0.0-100.0!");
+                            }
+                        if (newMotherStc + newMotherTtc != 100.0) {
+                            motherLanguageTierError.setText("Todennäköisyyksien "
+                                    + "summan pitää olla 100.0%!");
+                        }
+                    } else {
+                        motherLanguageTierError.setText("");
                     }
                 } else {
                     this.settings.setStatPool(newStatPool);
@@ -602,6 +661,8 @@ public class Interface extends Application {
                     this.settings.setLegendaryThirdTierChance(newLegendaryTtc);
                     this.settings.setMotherLanguage(newMotherLanguage);
                     this.settings.setMotherLanguageType(newMotherLanguageType);
+                    this.settings.setMotherLanguageSecondTierChance(newMotherStc);
+                    this.settings.setMotherLanguageThirdTierChance(newMotherTtc);                   
                     settingsLayout.getChildren().clear();
                     this.databaseWindow.close();
                     this.primaryWindow.setScene(this.startScene);
@@ -617,6 +678,7 @@ public class Interface extends Application {
             commonTierChanceError.setText("");
             rareTierChanceError.setText("");
             legendaryTierChanceError.setText("");
+            motherLanguageTierError.setText("");
             statPoolAmount.setText("70");
             statPoolVarAmount.setText("5");
             statMinAmount.setText("8");
@@ -637,10 +699,16 @@ public class Interface extends Application {
             legendaryThirdTierChance.setText("0.0");
             if (motherLanguage.isSelected()) {
                 argan.setSelected(true);
+                motherLanguageSecondTierChance.setText("0.0");
+                motherLanguageThirdTierChance.setText("100.0");
             } else {
                 motherLanguage.setSelected(true);
+                motherLanguageChoiceLayout.getChildren().addAll(motherLanguageTierChance, 
+                motherLanguageTierChanceOptions);
                 motherLanguageLayout.getChildren().add(motherLanguageOptions);
                 argan.setSelected(true);
+                motherLanguageSecondTierChance.setText("0.0");
+                motherLanguageThirdTierChance.setText("100.0");
             }            
         });
 

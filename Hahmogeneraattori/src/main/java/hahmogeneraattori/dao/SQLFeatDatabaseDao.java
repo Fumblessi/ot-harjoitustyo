@@ -71,7 +71,6 @@ public class SQLFeatDatabaseDao implements GeneratorDatabaseDao {
         Connection conn = openConnection();
 
         updateFeatToFeats(feat);
-
         PreparedStatement stmt = conn.prepareStatement("UPDATE Feat "
                 + "SET name = ?, stats = ?, randomProfs = ?, randomLangs = ?, "
                 + "extraProfs = ?, extraProfType = ? WHERE id = ?;");
@@ -87,7 +86,6 @@ public class SQLFeatDatabaseDao implements GeneratorDatabaseDao {
 
         deleteFeatProficiencies(feat, conn);
         addProficiencies(feat, conn);
-
         conn.close();
     }
     
@@ -117,7 +115,7 @@ public class SQLFeatDatabaseDao implements GeneratorDatabaseDao {
     public final void initialize() throws SQLException {
         Connection conn = openConnection();
         
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Feat");
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Feat;");
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             Feat feat = new Feat(rs.getInt(1), rs.getString(2), rs.getString(3), 

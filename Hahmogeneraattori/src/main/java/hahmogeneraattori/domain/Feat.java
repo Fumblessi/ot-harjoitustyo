@@ -26,6 +26,7 @@ public class Feat {
     
     public Feat(int id, String name, String stats, int randomProfs, int randomLangs, 
             int extraProfs, String extraProfType) {
+        this.id = id;
         this.name = name;
         this.stats = stats;
         this.randomProfs = randomProfs;

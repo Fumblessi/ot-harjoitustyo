@@ -121,13 +121,15 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
     public void delete(Object obj) throws SQLException {
         Proficiency prof = (Proficiency) obj;
         Connection conn = openConnection();
+        
+        deleteFromAllOtherTables(prof, conn);
 
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Proficiency "
                 + "WHERE id = ?;");
         stmt.setInt(1, prof.getId());
 
         stmt.executeUpdate();
-        stmt.close();
+        stmt.close();    
         conn.close();
 
         this.profs.remove(prof);
@@ -202,6 +204,45 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
         stmt.close();
 
         return id;
+    }
+    
+    public void deleteFromAllOtherTables(Proficiency prof, Connection conn) throws SQLException {
+        deleteRacialProf(prof, conn);
+        deleteClassProf(prof, conn);
+        deleteBackgroundProf(prof, conn);
+        deleteFeatProf(prof, conn);
+    }
+    
+    public void deleteRacialProf(Proficiency prof, Connection conn) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM "
+                + "RacialProficiency WHERE prof_id = ?;");
+        stmt.setInt(1, prof.getId());
+        stmt.executeUpdate();
+        stmt.close();
+    }
+    
+    public void deleteClassProf(Proficiency prof, Connection conn) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM "
+                + "ClassProficiency WHERE prof_id = ?;");
+        stmt.setInt(1, prof.getId());
+        stmt.executeUpdate();
+        stmt.close();
+    }
+    
+    public void deleteBackgroundProf(Proficiency prof, Connection conn) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM "
+                + "BackgroundProficiency WHERE prof_id = ?;");
+        stmt.setInt(1, prof.getId());
+        stmt.executeUpdate();
+        stmt.close();
+    }
+    
+    public void deleteFeatProf(Proficiency prof, Connection conn) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM "
+                + "FeatProficiency WHERE prof_id = ?;");
+        stmt.setInt(1, prof.getId());
+        stmt.executeUpdate();
+        stmt.close();
     }
 
     /**

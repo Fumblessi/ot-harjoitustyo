@@ -177,7 +177,7 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
     public final void initialize() throws SQLException {
         Connection conn = openConnection();
 
-        PreparedStatement stmtRacial = conn.prepareStatement("SELECT * FROM Racial");
+        PreparedStatement stmtRacial = conn.prepareStatement("SELECT * FROM Racial;");
         ResultSet rsRacial = stmtRacial.executeQuery();
         while (rsRacial.next()) {
             Racial newRacial = new Racial(rsRacial.getInt(1), rsRacial.getString(2), 
