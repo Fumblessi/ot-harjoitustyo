@@ -32,13 +32,13 @@ public class GeneratorTest {
         this.settingsDao = new FileSettingsDao("testSettings.txt");
         this.settings = new Settings(this.settingsDao);
         this.generator = new GeneratorService(this.settings, null);
+        this.generator.initializeRandomizer();
         this.generator.createRandomStats();
         this.stats = this.generator.getStats();
     }
 
     @Test
     public void statRandomizationSumIsCorrect() {
-        this.generator.createRandomStats();
         int sum = this.stats.getSum();
         int min = this.settings.getStatPool() - this.settings.getStatVar();
         int max = this.settings.getStatPool() + this.settings.getStatVar();
@@ -48,13 +48,11 @@ public class GeneratorTest {
     
     @Test
     public void statRandomizationMinLimitWorks() {
-        this.generator.createRandomStats();
         assertTrue(this.stats.getMin() >= this.settings.getStatMin());
     }
     
     @Test
     public void statRandomizationMaxLimitWorks() {
-        this.generator.createRandomStats();
         assertTrue(this.stats.getMax() <= this.settings.getStatMax() + 2);
     }
 }

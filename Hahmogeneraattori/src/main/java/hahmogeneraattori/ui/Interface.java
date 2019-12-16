@@ -137,7 +137,6 @@ public class Interface extends Application {
 
         HBox settingsButtons = new HBox();
         settingsButtons.getChildren().addAll(back, setDefault, databaseBar);
-        settingsScreen.getChildren().addAll(settingsButtons, settingsPane);
         this.settingsScene = new Scene(settingsScreen);
 
         Label statLabel = new Label("Piirteet: ");
@@ -213,12 +212,15 @@ public class Interface extends Application {
         String initialBgToolChance = String.valueOf(this.settings.getBgToolChance());
         TextField bgToolChance = new TextField(initialBgToolChance);
         bgToolChance.setMaxWidth(80);
+        Label bgToolChancePercent = new Label("% ");
         Label bgLangChanceLabel = new Label("Kieli: ");
         String initialBgLangChance = String.valueOf(this.settings.getBgLangChance());
         TextField bgLangChance = new TextField(initialBgLangChance);
         bgLangChance.setMaxWidth(80);
+        Label bgLangChancePercent = new Label("% ");
         bgToolOrLang.getChildren().addAll(bgToolChanceLabel, bgToolChance, 
-                bgLangChanceLabel, bgLangChance);
+                bgToolChancePercent, bgLangChanceLabel, bgLangChance, 
+                bgLangChancePercent);
         Label bgToolOrLangError = new Label("");
         bgToolOrLangError.setTextFill(Color.RED);
         
@@ -230,19 +232,23 @@ public class Interface extends Application {
                 getBgArtisanChance());
         TextField bgArtisanChance = new TextField(initialBgArtisanChance);
         bgArtisanChance.setMaxWidth(80);
+        Label bgArtisanChancePercent = new Label("% ");
         Label bgGamingSetChanceLabel = new Label("Gaming Set: ");
         String initialBgGamingSetChance = String.valueOf(this.settings.
                 getBgGamingSetChance());
         TextField bgGamingSetChance = new TextField(initialBgGamingSetChance);
         bgGamingSetChance.setMaxWidth(80);
+        Label bgGamingSetChancePercent = new Label("% ");
         Label bgInstrumentChanceLabel = new Label("Instrument: ");
         String initialBgInstrumentChance = String.valueOf(this.settings.
                 getBgInstrumentChance());
         TextField bgInstrumentChance = new TextField(initialBgInstrumentChance);
         bgInstrumentChance.setMaxWidth(80);
+        Label bgInstrumentChancePercent = new Label("% ");
         bgToolSubtype.getChildren().addAll(bgArtisanChanceLabel, bgArtisanChance, 
-                bgGamingSetChanceLabel, bgGamingSetChance, bgInstrumentChanceLabel, 
-                bgInstrumentChance);
+                bgArtisanChancePercent, bgGamingSetChanceLabel, bgGamingSetChance, 
+                bgGamingSetChancePercent, bgInstrumentChanceLabel, 
+                bgInstrumentChance, bgInstrumentChancePercent);
         
         Label bgToolSubtypeError = new Label("");
         bgToolSubtypeError.setTextFill(Color.RED);
@@ -475,9 +481,7 @@ public class Interface extends Application {
             }
         });
         
-        
-        settingsButton.setOnAction((event) -> {
-            settingsLayout.getChildren().addAll(statLabel, 
+        settingsLayout.getChildren().addAll(statLabel, 
                     statPool, statPoolError, statLimits, statLimitError, 
                     raceLabel, racialBonus, racialAmountLayout, 
                     racialAmountError, bgLabel, bgSkills, 
@@ -491,6 +495,9 @@ public class Interface extends Application {
                     legendaryChances, legendaryTierChanceOptions, 
                     legendaryTierChanceError, motherLanguageLabel, 
                     motherLanguageLayout, motherLanguageTierError);
+        
+        settingsButton.setOnAction((event) -> {
+            settingsScreen.getChildren().addAll(settingsButtons, settingsPane);
             this.primaryWindow.setScene(this.settingsScene);
         });
 
@@ -866,7 +873,7 @@ public class Interface extends Application {
                     this.settings.setMotherLanguageType(newMotherLanguageType);
                     this.settings.setMotherLanguageSecondTierChance(newMotherStc);
                     this.settings.setMotherLanguageThirdTierChance(newMotherTtc);                   
-                    settingsLayout.getChildren().clear();
+                    settingsScreen.getChildren().clear();
                     this.databaseWindow.close();
                     this.primaryWindow.setScene(this.startScene);
                 }

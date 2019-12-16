@@ -51,6 +51,10 @@ public class GeneratorService {
         this.profs = new ArrayList<>();
         this.feats = new ArrayList<>();
     }
+    
+    public void initializeRandomizer() {
+        this.randomizer = new Randomizer();
+    }
 
     public Stats getStats() {
         return this.stats;
@@ -63,7 +67,7 @@ public class GeneratorService {
      * @see hahmogeneraattori.domain.GeneratorService#createRandomStats()
      */
     public void generate() {
-        this.randomizer = new Randomizer();
+        initializeRandomizer();
         createRandomRace();
         createRandomClass();
         createRandomSubclass();
