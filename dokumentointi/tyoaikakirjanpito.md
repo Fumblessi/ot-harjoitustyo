@@ -16,5 +16,5 @@ Päivä | Aika | Mitä tein
 13.12 | 4,5  | Racial-tietokantatoiminnallisuus jälleen toimii, Class-tietokanta melkein
 14.12 | 3,5  | Kaikki tietokantatoiminnallisuus jälleen toimii, default-tietokanta rakennettu
 15.12 | 4    | Asetukset-välilehden päivitys, kielen arpomiseen liittyvät käyttöliittymäkomponentit tehty, käyttöohjeen päivitystä
-16.12 | 2    | Asetukset-välilehden viimeistelyä, käyttöohjeen päivitystä
-Yht.  | 85   |  tuntia
+16.12 | 8,5  | Asetukset-välilehden viimeistelyä, käyttöohjeen päivitystä, Background-tietokannan uudistus, generointi-toiminnallisuuden rakentamista
+Yht.  | 91,5 |  tuntia
