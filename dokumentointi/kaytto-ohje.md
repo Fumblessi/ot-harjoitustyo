@@ -16,6 +16,11 @@ Erilaisia D&D-peliin liittyviä termejä, joita ohjelmassani ja dokumenteissani 
 
 Peliporukassamme olemme muokanneet joitakin sääntöjä, ja hahmogeneraattorin olen tehnyt seuraamaan näitä sääntömuutoksia. Normaalisti esimerkiksi hahmon rotu määrittää sen rotuominaisuuden (Racial), mutta olemme tässä mielessä roolipeliporukassamme tasa-arvoistaneet eri rotuja, sillä yksilöinä hahmot kuitenkin voivat venyä vaikka mihin, ja pelaajat saavat itse valita rotuominaisuutensa kaikista eri rotujen tarjoamista vaihtoehdoista, riippumatta hahmon rodusta. Siksi generaattorikin arpoo hahmolle rotuominaisuudet kaikista vaihtoehdoista tietokantataulussa 'Racial'.
 
+Kielitaito pelissämme on hieman monimutkaistettu perinteisestä D&D-pelistä. Siinä tavallisesti hahmo joko osaa tai ei osaa kieltä, mutta meillä osaaminen on jaettu kolmeen eri osaamistasoon:
+I: Osaa jotain alkeita, saattaa tunnistaa tiettyjä sanoja. Kommunikointi työlästä ja kömpelöä.
+II: Osaa puhua ja lukea kieltä kohtuullisen hyvin, kommunikointi onnistuu, mutta näkyy läpi, ettei ole natiivi puhuja.
+III: Puhuu kieltä moitteettomasti ja sujuvasti, kuin se olisi äidinkieli.
+
 Jos jollakulla muulla tulisi generaattorille kysyntää, saattaisin tehdä näistä sääntömuutoksista valinnaisia, ja asetusten kautta säädettäviä.
 
 -----------------------------------------------------------------------------------------------------------------------------
@@ -28,18 +33,16 @@ Tällä hetkellä Generoi-painikkeella generaattori luo satunnaiset hahmon piirt
 
 ## Asetukset
 
-Tällä hetkellä Asetukset-välilehdeltä voi muokata hahmolle arvottavien piirteiden kokonaissummaa sekä jokaisen piirteen minimi-
-ja maksimiarvoa. Parametrit tulisi asettaa niin, että kokonaissumma on suuruudeltaan 0-100, ja rajat ovat mahdolliset, eli
-minimiarvo ei ole maksimiarvoa suurempi, ja että piirteiden kokonaissumma voidaan jakaa rajojen puitteissa kuuteen eri piirteeseen
-(Strength, Dexterity, Constitution, Intelligence, Wisdom ja Charisma), ja ettei sitä jää yli. Ohjelma valittaa, mikäli asetetut
-rajat ovat mahdottomat.
+Valitsemalla alkunäkymästä painikkeen Asetukset, pääsee asetusnäkymään, josta voi säätää generoinnin parametreja.
 
-Halutessaan voi valita, että arvotaan samantien myös rodun pohjalta tulevat lisäpiirteet +2 ja +1 satunnaisiin piirteisiin.
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/asetukset.png" width="600">
 
-Asetukset tallentuvat käyttökertojen välillä, mutta Asetukset-välilehdeltä voi palauttaa myös oletusasetukset (kokonaissumma on 70,
-minimiarvo 8, maksimiarvo 18 ja rodun pohjalta tulevat piirrebonukset päällä).
-
-Asetuksissa on nyt yläpalkissa menu "Tietokanta", josta painamalla näkee vaihtoehtoiset eri tietokantataulut. Tällä hetkellä ainoastaan Proficiency ja Racial ovat muokattavissa. Tietokantaa ei ole vielä täytetty, mutta joitakin esimerkkejä siellä on.
+1. "Tallenna ja palaa"-painikkeella palataan takaisin generointiruutuun, ja tallennetaan asetusten muutokset. "Palauta alkuperäiset"-painike muuttaa asetukset oletusasetuksiksi, ja "Tietokanta"-palkista pääsee tarkastelemaan tietokannan sisältöä.
+2. Tästä voi säätää hahmon piirteiden arpomisen parametreja. Piirteiden summa on piirteiden yhteenlaskettu määrä. Jos haluaa, että arvotut hahmot saavat keskenään saman verran piirteitä, varianssin voi laittaa nollaan, mutta jos haluaa satunnaisuutta, voi asettaa piirteiden summalle satunnaista vaihtelua. Piirteiden minimi- ja maksimiarvo kuvaa sitä, kuinka paljon vähintään tai korkeintaan jokaiseen yksittäiseen piirteeseen tulee pisteitä.
+3. Halutessaan voi laittaa generaattorin sijoittamaan normaalisti rodun puolesta saadut +2 ja +1 johonkin piirteeseen satunnaiseti.
+4. Arvottujen rotuominaisuuksien määrä
+5. Kielien arpomisen todennäköisyyksiä voi itse säätää. Meidän oletusasetuksemme näkyvät ruudussa, eli yleisen tason kielet ovat yleisimpiä, ja niitä myös todennäköisemmin satunnainen hahmo osaa puhua paremmin.
+6. Halutessaan voi pakottaa hahmolle äidinkielen (mikä yleensä on järkevää), eli ensimmäinen kieli joka hahmolle arpoutuisikin on automaattisesti tason II-III kieli (todennäköisyyden tälle voi myös itse määrittää), ja voi valita muutamasta vaihtoehdosta, mistä tämä kieli valitaan (Argan on meidän pelin puhutuin kieli, joten se on tässä vaihtoehtona, joskin jossain vaiheessa muutan tämän asetuksen niin, että haluamansa kielen voi määrittää itse).
 
 ### Race-tietokantataulun muokkaus
 
