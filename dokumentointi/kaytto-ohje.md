@@ -17,9 +17,9 @@ Erilaisia D&D-peliin liittyviä termejä, joita ohjelmassani ja dokumenteissani 
 Peliporukassamme olemme muokanneet joitakin sääntöjä, ja hahmogeneraattorin olen tehnyt seuraamaan näitä sääntömuutoksia. Normaalisti esimerkiksi hahmon rotu määrittää sen rotuominaisuuden (Racial), mutta olemme tässä mielessä roolipeliporukassamme tasa-arvoistaneet eri rotuja, sillä yksilöinä hahmot kuitenkin voivat venyä vaikka mihin, ja pelaajat saavat itse valita rotuominaisuutensa kaikista eri rotujen tarjoamista vaihtoehdoista, riippumatta hahmon rodusta. Siksi generaattorikin arpoo hahmolle rotuominaisuudet kaikista vaihtoehdoista tietokantataulussa 'Racial'.
 
 Kielitaito pelissämme on hieman monimutkaistettu perinteisestä D&D-pelistä. Siinä tavallisesti hahmo joko osaa tai ei osaa kieltä, mutta meillä osaaminen on jaettu kolmeen eri osaamistasoon:
-I: Osaa jotain alkeita, saattaa tunnistaa tiettyjä sanoja. Kommunikointi työlästä ja kömpelöä.
-II: Osaa puhua ja lukea kieltä kohtuullisen hyvin, kommunikointi onnistuu, mutta näkyy läpi, ettei ole natiivi puhuja.
-III: Puhuu kieltä moitteettomasti ja sujuvasti, kuin se olisi äidinkieli.
+* I: Osaa jotain alkeita, saattaa tunnistaa tiettyjä sanoja. Kommunikointi työlästä ja kömpelöä.
+* II: Osaa puhua ja lukea kieltä kohtuullisen hyvin, kommunikointi onnistuu, mutta näkyy läpi, ettei ole natiivi puhuja.
+* III: Puhuu kieltä moitteettomasti ja sujuvasti, kuin se olisi äidinkieli.
 
 Jos jollakulla muulla tulisi generaattorille kysyntää, saattaisin tehdä näistä sääntömuutoksista valinnaisia, ja asetusten kautta säädettäviä.
 
