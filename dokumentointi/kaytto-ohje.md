@@ -35,14 +35,16 @@ Tällä hetkellä Generoi-painikkeella generaattori luo satunnaiset hahmon piirt
 
 Valitsemalla alkunäkymästä painikkeen Asetukset, pääsee asetusnäkymään, josta voi säätää generoinnin parametreja.
 
-<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/asetukset.png" width="450">
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/asetukset1.png" width="450">
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/asetukset2.png" width="450">
 
 1. "Tallenna ja palaa"-painikkeella palataan takaisin generointiruutuun, ja tallennetaan asetusten muutokset. "Palauta alkuperäiset"-painike muuttaa asetukset oletusasetuksiksi, ja "Tietokanta"-palkista pääsee tarkastelemaan tietokannan sisältöä.
 2. Tästä voi säätää hahmon piirteiden arpomisen parametreja. Piirteiden summa on piirteiden yhteenlaskettu määrä. Jos haluaa, että arvotut hahmot saavat keskenään saman verran piirteitä, varianssin voi laittaa nollaan, mutta jos haluaa satunnaisuutta, voi asettaa piirteiden summalle satunnaista vaihtelua. Piirteiden minimi- ja maksimiarvo kuvaa sitä, kuinka paljon vähintään tai korkeintaan jokaiseen yksittäiseen piirteeseen tulee pisteitä.
-3. Halutessaan voi laittaa generaattorin sijoittamaan normaalisti rodun puolesta saadut +2 ja +1 johonkin piirteeseen satunnaiseti.
-4. Arvottujen rotuominaisuuksien määrä
-5. Kielien arpomisen todennäköisyyksiä voi itse säätää. Meidän oletusasetuksemme näkyvät ruudussa, eli yleisen tason kielet ovat yleisimpiä, ja niitä myös todennäköisemmin satunnainen hahmo osaa puhua paremmin.
-6. Halutessaan voi pakottaa hahmolle äidinkielen (mikä yleensä on järkevää), eli ensimmäinen kieli joka hahmolle arpoutuisikin on automaattisesti tason II-III kieli (todennäköisyyden tälle voi myös itse määrittää), ja voi valita muutamasta vaihtoehdosta, mistä tämä kieli valitaan (Argan on meidän pelin puhutuin kieli, joten se on tässä vaihtoehtona, joskin jossain vaiheessa muutan tämän asetuksen niin, että haluamansa kielen voi määrittää itse).
+3. Halutessaan voi laittaa generaattorin sijoittamaan normaalisti rodun puolesta saadut +2 ja +1 johonkin piirteeseen satunnaiseti. Voit myös valita arvottujen rotuominaisuuksien määrän.
+4. Voit vaikuttaa siihen, montako skilliä tai muuta taitoa background hahmolle antaa. Näistä muista proficiencyistä voit edelleen valita painotuksen, että millä todennäköisyydellä arvottu muu taito on jonkin esineen käyttöön liittyvä taito vai osattu kieli. Edelleen arvotuista esine-taidoista voit valita todennäköisyyden, millä ne ovat työkaluja tai muita välineitä, vai soittimia tai pelejä.
+5. Voit valita, kuinka monta kieltä hahmolle pohjimmiltaan arvotaan (tähän päälle voi tulla kielitaitoja taustasta tai muista generoiduista ominaisuuksista).
+6. Kielien arpomisen todennäköisyyksiä voi itse säätää. Meidän oletusasetuksemme näkyvät ruudussa, eli yleisen tason kielet ovat yleisimpiä, ja niitä myös todennäköisemmin satunnainen hahmo osaa puhua paremmin.
+7. Halutessaan voi pakottaa hahmolle äidinkielen (mikä yleensä on järkevää), eli ensimmäinen kieli joka hahmolle arpoutuisikin on automaattisesti tason II-III kieli (todennäköisyyden tälle voi myös itse määrittää), ja voi valita muutamasta vaihtoehdosta, mistä tämä kieli valitaan (Argan on meidän pelin puhutuin kieli, joten se on tässä vaihtoehtona, joskin jossain vaiheessa muutan tämän asetuksen niin, että haluamansa kielen voi määrittää itse).
 
 ### Race-tietokantataulun muokkaus
 
@@ -91,9 +93,11 @@ Tietokanta-palkista valitsemalla Class, voi tarkastella tietokantataulun 'Class'
 
 Tietokanta-palkista valitsemalla Background, voi tarkastella tietokantataulun 'Background' sisältöä, eli generoinnin pohjana olevia vaihtoehtoisia hahmon taustoja, ja edelleen lisätä tietokantaan uusia taustoja tai halutessaan muokata tai poistaa siellä jo entuudestaan olevia.
 
-<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/bgLisays.png" width="600">
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/bgLisays.png" width="350">
 
-ks. Racial-tietokantataulun muokkaus (taustan taitojen antaminen toimii samalla tavalla, mutta tausta ei voi antaa hahmolle erityistaitoa tai vaikuttaa hahmon piirteisiin)
+1. Uuden taustan nimi.
+2. Taustan antama ominaisuus ja sen kuvaus.
+3. Painike "Lisää" lisää uuden taustan tietokantaan, painike "Takaisin" palaa Background-tietokantanäkymään.
 
 ### Feat-tietokantataulun muokkaus
 
