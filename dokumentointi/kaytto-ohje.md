@@ -35,7 +35,7 @@ Tällä hetkellä Generoi-painikkeella generaattori luo satunnaiset hahmon piirt
 
 Valitsemalla alkunäkymästä painikkeen Asetukset, pääsee asetusnäkymään, josta voi säätää generoinnin parametreja.
 
-<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/asetukset.png" width="600">
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/asetukset.png" width="450">
 
 1. "Tallenna ja palaa"-painikkeella palataan takaisin generointiruutuun, ja tallennetaan asetusten muutokset. "Palauta alkuperäiset"-painike muuttaa asetukset oletusasetuksiksi, ja "Tietokanta"-palkista pääsee tarkastelemaan tietokannan sisältöä.
 2. Tästä voi säätää hahmon piirteiden arpomisen parametreja. Piirteiden summa on piirteiden yhteenlaskettu määrä. Jos haluaa, että arvotut hahmot saavat keskenään saman verran piirteitä, varianssin voi laittaa nollaan, mutta jos haluaa satunnaisuutta, voi asettaa piirteiden summalle satunnaista vaihtelua. Piirteiden minimi- ja maksimiarvo kuvaa sitä, kuinka paljon vähintään tai korkeintaan jokaiseen yksittäiseen piirteeseen tulee pisteitä.
