@@ -46,3 +46,4 @@ mahdollisesti vaikuttamaan vielä näiden eri vaihtoehtojen todennäköisyyksiin
 liittyen hahmoon
 * Sovellus luo generoidusta hahmosta kuvan, niin että pohjakuva valitaan rodun perusteella, ja sen vaatetus arvotun hahmoluokan perusteella
 * Sovellus arpoo muutenkin hahmon ulkonäön, pituuden, painon, iän, silmien/hiusten värin yms.
+* Background-tietokantataulun lisäksi myös Racial- ja Feat-tietokannat sisältävät kuvauksen ks. rotuominaisuudesta tai erityistaidosta, jotka sitten generoitaessa voi katsoa mouse over-tekstinä
