@@ -25,8 +25,12 @@ Tämän lisäksi Asetukset -näkymästä voidaan avata kolmas näkymä, josta vo
 * Sovellus arpoo hahmoluokan, rodun ja taustan vastaavista tietokantatauluista, joihin eri vaihtoehdot on listattu
 * Edelleen näiden pohjalta sovellus arpoo hahmolle piirteet (Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma) **TEHTY** sekä sen omaamat taidot
 * Asetukset -välilehdeltä generointia pystyy rajoittamaan:
-  * Voi valita arvontaan vain tietyt luokat
-  * Voi rajata piirteiden määrää arvonnassa, ja lisäksi valita ottavansa mukaan satunnaiset +2 ja +1 piirteet hahmon rodusta **TEHTY**
+  * Voi määrittää arvottujen piirteiden määrän **TEHTY**
+  * Voi määrittää arvottujen rotuominaisuuksien määrän **TEHTY** 
+  * Voi valita ottavansa mukaan satunnaiset +2 ja +1 piirteet hahmon rodusta **TEHTY**
+  * Voi määrittää taustan antamien taitojen määrät ja eri tyyppien todennäköisyydet **TEHTY**
+  * Voi määrittää arvottujen kielten määrän ja eri kielien harvinaisuuksien ja osaamistasojen todennäköisyydet **TEHTY**
+  * Voi valita pakottavansa yhden äidinkielen kielten joukkoon **TEHTY**
 * Asetukset -välilehdeltä voi lisäksi muokata tietokantojen sisältöä, voi esimerkiksi poistaa tai lisätä hahmoluokkia, rotuja tai taustoja, joiden joukosta generointi tehdään **TEHTY**
 
 ### Jatkokehitysideoita
