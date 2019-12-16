@@ -15,5 +15,6 @@ Päivä | Aika | Mitä tein
 12.12 | 9    | Background- ja Feat-tietokantataulujen muokkaustoiminnallisuuden tehty, jonka jälkeen koko tietokanta uusittu ja ohjelman rakenne overhaulattu, joten uudelleenrakentamisessa kerkesin saada Proficiency-tietokantataulutoiminnallisuuden jälleen toimimaan. Totuus on, että vanha tietokanta-arkkitehtuuri ei mitenkään ollut riittävän kompleksinen käsittelemään D&D-pelin varianssia
 13.12 | 4,5  | Racial-tietokantatoiminnallisuus jälleen toimii, Class-tietokanta melkein
 14.12 | 3,5  | Kaikki tietokantatoiminnallisuus jälleen toimii, default-tietokanta rakennettu
-15.12 | 4    | Asetukset-välilehden päivitys, viimeiset käyttöliittymäkomponentit tehty, käyttöohjeen päivitystä
-Yht.  | 83   |  tuntia
+15.12 | 4    | Asetukset-välilehden päivitys, kielen arpomiseen liittyvät käyttöliittymäkomponentit tehty, käyttöohjeen päivitystä
+16.12 | 2    | Asetukset-välilehden viimeistelyä, käyttöohjeen päivitystä
+Yht.  | 85   |  tuntia
