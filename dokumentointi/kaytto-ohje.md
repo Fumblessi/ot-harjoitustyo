@@ -27,7 +27,7 @@ Jos jollakulla muulla tulisi generaattorille kysyntää, saattaisin tehdä näis
 
 ## Generointi
 
-<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/asetukset1.png" width="450">
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/generointi.png" width="450">
 
 1. Painike "Generoi" luo uuden satunnaisen hahmon, ja painikkeesta "Asetukset" voi siirtyä määrittämään generoinnin parametreja tai tietokantojen sisältöä
 2. Generoidun hahmon piirteet tulevan näkymään tähän
