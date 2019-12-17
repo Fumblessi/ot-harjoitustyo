@@ -79,6 +79,4 @@ public class Background {
         }
         return true;
     }
-    
-    
 }

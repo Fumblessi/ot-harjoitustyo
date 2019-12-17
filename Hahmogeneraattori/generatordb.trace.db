@@ -5117,3 +5117,6 @@ Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection wa
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:622)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 61 more
+2019-12-17 20:45:33 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BACKGROUNDPROFICIENCY" not found; SQL statement:
+DELETE FROM BackgroundProficiency WHERE prof_id = ?; [42102-200]

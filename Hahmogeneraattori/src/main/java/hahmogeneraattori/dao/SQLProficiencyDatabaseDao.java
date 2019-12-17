@@ -209,7 +209,6 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
     public void deleteFromAllOtherTables(Proficiency prof, Connection conn) throws SQLException {
         deleteRacialProf(prof, conn);
         deleteClassProf(prof, conn);
-        deleteBackgroundProf(prof, conn);
         deleteFeatProf(prof, conn);
     }
     
@@ -224,14 +223,6 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
     public void deleteClassProf(Proficiency prof, Connection conn) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM "
                 + "ClassProficiency WHERE prof_id = ?;");
-        stmt.setInt(1, prof.getId());
-        stmt.executeUpdate();
-        stmt.close();
-    }
-    
-    public void deleteBackgroundProf(Proficiency prof, Connection conn) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM "
-                + "BackgroundProficiency WHERE prof_id = ?;");
         stmt.setInt(1, prof.getId());
         stmt.executeUpdate();
         stmt.close();
