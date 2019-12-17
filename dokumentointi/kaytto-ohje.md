@@ -27,7 +27,13 @@ Jos jollakulla muulla tulisi generaattorille kysyntää, saattaisin tehdä näis
 
 ## Generointi
 
-Tällä hetkellä Generoi-painikkeella generaattori luo satunnaiset hahmon piirteet noudattaen Asetuksissa määriteltyjä rajoja, eikä vielä arvo hahmolle taitoja/luokkaa/taustaa yms.
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/asetukset1.png" width="450">
+
+1. Painike "Generoi" luo uuden satunnaisen hahmon, ja painikkeesta "Asetukset" voi siirtyä määrittämään generoinnin parametreja tai tietokantojen sisältöä
+2. Generoidun hahmon piirteet tulevan näkymään tähän
+3. Generoidun hahmon ominaisuudet, eli rotu, aliluokka & luokka, tausta, "order/morality" (eli arvot siitä, kuinka järjestelmällinen/lakia noudatta ja hyvän-/pahantahtoinen hahmo on) sekä arvotut rotuominaisuudet tulevat näkymään tähän (viemällä hiiren "backgroundin" kohdalle, voi lukea taustan antaman lisäominaisuuden)
+4. Hahmolle kohdan 3 pohjalta generoidut taidot tulevat näkymään tähän
+5. Painikkeesta "kopioi leikepöydälle" voi kopioida generoinnin sisällön, jos haluaa ottaa hahmon tiedot esimerkiksi talteen peliä varten
 
 -----------------------------------------------------------------------------------------------------------------------------
 
