@@ -22,8 +22,8 @@ näkymään, josta generoinnin parametreja voi muokata.
 Tämän lisäksi Asetukset -näkymästä voidaan avata kolmas näkymä, josta voi muokata tietokannan sisältöä.
 
 ### Toiminnallisuus
-* Sovellus arpoo hahmoluokan, rodun ja taustan vastaavista tietokantatauluista, joihin eri vaihtoehdot on listattu
-* Edelleen näiden pohjalta sovellus arpoo hahmolle piirteet (Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma) **TEHTY** sekä sen omaamat taidot
+* Sovellus arpoo hahmoluokan, rodun ja taustan vastaavista tietokantatauluista, joihin eri vaihtoehdot on listattu **TEHTY**
+* Edelleen näiden pohjalta sovellus arpoo hahmolle piirteet (Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma) **TEHTY** sekä sen omaamat taidot **TEHTY**
 * Asetukset -välilehdeltä generointia pystyy rajoittamaan:
   * Voi määrittää arvottujen piirteiden määrän **TEHTY**
   * Voi määrittää arvottujen rotuominaisuuksien määrän **TEHTY** 
@@ -39,11 +39,8 @@ toteuttaa näitäkin.
 
 * Asetukset -välilehdeltä pystyy valitsemaan hahmon aloitustason (eikä se oletuksena ole 1). Tällöin generoidun hahmon tietoihin
 on lisätty myös piirteet ja ominaisuudet, joita hahmo on saanut hahmotason kasvaessa
-* Asetukset -välilehdeltä pystyy valitsemaan, että hahmolle saattaa arpoutua useampi hahmoluokka yhden sijaan (jos aloitustaso on
-suurempi kuin 1). Käyttäjä pystyy itse vaikuttamaan, kuinka monta hahmoluokkaa arpoutuu minimissään ja kuinka monta maksimissaan, ja
-mahdollisesti vaikuttamaan vielä näiden eri vaihtoehtojen todennäköisyyksiin
-* Asetukset -välilehdeltä voi lisätä arvontaan esimerkiksi tavaroita, joiden kanssa hahmo aloittaa, tai jotain muita lisäpiirteitä
-liittyen hahmoon
+* Asetukset -välilehdeltä pystyy valitsemaan, että hahmolle saattaa arpoutua useampi hahmoluokka yhden sijaan (jos aloitustaso on suurempi kuin 1). Käyttäjä pystyy itse vaikuttamaan, kuinka monta hahmoluokkaa arpoutuu minimissään ja kuinka monta maksimissaan, ja mahdollisesti vaikuttamaan vielä näiden eri vaihtoehtojen todennäköisyyksiin
+* Asetukset -välilehdeltä voi lisätä arvontaan esimerkiksi tavaroita, joiden kanssa hahmo aloittaa, tai jotain muita lisäpiirteitä liittyen hahmoon, kuten erityistaidon
 * Sovellus luo generoidusta hahmosta kuvan, niin että pohjakuva valitaan rodun perusteella, ja sen vaatetus arvotun hahmoluokan perusteella
 * Sovellus arpoo muutenkin hahmon ulkonäön, pituuden, painon, iän, silmien/hiusten värin yms.
 * Background-tietokantataulun lisäksi myös Racial- ja Feat-tietokannat sisältävät kuvauksen ks. rotuominaisuudesta tai erityistaidosta, jotka sitten generoitaessa voi katsoa mouse over-tekstinä
