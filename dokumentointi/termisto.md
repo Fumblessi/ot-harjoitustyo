@@ -12,6 +12,8 @@ Feat                 | erityistaito, joita hahmolla saattaa olla, tai sitten ei
 Intelligence         | älykkyys, yksi kuudesta hahmon piirteestä, joka vaikuttaa esimerkiksi hahmon kykyyn muistaa asioita (ks. Stat)
 Language Proficiency | taito puhua/lukea tiettyä kieltä (ks. Proficiency)
 Level                | hahmon taso. Hahmon kehittymistä kuvataan sen noustessa tasoilla. Generaattori tällä hetkellä generoi vain tason 1 hahmoja
+Morality             | hahmon hyvän- tai pahantahtoisuus, asteikolla 1-10 (10 = pyhimys, 1 = niin paha kuin vain voi olla)
+Order                | hahmon järjestelmäorientoituneisuus/lain noudattavuus asteikolla 1-10 (10 = ei ikinä riko pienentäkään normia/sääntöä/lakia, 1 = täysin kaoottinen)
 Proficiency          | hahmon omaama taito. Taidot jakautuvat eri kategorioihin (Armor, Language, Save, Skill, Tool, Weapon)
 Race                 | hahmon rotu (esim. ihminen, örkki, haltia yms.)
 Racial               | hahmon rodun puolesta saama ominaisuus (esim. kääpiöt ovat kestäviä)
