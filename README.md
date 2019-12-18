@@ -23,8 +23,6 @@ Hahmogeneraattorin tarkoitus on arpoa satunnainen roolipelihahmo, sekä sille pi
 
 * JavaDocin kirjoittaminen
 * Testien korjaaminen uuden ohjelmarakenteen kanssa toimivaksi
-* Generointi-toiminnallisuuden hiominen ja bugien ja mahdollisen virhekäytön eliminointi
-* Käyttöliittymän ulkoasu kivemmaksi
 
 # Komentorivi
 
