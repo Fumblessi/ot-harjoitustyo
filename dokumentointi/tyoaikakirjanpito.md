@@ -18,4 +18,5 @@ Päivä | Aika | Mitä tein
 15.12 | 4    | Asetukset-välilehden päivitys, kielen arpomiseen liittyvät käyttöliittymäkomponentit tehty, käyttöohjeen päivitystä
 16.12 | 8,5  | Asetukset-välilehden viimeistelyä, käyttöohjeen päivitystä, Background-tietokannan uudistus, generointi-toiminnallisuuden rakentamista
 17.12 | 8,5  | Generointi-toiminnallisuus hiomista vaille valmis (lähinnä vielä pitää pari bugia korjata ja estää virheellinen käyttö), dokumentointia päivitelty
-Yht.  | 99   |  tuntia
+18.12 | 3    | Graafisen käyttöliittymän hiontaa, bugien kaivelua ja fiksausta
+Yht.  | 102  |  tuntia
