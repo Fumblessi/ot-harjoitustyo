@@ -72,7 +72,7 @@ public class Randomizer {
         if (racialBonus) {
             addRacialBonus(newStats);
         }
-        if (racials.isEmpty()) {
+        if (!racials.isEmpty()) {
             makeRacialModifications(newStats, racials);
         }
         shuffle(newStats);
@@ -114,6 +114,11 @@ public class Randomizer {
     public HashMap<Proficiency, String> getRandomLangs(RpgClass rpgclass,
             List<Racial> racials, Background bg) {
         HashMap<Proficiency, String> langs = new HashMap<>();
+        ArrayList<Proficiency> langPool = createExtraProfPool("Language");
+        if (langPool.isEmpty()) {
+            langs.put(new Proficiency("-", "Language", "-"), "-");
+            return langs;
+        }
         if (this.settings.getMotherLanguage()) {
             getMotherLanguage(langs);
             this.langCount--;
@@ -322,18 +327,24 @@ public class Randomizer {
 
     public boolean gotAllLegalRacials(List<Racial> allRacials, ArrayList<Racial> randomRacials, RpgClass rpgclass) {
         for (Racial racial : allRacials) {
-            if (!randomRacials.contains(racial) && checkRacialLegality(racial,
-                    rpgclass)) {
+            if (!randomRacials.contains(racial) && checkRacialLegality(randomRacials, 
+                    racial, rpgclass)) {
                 return false;
             }
         }
         return true;
     }
 
-    public boolean checkRacialLegality(Racial racial, RpgClass rpgclass) {
+    public boolean checkRacialLegality(List<Racial> randomRacials, 
+            Racial racial, RpgClass rpgclass) {
         for (Proficiency prof : racial.getCertainProfs()) {
             if (rpgclass.getCertainProfs().contains(prof)) {
                 return false;
+            }
+            for (Racial rndRacial : randomRacials) {
+                if (rndRacial.getCertainProfs().contains(prof)) {
+                    return false;
+                }
             }
         }
         return true;
@@ -344,8 +355,8 @@ public class Randomizer {
         while (true) {
             int index = this.random.nextInt(allRacials.size());
             Racial newRacial = allRacials.get(index);
-            if (!randomRacials.contains(newRacial) && checkRacialLegality(newRacial,
-                    rpgclass)) {
+            if (!randomRacials.contains(newRacial) && checkRacialLegality(randomRacials, 
+                    newRacial, rpgclass)) {
                 return newRacial;
             }
         }
@@ -392,7 +403,7 @@ public class Randomizer {
         int uncertainAdded = 0;
         int uncertainToAdd = rpgclass.getRandomProfs();
         while (uncertainAdded < uncertainToAdd) {
-            if (allUncertainAdded(rpgclass.getUncertainProfs(), profs)) {
+            if (allAdded(rpgclass.getUncertainProfs(), profs)) {
                 Proficiency newProf = getRandomSkillTool();
                 if (!profs.contains(newProf)) {
                     profs.add(newProf);
@@ -409,9 +420,9 @@ public class Randomizer {
         }
     }
 
-    public boolean allUncertainAdded(List<Proficiency> uncertainProfs,
+    public boolean allAdded(List<Proficiency> profPool,
             ArrayList<Proficiency> profs) {
-        for (Proficiency prof : uncertainProfs) {
+        for (Proficiency prof : profPool) {
             if (!profs.contains(prof)) {
                 return false;
             }
@@ -429,7 +440,7 @@ public class Randomizer {
         int uncertainAdded = 0;
         int uncertainToAdd = racial.getRandomProfs();
         while (uncertainAdded < uncertainToAdd) {
-            if (allUncertainAdded(racial.getUncertainProfs(), profs)) {
+            if (allAdded(racial.getUncertainProfs(), profs)) {
                 Proficiency newProf = getRandomSkillTool();
                 if (!profs.contains(newProf)) {
                     profs.add(newProf);
@@ -454,11 +465,15 @@ public class Randomizer {
         int extraToAdd = rpgclass.getExtraProfs();
 
         while (extraAdded < extraToAdd) {
-            int index = this.random.nextInt(extraProfPool.size());
-            Proficiency newProf = extraProfPool.get(index);
-            if (!profs.contains(newProf)) {
-                profs.add(newProf);
+            if (allAdded(extraProfPool, profs)) {
                 extraAdded++;
+            } else {
+                int index = this.random.nextInt(extraProfPool.size());
+                Proficiency newProf = extraProfPool.get(index);
+                if (!profs.contains(newProf)) {
+                    profs.add(newProf);
+                    extraAdded++;
+                }
             }
         }
     }
@@ -471,11 +486,15 @@ public class Randomizer {
         int extraToAdd = racial.getExtraProfs();
 
         while (extraAdded < extraToAdd) {
-            int index = this.random.nextInt(extraProfPool.size());
-            Proficiency newProf = extraProfPool.get(index);
-            if (!profs.contains(newProf)) {
-                profs.add(newProf);
+            if (allAdded(extraProfPool, profs)) {
                 extraAdded++;
+            } else {
+                int index = this.random.nextInt(extraProfPool.size());
+                Proficiency newProf = extraProfPool.get(index);
+                if (!profs.contains(newProf)) {
+                    profs.add(newProf);
+                    extraAdded++;
+                }
             }
         }
     }
@@ -487,11 +506,15 @@ public class Randomizer {
         int extraToAdd = this.settings.getBgSkillsAmount();
 
         while (extraAdded < extraToAdd) {
-            int index = this.random.nextInt(skills.size());
-            Proficiency newProf = skills.get(index);
-            if (!profs.contains(newProf)) {
-                profs.add(newProf);
+            if (allAdded(skills, profs)) {
                 extraAdded++;
+            } else {
+                int index = this.random.nextInt(skills.size());
+                Proficiency newProf = skills.get(index);
+                if (!profs.contains(newProf)) {
+                    profs.add(newProf);
+                    extraAdded++;
+                }
             }
         }
     }
@@ -500,11 +523,12 @@ public class Randomizer {
         int bgToolChance = (int) (this.settings.getBgToolChance() * 100);
         int otherAdded = 0;
         int otherToAdd = this.settings.getBgOtherAmount();
+        ArrayList<Proficiency> tools = createExtraProfPool("Tool");
 
         while (otherAdded < otherToAdd) {
             int rnd = this.random.nextInt(10001);
 
-            if (rnd <= bgToolChance) {
+            if (rnd <= bgToolChance && !allAdded(tools, profs)) {
                 bgAddExtraTool(profs);
                 otherAdded++;
             } else {
@@ -515,67 +539,33 @@ public class Randomizer {
     }
 
     public void bgAddExtraTool(ArrayList<Proficiency> profs) {
-        int bgArtisanChance = (int) (this.settings.getBgArtisanChance() * 100);
-        int bgGamingChance = (int) (this.settings.getBgGamingSetChance() * 100)
-                + bgArtisanChance;
+        int bgGamingChance = (int) (this.settings.getBgGamingSetChance() * 100);
+        int bgInstrumentChance = (int) (this.settings.getBgInstrumentChance() * 100)
+                + bgGamingChance;
         int rnd = this.random.nextInt(10001);
+        ArrayList<Proficiency> gamingSets = createExtraProfPool("Gaming Set");
+        ArrayList<Proficiency> instruments = createExtraProfPool("Instrument");
+        ArrayList<Proficiency> artisans = createExtraProfPool("Artisan");
 
-        if (rnd <= bgArtisanChance) {
-            addExtraBgArtisan(profs);
-        } else if (rnd <= bgGamingChance) {
-            addExtraBgGaming(profs);
-        } else {
-            addExtraBgInstrument(profs);
+        if (rnd <= bgGamingChance && !allAdded(gamingSets, profs)) {
+            addExtraBgSubTool(profs, gamingSets);
+        } else if (rnd <= bgInstrumentChance && !allAdded(instruments, profs)) {
+            addExtraBgSubTool(profs, instruments);
+        } else if (!allAdded(artisans, profs)) {
+            addExtraBgSubTool(profs, artisans);
         }
     }
 
-    public void addExtraBgArtisan(ArrayList<Proficiency> profs) {
-        ArrayList<Proficiency> artisanProfs = createExtraProfPool("Artisan");
-
+    public void addExtraBgSubTool(ArrayList<Proficiency> profs,
+            ArrayList<Proficiency> subPool) {
         while (true) {
-            int index = this.random.nextInt(artisanProfs.size());
-            Proficiency newProf = artisanProfs.get(index);
+            int index = this.random.nextInt(subPool.size());
+            Proficiency newProf = subPool.get(index);
             if (!profs.contains(newProf)) {
                 profs.add(newProf);
                 break;
             }
         }
-    }
-
-    public void addExtraBgGaming(ArrayList<Proficiency> profs) {
-        ArrayList<Proficiency> artisanProfs = createExtraProfPool("Gaming Set");
-
-        while (true) {
-            int index = this.random.nextInt(artisanProfs.size());
-            Proficiency newProf = artisanProfs.get(index);
-            if (!profs.contains(newProf)) {
-                profs.add(newProf);
-                break;
-            }
-        }
-    }
-
-    public void addExtraBgInstrument(ArrayList<Proficiency> profs) {
-        ArrayList<Proficiency> artisanProfs = createExtraProfPool("Instrument");
-
-        while (true) {
-            int index = this.random.nextInt(artisanProfs.size());
-            Proficiency newProf = artisanProfs.get(index);
-            if (!profs.contains(newProf)) {
-                profs.add(newProf);
-                break;
-            }
-        }
-    }
-
-    public boolean addCertainRacialProfs(Racial racial, ArrayList<Proficiency> profs) {
-        for (Proficiency prof : racial.getCertainProfs()) {
-            if (profs.contains(prof)) {
-                return false;
-            }
-        }
-        profs.addAll(racial.getCertainProfs());
-        return true;
     }
 
     public ArrayList<Proficiency> createExtraProfPool(String type) {
@@ -617,6 +607,8 @@ public class Randomizer {
             case "Legendary":
                 createOneSubtypePool("Legendary", extraProfPool);
                 break;
+            case "Language":
+                createOneTypePool("Language", extraProfPool);
             default:
                 break;
         }

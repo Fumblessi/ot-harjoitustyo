@@ -126,18 +126,18 @@ public class GeneratorService {
 
     public void createRandomRacials() {
         int racialAmount = this.settings.getRacialAmount();
-        this.racials = this.randomizer.getRandomRacials(racialAmount, listAllRacials(), 
+        this.racials = this.randomizer.getRandomRacials(racialAmount, listAllRacials(),
                 this.rpgclass);
     }
 
     public void createCertainClassProfs() {
         this.randomizer.getCertainClassProfs(this.rpgclass, this.profs);
     }
-    
+
     public void createCertainRacialProfs() {
         this.randomizer.getCertainRacialProfs(this.racials, this.profs);
     }
-    
+
     public void createRandomProfs() {
         this.randomizer.getUncertainClassProfs(this.rpgclass, this.profs);
         this.randomizer.getUncertainRacialProfs(this.racials, this.profs);
@@ -179,8 +179,13 @@ public class GeneratorService {
         if (this.racials.isEmpty()) {
             racialString += "\n\tNone";
         } else {
+            ArrayList<String> racialNames = new ArrayList<>();
             for (Racial racial : this.racials) {
-                racialString += "\n\t" + racial.getName();
+                racialNames.add(racial.getName());
+            }
+            Collections.sort(racialNames);
+            for (String racialName : racialNames) {
+                racialString += "\n\t" + racialName;
             }
         }
         return racialString;

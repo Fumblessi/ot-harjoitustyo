@@ -119,10 +119,12 @@ public class Interface extends Application {
         VBox settingsScreen = new VBox();
         VBox settingsLayout = new VBox();
         settingsLayout.setPrefSize(560, 460);
+        settingsLayout.setSpacing(5);
         ScrollPane settingsPane = new ScrollPane();
         settingsPane.setContent(settingsLayout);
         settingsPane.setHbarPolicy(ScrollBarPolicy.NEVER);
         settingsPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+        settingsPane.setPadding(new Insets(10, 10, 10, 10));
 
         Button back = new Button("Tallenna ja palaa");
         Button setDefault = new Button("Palauta alkuperäiset");
@@ -3464,7 +3466,6 @@ public class Interface extends Application {
         charAttributeLayout.setMinWidth(250);
         charAttributeLayout.setMaxWidth(250);
         charAttributeLayout.setMinHeight(530);
-        charAttributeLayout.setMaxWidth(530);
 
         Tooltip bgtip = new Tooltip();
         bgtip.setWrapText(true);
@@ -3487,16 +3488,22 @@ public class Interface extends Application {
         charProficiencyLayout.setMinWidth(250);
         charProficiencyLayout.setMaxWidth(250);
         charProficiencyLayout.setMinHeight(530);
-        charProficiencyLayout.setMaxHeight(530);
 
         HBox characterAttributes = new HBox();
 
         characterAttributes.getChildren()
                 .addAll(charAttributeLayout, charProficiencyLayout);
-        layout.setCenter(characterAttributes);
         characterAttributes.setSpacing(40);
+        
+        ScrollPane attributeSp = new ScrollPane();
+        attributeSp.setContent(characterAttributes);
+        attributeSp.setPadding(new Insets(20));
+        attributeSp.setHbarPolicy(ScrollBarPolicy.NEVER);
+        attributeSp.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+        
+        
+        layout.setCenter(attributeSp);
         layout.setPadding(new Insets(5, 20, 20, 20));
-        layout.setMargin(characterAttributes, new Insets(20));
 
         Button copyToClipboard = new Button("Kopioi leikepöydälle");
         Clipboard cb = Clipboard.getSystemClipboard();
