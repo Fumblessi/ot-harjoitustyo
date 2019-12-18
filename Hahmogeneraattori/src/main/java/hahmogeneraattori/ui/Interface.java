@@ -3461,10 +3461,10 @@ public class Interface extends Application {
         charAttributeLayout.getChildren().addAll(displayStats, displayRace,
                 displayClass, displayBg, displayOrderMorality, displayRacials);
 
-        charAttributeLayout.setMinWidth(150);
-        charAttributeLayout.setMaxWidth(350);
-        charAttributeLayout.setMinHeight(350);
-        charAttributeLayout.setMaxWidth(650);
+        charAttributeLayout.setMinWidth(250);
+        charAttributeLayout.setMaxWidth(250);
+        charAttributeLayout.setMinHeight(530);
+        charAttributeLayout.setMaxWidth(530);
 
         Tooltip bgtip = new Tooltip();
         bgtip.setWrapText(true);
@@ -3484,10 +3484,10 @@ public class Interface extends Application {
                 displayWeapons, displayArmor, displaySkills, displayTools,
                 displayLanguages);
 
-        charProficiencyLayout.setMinWidth(150);
-        charProficiencyLayout.setMaxWidth(350);
-        charProficiencyLayout.setMinHeight(350);
-        charProficiencyLayout.setMaxHeight(650);
+        charProficiencyLayout.setMinWidth(250);
+        charProficiencyLayout.setMaxWidth(250);
+        charProficiencyLayout.setMinHeight(530);
+        charProficiencyLayout.setMaxHeight(530);
 
         HBox characterAttributes = new HBox();
 
@@ -3543,7 +3543,6 @@ public class Interface extends Application {
         this.modifyWindow.initModality(Modality.WINDOW_MODAL);
 
         this.primaryWindow.show();
-        //alkunäkymä
     }
 
     public static void main(String[] args) {

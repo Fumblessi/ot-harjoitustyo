@@ -26,8 +26,8 @@ public class GeneratorService {
     private Background bg;
     private int order;
     private int morality;
-    private List<Racial> racials;
-    private List<Proficiency> profs;
+    private ArrayList<Racial> racials;
+    private ArrayList<Proficiency> profs;
     private HashMap<Proficiency, String> langs;
     private List<Feat> feats;
     private Randomizer randomizer;
@@ -59,6 +59,7 @@ public class GeneratorService {
     }
 
     public void initializeRandomizer() {
+        this.profs.clear();
         this.randomizer = new Randomizer(this.settings, listAllProfs());
     }
 
@@ -81,11 +82,13 @@ public class GeneratorService {
         createRandomRace();
         createRandomClass();
         createRandomSubclass();
-        createRandomBackground();
-        createOrderAndMorality();
+        createCertainClassProfs();
         createRandomRacials();
-        createRandomStats();
+        createCertainRacialProfs();
+        createRandomBackground();
         createRandomProfs();
+        createOrderAndMorality();
+        createRandomStats();
         createRandomLangs();
     }
 
@@ -123,12 +126,22 @@ public class GeneratorService {
 
     public void createRandomRacials() {
         int racialAmount = this.settings.getRacialAmount();
-        this.racials = this.randomizer.getRandomRacials(racialAmount, listAllRacials());
+        this.racials = this.randomizer.getRandomRacials(racialAmount, listAllRacials(), 
+                this.rpgclass);
     }
 
+    public void createCertainClassProfs() {
+        this.randomizer.getCertainClassProfs(this.rpgclass, this.profs);
+    }
+    
+    public void createCertainRacialProfs() {
+        this.randomizer.getCertainRacialProfs(this.racials, this.profs);
+    }
+    
     public void createRandomProfs() {
-        this.profs = this.randomizer.getRandomProfs(this.rpgclass, this.racials,
-                this.bg, listAllRacials());
+        this.randomizer.getUncertainClassProfs(this.rpgclass, this.profs);
+        this.randomizer.getUncertainRacialProfs(this.racials, this.profs);
+        this.randomizer.getBgProfs(this.bg, this.profs);
     }
 
     public void createRandomLangs() {

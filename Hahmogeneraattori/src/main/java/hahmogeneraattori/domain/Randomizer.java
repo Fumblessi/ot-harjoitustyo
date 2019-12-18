@@ -34,11 +34,11 @@ public class Randomizer {
         this.langCount = this.settings.getLanguageAmount();
         this.random = new Random();
     }
-    
+
     public int getOrder() {
         return this.random.nextInt(10) + 1;
     }
-    
+
     public int getMorality() {
         return this.random.nextInt(10) + 1;
     }
@@ -90,7 +90,7 @@ public class Randomizer {
         stats[bonusStat1] += 2;
         stats[bonusStat2]++;
     }
-    
+
     public void makeRacialModifications(int[] stats, List<Racial> racials) {
         for (Racial racial : racials) {
             if (racial.getStats() < 0) {
@@ -110,8 +110,8 @@ public class Randomizer {
             }
         }
     }
-    
-    public HashMap<Proficiency, String> getRandomLangs(RpgClass rpgclass, 
+
+    public HashMap<Proficiency, String> getRandomLangs(RpgClass rpgclass,
             List<Racial> racials, Background bg) {
         HashMap<Proficiency, String> langs = new HashMap<>();
         if (this.settings.getMotherLanguage()) {
@@ -123,51 +123,50 @@ public class Randomizer {
         }
         return langs;
     }
-    
+
     public void getMotherLanguage(HashMap<Proficiency, String> langs) {
         int type = this.settings.getMotherLanguageType();
         int rnd = this.random.nextInt(10001);
         int tier3chance = (int) (this.settings.
-                    getMotherLanguageThirdTierChance() * 100);
+                getMotherLanguageThirdTierChance() * 100);
         switch (type) {
-            case 1: Proficiency argan = findProfByName("Argan");                    
-                    if (rnd <= tier3chance) {
-                        langs.put(argan, "III");
-                    } else {
-                        langs.put(argan, "II");
-                    }
+            case 1:
+                Proficiency argan = findProfByName("Argan");
+                if (rnd <= tier3chance) {
+                    langs.put(argan, "III");
+                } else {
+                    langs.put(argan, "II");
+                }
                 break;
-            case 2: Proficiency commonLang = getRandomLangByRarity(langs, "Common");
-                    if (rnd <= tier3chance) {
-                        langs.put(commonLang, "III");
-                    } else {
-                        langs.put(commonLang, "II");
-                    }
+            case 2:
+                Proficiency commonLang = getRandomLangByRarity(langs, "Common");
+                if (rnd <= tier3chance) {
+                    langs.put(commonLang, "III");
+                } else {
+                    langs.put(commonLang, "II");
+                }
                 break;
-            default: Proficiency lang = getRandomMotherLang(langs);
-                    if (rnd <= tier3chance) {
-                        langs.put(lang, "III");
-                    } else {
-                        langs.put(lang, "II");
-                    }
+            default:
+                Proficiency lang = getRandomMotherLang(langs);
+                if (rnd <= tier3chance) {
+                    langs.put(lang, "III");
+                } else {
+                    langs.put(lang, "II");
+                }
                 break;
         }
     }
-    
+
     public void getRandomLanguage(HashMap<Proficiency, String> langs) {
         boolean gotAllCommons = gotAllLangs(langs, "Common");
-        System.out.println(gotAllCommons);
         boolean gotAllRares = gotAllLangs(langs, "Rare");
-        System.out.println(gotAllRares);
         boolean gotAllLegendaries = gotAllLangs(langs, "Legendary");
-        System.out.println(gotAllLegendaries);
-        System.out.println("---------------");
         int commonChance = (int) (this.settings.getCommonChance() * 100);
         int rareChance = (int) (this.settings.getRareChance() * 100) + commonChance;
         Proficiency newLang = null;
         String langLevel = "";
         int rnd = this.random.nextInt(10001);
-        
+
         if (rnd <= commonChance && !gotAllCommons) {
             newLang = getRandomLangByRarity(langs, "Common");
             langLevel = getRandomCommonLangLevel();
@@ -185,13 +184,13 @@ public class Randomizer {
             this.langCount--;
         }
     }
-    
+
     public String getRandomCommonLangLevel() {
         int commonFtc = (int) (this.settings.getCommonFirstTierChance() * 100);
-        int commonStc = (int) (this.settings.getCommonSecondTierChance() * 100) + 
-                commonFtc;
+        int commonStc = (int) (this.settings.getCommonSecondTierChance() * 100)
+                + commonFtc;
         int rnd = this.random.nextInt(10001);
-        
+
         if (rnd <= commonFtc) {
             return "I";
         } else if (rnd <= commonStc) {
@@ -200,13 +199,13 @@ public class Randomizer {
             return "III";
         }
     }
-    
+
     public String getRandomRareLangLevel() {
         int rareFtc = (int) (this.settings.getRareFirstTierChance() * 100);
-        int rareStc = (int) (this.settings.getRareSecondTierChance() * 100) + 
-                rareFtc;
+        int rareStc = (int) (this.settings.getRareSecondTierChance() * 100)
+                + rareFtc;
         int rnd = this.random.nextInt(10001);
-        
+
         if (rnd <= rareFtc) {
             return "I";
         } else if (rnd <= rareStc) {
@@ -215,13 +214,13 @@ public class Randomizer {
             return "III";
         }
     }
-    
+
     public String getRandomLegendaryLangLevel() {
         int legendaryFtc = (int) (this.settings.getLegendaryFirstTierChance() * 100);
-        int legendaryStc = (int) (this.settings.getLegendarySecondTierChance() * 100) + 
-                legendaryFtc;
+        int legendaryStc = (int) (this.settings.getLegendarySecondTierChance() * 100)
+                + legendaryFtc;
         int rnd = this.random.nextInt(10001);
-        
+
         if (rnd <= legendaryFtc) {
             return "I";
         } else if (rnd <= legendaryStc) {
@@ -230,8 +229,8 @@ public class Randomizer {
             return "III";
         }
     }
-    
-    public Proficiency getRandomLangByRarity(HashMap<Proficiency, String> langs, 
+
+    public Proficiency getRandomLangByRarity(HashMap<Proficiency, String> langs,
             String rarity) {
         ArrayList<Proficiency> extraProfs = createExtraProfPool(rarity);
         while (true) {
@@ -242,7 +241,7 @@ public class Randomizer {
             }
         }
     }
-    
+
     public Proficiency getRandomMotherLang(HashMap<Proficiency, String> langs) {
         int commonChance = (int) (this.settings.getCommonChance() * 100);
         int total = (int) (this.settings.getRareChance() * 100) + commonChance;
@@ -253,7 +252,7 @@ public class Randomizer {
             return getRandomLangByRarity(langs, "Rare");
         }
     }
-    
+
     public boolean gotAllLangs(HashMap<Proficiency, String> langs, String rarity) {
         boolean gotAll = true;
         ArrayList<Proficiency> allLangs = createExtraProfPool(rarity);
@@ -267,95 +266,117 @@ public class Randomizer {
     }
 
     public Race getRandomRace(List<Race> allRaces) {
-        int index = this.random.nextInt(allRaces.size());
-        Race randomRace = allRaces.get(index);
+        Race randomRace = null;
+        if (!allRaces.isEmpty()) {
+            int index = this.random.nextInt(allRaces.size());
+            randomRace = allRaces.get(index);
+        } else {
+            randomRace = new Race("-");
+        }
         return randomRace;
     }
 
     public RpgClass getRandomClass(List<RpgClass> allClasses) {
-        int index = this.random.nextInt(allClasses.size());
-        RpgClass randomClass = allClasses.get(index);
+        RpgClass randomClass = null;
+        if (!allClasses.isEmpty()) {
+            int index = this.random.nextInt(allClasses.size());
+            randomClass = allClasses.get(index);
+        } else {
+            randomClass = new RpgClass("-", 0, 0, 0, "");
+        }
         return randomClass;
     }
 
     public String getRandomSubclass(List<String> subclasses) {
-        int index = this.random.nextInt(subclasses.size());
-        String randomSubclass = subclasses.get(index);
+        String randomSubclass = "-";
+        if (!subclasses.isEmpty()) {
+            int index = this.random.nextInt(subclasses.size());
+            randomSubclass = subclasses.get(index);
+        }
         return randomSubclass;
     }
 
     public Background getRandomBackground(List<Background> allBgs) {
-        int index = this.random.nextInt(allBgs.size());
-        Background randomBg = allBgs.get(index);
+        Background randomBg = null;
+        if (!allBgs.isEmpty()) {
+            int index = this.random.nextInt(allBgs.size());
+            randomBg = allBgs.get(index);
+        } else {
+            randomBg = new Background("-", "");
+        }
         return randomBg;
     }
 
-    public ArrayList<Racial> getRandomRacials(int amount, List<Racial> allRacials) {
+    public ArrayList<Racial> getRandomRacials(int amount, List<Racial> allRacials,
+            RpgClass rpgclass) {
         ArrayList<Racial> randomRacials = new ArrayList<>();
 
-        if (amount >= allRacials.size()) {
-            randomRacials.addAll(allRacials);
-            return randomRacials;
-        }
-
         while (randomRacials.size() < amount) {
-            randomRacials.add(getRandomRacial(randomRacials, allRacials));
+            if (gotAllLegalRacials(allRacials, randomRacials, rpgclass)) {
+                break;
+            }
+            randomRacials.add(getRandomRacial(randomRacials, allRacials, rpgclass));
         }
         return randomRacials;
     }
 
-    public Racial getRandomRacial(List<Racial> randomRacials, 
-            List<Racial> allRacials) {
+    public boolean gotAllLegalRacials(List<Racial> allRacials, ArrayList<Racial> randomRacials, RpgClass rpgclass) {
+        for (Racial racial : allRacials) {
+            if (!randomRacials.contains(racial) && checkRacialLegality(racial,
+                    rpgclass)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkRacialLegality(Racial racial, RpgClass rpgclass) {
+        for (Proficiency prof : racial.getCertainProfs()) {
+            if (rpgclass.getCertainProfs().contains(prof)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Racial getRandomRacial(List<Racial> randomRacials,
+            List<Racial> allRacials, RpgClass rpgclass) {
         while (true) {
             int index = this.random.nextInt(allRacials.size());
             Racial newRacial = allRacials.get(index);
-            if (!randomRacials.contains(newRacial)) {
+            if (!randomRacials.contains(newRacial) && checkRacialLegality(newRacial,
+                    rpgclass)) {
                 return newRacial;
             }
         }
     }
-    
 
-    public ArrayList<Proficiency> getRandomProfs(RpgClass rpgclass,
-            List<Racial> racials, Background bg, List<Racial> allRacials) {
-        ArrayList<Proficiency> profs = new ArrayList<>();
-        getClassProfs(rpgclass, profs);
-        getRacialProfs(racials, profs, allRacials);
-        getBgProfs(bg, profs);
+    public void getCertainClassProfs(RpgClass rpgclass, ArrayList<Proficiency> profs) {
+        profs.addAll(rpgclass.getCertainProfs());
         this.langCount += rpgclass.getRandomLangs();
-        for (Racial racial : racials) {
-            this.langCount += racial.getRandomLangs();
-        }
-        return profs;
     }
 
-    public void getClassProfs(RpgClass rpgclass, ArrayList<Proficiency> profs) {
-        profs.addAll(rpgclass.getCertainProfs());
-        addUncertainClassProfs(rpgclass, profs);
+    public void getUncertainClassProfs(RpgClass rpgclass, ArrayList<Proficiency> profs) {
+        if (rpgclass.getRandomProfs() != 0 && !rpgclass.getUncertainProfs().isEmpty()) {
+            addUncertainClassProfs(rpgclass, profs);
+        }
         if (rpgclass.getExtraProfs() != 0) {
             addExtraClassProfs(rpgclass, profs);
         }
     }
 
-    public void getRacialProfs(List<Racial> racials, ArrayList<Proficiency> profs, 
-            List<Racial> allRacials) {
-        ArrayList<Racial> disqualifiedRacials = new ArrayList<>();
+    public void getCertainRacialProfs(List<Racial> racials, ArrayList<Proficiency> profs) {
         for (Racial racial : racials) {
-            if (!addCertainRacialProfs(racial, profs)) {
-                disqualifiedRacials.add(racial);
-            }
+            profs.addAll(racial.getCertainProfs());
+            this.langCount += racial.getRandomLangs();
         }
-        if (!disqualifiedRacials.isEmpty()) {
-            ArrayList<Racial> replacingRacials = new ArrayList<>();
-            for (Racial racial : disqualifiedRacials) {
-                replacingRacials.add(getRandomRacial(racials, allRacials));
-                racials.remove(racial);
-            }
-            getRacialProfs(replacingRacials, profs, allRacials);
-            racials.addAll(replacingRacials);
-        }
+    }
+
+    public void getUncertainRacialProfs(List<Racial> racials, ArrayList<Proficiency> profs) {
         for (Racial racial : racials) {
-            addUncertainRacialProfs(racial, profs);
+            if (racial.getRandomProfs() != 0 && !racial.getUncertainProfs().isEmpty()) {
+                addUncertainRacialProfs(racial, profs);
+            }
             if (racial.getExtraProfs() != 0) {
                 addExtraRacialProfs(racial, profs);
             }
@@ -371,24 +392,56 @@ public class Randomizer {
         int uncertainAdded = 0;
         int uncertainToAdd = rpgclass.getRandomProfs();
         while (uncertainAdded < uncertainToAdd) {
-            int index = this.random.nextInt(rpgclass.getUncertainProfs().size());
-            Proficiency newProf = rpgclass.getUncertainProfs().get(index);
-            if (!profs.contains(newProf)) {
-                profs.add(newProf);
-                uncertainAdded++;
+            if (allUncertainAdded(rpgclass.getUncertainProfs(), profs)) {
+                Proficiency newProf = getRandomSkillTool();
+                if (!profs.contains(newProf)) {
+                    profs.add(newProf);
+                    uncertainAdded++;
+                }
+            } else {
+                int index = this.random.nextInt(rpgclass.getUncertainProfs().size());
+                Proficiency newProf = rpgclass.getUncertainProfs().get(index);
+                if (!profs.contains(newProf)) {
+                    profs.add(newProf);
+                    uncertainAdded++;
+                }
             }
         }
+    }
+
+    public boolean allUncertainAdded(List<Proficiency> uncertainProfs,
+            ArrayList<Proficiency> profs) {
+        for (Proficiency prof : uncertainProfs) {
+            if (!profs.contains(prof)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Proficiency getRandomSkillTool() {
+        ArrayList<Proficiency> extraProfPool = createExtraProfPool("Skill/Tool");
+        int index = this.random.nextInt(extraProfPool.size());
+        return extraProfPool.get(index);
     }
 
     public void addUncertainRacialProfs(Racial racial, ArrayList<Proficiency> profs) {
         int uncertainAdded = 0;
         int uncertainToAdd = racial.getRandomProfs();
         while (uncertainAdded < uncertainToAdd) {
-            int index = this.random.nextInt(racial.getUncertainProfs().size());
-            Proficiency newProf = racial.getUncertainProfs().get(index);
-            if (!profs.contains(newProf)) {
-                profs.add(newProf);
-                uncertainAdded++;
+            if (allUncertainAdded(racial.getUncertainProfs(), profs)) {
+                Proficiency newProf = getRandomSkillTool();
+                if (!profs.contains(newProf)) {
+                    profs.add(newProf);
+                    uncertainAdded++;
+                }
+            } else {
+                int index = this.random.nextInt(racial.getUncertainProfs().size());
+                Proficiency newProf = racial.getUncertainProfs().get(index);
+                if (!profs.contains(newProf)) {
+                    profs.add(newProf);
+                    uncertainAdded++;
+                }
             }
         }
     }
@@ -426,10 +479,10 @@ public class Randomizer {
             }
         }
     }
-    
-    public void addExtraBgSkills(ArrayList<Proficiency> profs) {        
+
+    public void addExtraBgSkills(ArrayList<Proficiency> profs) {
         ArrayList<Proficiency> skills = createExtraProfPool("Skill");
-        
+
         int extraAdded = 0;
         int extraToAdd = this.settings.getBgSkillsAmount();
 
@@ -442,15 +495,15 @@ public class Randomizer {
             }
         }
     }
-    
+
     public void addExtraBgOther(ArrayList<Proficiency> profs) {
-        int bgToolChance = (int) (this.settings.getBgToolChance() * 100);        
+        int bgToolChance = (int) (this.settings.getBgToolChance() * 100);
         int otherAdded = 0;
         int otherToAdd = this.settings.getBgOtherAmount();
-        
+
         while (otherAdded < otherToAdd) {
             int rnd = this.random.nextInt(10001);
-            
+
             if (rnd <= bgToolChance) {
                 bgAddExtraTool(profs);
                 otherAdded++;
@@ -460,13 +513,13 @@ public class Randomizer {
             }
         }
     }
-    
+
     public void bgAddExtraTool(ArrayList<Proficiency> profs) {
         int bgArtisanChance = (int) (this.settings.getBgArtisanChance() * 100);
-        int bgGamingChance = (int) (this.settings.getBgGamingSetChance() * 100) + 
-                bgArtisanChance;
+        int bgGamingChance = (int) (this.settings.getBgGamingSetChance() * 100)
+                + bgArtisanChance;
         int rnd = this.random.nextInt(10001);
-        
+
         if (rnd <= bgArtisanChance) {
             addExtraBgArtisan(profs);
         } else if (rnd <= bgGamingChance) {
@@ -475,9 +528,9 @@ public class Randomizer {
             addExtraBgInstrument(profs);
         }
     }
-    
+
     public void addExtraBgArtisan(ArrayList<Proficiency> profs) {
-        ArrayList<Proficiency> artisanProfs = createExtraProfPool("Artisan");        
+        ArrayList<Proficiency> artisanProfs = createExtraProfPool("Artisan");
 
         while (true) {
             int index = this.random.nextInt(artisanProfs.size());
@@ -488,9 +541,9 @@ public class Randomizer {
             }
         }
     }
-    
+
     public void addExtraBgGaming(ArrayList<Proficiency> profs) {
-        ArrayList<Proficiency> artisanProfs = createExtraProfPool("Gaming Set");        
+        ArrayList<Proficiency> artisanProfs = createExtraProfPool("Gaming Set");
 
         while (true) {
             int index = this.random.nextInt(artisanProfs.size());
@@ -501,9 +554,9 @@ public class Randomizer {
             }
         }
     }
-    
+
     public void addExtraBgInstrument(ArrayList<Proficiency> profs) {
-        ArrayList<Proficiency> artisanProfs = createExtraProfPool("Instrument");        
+        ArrayList<Proficiency> artisanProfs = createExtraProfPool("Instrument");
 
         while (true) {
             int index = this.random.nextInt(artisanProfs.size());
@@ -524,7 +577,7 @@ public class Randomizer {
         profs.addAll(racial.getCertainProfs());
         return true;
     }
-    
+
     public ArrayList<Proficiency> createExtraProfPool(String type) {
         ArrayList<Proficiency> extraProfPool = new ArrayList<>();
         switch (type) {
@@ -605,7 +658,7 @@ public class Randomizer {
             }
         }
     }
-    
+
     public Proficiency findProfByName(String name) {
         for (Proficiency prof : this.allProfs) {
             if (prof.getName().equals(name)) {
