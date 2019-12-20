@@ -1,5 +1,7 @@
 # Käyttöohje
 
+Uusimman sovelluksen julkaisun sekä oheistiedostot löydät ja voit ladata [täältä](https://github.com/Fumblessi/ot-harjoitustyo/releases/tag/Loppupalautus).
+
 ## Sovelluksen käynnistys
 
 Toimiakseen sovellus vaatii juureensa seuraavat tiedostot:
