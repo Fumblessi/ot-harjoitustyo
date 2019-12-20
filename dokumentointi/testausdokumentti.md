@@ -12,7 +12,7 @@ Sekä tietokanta- että tiedostotallentamisen testit käyttävät feikkitiedosto
 
 Käyttöliittymäkerrosta lukuunottamatta testauksen rivikattavuus on 80% ja haaraumakattavuus 71%. Eniten kattavuus tippuu GeneratorService luokan metodien testaamattomuudesta, jotka muuttavat generaattorin generoimia olioita String-muotoisiksi, jotta ne voitaisiin näyttää käyttöliittymässä. Tämä kuitenkin tuli perinpohjaisesti testattua manuaalisesti.
 
-<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/testauskattavuus.png", width="600">
+<img src="https://raw.githubusercontent.com/Fumblessi/ot-harjoitustyo/master/dokumentointi/testauskattavuus.png" width="600">
 
 ## Järjestelmätestaus
 
