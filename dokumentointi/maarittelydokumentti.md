@@ -7,8 +7,7 @@ kaveriporukallamme pelaamassa roolipelissä. Roolipelin säännöt ovat pitkält
 Sovellus arpoo siis hahmolle hahmoluokan, rodun ja taustan. Näiden pohjalta sovellus edelleen arpoo hahmolle piirteet (Strength, Dexterity, Constitution, Intelligence, Wisdom ja Charisma) sekä hahmon taidot (esimerkiksi puhutut kielet tai asiat, missä hahmo on hyvä).
 
 ### Käyttäjät
-Alkuvaiheessa sovellukseen ei tule kuulumaan käyttäjiä tai kirjautumista ollenkaan. Jossain vaiheessa käyttäjätoiminnallisuus
-voitaisiin lisätä, jotta sovellus muistaisi käyttäjäkohtaiset asetukset, jolloin ohjelma sisältäisi yhden käyttäjäroolin. Tämä ei kuitenkaan välttämättä ole oleellista vielä tämän kurssin puitteissa.
+Sovellukseen ei kuulu kirjautumista lainkaan. Jossain vaiheessa tämä toiminnallisuus voitaisiin lisätä, jos halutaan tallentaa käyttäjäkohtaisesti asetuksia.
 
 ### Käyttöliittymä
 
@@ -34,3 +33,4 @@ Käyttöliittymä jakautuu kolmeen päänäkymään; 1) Generointi-ikkunaan, 2) 
 * Sovellus luo generoidusta hahmosta kuvan, niin että pohjakuva valitaan rodun perusteella, ja sen vaatetus arvotun hahmoluokan perusteella
 * Sovellus arpoo muutenkin hahmon ulkonäön, pituuden, painon, iän, silmien/hiusten värin yms.
 * Background-tietokantataulun lisäksi myös Racial- ja Feat-tietokannat sisältävät kuvauksen ks. rotuominaisuudesta tai erityistaidosta, jotka sitten generoitaessa voi katsoa mouse over-tekstinä
+* Tietokanta verkkoon, jotta peliporukan sisällä voidaan päivittää sitä ja synkronoida muutokset omiinkin tietokantoihin
