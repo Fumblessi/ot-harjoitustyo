@@ -20,4 +20,4 @@ Päivä | Aika | Mitä tein
 17.12 | 8,5  | Generointi-toiminnallisuus hiomista vaille valmis (lähinnä vielä pitää pari bugia korjata ja estää virheellinen käyttö), dokumentointia päivitelty
 18.12 | 3    | Graafisen käyttöliittymän hiontaa, bugien kaivelua ja fiksausta
 19.12 | 10,5 | Testejen rakentaminen, javaDocin kirjoittaminen, testausdokumentin kirjoittaminen, dokumentaation viimeistely, Windows-alustalla testaus, loppupalautus-release
-Yht.  | 112,5|  tuntia
+Yht.  | 113,5|  tuntia
