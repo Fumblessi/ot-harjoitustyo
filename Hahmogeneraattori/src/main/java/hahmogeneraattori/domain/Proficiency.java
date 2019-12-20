@@ -23,11 +23,12 @@ public class Proficiency {
     /**
      * Proficiencyillä on indeksi ja nimi, joiden avulla ne voidaan uniikisti 
      * tunnistaa. Tämän lisäksi proficiencyt jakautuvat eri kategorioihin niiden 
-     * tyypin mukaan.
+     * tyypin ja alatyypin mukaan.
      * 
      * @param id proficiencyn indeksi
      * @param name proficiencyn nimi
      * @param type proficiencyn tyyppi
+     * @param subtype proficiencyn alatyyppi
      */
     public Proficiency(int id, String name, String type, String subtype) {
         this.id = id;
@@ -43,6 +44,7 @@ public class Proficiency {
      * 
      * @param name proficiencyn nimi
      * @param type proficiencyn tyyppi
+     * @param subtype proficiencyn alatyyppi
      */
     public Proficiency(String name, String type, String subtype) {
         this(-1, name, type, subtype);
@@ -69,6 +71,9 @@ public class Proficiency {
         return this.type;
     }
     
+    /**
+     * @return proficiencyn alatyyppi
+     */
     public String getSubtype() {
         return this.subtype;
     }
@@ -86,7 +91,7 @@ public class Proficiency {
     }
     
     /**
-     * @param name prociencyn uusi nimi
+     * @param name proficiencyn uusi nimi
      */
     public void setName(String name) {
         this.name = name;
@@ -99,6 +104,9 @@ public class Proficiency {
         this.type = type;
     }
     
+    /**
+     * @param subtype proficiencyn uusi alatyyppi
+     */
     public void setSubtype(String subtype) {
         this.subtype = subtype;
     }
@@ -117,7 +125,7 @@ public class Proficiency {
 
     /**
      * proficiencyjen 'samuuteen' vaikuttaa nimi
-     * 
+     *
      * @param obj verrattava
      * @return olivatko objektit samat
      */

@@ -31,33 +31,21 @@ public class SettingsTest {
     }
 
     @Test
-    public void statPoolCanBeModified() {
-        this.settings.setStatPool(50);
-        assertEquals(50, this.settings.getStatPool());
-    }
-    
-    @Test
-    public void statVarCanBeModified() {
-        this.settings.setStatVar(7);
-        assertEquals(7, this.settings.getStatVar());
-    }
-    
-    @Test
-    public void statMinCanBeModified() {
-        this.settings.setStatMin(2);
-        assertEquals(2, this.settings.getStatMin());
-    }
-    
-    @Test
-    public void statMaxCanBeModified() {
-        this.settings.setStatMax(15);
-        assertEquals(15, this.settings.getStatMax());
-    }
-    
-    @Test
-    public void racialBonusCanBeModifiend() {
+    public void booleanValueCanBeModified() {
         this.settings.setRacialBonus(false);
         assertFalse(this.settings.getRacialBonus());
+    }
+    
+    @Test
+    public void intValueCanBeModified() {
+        this.settings.setLanguageAmount(6);
+        assertEquals(6, this.settings.getLanguageAmount());
+    }
+    
+    @Test
+    public void doubleValueCanBeModified() {
+        this.settings.setCommonChance(12.0);
+        assertEquals(12.0, this.settings.getCommonChance(), 0);
     }
     
     @Test

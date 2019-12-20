@@ -34,42 +34,6 @@ public class StatsTest {
     }
     
     @Test
-    public void strCanBeSet() {
-        this.stats.setStat("str", 19);
-        assertEquals(19, this.stats.getStat("str"));
-    }
-    
-    @Test
-    public void dexCanBeSet() {
-        this.stats.setStat("dex", 20);
-        assertEquals(20, this.stats.getStat("dex"));
-    }
-    
-    @Test
-    public void conCanBeSet() {
-        this.stats.setStat("con", 21);
-        assertEquals(21, this.stats.getStat("con"));
-    }
-    
-    @Test
-    public void intCanBeSet() {
-        this.stats.setStat("inte", 22);
-        assertEquals(22, this.stats.getStat("inte"));
-    }
-    
-    @Test
-    public void wisCanBeSet() {
-        this.stats.setStat("wis", 23);
-        assertEquals(23, this.stats.getStat("wis"));
-    }
-    
-    @Test
-    public void chaCanBeSet() {
-        this.stats.setStat("cha", 24);
-        assertEquals(24, this.stats.getStat("cha"));
-    }
-    
-    @Test
     public void statsToStringIsCorrect() {
         this.stats.setStat("str", 1);
         this.stats.setStat("dex", 2);
@@ -79,5 +43,23 @@ public class StatsTest {
         this.stats.setStat("cha", 6);
         assertEquals("Stats:\n\nSTR: 1\nDEX: 2\nCON: 3\nINT: 4\nWIS: 5\nCHA: 6", 
                 this.stats.toString());
+    }
+    
+    @Test
+    public void statSumIsCorrect() {
+        this.stats.setStat("str", 11);
+        assertEquals(61, this.stats.getSum());
+    }
+    
+    @Test
+    public void statMinIsCorrect() {
+        this.stats.setStat("wis", 7);
+        assertEquals(7, this.stats.getMin());
+    }
+    
+    @Test
+    public void statMaxIsCorrect() {
+        this.stats.setStat("con", 39);
+        assertEquals(39, this.stats.getMax());
     }
 }

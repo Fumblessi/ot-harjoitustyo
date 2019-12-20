@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * Luokka vastaa generaattorin arvontatoiminnallisuudesta
  *
  * @author sampo
  */
@@ -21,6 +22,14 @@ public class Randomizer {
     private List<Proficiency> allProfs;
     private int langCount;
 
+    /**
+     * Konstruktorissa arpojalle annetaan voimassa olevat asetukset, lista
+     * kaikista mahdollisista taidoista, ja halutessaan arvonnan seedi
+     *
+     * @param settings asetukset
+     * @param allProfs lista taidoista
+     * @param seed arvonnan seedi
+     */
     public Randomizer(Settings settings, List<Proficiency> allProfs, long seed) {
         this.settings = settings;
         this.allProfs = allProfs;
@@ -28,6 +37,13 @@ public class Randomizer {
         this.random = new Random(seed);
     }
 
+    /**
+     * Jos haluaa käyttää javan oletus seediä arvonnan pohjalla, voi sen jättää
+     * syöttämättä parametrina konstruktorille
+     *
+     * @param settings asetukset
+     * @param allProfs lista taidoista
+     */
     public Randomizer(Settings settings, List<Proficiency> allProfs) {
         this.settings = settings;
         this.allProfs = allProfs;
@@ -35,14 +51,51 @@ public class Randomizer {
         this.random = new Random();
     }
 
+    /**
+     * @param amount uusi arvottavien kielien määrä
+     */
+    public void setLangCount(int amount) {
+        this.langCount = amount;
+    }
+
+    /**
+     * @return arvottavien kielien määrä
+     */
+    public int getLangCount() {
+        return this.langCount;
+    }
+
+    /**
+     * @return arvottu hahmon järjestelmällisyys (1-10)
+     */
     public int getOrder() {
         return this.random.nextInt(10) + 1;
     }
 
+    /**
+     * @return arvottu hahmon moraali (1-10)
+     */
     public int getMorality() {
         return this.random.nextInt(10) + 1;
     }
 
+    /**
+     * Arvotaan hahmolle piirteet, ja lisätään niihin rodun ja
+     * rotuominaisuuksien vaikutukset
+     *
+     * @see hahmogeneraattori.domain.Settings#getStatPool()
+     * @see hahmogeneraattori.domain.Settings#getStatVar()
+     * @see hahmogeneraattori.domain.Settings#getStatMin()
+     * @see hahmogeneraattori.domain.Settings#getStatMax()
+     * @see hahmogeneraattori.domain.Randomizer#addRacialBonus(int[])
+     * @see hahmogeneraattori.domain.Randomizer#makeRacialModifications(int[],
+     * List)
+     * @see hahmogeneraattori.domain.Randomizer#shuffle(int[])
+     *
+     * @param racials rotuominaisuudet
+     *
+     * @return hahmon piirteet
+     */
     public int[] randomizeStats(List<Racial> racials) {
         int statPool = this.settings.getStatPool();
         int statVar = this.settings.getStatVar();
@@ -79,6 +132,11 @@ public class Randomizer {
         return newStats;
     }
 
+    /**
+     * Lisätään arvottuihin piirteisiin satunnaisesti rodun antamat bonukset
+     *
+     * @param stats hahmon piirteet
+     */
     public void addRacialBonus(int[] stats) {
         int bonusStat1 = this.random.nextInt(6);
         int bonusStat2 = this.random.nextInt(5);
@@ -91,6 +149,13 @@ public class Randomizer {
         stats[bonusStat2]++;
     }
 
+    /**
+     * Tarkistetaan, vaikuttavatko hahmolle arvotut rotuominaisuudet
+     * piirteisiin, ja jos, niin tehdään muutokset
+     *
+     * @param stats hahmon piirteet
+     * @param racials hahmon rotuominaisuudet
+     */
     public void makeRacialModifications(int[] stats, List<Racial> racials) {
         for (Racial racial : racials) {
             if (racial.getStats() < 0) {
@@ -111,8 +176,17 @@ public class Randomizer {
         }
     }
 
-    public HashMap<Proficiency, String> getRandomLangs(RpgClass rpgclass,
-            List<Racial> racials, Background bg) {
+    /**
+     * Arvotaan hahmolle satunnaiset kielet ja kielten osaamistasot
+     *
+     * @see hahmogeneraattori.domain.Randomizer#createExtraProfPool(String)
+     * @see hahmogeneraattori.domain.Settings#getMotherLanguage()
+     * @see hahmogeneraattori.domain.Randomizer#getMotherLanguage(HashMap)
+     * @see hahmogeneraattori.domain.Randomizer#getRandomLanguage(HashMap)
+     *
+     * @return hahmon kielitaidot hajautustauluna
+     */
+    public HashMap<Proficiency, String> getRandomLangs() {
         HashMap<Proficiency, String> langs = new HashMap<>();
         ArrayList<Proficiency> langPool = createExtraProfPool("Language");
         if (langPool.isEmpty()) {
@@ -129,6 +203,18 @@ public class Randomizer {
         return langs;
     }
 
+    /**
+     * Arvotaan hahmolle äidinkieli ja osaamistaso
+     *
+     * @see hahmogeneraattori.domain.Settings#getMotherLanguageType()
+     * @see hahmogeneraattori.domain.Settings#getMotherLanguageThirdTierChance()
+     * @see hahmogeneraattori.domain.Randomizer#findProfByName(String)
+     * @see hahmogeneraattori.domain.Randomizer#getRandomLangByRarity(HashMap,
+     * String)
+     * @see hahmogeneraattori.domain.Randomizer#getRandomMotherLang(HashMap)
+     *
+     * @param langs
+     */
     public void getMotherLanguage(HashMap<Proficiency, String> langs) {
         int type = this.settings.getMotherLanguageType();
         int rnd = this.random.nextInt(10001);
@@ -162,6 +248,20 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Arvotaan satunnainen kieli lisättäväksi kielitaito-hajatutustauluun
+     *
+     * @see hahmogeneraattori.domain.Randomizer#gotAllLangs(HashMap, String)
+     * @see hahmogeneraattori.domain.Settings#getCommonChance()
+     * @see hahmogeneraattori.domain.Settings#getRareChance()
+     * @see hahmogeneraattori.domain.Randomizer#getRandomLangByRarity(HashMap,
+     * String)
+     * @see hahmogeneraattori.domain.Randomizer#getRandomCommonLangLevel()
+     * @see hahmogeneraattori.domain.Randomizer#getRandomRareLangLevel()
+     * @see hahmogeneraattori.domain.Randomizer#getRandomLegendaryLangLevel()
+     *
+     * @param langs
+     */
     public void getRandomLanguage(HashMap<Proficiency, String> langs) {
         boolean gotAllCommons = gotAllLangs(langs, "Common");
         boolean gotAllRares = gotAllLangs(langs, "Rare");
@@ -190,6 +290,14 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Arvotaan asetusten pohjalta yleiselle kielelle osaamistaso
+     *
+     * @see hahmogeneraattori.domain.Settings#getCommonFirstTierChance()
+     * @see hahmogeneraattori.domain.Settings#getCommonSecondTierChance()
+     *
+     * @return kielen osaamistaso
+     */
     public String getRandomCommonLangLevel() {
         int commonFtc = (int) (this.settings.getCommonFirstTierChance() * 100);
         int commonStc = (int) (this.settings.getCommonSecondTierChance() * 100)
@@ -205,6 +313,14 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Arvotaan asetusten pohjalta harvinaiselle kielelle osaamistaso
+     *
+     * @see hahmogeneraattori.domain.Settings#getRareFirstTierChance()
+     * @see hahmogeneraattori.domain.Settings#getRareSecondTierChance()
+     *
+     * @return kielen osaamistaso
+     */
     public String getRandomRareLangLevel() {
         int rareFtc = (int) (this.settings.getRareFirstTierChance() * 100);
         int rareStc = (int) (this.settings.getRareSecondTierChance() * 100)
@@ -220,6 +336,14 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Arvotaan asetusten pohjalta legendaariselle kielelle osaamistaso
+     *
+     * @see hahmogeneraattori.domain.Settings#getLegendaryFirstTierChance()
+     * @see hahmogeneraattori.domain.Settings#getLegendarySecondTierChance()
+     *
+     * @return kielen osaamistaso
+     */
     public String getRandomLegendaryLangLevel() {
         int legendaryFtc = (int) (this.settings.getLegendaryFirstTierChance() * 100);
         int legendaryStc = (int) (this.settings.getLegendarySecondTierChance() * 100)
@@ -235,6 +359,16 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Arvotaan satunnainen kieli, jolla on tietty harvinaisuus
+     *
+     * @see hahmogeneraattori.domain.Randomizer#createExtraProfPool(String)
+     *
+     * @param langs hahmon kielitaidot
+     * @param rarity satunnaisen kielen harvinaisuus
+     *
+     * @return satunnainen kieli
+     */
     public Proficiency getRandomLangByRarity(HashMap<Proficiency, String> langs,
             String rarity) {
         ArrayList<Proficiency> extraProfs = createExtraProfPool(rarity);
@@ -247,6 +381,19 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Arvotaan hahmolle satunnainen äidinkieli (legendaariset kielet
+     * poissuljettu)
+     *
+     * @see hahmogeneraattori.domain.Settings#getCommonChance()
+     * @see hahmogeneraattori.domain.Settings#getRareChance()
+     * @see hahmogeneraattori.domain.Randomizer#getRandomLangByRarity(HashMap,
+     * String)
+     *
+     * @param langs hahmon kielitaidot
+     *
+     * @return satunnainen äidinkieli
+     */
     public Proficiency getRandomMotherLang(HashMap<Proficiency, String> langs) {
         int commonChance = (int) (this.settings.getCommonChance() * 100);
         int total = (int) (this.settings.getRareChance() * 100) + commonChance;
@@ -258,6 +405,16 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi tarkistaa, onko hahmolla jo kaikki tietyn harvinaisuustason kielet
+     *
+     * @see hahmogeneraattori.domain.Randomizer#createExtraProfPool(String)
+     *
+     * @param langs hahmon kielitaidot
+     * @param rarity tarkistettava harvinaisuustaso
+     *
+     * @return true tai false
+     */
     public boolean gotAllLangs(HashMap<Proficiency, String> langs, String rarity) {
         boolean gotAll = true;
         ArrayList<Proficiency> allLangs = createExtraProfPool(rarity);
@@ -270,6 +427,14 @@ public class Randomizer {
         return gotAll;
     }
 
+    /**
+     * Metodi arpoo satunnaisen rodun (tai palauttaa uuden tyhjän, jos
+     * tietokannassa ei ole rotuja)
+     *
+     * @param allRaces lista kaikista roduista
+     *
+     * @return satunnainen rotu
+     */
     public Race getRandomRace(List<Race> allRaces) {
         Race randomRace = null;
         if (!allRaces.isEmpty()) {
@@ -281,6 +446,14 @@ public class Randomizer {
         return randomRace;
     }
 
+    /**
+     * Metodi arpoo satunnaisen hahmoluokan (tai uuden tyhjän luokan, jos
+     * tietokannassa ei ole yhtään hahmoluokkaa)
+     *
+     * @param allClasses lista kaikista hahmoluokista
+     *
+     * @return satunnainen hahmoluokka
+     */
     public RpgClass getRandomClass(List<RpgClass> allClasses) {
         RpgClass randomClass = null;
         if (!allClasses.isEmpty()) {
@@ -292,6 +465,14 @@ public class Randomizer {
         return randomClass;
     }
 
+    /**
+     * Metodi arpoo hahmolle alaluokan kaikista luokan alaluokista (tai tyhjän
+     * alaluokan, jos luokalla ei ole alaluokkia)
+     *
+     * @param subclasses lista alaluokista
+     *
+     * @return satunnainen alaluokka
+     */
     public String getRandomSubclass(List<String> subclasses) {
         String randomSubclass = "-";
         if (!subclasses.isEmpty()) {
@@ -301,6 +482,14 @@ public class Randomizer {
         return randomSubclass;
     }
 
+    /**
+     * Metodi arpoo hahmolle taustan tietokannassa olevien taustojen joukosta
+     * (tai antaa uuden tyhjän taustan, jos tietokannassa ei ole taustoja)
+     *
+     * @param allBgs lista kaikista taustoista
+     *
+     * @return satunnainen tausta
+     */
     public Background getRandomBackground(List<Background> allBgs) {
         Background randomBg = null;
         if (!allBgs.isEmpty()) {
@@ -312,6 +501,21 @@ public class Randomizer {
         return randomBg;
     }
 
+    /**
+     * Metodi arpoo hahmolle satunnaiset rotuominaisuudet, ja tarkistaa, ettei
+     * arvo sellaisia, jotka antaisivat varmasti taitoja, jotka hahmolla jo on
+     *
+     * @see hahmogeneraattori.domain.Randomizer#gotAllLegalRacials(List,
+     * ArrayList, RpgClass)
+     * @see hahmogeneraattori.domain.Randomizer#getRandomRacial(List, List,
+     * RpgClass)
+     *
+     * @param amount arvottavien rotuominaisuuksien määrä
+     * @param allRacials lista kaikista rotuominaisuuksista
+     * @param rpgclass hahmon luokka
+     *
+     * @return lista satunnaisista rotuominaisuuksista
+     */
     public ArrayList<Racial> getRandomRacials(int amount, List<Racial> allRacials,
             RpgClass rpgclass) {
         ArrayList<Racial> randomRacials = new ArrayList<>();
@@ -325,9 +529,22 @@ public class Randomizer {
         return randomRacials;
     }
 
+    /**
+     * Metodi tarkistaa, onko hahmo jo saanut kaikki 'lailliset'
+     * rotuominaisuudet
+     *
+     * @see hahmogeneraattori.domain.Randomizer#checkRacialLegality(List,
+     * Racial, RpgClass)
+     *
+     * @param allRacials lista kaikista rotuominaisuuksista
+     * @param randomRacials lista hahmon rotuominaisuuksista
+     * @param rpgclass hahmon luokka
+     *
+     * @return true tai false
+     */
     public boolean gotAllLegalRacials(List<Racial> allRacials, ArrayList<Racial> randomRacials, RpgClass rpgclass) {
         for (Racial racial : allRacials) {
-            if (!randomRacials.contains(racial) && checkRacialLegality(randomRacials, 
+            if (!randomRacials.contains(racial) && checkRacialLegality(randomRacials,
                     racial, rpgclass)) {
                 return false;
             }
@@ -335,7 +552,17 @@ public class Randomizer {
         return true;
     }
 
-    public boolean checkRacialLegality(List<Racial> randomRacials, 
+    /**
+     * Metodi tarkistaa rotuominaisuuden laillisuuden, eli antaako se varmasti
+     * jotain taitoja, jotka hahmo saa jo muualta
+     *
+     * @param randomRacials hahmon rotuominaisuudet
+     * @param racial tarkistettava rotuominaisuus
+     * @param rpgclass hahmon luokka
+     *
+     * @return true tai false
+     */
+    public boolean checkRacialLegality(List<Racial> randomRacials,
             Racial racial, RpgClass rpgclass) {
         for (Proficiency prof : racial.getCertainProfs()) {
             if (rpgclass.getCertainProfs().contains(prof)) {
@@ -350,23 +577,59 @@ public class Randomizer {
         return true;
     }
 
+    /**
+     * Metodi arpoo 'laillisen' satunnaisen rotuominaisuuden
+     *
+     * @see hahmogeneraattori.domain.Randomizer#checkRacialLegality(List,
+     * Racial, RpgClass)
+     *
+     * @param randomRacials hahmon rotuominaisuudet
+     * @param allRacials kaikki rotuominaisuudet
+     * @param rpgclass hahmon luokka
+     *
+     * @return satunnainen rotuominaisuus
+     */
     public Racial getRandomRacial(List<Racial> randomRacials,
             List<Racial> allRacials, RpgClass rpgclass) {
         while (true) {
             int index = this.random.nextInt(allRacials.size());
             Racial newRacial = allRacials.get(index);
-            if (!randomRacials.contains(newRacial) && checkRacialLegality(randomRacials, 
+            if (!randomRacials.contains(newRacial) && checkRacialLegality(randomRacials,
                     newRacial, rpgclass)) {
                 return newRacial;
             }
         }
     }
 
+    /**
+     * Metodi lisää hahmolle sen luokan varmasti antamat taidot
+     *
+     * @see hahmogeneraattori.domain.RpgClass#getCertainProfs()
+     * @see hahmogeneraattori.domain.RpgClass#getRandomLangs()
+     *
+     * @param rpgclass hahmon luokka
+     * @param profs hahmon taidot
+     */
     public void getCertainClassProfs(RpgClass rpgclass, ArrayList<Proficiency> profs) {
         profs.addAll(rpgclass.getCertainProfs());
         this.langCount += rpgclass.getRandomLangs();
     }
 
+    /**
+     * Metodi lisää hahmolle satunnaisesti taitoja sen hahmoluokaltaan
+     * epävarmasti saatavien taitojen joukosta
+     *
+     * @see hahmogeneraattori.domain.RpgClass#getRandomProfs()
+     * @see hahmogeneraattori.domain.RpgClass#getUncertainProfs()
+     * @see hahmogeneraattori.domain.Randomizer#addUncertainClassProfs(RpgClass,
+     * ArrayList)
+     * @see hahmogeneraattori.domain.RpgClass#getExtraProfs()
+     * @see hahmogeneraattori.domain.Randomizer#addExtraClassProfs(RpgClass,
+     * ArrayList)
+     *
+     * @param rpgclass hahmon luokka
+     * @param profs hahmon taidot
+     */
     public void getUncertainClassProfs(RpgClass rpgclass, ArrayList<Proficiency> profs) {
         if (rpgclass.getRandomProfs() != 0 && !rpgclass.getUncertainProfs().isEmpty()) {
             addUncertainClassProfs(rpgclass, profs);
@@ -376,6 +639,16 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi lisää hahmolle sen rotuominaisuuksien varmasti sille antamat
+     * taidot
+     *
+     * @see hahmogeneraattori.domain.Racial#getCertainProfs()
+     * @see hahmogeneraattori.domain.Racial#getRandomLangs()
+     *
+     * @param racials
+     * @param profs
+     */
     public void getCertainRacialProfs(List<Racial> racials, ArrayList<Proficiency> profs) {
         for (Racial racial : racials) {
             profs.addAll(racial.getCertainProfs());
@@ -383,6 +656,21 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi lisää hahmolle satunnaisesti taitoja sen rotuominaisuuksiltaan
+     * epävarmasti saatavien taitojen joukosta
+     *
+     * @see hahmogeneraattori.domain.Racial#getRandomProfs()
+     * @see hahmogeneraattori.domain.Racial#getUncertainProfs()
+     * @see hahmogeneraattori.domain.Randomizer#addUncertainRacialProfs(Racial,
+     * ArrayList)
+     * @see hahmogeneraattori.domain.Racial#getExtraProfs()
+     * @see hahmogeneraattori.domain.Randomizer#addExtraRacialProfs(Racial,
+     * ArrayList)
+     *
+     * @param racials hahmon rotuominaisuudet
+     * @param profs hahmon taidot
+     */
     public void getUncertainRacialProfs(List<Racial> racials, ArrayList<Proficiency> profs) {
         for (Racial racial : racials) {
             if (racial.getRandomProfs() != 0 && !racial.getUncertainProfs().isEmpty()) {
@@ -394,11 +682,30 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi lisää satunnaiset hahmon taustasta saamat taidot
+     *
+     * @see hahmogeneraattori.domain.Randomizer#addExtraBgSkills(ArrayList)
+     * @see hahmogeneraattori.domain.Randomizer#addExtraBgOther(ArrayList)
+     *
+     * @param bg hahmon tausta
+     * @param profs hahmon taidot
+     */
     public void getBgProfs(Background bg, ArrayList<Proficiency> profs) {
         addExtraBgSkills(profs);
         addExtraBgOther(profs);
     }
 
+    /**
+     * Metodi lisää satunnaisesti hahmolle sen luokaltaan saamat epävarmat
+     * taidot
+     *
+     * @see hahmogeneraattori.domain.Randomizer#allAdded(List, ArrayList)
+     * @see hahmogeneraattori.domain.Randomizer#getRandomSkillTool()
+     *
+     * @param rpgclass hahmon luokka
+     * @param profs hahmon taidot
+     */
     public void addUncertainClassProfs(RpgClass rpgclass, ArrayList<Proficiency> profs) {
         int uncertainAdded = 0;
         int uncertainToAdd = rpgclass.getRandomProfs();
@@ -420,6 +727,14 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi tarkistaa, ovatko kaikki tietyt taidot lisätty jo hahmolle
+     *
+     * @param profPool lista lisättävistä taidoista
+     * @param profs hahmon taidot
+     *
+     * @return true tai false
+     */
     public boolean allAdded(List<Proficiency> profPool,
             ArrayList<Proficiency> profs) {
         for (Proficiency prof : profPool) {
@@ -430,12 +745,29 @@ public class Randomizer {
         return true;
     }
 
+    /**
+     * Metodi arpoo satunnaisen taidon tai työkalutaidon
+     *
+     * @see hahmogeneraattori.domain.Randomizer#createExtraProfPool(String)
+     *
+     * @return satunnainen taito
+     */
     public Proficiency getRandomSkillTool() {
         ArrayList<Proficiency> extraProfPool = createExtraProfPool("Skill/Tool");
         int index = this.random.nextInt(extraProfPool.size());
         return extraProfPool.get(index);
     }
 
+    /**
+     * Metodi lisää satunnaisesti hahmolle sen rotuominaisuudeltaan saamat
+     * epävarmat taidot
+     *
+     * @see hahmogeneraattori.domain.Randomizer#allAdded(List, ArrayList)
+     * @see hahmogeneraattori.domain.Randomizer#getRandomSkillTool()
+     *
+     * @param racial rotuominaisuus
+     * @param profs hahmon taidot
+     */
     public void addUncertainRacialProfs(Racial racial, ArrayList<Proficiency> profs) {
         int uncertainAdded = 0;
         int uncertainToAdd = racial.getRandomProfs();
@@ -457,6 +789,18 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi lisää satunnaisesti hahmolle sen luokaltaan saamat ylimääräiset
+     * taidot
+     *
+     * @see hahmogeneraattori.domain.RpgClass#getExtraProfType()
+     * @see hahmogeneraattori.domain.Randomizer#createExtraProfPool(String)
+     * @see hahmogeneraattori.domain.RpgClass#getExtraProfs()
+     * @see hahmogeneraattori.domain.Randomizer#allAdded(List, ArrayList)
+     *
+     * @param rpgclass hahmon luokka
+     * @param profs hahmon taidot
+     */
     public void addExtraClassProfs(RpgClass rpgclass, ArrayList<Proficiency> profs) {
         String type = rpgclass.getExtraProfType();
         ArrayList<Proficiency> extraProfPool = createExtraProfPool(type);
@@ -478,6 +822,18 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi lisää satunnaisesti hahmolle sen rotuominaisuudeltaan saamat
+     * ylimääräiset taidot
+     *
+     * @see hahmogeneraattori.domain.Racial#getExtraProfType()
+     * @see hahmogeneraattori.domain.Randomizer#createExtraProfPool(String)
+     * @see hahmogeneraattori.domain.Racial#getExtraProfs()
+     * @see hahmogeneraattori.domain.Randomizer#allAdded(List, ArrayList)
+     *
+     * @param racial rotuominaisuus
+     * @param profs hahmon taidot
+     */
     public void addExtraRacialProfs(Racial racial, ArrayList<Proficiency> profs) {
         String type = racial.getExtraProfType();
         ArrayList<Proficiency> extraProfPool = createExtraProfPool(type);
@@ -499,6 +855,15 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi lisää hahmolle sen taustastaan saamat taidot
+     *
+     * @see hahmogeneraattori.domain.Randomizer#createExtraProfPool(String)
+     * @see hahmogeneraattori.domain.Settings#getBgSkillsAmount()
+     * @see hahmogeneraattori.domain.Randomizer#allAdded(List, ArrayList)
+     *
+     * @param profs hahmon taidot
+     */
     public void addExtraBgSkills(ArrayList<Proficiency> profs) {
         ArrayList<Proficiency> skills = createExtraProfPool("Skill");
 
@@ -519,6 +884,16 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi lisää hahmolle sen taustastaan saamat muut taidot
+     *
+     * @see hahmogeneraattori.domain.Settings#getBgToolChance()
+     * @see hahmogeneraattori.domain.Settings#getBgOtherAmount()
+     * @see hahmogeneraattori.domain.Randomizer#createExtraProfPool(String)
+     * @see hahmogeneraattori.domain.Randomizer#allAdded(List, ArrayList)
+     *
+     * @param profs hahmon taidot
+     */
     public void addExtraBgOther(ArrayList<Proficiency> profs) {
         int bgToolChance = (int) (this.settings.getBgToolChance() * 100);
         int otherAdded = 0;
@@ -538,6 +913,16 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi lisää hahmolle sen taustastaan saaman työkalutaidon
+     *
+     * @see hahmogeneraattori.domain.Settings#getBgGamingSetChance()
+     * @see hahmogeneraattori.domain.Settings#getBgInstrumentChance()
+     * @see hahmogeneraattori.domain.Randomizer#createExtraProfPool(String)
+     * @see hahmogeneraattori.domain.Randomizer#allAdded(List, ArrayList)
+     *
+     * @param profs hahmon taidot
+     */
     public void bgAddExtraTool(ArrayList<Proficiency> profs) {
         int bgGamingChance = (int) (this.settings.getBgGamingSetChance() * 100);
         int bgInstrumentChance = (int) (this.settings.getBgInstrumentChance() * 100)
@@ -556,6 +941,12 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi lisää hahmolle tietyn alatyypin työkalutaidon
+     *
+     * @param profs hahmon taidot
+     * @param subPool lista alatyypin taidoista
+     */
     public void addExtraBgSubTool(ArrayList<Proficiency> profs,
             ArrayList<Proficiency> subPool) {
         while (true) {
@@ -568,6 +959,23 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi luo osalistan kaikista taidoista, joka sisältää vain halutun
+     * tyyppisia/alatyyppisiä taitoja
+     *
+     * @see hahmogeneraattori.domain.Randomizer#createOneTypePool(String,
+     * ArrayList)
+     * @see hahmogeneraattori.domain.Randomizer#createOneSubtypePool(String,
+     * ArrayList)
+     * @see hahmogeneraattori.domain.Randomizer#createTwoTypePool(String,
+     * String, ArrayList)
+     * @see hahmogeneraattori.domain.Randomizer#createTwoSubtypePool(String,
+     * String, ArrayList)
+     *
+     * @param type taitojen tyyppi
+     *
+     * @return lista tietyn tyyppisistä taidoista
+     */
     public ArrayList<Proficiency> createExtraProfPool(String type) {
         ArrayList<Proficiency> extraProfPool = new ArrayList<>();
         switch (type) {
@@ -615,6 +1023,12 @@ public class Randomizer {
         return extraProfPool;
     }
 
+    /**
+     * Metodi luo tietyn yhden tyypin sisältävistä taidoista listan
+     *
+     * @param type tyyppi
+     * @param extraProfs lista, johon lisätään pyydetyn tyyppiset taidot
+     */
     public void createOneTypePool(String type, ArrayList<Proficiency> extraProfs) {
         for (Proficiency prof : this.allProfs) {
             if (prof.getType().equals(type)) {
@@ -623,6 +1037,12 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi luo tietyn yhden alatyypin sisältävistä taidoista listan
+     *
+     * @param subtype alatyyppi
+     * @param extraProfs lista, johon lisätään pyydetyn tyyppiset taidot
+     */
     public void createOneSubtypePool(String subtype, ArrayList<Proficiency> extraProfs) {
         for (Proficiency prof : this.allProfs) {
             if (prof.getSubtype().equals(subtype)) {
@@ -631,6 +1051,13 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi luo tietyn kahden tyypin sisältävistä taidoista listan
+     *
+     * @param type1 tyyppi
+     * @param type2 toinen tyyppi
+     * @param extraProfs lista, johon lisätään pyydetyn tyyppiset taidot
+     */
     public void createTwoTypePool(String type1, String type2,
             ArrayList<Proficiency> extraProfs) {
         for (Proficiency prof : this.allProfs) {
@@ -641,6 +1068,13 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi luo tietyn kahden alatyypin sisältävistä taidoista listan
+     *
+     * @param subtype1 alatyyppi
+     * @param subtype2 toinen alatyyppi
+     * @param extraProfs lista, johon lisätään pyydetyn tyyppiset taidot
+     */
     public void createTwoSubtypePool(String subtype1, String subtype2,
             ArrayList<Proficiency> extraProfs) {
         for (Proficiency prof : this.allProfs) {
@@ -651,6 +1085,13 @@ public class Randomizer {
         }
     }
 
+    /**
+     * Metodi etsii tietyn nimisen taidon
+     *
+     * @param name taidon nimi
+     *
+     * @return etsitty taito, jos löytyi
+     */
     public Proficiency findProfByName(String name) {
         for (Proficiency prof : this.allProfs) {
             if (prof.getName().equals(name)) {
@@ -663,7 +1104,7 @@ public class Randomizer {
     /**
      * Metodi sekoittaa kuusi kokonaislukua sisältävän taulukon
      *
-     * @see hahmogeneraattori.domain.GeneratorService#swap(int[], int, int)
+     * @see hahmogeneraattori.domain.Randomizer#swap(int[], int, int)
      *
      * @param array sekoitettava taulukko
      */

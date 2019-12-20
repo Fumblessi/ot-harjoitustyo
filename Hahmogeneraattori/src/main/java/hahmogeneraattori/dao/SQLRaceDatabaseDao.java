@@ -14,17 +14,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
+
 /**
+ * Luokka huolehtii tietokantataulua 'Race' koskevan tietokantatoiminnallisuuden
  *
  * @author sampo
  */
 public class SQLRaceDatabaseDao implements GeneratorDatabaseDao {
-    
+
     private List<Race> races;
     private String connection;
     private String user;
     private String password;
-    
+
+    /**
+     * Konstruktorissa luokalle annetaan tietokantayhteyden tiedot ja tuodaan
+     * tietokantataulussa 'Race' käynnistäessä olevat tiedot listaan
+     *
+     * @see hahmogeneraattori.dao.SQLRaceDatabaseDao#initialize()
+     *
+     * @param connPath tietokantatiedosto
+     * @param user käyttäjä
+     * @param pswd salasana
+     *
+     * @throws SQLException
+     */
     public SQLRaceDatabaseDao(String connPath, String user, String pswd) throws SQLException {
         this.connection = connPath;
         this.user = user;
@@ -33,7 +47,16 @@ public class SQLRaceDatabaseDao implements GeneratorDatabaseDao {
 
         initialize();
     }
-    
+
+    /**
+     * Tietokantatauluun 'Race' lisätään uusi race (rotu)
+     *
+     * @see hahmogeneraattori.dao.SQLRaceDatabaseDao#openConnection()
+     *
+     * @param obj lisättävä race
+     *
+     * @throws SQLException
+     */
     @Override
     public void create(Object obj) throws SQLException {
         Race race = (Race) obj;
@@ -53,7 +76,17 @@ public class SQLRaceDatabaseDao implements GeneratorDatabaseDao {
             conn.close();
         }
     }
-    
+
+    /**
+     * Tietokantatauluun 'Race' päivitetään tietty rotu (race)
+     *
+     * @see hahmogeneraattori.dao.SQLRaceDatabaseDao#openConnection()
+     * @see hahmogeneraattori.dao.SQLRaceDatabaseDao#updateRaceToRaces(Race)
+     *
+     * @param obj päivitettävä race
+     *
+     * @throws SQLException
+     */
     @Override
     public void update(Object obj) throws SQLException {
         Race race = (Race) obj;
@@ -71,7 +104,16 @@ public class SQLRaceDatabaseDao implements GeneratorDatabaseDao {
 
         conn.close();
     }
-    
+
+    /**
+     * Tietokantataulusta 'Race' poistetaan tietty rotu (race)
+     *
+     * @see hahmogeneraattori.dao.SQLRaceDatabaseDao#openConnection()
+     *
+     * @param obj poistettava race
+     *
+     * @throws SQLException
+     */
     @Override
     public void delete(Object obj) throws SQLException {
         Race race = (Race) obj;
@@ -87,14 +129,28 @@ public class SQLRaceDatabaseDao implements GeneratorDatabaseDao {
 
         this.races.remove(race);
     }
-    
+
+    /**
+     * Tietokantataulun 'Race' sisältö palautetaan listana
+     *
+     * @param c Racea vastaava luokka
+     *
+     * @return taulun sisältö listana
+     */
     @Override
     public List list(Class c) {
         return this.races;
     }
-    
+
+    /**
+     * Haetaan tietokantataulun 'Race' sisältö luokan hallinnoimaan listaan
+     *
+     * @see hahmogeneraattori.dao.SQLRaceDatabaseDao#openConnection()
+     *
+     * @throws SQLException
+     */
     @Override
-    public void initialize() throws SQLException {
+    public final void initialize() throws SQLException {
         Connection conn = openConnection();
 
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Race");
@@ -105,14 +161,32 @@ public class SQLRaceDatabaseDao implements GeneratorDatabaseDao {
             this.races.add(newRace);
         }
         stmt.close();
+        rs.close();
         conn.close();
     }
-    
+
+    /**
+     * Metodi avaa tietokantayhteyden
+     *
+     * @return tietokantayhteys
+     *
+     * @throws SQLException
+     */
     @Override
     public Connection openConnection() throws SQLException {
         return DriverManager.getConnection(this.connection, this.user, this.password);
     }
-    
+
+    /**
+     * Metodi hakee tietokannasta tietyn rodun (race) indeksin
+     *
+     * @param race haettava race
+     * @param conn tietokantayhteys
+     *
+     * @return classin indeksi
+     *
+     * @throws SQLException
+     */
     public int getRaceId(Race race, Connection conn) throws SQLException {
         int id = -1;
 
@@ -124,9 +198,15 @@ public class SQLRaceDatabaseDao implements GeneratorDatabaseDao {
             id = rs.getInt(1);
         }
         stmt.close();
+        rs.close();
         return id;
     }
-    
+
+    /**
+     * Metodi päivittää tietyn rodun (race) luokan hallinnoimaan listaan
+     *
+     * @param race päivitettävä race
+     */
     public void updateRaceToRaces(Race race) {
         for (Race oldRace : this.races) {
             if (oldRace.getId() == race.getId()) {

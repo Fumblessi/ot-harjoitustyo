@@ -12,8 +12,12 @@ import java.util.Properties;
 import java.io.FileInputStream;
 import java.sql.*;
 import hahmogeneraattori.dao.SQLGeneratorDatabaseDao;
+import hahmogeneraattori.domain.Background;
+import hahmogeneraattori.domain.Feat;
 import hahmogeneraattori.domain.Proficiency;
+import hahmogeneraattori.domain.Race;
 import hahmogeneraattori.domain.Racial;
+import hahmogeneraattori.domain.RpgClass;
 
 /**
  *
@@ -25,6 +29,7 @@ public class GeneratorDaoTest {
     String testConnectionPath;
     String testUser;
     String testPswd;
+    SQLGeneratorDatabaseDao dbDao;
     
     
     public GeneratorDaoTest() {
@@ -37,201 +42,81 @@ public class GeneratorDaoTest {
         this.testConnectionPath = this.properties.getProperty("spring.datasource.url");
         this.testUser = this.properties.getProperty("spring.datasource.username");
         this.testPswd = properties.getProperty("spring.datasource.password");
-    }
-    /*
-    @Test
-    public void proficiencyCanBeCreated() throws SQLException {
-        SQLGeneratorDatabaseDao dbDao = new SQLGeneratorDatabaseDao(this.testConnectionPath, 
+        this.dbDao = new SQLGeneratorDatabaseDao(this.testConnectionPath, 
             this.testUser, this.testPswd);
-
-        Connection conn = dbDao.openConnection();
-        
-        Proficiency prof = new Proficiency(-1, "taito", "Skill");
-        dbDao.create(prof);
-        int id = prof.getId();
-
-        PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM "
-                + "Proficiency WHERE id = ?;");
-        stmt.setInt(1, id);
-        ResultSet rs = stmt.executeQuery();
-        int profFound = 0;
-        while (rs.next()) {
-            profFound = rs.getInt(1);
-        }
-        stmt.close();
-        conn.close();
-        
-        assertEquals(1, profFound);
-        dbDao.initialize();
     }
     
     @Test
-    public void proficiencyNameCanBeModified() throws SQLException {
-        SQLGeneratorDatabaseDao dbDao = new SQLGeneratorDatabaseDao(this.testConnectionPath, 
+    public void initializeRemovesEverything() throws SQLException {
+        Proficiency prof = new Proficiency(-1, "taito", "Skill", "");
+        this.dbDao.create(prof);
+        
+        Race race = new Race(-1, "goljatti");       
+        this.dbDao.create(race);
+        
+        Racial racial = new Racial(-1, "Kääpiön kestävyys", 1, false, 1, 1, 1, "Skill");
+        racial.addCertainProf(prof);
+        this.dbDao.create(racial);
+        
+        RpgClass rpg = new RpgClass(-1, "Ritari", 1, 1, 1, "Skill");
+        rpg.addUncertainProf(prof);
+        this.dbDao.create(rpg);
+        
+        Background bg = new Background(-1, "Maalari", "");
+        this.dbDao.create(bg);
+        
+        Feat feat = new Feat(-1, "Supervoimat", "STR/DEX", 1, 1, 1, "Skill");
+        feat.addCertainProf(prof);
+        this.dbDao.create(feat);
+        
+        this.dbDao.initialize();
+        this.dbDao = new SQLGeneratorDatabaseDao(this.testConnectionPath, 
             this.testUser, this.testPswd);
         
-        Connection conn = dbDao.openConnection();
-
-        Proficiency prof = new Proficiency(-1, "taito", "Skill");
-        dbDao.create(prof);
-
-        Proficiency newProf = new Proficiency(prof.getId(), "corgi", prof.getType());
-        dbDao.update(newProf);
-        int id = prof.getId();
-        
-        PreparedStatement stmt1 = conn.prepareStatement("SELECT name FROM "
-                + "Proficiency WHERE id = ?;");
-        stmt1.setInt(1, id);
-        ResultSet rs = stmt1.executeQuery();
-        String name = "";
-        while (rs.next()) {
-            name = rs.getString(1); 
-        }
-        stmt1.close();
-        conn.close();
-        
-        assertEquals("corgi", name);
-        dbDao.initialize();
-    }
-    
-    @Test
-    public void proficiencyTypeCanBeModified() throws SQLException {
-        SQLGeneratorDatabaseDao dbDao = new SQLGeneratorDatabaseDao(this.testConnectionPath, 
-            this.testUser, this.testPswd);
-        
-        Connection conn = dbDao.openConnection();
-        
-        Proficiency prof = new Proficiency(-1, "taito", "Skill");
-        dbDao.create(prof);
-        
-        Proficiency newProf = new Proficiency(prof.getId(), prof.getName(), "Tool");
-        dbDao.update(newProf);
-        int id = prof.getId();
-        
-        PreparedStatement stmt = conn.prepareStatement("SELECT type FROM "
-                + "Proficiency WHERE id = ?;");
-        stmt.setInt(1, id);
-        ResultSet rs = stmt.executeQuery();
-        String type = "";
-        while (rs.next()) {
-            type = rs.getString(1); 
-        }
-        stmt.close();
-        conn.close();
-        
-        assertEquals("Tool", type);
-        dbDao.initialize();
-    }
-    
-    @Test
-    public void proficiencyCanBeDeleted() throws SQLException {
-        SQLGeneratorDatabaseDao dbDao = new SQLGeneratorDatabaseDao(this.testConnectionPath, 
-            this.testUser, this.testPswd);
-        
-        Connection conn = dbDao.openConnection();
-        
-        Proficiency prof = new Proficiency(-1, "taito", "Skill");
-        dbDao.create(prof);
-        int id = prof.getId();
+        Connection conn = this.dbDao.openConnection();
         
         PreparedStatement stmt1 = conn.prepareStatement("SELECT COUNT(*) FROM "
-                + "Proficiency WHERE id = ?;");
-        stmt1.setInt(1, id);
+                + "RacialProficiency;");
         ResultSet rs1 = stmt1.executeQuery();
-        int profFound = 0;
+        int racialProfFound = 1;
         while (rs1.next()) {
-            profFound = rs1.getInt(1);
+            racialProfFound = rs1.getInt(1);
         }
         
-        dbDao.delete(prof);
+        stmt1.close();
+        rs1.close();
         
         PreparedStatement stmt2 = conn.prepareStatement("SELECT COUNT(*) FROM "
-                + "Proficiency WHERE id = ?;");
-        stmt2.setInt(1, id);
+                + "ClassProficiency;");
         ResultSet rs2 = stmt2.executeQuery();
-        int profNotFound = 1;
+        int classProfFound = 1;
         while (rs2.next()) {
-            profNotFound = rs2.getInt(1);
+            classProfFound = rs2.getInt(1);
         }
-        stmt1.close();
+        
         stmt2.close();
+        rs2.close();
+        
+        PreparedStatement stmt3 = conn.prepareStatement("SELECT COUNT(*) FROM "
+                + "FeatProficiency;");
+        ResultSet rs3 = stmt3.executeQuery();
+        int featProfFound = 1;
+        while (rs3.next()) {
+            featProfFound = rs3.getInt(1);
+        }
+        
+        stmt3.close();
+        rs3.close();
         conn.close();
         
-        assertEquals(1, profFound);
-        assertEquals(0, profNotFound);
-        dbDao.initialize();
+        assertTrue(this.dbDao.list(Race.class).isEmpty());
+        assertTrue(this.dbDao.list(Proficiency.class).isEmpty());
+        assertTrue(this.dbDao.list(Racial.class).isEmpty());
+        assertTrue(this.dbDao.list(RpgClass.class).isEmpty());
+        assertTrue(this.dbDao.list(Background.class).isEmpty());
+        assertTrue(this.dbDao.list(Feat.class).isEmpty());
+        assertEquals(0, racialProfFound);
+        assertEquals(0, classProfFound);
+        assertEquals(0, featProfFound);
     }
-    
-    @Test
-    public void racialCanBeCreated() throws SQLException {
-        SQLGeneratorDatabaseDao dbDao = new SQLGeneratorDatabaseDao(this.testConnectionPath, 
-            this.testUser, this.testPswd);
-
-        Connection conn = dbDao.openConnection();
-        
-        Racial racial = new Racial(-1, "rasiaali", -2, false);
-        Proficiency racialProf = new Proficiency(-1, "rasiaaliprof", "Skill");
-        dbDao.create(racialProf);
-        racial.addRacialProf(racialProf);
-        
-        dbDao.create(racial);
-        int id = racial.getId();
-
-        PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM "
-                + "Racial WHERE id = ?;");
-        stmt.setInt(1, id);
-        ResultSet rs = stmt.executeQuery();
-        int racialFound = 0;
-        while (rs.next()) {
-            racialFound = rs.getInt(1);
-        }
-        stmt.close();
-        conn.close();
-        
-        assertEquals(1, racialFound);
-        dbDao.initialize();
-    }
-    
-    @Test
-    public void racialCanBeDeleted() throws SQLException {
-        SQLGeneratorDatabaseDao dbDao = new SQLGeneratorDatabaseDao(this.testConnectionPath, 
-            this.testUser, this.testPswd);
-        
-        Connection conn = dbDao.openConnection();
-        
-        Racial racial = new Racial(-1, "rasiaali", -2, false);
-        dbDao.create(racial);
-        Proficiency racialProf = new Proficiency(-1, "rasiaaliprof", "Skill");
-        dbDao.create(racialProf);
-        racial.addRacialProf(racialProf);
-        
-        int id = racial.getId();
-        
-        PreparedStatement stmt1 = conn.prepareStatement("SELECT COUNT(*) FROM "
-                + "Racial WHERE id = ?;");
-        stmt1.setInt(1, id);
-        ResultSet rs1 = stmt1.executeQuery();
-        int racialFound = 0;
-        while (rs1.next()) {
-            racialFound = rs1.getInt(1);
-        }
-        
-        dbDao.delete(racial);
-        
-        PreparedStatement stmt2 = conn.prepareStatement("SELECT COUNT(*) FROM "
-                + "Racial WHERE id = ?;");
-        stmt2.setInt(1, id);
-        ResultSet rs2 = stmt2.executeQuery();
-        int racialNotFound = 1;
-        while (rs2.next()) {
-            racialNotFound = rs2.getInt(1);
-        }
-        stmt1.close();
-        stmt2.close();
-        conn.close();
-        
-        assertEquals(1, racialFound);
-        assertEquals(0, racialNotFound);
-        dbDao.initialize();
-    }*/
 }

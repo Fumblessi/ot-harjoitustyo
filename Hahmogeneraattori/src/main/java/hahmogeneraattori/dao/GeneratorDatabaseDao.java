@@ -15,10 +15,16 @@ import java.sql.Connection;
  * @author sampo
  */
 public interface GeneratorDatabaseDao {
+
     void create(Object obj) throws SQLException;
+
     void update(Object obj) throws SQLException;
+
     void delete(Object obj) throws SQLException;
+
     List list(Class c);
+
     void initialize() throws SQLException;
+
     Connection openConnection() throws SQLException;
 }

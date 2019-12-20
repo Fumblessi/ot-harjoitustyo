@@ -10,8 +10,8 @@ import java.util.List;
 import java.sql.*;
 
 /**
- * Luokkaan kuuluu koko tietokantaan liittyvä yleistoiminnallisuus, ja se
- * ohjaa tiettyä tietokantataulua vastaavat tietokantakyselyt taulua vastaavalle
+ * Luokkaan kuuluu koko tietokantaan liittyvä yleistoiminnallisuus, ja se ohjaa
+ * tiettyä tietokantataulua vastaavat tietokantakyselyt taulua vastaavalle
  * luokalle
  *
  * @author sampo
@@ -29,8 +29,8 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     private String password;
 
     /**
-     * Luokan konstruktorissa alustetaan eri tietokantatauluja
-     * hallinnoivat luokat, ja luokalle annetaan tietokantayhteyden tiedot
+     * Luokan konstruktorissa alustetaan eri tietokantatauluja hallinnoivat
+     * luokat, ja luokalle annetaan tietokantayhteyden tiedot
      *
      * @see hahmogeneraattori.dao.SQLProficiencyDatabaseDao
      * @see hahmogeneraattori.dao.SQLRacialDatabaseDao
@@ -41,7 +41,7 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
      * @param connPath tietokantatiedosto
      * @param user käyttäjä
      * @param pswd salasana
-     * 
+     *
      * @throws SQLException
      */
     public SQLGeneratorDatabaseDao(String connPath, String user, String pswd) throws SQLException {
@@ -59,16 +59,17 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     /**
      * Metodi lisää halutun objektin tietokantaan, ohjaamalla sen objektin
      * tyypin mukaan oikean luokan lisättäväksi
-     * 
+     *
      * @see hahmogeneraattori.dao.SQLProficiencyDatabaseDao#create(Object)
      * @see hahmogeneraattori.dao.SQLRacialDatabaseDao#create(Object)
      * @see hahmogeneraattori.dao.SQLClassDatabaseDao#create(Object)
      * @see hahmogeneraattori.dao.SQLBackgroundDatabaseDao#create(Object)
      * @see hahmogeneraattori.dao.SQLFeatDatabaseDao#create(Object)
-     * 
+     * @see hahmogeneraattori.dao.SQLRaceDatabaseDao#create(Object)
+     *
      * @param obj lisättävä objekti
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     @Override
     public void create(Object obj) throws SQLException {
@@ -90,16 +91,17 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     /**
      * Metodi päivittää halutun objektin tietokantaan, ohjaamalla sen objektin
      * tyypin mukaan oikean luokan päivitettäväksi
-     * 
+     *
      * @see hahmogeneraattori.dao.SQLProficiencyDatabaseDao#update(Object)
      * @see hahmogeneraattori.dao.SQLRacialDatabaseDao#update(Object)
      * @see hahmogeneraattori.dao.SQLClassDatabaseDao#update(Object)
      * @see hahmogeneraattori.dao.SQLBackgroundDatabaseDao#update(Object)
      * @see hahmogeneraattori.dao.SQLFeatDatabaseDao#update(Object)
-     * 
+     * @see hahmogeneraattori.dao.SQLRaceDatabaseDao#update(Object)
+     *
      * @param obj päivitettävä objekti
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     @Override
     public void update(Object obj) throws SQLException {
@@ -121,16 +123,17 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     /**
      * Metodi poistaa halutun objektin tietokannasta, ohjaamalla sen objektin
      * tyypin mukaan oikean luokan poistettavaksi
-     * 
+     *
      * @see hahmogeneraattori.dao.SQLProficiencyDatabaseDao#delete(Object)
      * @see hahmogeneraattori.dao.SQLRacialDatabaseDao#delete(Object)
      * @see hahmogeneraattori.dao.SQLClassDatabaseDao#delete(Object)
      * @see hahmogeneraattori.dao.SQLBackgroundDatabaseDao#delete(Object)
      * @see hahmogeneraattori.dao.SQLFeatDatabaseDao#delete(Object)
-     * 
+     * @see hahmogeneraattori.dao.SQLRaceDatabaseDao#delete(Object)
+     *
      * @param obj poistettava objekti
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     @Override
     public void delete(Object obj) throws SQLException {
@@ -152,18 +155,17 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
     /**
      * Metodi antaa listana syötettyä luokkaa vastaavan tietokantataulun
      * sisällön, ohjaamalla sen oikean luokan listattavaksi
-     * 
+     *
      * @see hahmogeneraattori.dao.SQLProficiencyDatabaseDao#list(Class)
      * @see hahmogeneraattori.dao.SQLRacialDatabaseDao#list(Class)
      * @see hahmogeneraattori.dao.SQLClassDatabaseDao#list(Class)
      * @see hahmogeneraattori.dao.SQLBackgroundDatabaseDao#list(Class)
      * @see hahmogeneraattori.dao.SQLFeatDatabaseDao#list(Class)
-     * 
+     * @see hahmogeneraattori.dao.SQLRaceDatabaseDao#list(Class)
+     *
      * @param c luokka, jota vastaava tietokantataulu listataan
-     * 
+     *
      * @return lista taulun sisällöstä
-     * 
-     * @throws SQLException 
      */
     @Override
     public List list(Class c) {
@@ -182,13 +184,13 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
         }
         return null;
     }
-    
+
     /**
      * Metodi avaa tietokantayhteyden
-     * 
+     *
      * @return tietokantayhteys
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     @Override
     public final Connection openConnection() throws SQLException {
@@ -201,7 +203,8 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
      *
      * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#openConnection()
      * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#dropTables(Connection)
-     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createTables(Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createTables(Connection)
      *
      * @throws SQLException
      */
@@ -238,17 +241,27 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
      * Metodi luo uudet tietokantataulut
      *
      * @param conn tietokantayhteys
-     * 
-     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createProfTable(Connection)
-     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createBackgroundTable(Connection)
-     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createBgProfTable(Connection)
-     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createClassTable(Connection)
-     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createSubclassTable(Connection)
-     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createClassProfTable(Connection)
-     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createFeatTable(Connection)
-     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createFeatProfTable(Connection)
-     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createRacialTable(Connection)
-     * @see hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createRacialProfTable(Connection)
+     *
+     * @see
+     * hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createProfTable(Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createBackgroundTable(Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createClassTable(Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createSubclassTable(Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createClassProfTable(Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createFeatTable(Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createFeatProfTable(Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createRacialTable(Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createRacialProfTable(Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLGeneratorDatabaseDao#createRaceTable(Connection)
      *
      * @throws SQLException
      */
@@ -267,10 +280,10 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
 
     /**
      * Luodaan tietokantataulu 'Proficiency'
-     * 
+     *
      * @param conn tietokantayhteys
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public void createProfTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE Proficiency(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
@@ -280,10 +293,10 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
 
     /**
      * Luodaan tietokantataulu 'Background'
-     * 
+     *
      * @param conn tietokantayhteys
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public void createBackgroundTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE Background(id INTEGER AUTO_INCREMENT, "
@@ -293,10 +306,10 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
 
     /**
      * Luodaan tietokantataulu 'Class'
-     * 
+     *
      * @param conn tietokantayhteys
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public void createClassTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE Class(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
@@ -306,23 +319,23 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
 
     /**
      * Luodaan tietokantataulu 'Subclass'
-     * 
+     *
      * @param conn tietokantayhteys
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public void createSubclassTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE SubClass(id INTEGER AUTO_INCREMENT, class_id INTEGER, "
                 + "name VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id), FOREIGN KEY "
                 + "(class_id) REFERENCES Class(id));").executeUpdate();
     }
-    
+
     /**
      * Luodaan liitostaulu 'ClassProficiency'
-     * 
+     *
      * @param conn tietokantayhteys
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public void createClassProfTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE ClassProficiency(class_id INTEGER, prof_id INTEGER, "
@@ -332,37 +345,37 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
 
     /**
      * Luodaan tietokantataulu 'Feat'
-     * 
+     *
      * @param conn tietokantayhteys
-     * 
-     * @throws SQLException 
-     */    
+     *
+     * @throws SQLException
+     */
     public void createFeatTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE Feat(id INTEGER AUTO_INCREMENT, name VARCHAR(255), "
                 + "stats VARCHAR(255), randomProfs INTEGER, randomLangs INTEGER, "
                 + "extraProfs INTEGER, extraProfType VARCHAR(255), PRIMARY KEY (id), "
                 + "UNIQUE KEY (id));").executeUpdate();
     }
-    
+
     /**
      * Luodaan liitostaulu 'FeatProficiency'
-     * 
+     *
      * @param conn tietokantayhteys
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public void createFeatProfTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE FeatProficiency(feat_id INTEGER, prof_id INTEGER, "
                 + "certain BOOLEAN, FOREIGN KEY (feat_id) REFERENCES Feat(id), "
                 + "FOREIGN KEY (prof_id) REFERENCES Proficiency(id));").executeUpdate();
     }
-    
+
     /**
      * Luodaan tietokantataulu 'Racial'
-     * 
+     *
      * @param conn tietokantayhteys
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public void createRacialTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE Racial(id INTEGER AUTO_INCREMENT, "
@@ -370,13 +383,13 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
                 + "randomProfs INTEGER, randomLangs INTEGER, extraProfs INTEGER, "
                 + "extraProfType VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();
     }
-    
+
     /**
      * Luodaan liitostaulu 'RacialProficiency'
-     * 
+     *
      * @param conn tietokantayhteys
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public void createRacialProfTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE RacialProficiency(racial_id INTEGER, "
@@ -384,7 +397,14 @@ public class SQLGeneratorDatabaseDao implements GeneratorDatabaseDao {
                 + "REFERENCES Racial(id), FOREIGN KEY (prof_id) REFERENCES "
                 + "Proficiency(id));").executeUpdate();
     }
-    
+
+    /**
+     * Luodaan tietokantataulu 'Race'
+     *
+     * @param conn tietokantayhteys
+     *
+     * @throws SQLException
+     */
     public void createRaceTable(Connection conn) throws SQLException {
         conn.prepareStatement("CREATE TABLE Race(id INTEGER AUTO_INCREMENT, "
                 + "name VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (id));").executeUpdate();

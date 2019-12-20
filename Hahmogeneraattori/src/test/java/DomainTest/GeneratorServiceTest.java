@@ -17,43 +17,19 @@ import hahmogeneraattori.domain.Stats;
  *
  * @author sampo
  */
-public class GeneratorTest {
+public class GeneratorServiceTest {
     
     private FileSettingsDao settingsDao;
     private Settings settings;
     private GeneratorService generator;
-    private Stats stats;
     
-    public GeneratorTest() {
+    public GeneratorServiceTest() {
     }
     
-    /*
     @Before
     public void setUp() throws Exception {
         this.settingsDao = new FileSettingsDao("testSettings.txt");
         this.settings = new Settings(this.settingsDao);
         this.generator = new GeneratorService(this.settings, null);
-        this.generator.initializeRandomizer();
-        this.generator.createRandomStats();
-        this.stats = this.generator.getStats();
-    }
-
-    @Test
-    public void statRandomizationSumIsCorrect() {
-        int sum = this.stats.getSum();
-        int min = this.settings.getStatPool() - this.settings.getStatVar();
-        int max = this.settings.getStatPool() + this.settings.getStatVar();
-        
-        assertTrue(sum >= min + 3 && sum <= max + 3);
-    }
-    
-    @Test
-    public void statRandomizationMinLimitWorks() {
-        assertTrue(this.stats.getMin() >= this.settings.getStatMin());
-    }
-    
-    @Test
-    public void statRandomizationMaxLimitWorks() {
-        assertTrue(this.stats.getMax() <= this.settings.getStatMax() + 2);
-    }*/
+    }   
 }

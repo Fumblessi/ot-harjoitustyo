@@ -53,6 +53,15 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
      * Tietokantatauluun 'Racial' lisätään uusi ominaisuus (racial)
      *
      * @see hahmogeneraattori.dao.SQLRacialDatabaseDao#openConnection()
+     * @see
+     * hahmogeneraattori.dao.SQLRacialDatabaseDao#setRacialAttributesToStatement(PreparedStatement,
+     * Racial)
+     * @see
+     * hahmogeneraattori.dao.SQLRacialDatabaseDao#addCertainProficiencies(Racial,
+     * Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLRacialDatabaseDao#addUncertainProficiencies(Racial,
+     * Connection)
      *
      * @param obj lisättävä racial
      *
@@ -68,13 +77,7 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Racial "
                     + "(name, stats, feat, randomProfs, randomLangs, extraProfs, "
                     + "extraProfType) VALUES (?, ?, ?, ?, ?, ?, ?);");
-            stmt.setString(1, racial.getName());
-            stmt.setInt(2, racial.getStats());
-            stmt.setBoolean(3, racial.getFeat());
-            stmt.setInt(4, racial.getRandomProfs());
-            stmt.setInt(5, racial.getRandomLangs());
-            stmt.setInt(6, racial.getExtraProfs());
-            stmt.setString(7, racial.getExtraProfType());
+            setRacialAttributesToStatement(stmt, racial);
             stmt.executeUpdate();
             stmt.close();
 
@@ -93,6 +96,17 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
      * Tietokantatauluun 'Racial' päivitetään tietty ominaisuus (racial)
      *
      * @see hahmogeneraattori.dao.SQLRacialDatabaseDao#openConnection()
+     * @see
+     * hahmogeneraattori.dao.SQLRacialDatabaseDao#updateRacialToRacials(Racial)
+     * @see
+     * hahmogeneraattori.dao.SQLRacialDatabaseDao#deleteRacialProficiencies(Racial,
+     * Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLRacialDatabaseDao#addCertainProficiencies(Racial,
+     * Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLRacialDatabaseDao#addUncertainProficiencies(Racial,
+     * Connection)
      *
      * @param obj päivitettävä racial
      *
@@ -109,13 +123,7 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
         PreparedStatement stmt = conn.prepareStatement("UPDATE Racial "
                 + "SET name = ?, stats = ?, feat = ?, randomProfs = ?, "
                 + "randomLangs = ?, extraProfs = ?, extraProfType = ? WHERE id = ?;");
-        stmt.setString(1, racial.getName());
-        stmt.setInt(2, racial.getStats());
-        stmt.setBoolean(3, racial.getFeat());
-        stmt.setInt(4, racial.getRandomProfs());
-        stmt.setInt(5, racial.getRandomLangs());
-        stmt.setInt(6, racial.getExtraProfs());
-        stmt.setString(7, racial.getExtraProfType());
+        setRacialAttributesToStatement(stmt, racial);
         stmt.setInt(8, racial.getId());
         stmt.executeUpdate();
         stmt.close();
@@ -131,6 +139,9 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
      * Tietokantataulusta 'Racial' poistetaan tietty ominaisuus (racial)
      *
      * @see hahmogeneraattori.dao.SQLRacialDatabaseDao#openConnection()
+     * @see
+     * hahmogeneraattori.dao.SQLRacialDatabaseDao#deleteRacialProficiencies(Racial,
+     * Connection)
      *
      * @param obj poistettava racial
      *
@@ -159,7 +170,7 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
      *
      * @param c Racialia vastaava luokka
      *
-     * return taulun sisältö listana
+     * @return taulun sisältö listana
      */
     @Override
     public List list(Class c) {
@@ -170,6 +181,12 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
      * Haetaan tietokantataulun 'Racial' sisältö luokan hallinnoimaan listaan
      *
      * @see hahmogeneraattori.dao.SQLRacialDatabaseDao#openConnection()
+     * @see
+     * hahmogeneraattori.dao.SQLRacialDatabaseDao#getCertainProficiencies(Racial,
+     * Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLRacialDatabaseDao#getUncertainProficiencies(Racial,
+     * Connection)
      *
      * @throws SQLException
      */
@@ -180,8 +197,8 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
         PreparedStatement stmtRacial = conn.prepareStatement("SELECT * FROM Racial;");
         ResultSet rsRacial = stmtRacial.executeQuery();
         while (rsRacial.next()) {
-            Racial newRacial = new Racial(rsRacial.getInt(1), rsRacial.getString(2), 
-                    rsRacial.getInt(3), rsRacial.getBoolean(4), rsRacial.getInt(5), 
+            Racial newRacial = new Racial(rsRacial.getInt(1), rsRacial.getString(2),
+                    rsRacial.getInt(3), rsRacial.getBoolean(4), rsRacial.getInt(5),
                     rsRacial.getInt(6), rsRacial.getInt(7), rsRacial.getString(8));
 
             getCertainProficiencies(newRacial, conn);
@@ -190,6 +207,7 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
             this.racials.add(newRacial);
         }
         stmtRacial.close();
+        rsRacial.close();
         conn.close();
     }
 
@@ -226,9 +244,19 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
             id = rs.getInt(1);
         }
         stmt.close();
+        rs.close();
         return id;
     }
 
+    /**
+     * Lisätään rotuominaisuuteen liittyvät varmat taidot niitä vastaavaan
+     * liitostauluun
+     *
+     * @param racial rotuominaisuus
+     * @param conn tietokantayhteys
+     *
+     * @throws SQLException
+     */
     public void addCertainProficiencies(Racial racial, Connection conn) throws SQLException {
         for (Proficiency prof : racial.getCertainProfs()) {
             PreparedStatement connectProf = conn.prepareStatement("INSERT "
@@ -241,7 +269,16 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
             connectProf.close();
         }
     }
-    
+
+    /**
+     * Lisätään rotuominaisuuteen liittyvät epävarmat taidot niitä vastaavaan
+     * liitostauluun
+     *
+     * @param racial rotuominaisuus
+     * @param conn tietokantayhteys
+     *
+     * @throws SQLException
+     */
     public void addUncertainProficiencies(Racial racial, Connection conn) throws SQLException {
         for (Proficiency prof : racial.getUncertainProfs()) {
             PreparedStatement connectProf = conn.prepareStatement("INSERT "
@@ -257,7 +294,7 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
 
     /**
      * Metodi hakee tietokannasta tietylle ominaisuudelle (racial) siihen
-     * kuuluvat taidot (proficiency)
+     * liittyvät varmat taidot (proficiency)
      *
      * @param racial haettava racial
      * @param conn tietokantayhteys
@@ -278,8 +315,18 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
                     rsProfs.getString(3), rsProfs.getString(4)));
         }
         getProfs.close();
+        rsProfs.close();
     }
-    
+
+    /**
+     * Metodi hakee tietokannasta tietylle ominaisuudelle (racial) siihen
+     * liittyvät epävarmat taidot (proficiency)
+     *
+     * @param racial haettava racial
+     * @param conn tietokantayhteys
+     *
+     * @throws SQLException
+     */
     public void getUncertainProficiencies(Racial racial, Connection conn) throws SQLException {
         PreparedStatement getProfs = conn.prepareStatement("SELECT * FROM "
                 + "Proficiency LEFT JOIN RacialProficiency ON "
@@ -294,13 +341,14 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
                     rsProfs.getString(3), rsProfs.getString(4)));
         }
         getProfs.close();
+        rsProfs.close();
     }
 
     /**
      * Metodi poistaa tietokannasta tietylle ominaisuudelle (racial) siihen
      * kuuluvat taidot (proficiency)
      *
-     * @param racial haettava racial
+     * @param racial racial
      * @param conn tietokantayhteys
      *
      * @throws SQLException
@@ -311,6 +359,24 @@ public class SQLRacialDatabaseDao implements GeneratorDatabaseDao {
         deleteProfs.setInt(1, racial.getId());
         deleteProfs.executeUpdate();
         deleteProfs.close();
+    }
+
+    /**
+     * Asetetaan tietokantakyselylle rotuominaisuuden parametrit
+     *
+     * @param stmt SQL-lause
+     * @param racial rotuominaisuus
+     *
+     * @throws SQLException
+     */
+    public void setRacialAttributesToStatement(PreparedStatement stmt, Racial racial) throws SQLException {
+        stmt.setString(1, racial.getName());
+        stmt.setInt(2, racial.getStats());
+        stmt.setBoolean(3, racial.getFeat());
+        stmt.setInt(4, racial.getRandomProfs());
+        stmt.setInt(5, racial.getRandomLangs());
+        stmt.setInt(6, racial.getExtraProfs());
+        stmt.setString(7, racial.getExtraProfType());
     }
 
     /**

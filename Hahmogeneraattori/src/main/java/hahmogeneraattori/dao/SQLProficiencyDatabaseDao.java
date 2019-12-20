@@ -84,6 +84,8 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
      * Tietokantatauluun 'Proficiency' päivitetään tietty taito (proficiency)
      *
      * @see hahmogeneraattori.dao.SQLProficiencyDatabaseDao#openConnection()
+     * @see
+     * hahmogeneraattori.dao.SQLProficiencyDatabaseDao#updateProfToProfs(Proficiency)
      *
      * @param obj päivitettävä proficiency
      *
@@ -112,6 +114,9 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
      * Tietokantataulusta 'Proficiency' poistetaan tietty taito (proficiency)
      *
      * @see hahmogeneraattori.dao.SQLProficiencyDatabaseDao#openConnection()
+     * @see
+     * hahmogeneraattori.dao.SQLProficiencyDatabaseDao#deleteFromAllOtherTables(Proficiency,
+     * Connection)
      *
      * @param obj poistettava proficiency
      *
@@ -121,7 +126,7 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
     public void delete(Object obj) throws SQLException {
         Proficiency prof = (Proficiency) obj;
         Connection conn = openConnection();
-        
+
         deleteFromAllOtherTables(prof, conn);
 
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Proficiency "
@@ -129,7 +134,7 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
         stmt.setInt(1, prof.getId());
 
         stmt.executeUpdate();
-        stmt.close();    
+        stmt.close();
         conn.close();
 
         this.profs.remove(prof);
@@ -166,6 +171,7 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
                     rsProf.getString(3), rsProf.getString(4)));
         }
         stmtProf.close();
+        rsProf.close();
         conn.close();
     }
 
@@ -202,16 +208,44 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
             id = rs.getInt(1);
         }
         stmt.close();
+        rs.close();
 
         return id;
     }
-    
+
+    /**
+     * Poistetaan taito (proficiency) liitostauluista
+     *
+     * @see
+     * hahmogeneraattori.dao.SQLProficiencyDatabaseDao#deleteRacialProf(Proficiency,
+     * Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLProficiencyDatabaseDao#deleteClassProf(Proficiency,
+     * Connection)
+     * @see
+     * hahmogeneraattori.dao.SQLProficiencyDatabaseDao#deleteFeatProf(Proficiency,
+     * Connection)
+     *
+     * @param prof poistettava proficiency
+     * @param conn tietokantayhteys
+     *
+     * @throws SQLException
+     */
     public void deleteFromAllOtherTables(Proficiency prof, Connection conn) throws SQLException {
         deleteRacialProf(prof, conn);
         deleteClassProf(prof, conn);
         deleteFeatProf(prof, conn);
     }
-    
+
+    /**
+     * Poistetaan taito (proficiency) rotuominaisuuksin sen yhdistävästä
+     * liitostaulusta
+     *
+     * @param prof poistettava proficiency
+     * @param conn tietokantayhteys
+     *
+     * @throws SQLException
+     */
     public void deleteRacialProf(Proficiency prof, Connection conn) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM "
                 + "RacialProficiency WHERE prof_id = ?;");
@@ -219,7 +253,16 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
         stmt.executeUpdate();
         stmt.close();
     }
-    
+
+    /**
+     * Poistetaan taito (proficiency) hahmoluokkaan sen yhdistävästä
+     * liitostaulusta
+     *
+     * @param prof poistettava proficiency
+     * @param conn tietokantayhteys
+     *
+     * @throws SQLException
+     */
     public void deleteClassProf(Proficiency prof, Connection conn) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM "
                 + "ClassProficiency WHERE prof_id = ?;");
@@ -227,7 +270,16 @@ public class SQLProficiencyDatabaseDao implements GeneratorDatabaseDao {
         stmt.executeUpdate();
         stmt.close();
     }
-    
+
+    /**
+     * Poistetaan taito (proficiency) erityistaitoihin sen yhdistävästä
+     * liitostaulusta
+     *
+     * @param prof poistettava proficiency
+     * @param conn tietokantayhteys
+     *
+     * @throws SQLException
+     */
     public void deleteFeatProf(Proficiency prof, Connection conn) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM "
                 + "FeatProficiency WHERE prof_id = ?;");

@@ -10,9 +10,14 @@ package hahmogeneraattori.dao;
  * @author sampo
  */
 public interface SettingsDao {
+
     void setIntValue(String setting, int value);
+
     void setDoubleValue(String setting, double value);
+
     int getIntValue(String setting);
+
     double getDoubleValue(String setting);
+
     void update() throws Exception;
 }
