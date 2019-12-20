@@ -14,9 +14,11 @@ Hahmogeneraattorin tarkoitus on arpoa satunnainen roolipelihahmo, sekä sille pi
 
 [Käyttöohje](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/kaytto-ohje.md)
 
-[Alustava määrittelydokumentti](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/maarittelydokumentti.md)
+[Määrittelydokumentti](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/maarittelydokumentti.md)
 
 [Arkkitehtuuri](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
+
+[Testausdokumentti](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/testausdokumentti.md)
 
 [Tuntikirjanpito](https://github.com/Fumblessi/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjanpito.md)
 
@@ -30,6 +32,14 @@ Hahmogeneraattorin tarkoitus on arpoa satunnainen roolipelihahmo, sekä sille pi
 ### Suoritus:
 
 "mvn compile exec:java -Dexec.mainClass=hahmogeneraattori.ui.Main"
+
+tai .jar-tiedoston suoritus:
+
+"java -jar Hahmogeneraattori.jar"
+
+### Jar-tiedoston pakkaus:
+
+"mvn package"
 
 ### Testit:
 
