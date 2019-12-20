@@ -19,4 +19,5 @@ Päivä | Aika | Mitä tein
 16.12 | 8,5  | Asetukset-välilehden viimeistelyä, käyttöohjeen päivitystä, Background-tietokannan uudistus, generointi-toiminnallisuuden rakentamista
 17.12 | 8,5  | Generointi-toiminnallisuus hiomista vaille valmis (lähinnä vielä pitää pari bugia korjata ja estää virheellinen käyttö), dokumentointia päivitelty
 18.12 | 3    | Graafisen käyttöliittymän hiontaa, bugien kaivelua ja fiksausta
-Yht.  | 102  |  tuntia
+19.12 | 10,5 | Testejen rakentaminen, javaDocin kirjoittaminen, testausdokumentin kirjoittaminen, dokumentaation viimeistely, Windows-alustalla testaus, loppupalautus-release
+Yht.  | 112,5|  tuntia
