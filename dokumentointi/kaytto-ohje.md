@@ -1,5 +1,15 @@
 # Käyttöohje
 
+## Sovelluksen käynnistys
+
+Toimiakseen sovellus vaatii juureensa seuraavat tiedostot:
+
+* config.properties (sisältää tiedon tietokannasta ja asetukset-tekstitiedostosta)
+* settings.txt (generaattorin asetukset tallennettuna tekstitiedostoon)
+* generatordb.mv.db (generaattorin käyttämä tietokanta)
+
+Tiedostot voit ladata repositoriosta tai sovelluksen releaseista. Oleellista on, ettei näihin kannata sovelluksen ulkopuolelta koskea, siitä ei sinänsä hyödy muuta kuin voi saada sovelluksen juntturaan. Asetuksia sekä tietokannan sisältöä pääsee vapaasti muuttamaan sovelluksen sisältä, niin että kaikki pysyy toiminnassa.
+
 -----------------------------------------------------------------------------------------------------------------------------
 
 ## Dungeons and Dragons ja termistö
